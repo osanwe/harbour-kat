@@ -18,16 +18,19 @@ SOURCES += src/vkFish.cpp
 
 OTHER_FILES += qml/vkFish.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
     rpm/vkFish.changes.in \
     rpm/vkFish.spec \
     rpm/vkFish.yaml \
     translations/*.ts \
-    vkFish.desktop
+    vkFish.desktop \
+    qml/pages/StartPage.qml \
+    qml/pages/LoginPage.qml \
+    qml/auth.js
 
 # to disable building translations every time, comment out the
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/vkFish-de.ts
+
+HEADERS +=
 

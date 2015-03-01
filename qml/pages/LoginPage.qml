@@ -30,29 +30,25 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../auth.js" as AuthJS
 
 
-Page {
-    id: page
-    SilicaListView {
-        id: listView
-        model: 20
+Dialog {
+    id: loginPage
+
+    function checkUrl(url) {
+        if (AuthJS.checkUrl(url) !== 1) {
+            loginView.stop()
+            loginPage.close()
+        }
+    }
+
+    SilicaWebView {
+        id: loginView
         anchors.fill: parent
-        header: PageHeader {
-            title: qsTr("Nested Page")
-        }
-        delegate: BackgroundItem {
-            id: delegate
+        url: "https://oauth.vk.com/authorize?client_id=4803503&scope=messages,offline&redirect_uri=https://oauth.vk.com/blank.html&display=mobile&response_type=token"
 
-            Label {
-                x: Theme.paddingLarge
-                text: qsTr("Item") + " " + index
-                anchors.verticalCenter: parent.verticalCenter
-                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
-            }
-            onClicked: console.log("Clicked " + index)
-        }
-        VerticalScrollDecorator {}
+        onUrlChanged: checkUrl(url)
     }
 }
 
