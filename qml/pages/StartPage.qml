@@ -36,9 +36,19 @@ import "../auth.js" as AuthJS
 Page {
     id: startPage
 
-    function doMainMenuItem() {
+    function initialize() {
+        console.log("access token = " + AuthJS.accessToken)
         if (!AuthJS.access_token) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+        }
+    }
+
+    function doMainMenuItem() {
+        console.log("access token = " + AuthJS.accessToken)
+        if (AuthJS.access_token) {
+            console.log("Refreshing")
+        } else {
+            console.log("You have to sign in")
         }
     }
 
@@ -48,18 +58,13 @@ Page {
         PullDownMenu {
             MenuItem {
                 id: mainMenuItem
-                text: {
-                    console.log("access token = " + AuthJS.access_token)
-                    if (AuthJS.access_token) {
-                        "Refresh"
-                    } else {
-                        "Sign In"
-                    }
-                }
+                text: "Refresh"
                 onClicked: doMainMenuItem()
             }
         }
     }
+
+    onPageContainerChanged: initialize()
 }
 
 
