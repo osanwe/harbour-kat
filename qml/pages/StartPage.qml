@@ -64,9 +64,10 @@ Page {
     }
 
     property int chatsCounter: 0
-    function updateDialogsList(index, avatarURL) {
+    function updateDialogsList(index, avatarURL, fullname) {
         if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat === 1) chatsCounter += 1
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "nameOrTitle", fullname)
     }
 
     SilicaListView {

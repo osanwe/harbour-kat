@@ -12,7 +12,8 @@ function getUsersAvatar(uid) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
             for (var index in jsonObject.response) {
-                updateDialogsList(index, jsonObject.response[index].photo_100)
+                var fullname = jsonObject.response[index].first_name + " " + jsonObject.response[index].last_name
+                updateDialogsList(index, jsonObject.response[index].photo_100, fullname)
             }
         }
     }
