@@ -31,21 +31,21 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../auth.js" as AuthJS
+import "../storage.js" as StorageJS
 
 
 Page {
     id: startPage
 
     function initialize() {
-        console.log("access token = " + AuthJS.accessToken)
-        if (!AuthJS.access_token) {
+        StorageJS.initDatabase()
+        if (!StorageJS.readSettingsValue("access_token")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         }
     }
 
     function doMainMenuItem() {
-        console.log("access token = " + AuthJS.accessToken)
-        if (AuthJS.access_token) {
+        if (StorageJS.readSettingsValue("access_token")) {
             console.log("Refreshing")
         } else {
             console.log("You have to sign in")

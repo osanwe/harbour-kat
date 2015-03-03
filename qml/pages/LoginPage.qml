@@ -29,8 +29,10 @@
 */
 
 import QtQuick 2.0
+import QtQuick.LocalStorage 2.0
 import Sailfish.Silica 1.0
 import "../auth.js" as AuthJS
+import "../storage.js" as StorageJS
 
 
 Dialog {
@@ -38,6 +40,8 @@ Dialog {
 
     function checkUrl(url) {
         if (AuthJS.checkUrl(url) !== 1) {
+            console.log(AuthJS.accessToken)
+            StorageJS.storeSettingsValue("access_token", AuthJS.accessToken)
             loginView.stop()
             loginPage.close()
         }

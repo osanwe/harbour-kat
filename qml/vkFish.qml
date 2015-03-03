@@ -31,12 +31,13 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
-import "auth.js" as AuthJS
 
 ApplicationWindow
 {
+    id: application
+
     initialPage: Component { StartPage { } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+//    cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }
 
 
