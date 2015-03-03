@@ -5,7 +5,7 @@ Item {
     width: parent.width
     height: Theme.itemSizeMedium
 
-    property string avatarSource: "image://theme/icon-cover-pause"
+    property int isChat
 
     Image {
         id: avatar
@@ -24,9 +24,12 @@ Item {
         anchors.left: avatar.right
         anchors.topMargin: 5
         anchors.leftMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
         color: Theme.primaryColor
         text: nameOrTitle
         truncationMode: TruncationMode.Fade
+        font.bold: true
     }
 
     Label {
@@ -35,6 +38,8 @@ Item {
         anchors.left: avatar.right
         anchors.bottomMargin: 5
         anchors.leftMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
         color: Theme.secondaryColor
         text: lastMessage
         truncationMode: TruncationMode.Fade

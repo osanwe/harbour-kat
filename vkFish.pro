@@ -34,7 +34,8 @@ OTHER_FILES += qml/vkFish.qml \
     qml/js/auth.js \
     qml/js/storage.js \
     qml/js/api/messages.js \
-    qml/views/DialogItem.qml
+    qml/views/DialogItem.qml \
+    qml/js/api/users.js
 
 # to disable building translations every time, comment out the
 # following CONFIG line

@@ -34,6 +34,7 @@ import "../views"
 import "../js/auth.js" as AuthJS
 import "../js/storage.js" as StorageJS
 import "../js/api/messages.js" as MessagesAPI
+import "../js/api/users.js" as UsersAPI
 
 
 Page {
@@ -56,10 +57,16 @@ Page {
         }
     }
 
-    function updateMessagesList(avatarUrl, name, message) {
-        console.log(avatarUrl)
+    function formMessagesList(title, message) {
         message = message.replace(/<br>/g, " ")
-        messagesList.model.append({ nameOrTitle: name, lastMessage: message })
+        var type = title === " ... " ? 0 : 1
+        messagesList.model.append({ avatarSource: "", nameOrTitle: title, lastMessage: message , isChat: type})
+    }
+
+    property int chatsCounter: 0
+    function updateDialogsList(index, avatarURL) {
+        if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat === 1) chatsCounter += 1
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
     }
 
     SilicaListView {
@@ -71,13 +78,13 @@ Page {
         PullDownMenu {
             MenuItem {
                 id: mainMenuItem
-                text: "Refresh"
+                text: "Обновить"
                 onClicked: doMainMenuItem()
             }
         }
 
         header: PageHeader {
-            title: "Messages"
+            title: "Сообщения"
         }
 
         VerticalScrollDecorator {}

@@ -1,10 +1,8 @@
-.import "../storage.js" as StorageJS
-.import "./users.js" as UsersAPI
-
-function getDialogs(offset) {
+function getUsersAvatar(uid) {
     var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?"
-    url += "offset=" + offset
+    url += "users.get?"
+    url += "user_ids=" + uid
+    url += "&fields=photo_100"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -13,15 +11,9 @@ function getDialogs(offset) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
-            var uids = ""
             for (var index in jsonObject.response) {
-                if (index > 0) {
-                    uids += "," + jsonObject.response[index].uid
-                    formMessagesList(jsonObject.response[index].title, jsonObject.response[index].body)
-                }
+                updateDialogsList(index, jsonObject.response[index].photo_100)
             }
-            uids = uids.substring(1)
-            UsersAPI.getUsersAvatar(uids)
         }
     }
     doc.open("GET", url, true)
