@@ -12,7 +12,7 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.topMargin: 5
-        anchors.leftMargin: 5
+        anchors.leftMargin: 10
         height: parent.height - 10
         width: height
         source: avatarSource
@@ -23,7 +23,7 @@ Item {
         anchors.top: avatar.top
         anchors.left: avatar.right
         anchors.topMargin: 5
-        anchors.leftMargin: 5
+        anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 5
         color: Theme.primaryColor
@@ -37,7 +37,7 @@ Item {
         anchors.bottom: avatar.bottom
         anchors.left: avatar.right
         anchors.bottomMargin: 5
-        anchors.leftMargin: 5
+        anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 5
         color: Theme.secondaryColor
