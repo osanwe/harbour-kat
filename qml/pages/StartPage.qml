@@ -30,8 +30,10 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "../auth.js" as AuthJS
-import "../storage.js" as StorageJS
+import "../views"
+import "../js/auth.js" as AuthJS
+import "../js/storage.js" as StorageJS
+import "../js/api/messages.js" as MessagesAPI
 
 
 Page {
@@ -39,21 +41,32 @@ Page {
 
     function initialize() {
         StorageJS.initDatabase()
-        if (!StorageJS.readSettingsValue("access_token")) {
+        if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+        } else {
+            MessagesAPI.getDialogs(0)
         }
     }
 
     function doMainMenuItem() {
-        if (StorageJS.readSettingsValue("access_token")) {
+        if (StorageJS.readSettingsValue("user_id")) {
             console.log("Refreshing")
         } else {
             console.log("You have to sign in")
         }
     }
 
-    SilicaFlickable {
+    function updateMessagesList(avatarUrl, name, message) {
+        console.log(avatarUrl)
+        message = message.replace(/<br>/g, " ")
+        messagesList.model.append({ nameOrTitle: name, lastMessage: message })
+    }
+
+    SilicaListView {
+        id: messagesList
         anchors.fill: parent
+        model: ListModel {}
+        delegate: DialogItem { id: dialogItem }
 
         PullDownMenu {
             MenuItem {
@@ -62,6 +75,12 @@ Page {
                 onClicked: doMainMenuItem()
             }
         }
+
+        header: PageHeader {
+            title: "Messages"
+        }
+
+        VerticalScrollDecorator {}
     }
 
     onPageContainerChanged: initialize()

@@ -26,7 +26,15 @@ OTHER_FILES += qml/vkFish.qml \
     qml/pages/StartPage.qml \
     qml/pages/LoginPage.qml \
     qml/auth.js \
-    qml/storage.js
+    qml/storage.js \
+    src/js/auth.js \
+    js/auth.js \
+    js/storage.js \
+    js/api/messages.js \
+    qml/js/auth.js \
+    qml/js/storage.js \
+    qml/js/api/messages.js \
+    qml/views/DialogItem.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line
