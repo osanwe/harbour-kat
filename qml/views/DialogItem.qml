@@ -5,7 +5,7 @@ Item {
     width: parent.width
     height: Theme.itemSizeMedium
 
-    property int isChat
+    property bool isChat
 
     Image {
         id: avatar

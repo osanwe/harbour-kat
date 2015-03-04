@@ -52,6 +52,9 @@ Page {
     function doMainMenuItem() {
         if (StorageJS.readSettingsValue("user_id")) {
             console.log("Refreshing")
+            messagesList.model.clear()  // TODO: Oh, really?!
+            chatsCounter = 0
+            MessagesAPI.getDialogs(0)
         } else {
             console.log("You have to sign in")
         }
@@ -60,19 +63,16 @@ Page {
     function formMessagesList(title, message, readState) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
-        var type = title === " ... " ? 0 : 1
-//        var titleColor = readState === 1 ? Theme.primaryColor : Theme.highlightColor
-//        var messageColor = readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
         messagesList.model.append({ avatarSource: "",
                                       nameOrTitle: title,
                                       lastMessage: message,
                                       readState: readState,
-                                      isChat: type })
+                                      isChat: (title !== " ... ") })
     }
 
     property int chatsCounter: 0
     function updateDialogsList(index, avatarURL, fullname) {
-        if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat === 1) chatsCounter += 1
+        if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat) chatsCounter += 1
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "nameOrTitle", fullname)
     }
