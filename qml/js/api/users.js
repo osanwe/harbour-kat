@@ -10,7 +10,6 @@ function getUsersAvatar(uid) {
     doc.onreadystatechange = function() {
         if (doc.readyState === XMLHttpRequest.DONE) {
             var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
             for (var index in jsonObject.response) {
                 var fullname = jsonObject.response[index].first_name + " " + jsonObject.response[index].last_name
                 updateDialogsList(index, jsonObject.response[index].photo_100, fullname)

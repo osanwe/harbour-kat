@@ -57,10 +57,17 @@ Page {
         }
     }
 
-    function formMessagesList(title, message) {
+    function formMessagesList(title, message, readState) {
+        console.log(readState)
         message = message.replace(/<br>/g, " ")
         var type = title === " ... " ? 0 : 1
-        messagesList.model.append({ avatarSource: "", nameOrTitle: title, lastMessage: message , isChat: type})
+//        var titleColor = readState === 1 ? Theme.primaryColor : Theme.highlightColor
+//        var messageColor = readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        messagesList.model.append({ avatarSource: "",
+                                      nameOrTitle: title,
+                                      lastMessage: message,
+                                      readState: readState,
+                                      isChat: type })
     }
 
     property int chatsCounter: 0

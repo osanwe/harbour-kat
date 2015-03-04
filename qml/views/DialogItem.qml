@@ -40,7 +40,7 @@ Item {
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 5
-        color: Theme.secondaryColor
+        color: { readState === 1 ? Theme.primaryColor : Theme.highlightColor }
         text: lastMessage
         truncationMode: TruncationMode.Fade
     }

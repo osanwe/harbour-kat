@@ -14,13 +14,19 @@ function getDialogs(offset) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
             var uids = ""
+            var chatsUids = ""
             for (var index in jsonObject.response) {
                 if (index > 0) {
-                    uids += "," + jsonObject.response[index].uid
-                    formMessagesList(jsonObject.response[index].title, jsonObject.response[index].body)
+                    if (jsonObject.response[index].chat_id) {
+                        chatsUids += "," + jsonObject.response[index].uid
+                    } else {
+                        uids += "," + jsonObject.response[index].uid
+                    }
+                    formMessagesList(jsonObject.response[index].title, jsonObject.response[index].body, jsonObject.response[index].read_state)
                 }
             }
             uids = uids.substring(1)
+            chatsUids = chatsUids.substring(1)
             UsersAPI.getUsersAvatar(uids)
         }
     }
