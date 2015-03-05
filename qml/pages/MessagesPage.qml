@@ -60,7 +60,7 @@ Page {
         }
     }
 
-    function formMessagesList(title, message, dialogId, readState) {
+    function formDialogsList(title, message, dialogId, readState) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ avatarSource: "",

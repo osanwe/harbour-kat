@@ -26,7 +26,7 @@ function getDialogs(offset) {
                     } else {
                         uids += "," + jsonObject.response[index].uid
                     }
-                    formMessagesList(jsonObject.response[index].title,
+                    formDialogsList(jsonObject.response[index].title,
                                      messageBody,
                                      dialogId,
                                      jsonObject.response[index].read_state)
@@ -54,6 +54,36 @@ function sendMessage(isChat, dialogId, message) {
     console.log(url)
 
     var doc = new XMLHttpRequest()
+    doc.open("GET", url, true)
+    doc.send()
+}
+
+function getHistory(isCha, dialogId) {
+    var url = "https://api.vk.com/method/"
+    url += "messages.getHistory?"
+    if (isChat) {
+        url += "chat_id=" + dialogId
+    } else {
+        url += "user_id=" + dialogId
+    }
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            var jsonObject = JSON.parse(doc.responseText)
+            console.log(doc.responseText)
+            for (var index in jsonObject.response) {
+                if (index > 0) {
+                    var msg = jsonObject.response[index].body
+                    if (jsonObject.response[index].attachment) msg = "[вложение] " + msg
+                    formMessagesList(msg)
+                }
+            }
+            messagesList.scrollToBottom()
+        }
+    }
     doc.open("GET", url, true)
     doc.send()
 }

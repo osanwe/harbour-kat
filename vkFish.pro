@@ -36,7 +36,8 @@ OTHER_FILES += qml/vkFish.qml \
     qml/views/DialogItem.qml \
     qml/js/api/users.js \
     qml/pages/MessagesPage.qml \
-    qml/pages/DialogPage.qml
+    qml/pages/DialogPage.qml \
+    qml/views/MessageItem.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line
