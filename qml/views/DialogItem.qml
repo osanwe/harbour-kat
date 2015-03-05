@@ -5,7 +5,10 @@ Item {
     width: parent.width
     height: Theme.itemSizeMedium
 
-    property bool isChat
+    function loadDialogPage() {
+        console.log("dialog id = " + dialogId)
+        pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"), { "fullname": name.text })
+    }
 
     Image {
         id: avatar
@@ -47,6 +50,6 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        onClicked: console.log("index = " + mid)
+        onClicked: loadDialogPage()
     }
 }

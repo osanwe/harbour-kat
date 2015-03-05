@@ -17,14 +17,18 @@ function getDialogs(offset) {
             var chatsUids = ""
             for (var index in jsonObject.response) {
                 if (index > 0) {
+                    var dialogId = jsonObject.response[index].uid
+                    var messageBody = jsonObject.response[index].body
+                    if (jsonObject.response[index].attachment) messageBody = "[вложение] " + messageBody
                     if (jsonObject.response[index].chat_id) {
+                        dialogId = jsonObject.response[index].chat_id
                         chatsUids += "," + jsonObject.response[index].uid
                     } else {
                         uids += "," + jsonObject.response[index].uid
                     }
                     formMessagesList(jsonObject.response[index].title,
-                                     jsonObject.response[index].body,
-                                     jsonObject.response[index].mid,
+                                     messageBody,
+                                     dialogId,
                                      jsonObject.response[index].read_state)
                 }
             }
