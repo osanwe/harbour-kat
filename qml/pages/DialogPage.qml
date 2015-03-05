@@ -10,5 +10,13 @@ Page {
         anchors.fill: parent
 
         PageHeader { title: fullname }
+
+        TextArea {
+            id: messageInput
+            width: parent.width
+            anchors.bottom: parent.bottom
+            placeholderText: "Сообщение:"
+            label: "Сообщение:"
+        }
     }
 }
