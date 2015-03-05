@@ -44,4 +44,9 @@ Item {
         text: lastMessage
         truncationMode: TruncationMode.Fade
     }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: console.log("index = " + mid)
+    }
 }

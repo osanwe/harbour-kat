@@ -22,7 +22,10 @@ function getDialogs(offset) {
                     } else {
                         uids += "," + jsonObject.response[index].uid
                     }
-                    formMessagesList(jsonObject.response[index].title, jsonObject.response[index].body, jsonObject.response[index].read_state)
+                    formMessagesList(jsonObject.response[index].title,
+                                     jsonObject.response[index].body,
+                                     jsonObject.response[index].mid,
+                                     jsonObject.response[index].read_state)
                 }
             }
             uids = uids.substring(1)

@@ -60,12 +60,13 @@ Page {
         }
     }
 
-    function formMessagesList(title, message, readState) {
+    function formMessagesList(title, message, mid, readState) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ avatarSource: "",
                                       nameOrTitle: title,
                                       lastMessage: message,
+                                      mid: mid,
                                       readState: readState,
                                       isChat: (title !== " ... ") })
     }
