@@ -78,10 +78,10 @@ function getHistory(isCha, dialogId) {
                 if (index > 0) {
                     var msg = jsonObject.response[index].body
                     if (jsonObject.response[index].attachment) msg = "[вложение] " + msg
-                    formMessagesList(msg)
+                    formMessagesList(jsonObject.response[index].out, jsonObject.response[index].read_state, msg)
                 }
             }
-            messagesList.scrollToBottom()
+            scrollMessagesToBottom()
         }
     }
     doc.open("GET", url, true)

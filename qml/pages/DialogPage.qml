@@ -16,18 +16,23 @@ Page {
         messageInput.text = ""
     }
 
-    function formMessagesList(text) {
+    function formMessagesList(io, readState, text) {
         text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {message: text} )
+        messages.model.insert(0, {io: io, readState: readState, message: text} )
+    }
+
+    function scrollMessagesToBottom() {
+        messages.positionViewAtEnd()
     }
 
     PageHeader { id: dialogTitle; title: fullname }
 
     SilicaListView {
         id: messages
-        width: parent.width
-        anchors.top: dialogTitle.bottom
-        anchors.bottom: messageInput.top
+//        width: parent.width
+        anchors.fill: parent
+//        anchors.top: dialogTitle.bottom
+//        anchors.bottom: messageInput.top
         model: ListModel {}
         delegate: MessageItem {}
     }
