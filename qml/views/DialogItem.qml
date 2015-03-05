@@ -7,7 +7,8 @@ Item {
 
     function loadDialogPage() {
         console.log("dialog id = " + dialogId)
-        pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"), { "fullname": name.text })
+        pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                       { "fullname": name.text, "dialogId": dialogId, "isChat": isChat })
     }
 
     Image {

@@ -40,3 +40,20 @@ function getDialogs(offset) {
     doc.open("GET", url, true)
     doc.send()
 }
+
+function sendMessage(isChat, dialogId, message) {
+    var url = "https://api.vk.com/method/"
+    url += "messages.send?"
+    if (isChat) {
+        url += "chat_id=" + dialogId
+    } else {
+        url += "user_id=" + dialogId
+    }
+    url += "&message=" + message
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.open("GET", url, true)
+    doc.send()
+}
