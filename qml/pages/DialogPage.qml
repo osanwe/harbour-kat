@@ -13,7 +13,9 @@ Page {
     function sendMessage() {
         console.log("Send: " + messageInput.text)
         MessagesAPI.sendMessage(isChat, dialogId, messageInput.text)
+        messages.model.clear()
         messageInput.text = ""
+        MessagesAPI.getHistory(isChat, dialogId)
     }
 
     function formMessagesList(io, readState, text) {
@@ -28,42 +30,42 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
-    PageHeader {
-        id: dialogTitle
-        title: fullname
-    }
+        PageHeader {
+            id: dialogTitle
+            title: fullname
+        }
 
-    SilicaListView {
-        id: messages
-        anchors.fill: parent
-        anchors.topMargin: dialogTitle.height
-        anchors.bottomMargin: messageInput.height
-        clip: true
-        model: ListModel {}
-        delegate: MessageItem {}
-    }
+        SilicaListView {
+            id: messages
+            anchors.fill: parent
+            anchors.topMargin: dialogTitle.height
+            anchors.bottomMargin: messageInput.height
+            clip: true
+            model: ListModel {}
+            delegate: MessageItem {}
+        }
 
-    TextArea {
-        id: messageInput
-        width: parent.width
-        anchors.bottom: parent.bottom
-        placeholderText: "Сообщение:"
-        label: "Сообщение:"
+        TextArea {
+            id: messageInput
+            width: parent.width
+            anchors.bottom: parent.bottom
+            placeholderText: "Сообщение:"
+            label: "Сообщение:"
 
-        EnterKey.enabled: text.length > 0
-        EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-        EnterKey.onClicked: sendMessage()
-    }
+            EnterKey.enabled: text.length > 0
+            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+            EnterKey.onClicked: sendMessage()
+        }
 
-    PushUpMenu {
-        MenuItem {
-            text: "Обновить"
-            onClicked: {
-                messages.model.clear()
-                MessagesAPI.getHistory(isChat, dialogId)
+        PushUpMenu {
+            MenuItem {
+                text: "Обновить"
+                onClicked: {
+                    messages.model.clear()
+                    MessagesAPI.getHistory(isChat, dialogId)
+                }
             }
         }
-    }
 
     }
 
