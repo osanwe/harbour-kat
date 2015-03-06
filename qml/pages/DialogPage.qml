@@ -48,7 +48,7 @@ Page {
         label: "Сообщение:"
 
         EnterKey.enabled: text.length > 0
-        EnterKey.iconSource: "image://theme/icon-m-enter-next"
+        EnterKey.iconSource: "image://theme/icon-m-enter-accept"
         EnterKey.onClicked: sendMessage()
     }
 
