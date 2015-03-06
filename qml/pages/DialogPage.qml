@@ -25,17 +25,17 @@ Page {
         messages.positionViewAtEnd()
     }
 
-    PageHeader { id: dialogTitle; title: fullname }
+    PageHeader {
+        id: dialogTitle
+        title: fullname
+    }
 
     SilicaListView {
         id: messages
-        width: parent.width
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.fill: parent
         anchors.topMargin: dialogTitle.height
         anchors.bottomMargin: messageInput.height
-//        anchors.top: dialogTitle.bottom
-//        anchors.bottom: messageInput.top
+        clip: true
         model: ListModel {}
         delegate: MessageItem {}
     }
@@ -46,8 +46,6 @@ Page {
         anchors.bottom: parent.bottom
         placeholderText: "Сообщение:"
         label: "Сообщение:"
-
-        onClicked: if (text.length === 0) messages.positionViewAtEnd()
 
         EnterKey.enabled: text.length > 0
         EnterKey.iconSource: "image://theme/icon-m-enter-next"
