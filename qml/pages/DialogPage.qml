@@ -29,8 +29,11 @@ Page {
 
     SilicaListView {
         id: messages
-//        width: parent.width
-        anchors.fill: parent
+        width: parent.width
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.topMargin: dialogTitle.height
+        anchors.bottomMargin: messageInput.height
 //        anchors.top: dialogTitle.bottom
 //        anchors.bottom: messageInput.top
         model: ListModel {}
@@ -44,7 +47,10 @@ Page {
         placeholderText: "Сообщение:"
         label: "Сообщение:"
 
+        onClicked: if (text.length === 0) messages.positionViewAtEnd()
+
         EnterKey.enabled: text.length > 0
+        EnterKey.iconSource: "image://theme/icon-m-enter-next"
         EnterKey.onClicked: sendMessage()
     }
 
