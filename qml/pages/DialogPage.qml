@@ -25,6 +25,9 @@ Page {
         messages.positionViewAtEnd()
     }
 
+    SilicaFlickable {
+        anchors.fill: parent
+
     PageHeader {
         id: dialogTitle
         title: fullname
@@ -50,6 +53,18 @@ Page {
         EnterKey.enabled: text.length > 0
         EnterKey.iconSource: "image://theme/icon-m-enter-accept"
         EnterKey.onClicked: sendMessage()
+    }
+
+    PushUpMenu {
+        MenuItem {
+            text: "Обновить"
+            onClicked: {
+                messages.model.clear()
+                MessagesAPI.getHistory(isChat, dialogId)
+            }
+        }
+    }
+
     }
 
     onPageContainerChanged: MessagesAPI.getHistory(isChat, dialogId)
