@@ -32,6 +32,7 @@ import QtQuick 2.0
 import QtQuick.LocalStorage 2.0
 import Sailfish.Silica 1.0
 import "../js/auth.js" as AuthJS
+import "../js/api/messages.js" as MessagesAPI
 import "../js/storage.js" as StorageJS
 
 
@@ -43,6 +44,7 @@ Dialog {
             console.log(AuthJS.accessToken)
             StorageJS.storeSettingsValue("access_token", AuthJS.accessToken)
             StorageJS.storeSettingsValue("user_id", AuthJS.userId)
+            MessagesAPI.getDialogs(0)
             loginView.stop()
             loginPage.close()
         }

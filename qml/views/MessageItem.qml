@@ -1,17 +1,20 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Item {
+BackgroundItem {
 //    width: parent.width
     height: messageText.height
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.leftMargin: { io === 1 ? 40 : 0 }
-    anchors.rightMargin: { io === 1 ? 0 : 40 }
+    highlighted: io === 0 & readState === 0
 
     TextArea {
         id: messageText
-        width: parent.width
+//        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: { io === 1 ? 40 : 0 }
+        anchors.rightMargin: { io === 1 ? 0 : 40 }
 //        anchors.fill: parent
         verticalAlignment: { io === 1 ? TextEdit.AlignRight : TextEdit.AlignLeft }
         readOnly: true

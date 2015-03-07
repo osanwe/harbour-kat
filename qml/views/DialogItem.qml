@@ -1,9 +1,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Item {
+BackgroundItem {
     width: parent.width
     height: Theme.itemSizeMedium
+    highlighted: io === 0 && readState === 0
 
     function loadDialogPage() {
         console.log("dialog id = " + dialogId)
@@ -30,7 +31,7 @@ Item {
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 5
-        color: Theme.primaryColor
+        color: { readState === 0 && io === 0 ? Theme.highlightColor : Theme.primaryColor }
         text: nameOrTitle
         truncationMode: TruncationMode.Fade
         font.bold: true
@@ -49,8 +50,10 @@ Item {
         truncationMode: TruncationMode.Fade
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: loadDialogPage()
-    }
+    onClicked: loadDialogPage()
+
+//    MouseArea {
+//        anchors.fill: parent
+//        onClicked: loadDialogPage()
+//    }
 }

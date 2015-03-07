@@ -26,10 +26,11 @@ function getDialogs(offset) {
                     } else {
                         uids += "," + jsonObject.response[index].uid
                     }
-                    formDialogsList(jsonObject.response[index].title,
-                                     messageBody,
-                                     dialogId,
-                                     jsonObject.response[index].read_state)
+                    formDialogsList(jsonObject.response[index].out,
+                                    jsonObject.response[index].title,
+                                    messageBody,
+                                    dialogId,
+                                    jsonObject.response[index].read_state)
                 }
             }
             uids = uids.substring(1)

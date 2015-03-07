@@ -32,21 +32,33 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
+
+    Row {
         anchors.centerIn: parent
-        text: qsTr("My Cover")
+        spacing: 20
+
+        Image {
+            anchors.verticalCenter: coverMessagesCount.verticalCenter
+            width: Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
+            source: "image://theme/icon-cover-message"
+        }
+
+        Label {
+            id: coverMessagesCount
+            text: "0"
+            font.bold: true
+            font.pixelSize: Theme.fontSizeHuge
+        }
     }
 
     CoverActionList {
         id: coverAction
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
+            iconSource: "image://theme/icon-cover-refresh"
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
+            onTriggered: console.log("Refreshing...")
         }
     }
 }
