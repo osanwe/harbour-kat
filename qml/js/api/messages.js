@@ -88,3 +88,26 @@ function getHistory(isCha, dialogId) {
     doc.open("GET", url, true)
     doc.send()
 }
+
+function getUnreadMessagesCount() {
+    var url = "https://api.vk.com/method/"
+    url += "messages.getDialogs?v=5.14"
+    url += "&unread=1"
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            var jsonObject = JSON.parse(doc.responseText)
+            console.log(doc.responseText)
+            if (jsonObject.response.count) {
+                updateCoverCounters(jsonObject.response.count)
+            } else {
+                updateCoverCounters(0)
+            }
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
+}

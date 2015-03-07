@@ -30,8 +30,13 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/api/messages.js" as MessagesAPI
 
 CoverBackground {
+
+    function updateCoverCounters(msgCounter) {
+        coverMessagesCount.text = msgCounter
+    }
 
     Row {
         anchors.centerIn: parent
@@ -58,7 +63,7 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
 
-            onTriggered: console.log("Refreshing...")
+            onTriggered: MessagesAPI.getUnreadMessagesCount()
         }
     }
 }
