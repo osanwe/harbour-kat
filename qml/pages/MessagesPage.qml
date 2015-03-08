@@ -87,6 +87,21 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                id: aboutItem
+                text: "О программе"
+//                onClicked: doMainMenuItem()
+            }
+            MenuItem {
+                id: settingsItem
+                text: "Настройки"
+//                onClicked: doMainMenuItem()
+            }
+            MenuItem {
+                id: newMessageItem
+                text: "Новое сообщение"
+//                onClicked: doMainMenuItem()
+            }
+            MenuItem {
                 id: mainMenuItem
                 text: "Обновить"
                 onClicked: doMainMenuItem()
