@@ -89,7 +89,7 @@ Page {
             MenuItem {
                 id: aboutItem
                 text: "О программе"
-//                onClicked: doMainMenuItem()
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
             MenuItem {
                 id: settingsItem
