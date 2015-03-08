@@ -99,7 +99,7 @@ Page {
             MenuItem {
                 id: newMessageItem
                 text: "Новое сообщение"
-//                onClicked: doMainMenuItem()
+                onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))
             }
             MenuItem {
                 id: mainMenuItem

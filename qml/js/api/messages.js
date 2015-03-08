@@ -111,3 +111,26 @@ function getUnreadMessagesCount() {
     doc.open("GET", url, true)
     doc.send()
 }
+
+function searchDialogs(substring) {
+    var url = "https://api.vk.com/method/"
+    url += "messages.searchDialogs?"
+    url += "q=" + substring
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            var jsonObject = JSON.parse(doc.responseText)
+            console.log(doc.responseText)
+            for (var index in jsonObject.response) {
+                var name = jsonObject.response[index].first_name
+                name += " " + jsonObject.response[index].last_name
+                updateSearchContactsList(name)
+            }
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
+}
