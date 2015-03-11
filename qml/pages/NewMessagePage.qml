@@ -61,16 +61,20 @@ Dialog {
 
     SilicaListView {
         id: currentContactsList
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: Theme.paddingLarge
+        anchors.rightMargin: Theme.paddingLarge
         anchors.bottom: newMessageText.top
         height: Theme.itemSizeMedium
-        width: parent.width
+        spacing: 6
         clip: true
         orientation: ListView.Horizontal
 
         model: ListModel {}
 
         delegate: BackgroundItem {
-            height: Theme.itemSizeMedium - 10
+            height: Theme.itemSizeMedium
             width: height
 
             Image {
