@@ -5,6 +5,8 @@ import "../js/api/messages.js" as MessagesAPI
 Dialog {
     id: newMessageDialog
 
+    property Item contextMenu
+
     function updateSearchContactsList(uid, name, photo) {
         searchContactsList.model.append({ uid: uid, name: name, photo: photo })
     }
@@ -61,26 +63,60 @@ Dialog {
 
     SilicaListView {
         id: currentContactsList
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         anchors.bottom: newMessageText.top
-        height: Theme.itemSizeMedium
+        height: contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
         spacing: 6
         clip: true
         orientation: ListView.Horizontal
 
         model: ListModel {}
 
-        delegate: BackgroundItem {
-            height: Theme.itemSizeMedium
-            width: height
+        delegate: Item {
+            id: myListItem
 
-            Image {
-                id: contactAvatar
-                anchors.fill: parent
-                source: photoSource
+            property bool menuOpen: contextMenu != null && contextMenu.parent === myListItem
+
+            height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
+            width: Theme.itemSizeMedium
+
+            BackgroundItem {
+                id: contentItem
+                height: Theme.itemSizeMedium
+                width: height
+
+                Image {
+                    id: contactAvatar
+                    anchors.fill: parent
+                    source: photoSource
+                }
+
+                onPressAndHold: {
+                    console.log(index)
+                    if (!contextMenu)
+                        contextMenu = contextMenuComponent.createObject(currentContactsList, {index: index})
+                    contextMenu.show(myListItem)
+                }
+            }
+        }
+
+        Component {
+            id: contextMenuComponent
+
+            ContextMenu {
+
+                property string index
+
+                MenuItem {
+                    text: "Удалить"
+                    onClicked: currentContactsList.model.remove(index)
+                }
+
+                onClosed: contextMenu = null
             }
         }
     }
