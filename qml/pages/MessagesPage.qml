@@ -64,7 +64,7 @@ Page {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ io: io,
-                                      avatarSource: "",
+                                      avatarSource: "image://theme/icon-cover-message",
                                       nameOrTitle: title,
                                       lastMessage: message,
                                       dialogId: dialogId,
