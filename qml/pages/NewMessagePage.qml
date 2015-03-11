@@ -20,6 +20,7 @@ Dialog {
         id: searchContactsList
         anchors.fill: parent
         anchors.topMargin: newMessageHeader.height
+        anchors.bottomMargin: newMessageText.height + currentContactsList.height
         clip: true
 
         currentIndex: -1
@@ -38,7 +39,6 @@ Dialog {
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
             height: Theme.itemSizeSmall
-//            width: parent.width - 2 * Theme.paddingMedium
 
             Label {
                 anchors.fill: parent
@@ -49,9 +49,27 @@ Dialog {
         }
     }
 
-//    SilicaListView {
-//        //
-//    }
+    SilicaListView {
+        id: currentContactsList
+        anchors.bottom: newMessageText.top
+        height: Theme.itemSizeMedium
+        width: parent.width
+        clip: true
+        orientation: ListView.Horizontal
+
+        model: ListModel {}
+
+        delegate: BackgroundItem {
+            height: Theme.itemSizeMedium - 10
+            width: height
+
+            Image {
+                id: contactAvatar
+                anchors.fill: parent
+                source: "image://theme/icon-cover-message"
+            }
+        }
+    }
 
     TextArea {
         id: newMessageText
