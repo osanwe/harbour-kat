@@ -23,18 +23,30 @@ BackgroundItem {
         source: avatarSource
     }
 
-    Label {
-        id: name
+    Row {
         anchors.top: avatar.top
         anchors.left: avatar.right
         anchors.topMargin: 5
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 5
-        color: { readState === 0 && io === 0 ? Theme.highlightColor : Theme.primaryColor }
-        text: nameOrTitle
-        truncationMode: TruncationMode.Fade
-        font.bold: true
+        spacing: 6
+
+        Switch {
+            id: isUserOnline
+            height: name.height
+            width: height
+            automaticCheck: false
+            checked: isOnline
+        }
+
+        Label {
+            id: name
+            color: { readState === 0 && io === 0 ? Theme.highlightColor : Theme.primaryColor }
+            text: nameOrTitle
+            truncationMode: TruncationMode.Fade
+            font.bold: true
+        }
     }
 
     Label {
@@ -51,9 +63,4 @@ BackgroundItem {
     }
 
     onClicked: loadDialogPage()
-
-//    MouseArea {
-//        anchors.fill: parent
-//        onClicked: loadDialogPage()
-//    }
 }

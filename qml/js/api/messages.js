@@ -61,7 +61,6 @@ function sendMessage(isChat, dialogId, message) {
 
 function sendGroupMessage(ids, message) {
     var url = "https://api.vk.com/method/"
-//    url += "messages.send?"
     url += "messages.createChat?"
     url += "user_ids=" + ids
     url += "&message=" + message

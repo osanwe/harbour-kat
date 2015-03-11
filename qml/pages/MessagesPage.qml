@@ -69,14 +69,16 @@ Page {
                                       lastMessage: message,
                                       dialogId: dialogId,
                                       readState: readState,
+                                      isOnline: false,
                                       isChat: (title !== " ... ") })
     }
 
     property int chatsCounter: 0
-    function updateDialogsList(index, avatarURL, fullname) {
+    function updateDialogsList(index, avatarURL, fullname, online) {
         if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat) chatsCounter += 1
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "nameOrTitle", fullname)
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "isOnline", online)
     }
 
     SilicaListView {
