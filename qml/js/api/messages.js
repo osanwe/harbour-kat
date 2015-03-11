@@ -116,6 +116,7 @@ function searchDialogs(substring) {
     var url = "https://api.vk.com/method/"
     url += "messages.searchDialogs?"
     url += "q=" + substring
+    url += "&fields=photo_100"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -127,7 +128,7 @@ function searchDialogs(substring) {
             for (var index in jsonObject.response) {
                 var name = jsonObject.response[index].first_name
                 name += " " + jsonObject.response[index].last_name
-                updateSearchContactsList(name)
+                updateSearchContactsList(jsonObject.response[index].uid, name, jsonObject.response[index].photo_100)
             }
         }
     }

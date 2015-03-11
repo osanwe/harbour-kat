@@ -4,10 +4,9 @@ import "../js/api/messages.js" as MessagesAPI
 
 Dialog {
     id: newMessageDialog
-//    anchors.fill: parent
 
-    function updateSearchContactsList(name) {
-        searchContactsList.model.append({ name: name })
+    function updateSearchContactsList(uid, name, photo) {
+        searchContactsList.model.append({ uid: uid, name: name, photo: photo })
     }
 
     DialogHeader {
@@ -45,7 +44,18 @@ Dialog {
                 text: name
             }
 
-            onClicked: console.log(name)
+            onClicked: {
+                console.log(uid + " | " + name)
+                var index = 0
+                while (index < currentContactsList.model.count) {
+                    if (uid === currentContactsList.model.get(index).uid) {
+                        index = -1
+                        break
+                    }
+                    index = index + 1
+                }
+                if (index !== -1) currentContactsList.model.append({ uid: uid, photoSource: photo })
+            }
         }
     }
 
@@ -66,7 +76,7 @@ Dialog {
             Image {
                 id: contactAvatar
                 anchors.fill: parent
-                source: "image://theme/icon-cover-message"
+                source: photoSource
             }
         }
     }
