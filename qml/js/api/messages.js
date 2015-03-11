@@ -59,6 +59,27 @@ function sendMessage(isChat, dialogId, message) {
     doc.send()
 }
 
+function sendGroupMessage(ids, message) {
+    var url = "https://api.vk.com/method/"
+//    url += "messages.send?"
+    url += "messages.createChat?"
+    url += "user_ids=" + ids
+    url += "&message=" + message
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            var jsonObject = JSON.parse(doc.responseText)
+            console.log(doc.responseText)
+            sendMessage(true, jsonObject.response, message)
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
+}
+
 function getHistory(isCha, dialogId) {
     var url = "https://api.vk.com/method/"
     url += "messages.getHistory?"

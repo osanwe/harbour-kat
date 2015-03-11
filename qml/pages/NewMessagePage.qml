@@ -14,15 +14,16 @@ Dialog {
     function sendNewMessage() {
         if (currentContactsList.model.count === 1) {
             MessagesAPI.sendMessage(false, currentContactsList.model.get(0).uid, newMessageText.text)
+        } else {
+            var ids = ""
+            var index = 0
+            while (index < currentContactsList.model.count) {
+                ids = ids + "," + currentContactsList.model.get(index).uid
+                index = index + 1
+            }
+            ids = ids.substring(1)
+            MessagesAPI.sendGroupMessage(ids, newMessageText.text)
         }
-
-//        console.log(newMessageText.text)
-//        var idx = 0
-//        while (idx < currentContactsList.model.count) {
-//            console.log(currentContactsList.model.get(idx).uid)
-//            idx = idx + 1
-//        }
-//        newMessageText.text = ""
     }
 
     DialogHeader {
