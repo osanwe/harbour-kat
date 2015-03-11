@@ -19,10 +19,12 @@ function getDialogs(offset) {
                 if (index > 0) {
                     var dialogId = jsonObject.response[index].uid
                     var messageBody = jsonObject.response[index].body
+                    var isChat = false
                     if (jsonObject.response[index].attachment) messageBody = "[вложение] " + messageBody
                     if (jsonObject.response[index].chat_id) {
                         dialogId = jsonObject.response[index].chat_id
                         chatsUids += "," + jsonObject.response[index].uid
+                        isChat = true
                     } else {
                         uids += "," + jsonObject.response[index].uid
                     }
@@ -30,7 +32,8 @@ function getDialogs(offset) {
                                     jsonObject.response[index].title,
                                     messageBody,
                                     dialogId,
-                                    jsonObject.response[index].read_state)
+                                    jsonObject.response[index].read_state,
+                                    isChat)
                 }
             }
             uids = uids.substring(1)

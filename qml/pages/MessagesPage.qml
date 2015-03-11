@@ -60,7 +60,7 @@ Page {
         }
     }
 
-    function formDialogsList(io, title, message, dialogId, readState) {
+    function formDialogsList(io, title, message, dialogId, readState, isChat) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ io: io,
@@ -70,12 +70,12 @@ Page {
                                       dialogId: dialogId,
                                       readState: readState,
                                       isOnline: false,
-                                      isChat: (title !== " ... ") })
+                                      isChat: isChat })
     }
 
     property int chatsCounter: 0
     function updateDialogsList(index, avatarURL, fullname, online) {
-        if (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat) chatsCounter += 1
+        while (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat) chatsCounter += 1
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "nameOrTitle", fullname)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "isOnline", online)
