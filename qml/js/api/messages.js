@@ -100,7 +100,19 @@ function getHistory(isCha, dialogId) {
             console.log(doc.responseText)
             for (var index in jsonObject.response) {
                 if (index > 0) {
-                    var msg = jsonObject.response[index].body
+                    var msg = ""
+                    var msgParts = jsonObject.response[index].body.split()
+                    var idx = 0
+                    while (idx < msgParts.length) {
+                        console.log(msgParts[idx])
+                        if (msgParts[idx].search("http") === 0) {
+                            msg = msg + " <a href=\"" + msgParts[idx] + "\">" + msgParts[idx] + "</a>"
+                        } else {
+                            msg = msg + msgParts[idx]
+                        }
+                        idx = idx + 1
+                    }
+
                     if (jsonObject.response[index].attachment) msg = "[вложение] " + msg
                     formMessagesList(jsonObject.response[index].out, jsonObject.response[index].read_state, msg)
                 }
