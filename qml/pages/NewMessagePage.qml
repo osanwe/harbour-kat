@@ -11,6 +11,16 @@ Dialog {
         searchContactsList.model.append({ uid: uid, name: name, photo: photo })
     }
 
+    function sendNewMessage() {
+        console.log(newMessageText.text)
+        var idx = 0
+        while (idx < currentContactsList.model.count) {
+            console.log(currentContactsList.model.get(idx).uid)
+            idx = idx + 1
+        }
+        newMessageText.text = ""
+    }
+
     DialogHeader {
         id: newMessageHeader
         acceptText: "Написать"
@@ -127,6 +137,10 @@ Dialog {
         width: parent.width
         placeholderText: "Сообщение:"
         label: "Сообщение:"
+
+        EnterKey.enabled: text.length > 0
+        EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+        EnterKey.onClicked: sendNewMessage()
     }
 
     onAccepted: console.log("Posting...")
