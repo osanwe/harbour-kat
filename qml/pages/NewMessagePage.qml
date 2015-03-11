@@ -22,6 +22,7 @@ Dialog {
         anchors.topMargin: newMessageHeader.height
         clip: true
 
+        currentIndex: -1
         header: SearchField {
             width: parent.width
             placeholderText: "Добавить контакт"
@@ -43,6 +44,8 @@ Dialog {
                 anchors.fill: parent
                 text: name
             }
+
+            onClicked: console.log(name)
         }
     }
 
