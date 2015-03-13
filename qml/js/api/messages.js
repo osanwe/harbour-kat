@@ -41,7 +41,8 @@ function getDialogs(offset) {
                     var dialogId = jsonObject.response[index].uid
                     var messageBody = jsonObject.response[index].body
                     var isChat = false
-                    if (jsonObject.response[index].attachment) messageBody = "[вложение] " + messageBody
+                    if (jsonObject.response[index].attachment)
+                        messageBody = "[вложение] " + messageBody
                     if (jsonObject.response[index].chat_id) {
                         dialogId = jsonObject.response[index].chat_id
                         chatsUids += "," + jsonObject.response[index].uid
@@ -142,7 +143,9 @@ function getHistory(isChat, dialogId, offset) {
                     }
 
                     if (jsonObject.response[index].attachment) msg = "[вложение] " + msg
-                    formMessagesList(jsonObject.response[index].out, jsonObject.response[index].read_state, msg)
+                    formMessagesList(jsonObject.response[index].out,
+                                     jsonObject.response[index].read_state,
+                                     msg)
                 }
             }
             if (index > 1) scrollMessagesToBottom()

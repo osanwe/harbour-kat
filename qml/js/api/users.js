@@ -33,8 +33,12 @@ function getUsersAvatar(uid) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
             for (var index in jsonObject.response) {
-                var fullname = jsonObject.response[index].first_name + " " + jsonObject.response[index].last_name
-                updateDialogsList(index, jsonObject.response[index].photo_100, fullname, jsonObject.response[index].online)
+                var fullname = jsonObject.response[index].first_name + " " +
+                        jsonObject.response[index].last_name
+                updateDialogsList(index,
+                                  jsonObject.response[index].photo_100,
+                                  fullname,
+                                  jsonObject.response[index].online)
             }
             stopBusyIndicator()
         }

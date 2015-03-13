@@ -34,7 +34,10 @@ Dialog {
 
     function sendNewMessage() {
         if (currentContactsList.model.count === 1) {
-            MessagesAPI.sendMessage(false, currentContactsList.model.get(0).uid, newMessageText.text, true)
+            MessagesAPI.sendMessage(false,
+                                    currentContactsList.model.get(0).uid,
+                                    newMessageText.text,
+                                    true)
         } else {
             var ids = ""
             var index = 0
@@ -65,11 +68,16 @@ Dialog {
             width: parent.width
             placeholderText: "Добавить контакт"
 
-            onTextChanged: { searchContactsList.model.clear(); MessagesAPI.searchDialogs(text) }
+            onTextChanged: {
+                searchContactsList.model.clear();
+                MessagesAPI.searchDialogs(text)
+            }
         }
 
         model: ListModel {
-            Component.onCompleted: { clear(); MessagesAPI.searchDialogs("") }
+            Component.onCompleted: {
+                clear(); MessagesAPI.searchDialogs("")
+            }
         }
 
         delegate: BackgroundItem {
@@ -126,7 +134,6 @@ Dialog {
                 return 0
         }
 
-//        height: contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
         spacing: 6
         clip: true
         orientation: ListView.Horizontal
@@ -155,7 +162,8 @@ Dialog {
                 onPressAndHold: {
                     console.log(index)
                     if (!contextMenu)
-                        contextMenu = contextMenuComponent.createObject(currentContactsList, {index: index})
+                        contextMenu = contextMenuComponent.createObject(currentContactsList,
+                                                                        {index: index})
                     contextMenu.show(myListItem)
                 }
             }
