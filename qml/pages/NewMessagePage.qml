@@ -13,7 +13,7 @@ Dialog {
 
     function sendNewMessage() {
         if (currentContactsList.model.count === 1) {
-            MessagesAPI.sendMessage(false, currentContactsList.model.get(0).uid, newMessageText.text)
+            MessagesAPI.sendMessage(false, currentContactsList.model.get(0).uid, newMessageText.text, true)
         } else {
             var ids = ""
             var index = 0

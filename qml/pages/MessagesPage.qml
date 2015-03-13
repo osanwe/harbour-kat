@@ -44,7 +44,7 @@ Page {
     property int dialogsOffset: 0
 
     function initialize() {
-        StorageJS.initDatabase()
+//        StorageJS.initDatabase()
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {
@@ -134,7 +134,7 @@ Page {
         if (status === PageStatus.Active) doMainMenuItem()
     }
 
-    Component.onCompleted: initialize()
+    Component.onCompleted: StorageJS.initDatabase()
 }
 
 

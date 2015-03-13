@@ -45,7 +45,7 @@ function getDialogs(offset) {
     doc.send()
 }
 
-function sendMessage(isChat, dialogId, message) {
+function sendMessage(isChat, dialogId, message, isNew) {
     var url = "https://api.vk.com/method/"
     url += "messages.send?"
     if (isChat) {
@@ -58,6 +58,11 @@ function sendMessage(isChat, dialogId, message) {
     console.log(url)
 
     var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            if (!isNew) getHistory(isChat, dialogId, messagesOffset)
+        }
+    }
     doc.open("GET", url, true)
     doc.send()
 }
@@ -75,7 +80,7 @@ function sendGroupMessage(ids, message) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
-            sendMessage(true, jsonObject.response, message)
+            sendMessage(true, jsonObject.response, message, true)
         }
     }
     doc.open("GET", url, true)

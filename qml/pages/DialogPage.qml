@@ -14,11 +14,11 @@ Page {
 
     function sendMessage() {
         console.log("Send: " + messageInput.text)
-        MessagesAPI.sendMessage(isChat, dialogId, messageInput.text)
+        MessagesAPI.sendMessage(isChat, dialogId, messageInput.text, false)
         messages.model.clear()
         messageInput.text = ""
         messagesOffset = 0
-        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+//        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
     }
 
     function formMessagesList(io, readState, text) {
@@ -51,9 +51,6 @@ Page {
             model: ListModel {}
 
             header: Button {
-//                anchors.centerIn: parent
-//                anchors.left: parent.left
-//                anchors.right: parent.right
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 3 * 2
                 text: "Загрузить больше"
