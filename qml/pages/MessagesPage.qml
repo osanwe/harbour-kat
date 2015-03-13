@@ -67,7 +67,6 @@ Page {
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
-//        dialogsOffset = dialogsOffset + 1
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ io: io,
@@ -102,7 +101,7 @@ Page {
 //            MenuItem {
 //                id: settingsItem
 //                text: "Настройки"
-////                onClicked: doMainMenuItem()
+//                onClicked: doMainMenuItem()
 //            }
             MenuItem {
                 id: newMessageItem
@@ -121,9 +120,6 @@ Page {
         }
 
         footer: Button {
-//            anchors.centerIn: parent
-//            anchors.left: parent.left
-//            anchors.right: parent.right
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
             text: "Загрузить больше"
@@ -131,6 +127,11 @@ Page {
         }
 
         VerticalScrollDecorator {}
+    }
+
+    onStatusChanged: {
+        console.log("MessagesPage status = " + status)
+        if (status === PageStatus.Active) doMainMenuItem()
     }
 
     Component.onCompleted: initialize()
