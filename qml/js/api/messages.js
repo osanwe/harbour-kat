@@ -101,14 +101,14 @@ function getHistory(isCha, dialogId) {
             for (var index in jsonObject.response) {
                 if (index > 0) {
                     var msg = ""
-                    var msgParts = jsonObject.response[index].body.split()
+                    var msgParts = jsonObject.response[index].body.split(" ")
                     var idx = 0
                     while (idx < msgParts.length) {
                         console.log(msgParts[idx])
                         if (msgParts[idx].search("http") === 0) {
                             msg = msg + " <a href=\"" + msgParts[idx] + "\">" + msgParts[idx] + "</a>"
                         } else {
-                            msg = msg + msgParts[idx]
+                            msg = msg + " " + msgParts[idx]
                         }
                         idx = idx + 1
                     }
