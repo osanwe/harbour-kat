@@ -40,12 +40,17 @@ import "../js/api/users.js" as UsersAPI
 Page {
     id: startPage
 
+    property int chatsCounter: 0
+    property int dialogsOffset: 0
+
     function initialize() {
         StorageJS.initDatabase()
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {
-            MessagesAPI.getDialogs(0)
+            dialogsOffset = 0
+            messagesList.model.clear()  // TODO: Oh, really?!
+            MessagesAPI.getDialogs(dialogsOffset)
         }
     }
 
@@ -54,13 +59,15 @@ Page {
             console.log("Refreshing")
             messagesList.model.clear()  // TODO: Oh, really?!
             chatsCounter = 0
-            MessagesAPI.getDialogs(0)
+            dialogsOffset = 0
+            MessagesAPI.getDialogs(dialogsOffset)
         } else {
             console.log("You have to sign in")
         }
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
+//        dialogsOffset = dialogsOffset + 1
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ io: io,
@@ -73,12 +80,11 @@ Page {
                                       isChat: isChat })
     }
 
-    property int chatsCounter: 0
     function updateDialogsList(index, avatarURL, fullname, online) {
-        while (messagesList.model.get(parseInt(index, 10)+chatsCounter).isChat) chatsCounter += 1
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "avatarSource", avatarURL)
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "nameOrTitle", fullname)
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter, "isOnline", online)
+        while (messagesList.model.get(parseInt(index, 10)+chatsCounter+dialogsOffset).isChat) chatsCounter += 1
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "avatarSource", avatarURL)
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "nameOrTitle", fullname)
+        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "isOnline", online)
     }
 
     SilicaListView {
@@ -114,10 +120,16 @@ Page {
             title: "Сообщения"
         }
 
+        footer: Button {
+            anchors.centerIn: parent
+            text: "Загрузить больше"
+            onClicked: { dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
+        }
+
         VerticalScrollDecorator {}
     }
 
-    onPageContainerChanged: initialize()
+    Component.onCompleted: initialize()
 }
 
 
