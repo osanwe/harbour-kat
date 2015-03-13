@@ -10,12 +10,15 @@ Page {
     property int dialogId
     property bool isChat
 
+    property int messagesOffset: 0
+
     function sendMessage() {
         console.log("Send: " + messageInput.text)
         MessagesAPI.sendMessage(isChat, dialogId, messageInput.text)
         messages.model.clear()
         messageInput.text = ""
-        MessagesAPI.getHistory(isChat, dialogId)
+        messagesOffset = 0
+        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
     }
 
     function formMessagesList(io, readState, text) {
@@ -24,7 +27,10 @@ Page {
     }
 
     function scrollMessagesToBottom() {
-        messages.positionViewAtEnd()
+        if (messagesOffset === 0)
+            messages.positionViewAtEnd()
+        else
+            messages.positionViewAtIndex(49, ListView.Beginning)
     }
 
     SilicaFlickable {
@@ -41,7 +47,15 @@ Page {
             anchors.topMargin: dialogTitle.height
             anchors.bottomMargin: messageInput.height
             clip: true
+
             model: ListModel {}
+
+            header: Button {
+                anchors.centerIn: parent
+                text: "Загрузить больше"
+                onClicked: { messagesOffset = messagesOffset + 50; MessagesAPI.getHistory(isChat, dialogId, messagesOffset) }
+            }
+
             delegate: MessageItem {}
         }
 
@@ -62,7 +76,8 @@ Page {
                 text: "Обновить"
                 onClicked: {
                     messages.model.clear()
-                    MessagesAPI.getHistory(isChat, dialogId)
+                    messagesOffset = 0
+                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
                 }
             }
         }
@@ -70,5 +85,5 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    onPageContainerChanged: MessagesAPI.getHistory(isChat, dialogId)
+    Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
 }

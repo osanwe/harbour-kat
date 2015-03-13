@@ -82,7 +82,7 @@ function sendGroupMessage(ids, message) {
     doc.send()
 }
 
-function getHistory(isCha, dialogId) {
+function getHistory(isChat, dialogId, offset) {
     var url = "https://api.vk.com/method/"
     url += "messages.getHistory?"
     if (isChat) {
@@ -90,6 +90,8 @@ function getHistory(isCha, dialogId) {
     } else {
         url += "user_id=" + dialogId
     }
+    url += "&offset=" + offset
+    url += "&count=50"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
