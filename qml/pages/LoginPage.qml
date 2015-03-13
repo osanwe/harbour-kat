@@ -34,7 +34,6 @@ Dialog {
             console.log(AuthJS.accessToken)
             StorageJS.storeSettingsValue("access_token", AuthJS.accessToken)
             StorageJS.storeSettingsValue("user_id", AuthJS.userId)
-            MessagesAPI.getDialogs(0)
             loginView.stop()
             loginPage.close()
         }

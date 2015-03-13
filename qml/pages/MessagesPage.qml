@@ -35,7 +35,6 @@ Page {
     property int dialogsOffset: 0
 
     function initialize() {
-//        StorageJS.initDatabase()
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {
@@ -66,20 +65,27 @@ Page {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
         messagesList.model.append({ io: io,
-                                      avatarSource: "image://theme/icon-cover-message",
-                                      nameOrTitle: title,
-                                      lastMessage: message,
-                                      dialogId: dialogId,
-                                      readState: readState,
-                                      isOnline: false,
-                                      isChat: isChat })
+                                    avatarSource: "image://theme/icon-cover-message",
+                                    nameOrTitle: title,
+                                    lastMessage: message,
+                                    dialogId: dialogId,
+                                    readState: readState,
+                                    isOnline: false,
+                                    isChat: isChat })
     }
 
     function updateDialogsList(index, avatarURL, fullname, online) {
-        while (messagesList.model.get(parseInt(index, 10)+chatsCounter+dialogsOffset).isChat) chatsCounter += 1
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "avatarSource", avatarURL)
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "nameOrTitle", fullname)
-        messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "isOnline", online)
+        while (messagesList.model.get(parseInt(index, 10)+chatsCounter+dialogsOffset).isChat)
+            chatsCounter += 1
+        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter+dialogsOffset,
+                                       "avatarSource",
+                                       avatarURL)
+        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
+                                       "nameOrTitle",
+                                       fullname)
+        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
+                                       "isOnline",
+                                       online)
     }
 
     function stopBusyIndicator() {
@@ -97,25 +103,31 @@ Page {
     SilicaListView {
         id: messagesList
         anchors.fill: parent
+
         model: ListModel {}
-        delegate: DialogItem { id: dialogItem }
+
+        delegate: DialogItem {}
 
         PullDownMenu {
+
             MenuItem {
                 id: aboutItem
                 text: "О программе"
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
+
 //            MenuItem {
 //                id: settingsItem
 //                text: "Настройки"
 //                onClicked: doMainMenuItem()
 //            }
+
             MenuItem {
                 id: newMessageItem
                 text: "Новое сообщение"
                 onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))
             }
+
             MenuItem {
                 id: mainMenuItem
                 text: "Обновить"
@@ -131,17 +143,19 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
             text: "Загрузить больше"
-            onClicked: { loadingDialogsIndicator.running = true; dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
+
+            onClicked: {
+                loadingDialogsIndicator.running = true
+                dialogsOffset = dialogsOffset + 20
+                chatsCounter = 0
+                MessagesAPI.getDialogs(dialogsOffset)
+            }
         }
 
         VerticalScrollDecorator {}
     }
 
-    onStatusChanged: {
-        console.log("MessagesPage status = " + status)
-        if (status === PageStatus.Active) initialize()
-    }
-
+    onStatusChanged: if (status === PageStatus.Active) initialize()
     Component.onCompleted: StorageJS.initDatabase()
 }
 
