@@ -63,9 +63,23 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
 
-            onTriggered: MessagesAPI.getUnreadMessagesCount()
+            onTriggered: {
+                MessagesAPI.getUnreadMessagesCount()
+                updateTimer.restart()
+            }
         }
     }
+
+    Timer {
+        id: updateTimer
+        interval: 900000
+        running: true
+        repeat: true
+
+        onTriggered: MessagesAPI.getUnreadMessagesCount()
+    }
+
+    Component.onCompleted: MessagesAPI.getUnreadMessagesCount()
 }
 
 
