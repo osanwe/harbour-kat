@@ -39,7 +39,8 @@ OTHER_FILES += qml/vkFish.qml \
     qml/pages/DialogPage.qml \
     qml/views/MessageItem.qml \
     qml/pages/AboutPage.qml \
-    qml/pages/NewMessagePage.qml
+    qml/pages/NewMessagePage.qml \
+    COPYING
 
 # to disable building translations every time, comment out the
 # following CONFIG line
