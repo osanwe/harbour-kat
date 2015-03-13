@@ -58,9 +58,13 @@ function getDialogs(offset) {
                                     isChat)
                 }
             }
-            uids = uids.substring(1)
-            chatsUids = chatsUids.substring(1)
-            UsersAPI.getUsersAvatar(uids)
+            if (uids.length === 0 && chatsUids.length === 0) {
+                stopBusyIndicator()
+            } else {
+                uids = uids.substring(1)
+                chatsUids = chatsUids.substring(1)
+                UsersAPI.getUsersAvatar(uids)
+            }
         }
     }
     doc.open("GET", url, true)
