@@ -86,7 +86,14 @@ Dialog {
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         anchors.bottom: newMessageText.top
-        height: contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
+        height: {
+            if (model.count > 0)
+                return contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
+            else
+                return 0
+        }
+
+//        height: contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
         spacing: 6
         clip: true
         orientation: ListView.Horizontal
