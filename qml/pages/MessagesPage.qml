@@ -49,6 +49,9 @@ Page {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {
             dialogsOffset = 0
+            chatsCounter = 0
+            loadingDialogsIndicator.running = true
+            messagesList.footerItem.visible = false
             messagesList.model.clear()  // TODO: Oh, really?!
             MessagesAPI.getDialogs(dialogsOffset)
         }
@@ -57,6 +60,8 @@ Page {
     function doMainMenuItem() {
         if (StorageJS.readSettingsValue("user_id")) {
             console.log("Refreshing")
+            loadingDialogsIndicator.running = true
+            messagesList.footerItem.visible = false
             messagesList.model.clear()  // TODO: Oh, really?!
             chatsCounter = 0
             dialogsOffset = 0
@@ -84,6 +89,18 @@ Page {
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "avatarSource", avatarURL)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "nameOrTitle", fullname)
         messagesList.model.setProperty(parseInt(index, 10)+chatsCounter+dialogsOffset, "isOnline", online)
+    }
+
+    function stopBusyIndicator() {
+        messagesList.footerItem.visible = true
+        loadingDialogsIndicator.running = false
+    }
+
+    BusyIndicator {
+        id: loadingDialogsIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: true
     }
 
     SilicaListView {
@@ -123,7 +140,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
             text: "Загрузить больше"
-            onClicked: { dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
+            onClicked: { loadingDialogsIndicator.running = true; dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
         }
 
         VerticalScrollDecorator {}
@@ -131,7 +148,7 @@ Page {
 
     onStatusChanged: {
         console.log("MessagesPage status = " + status)
-        if (status === PageStatus.Active) doMainMenuItem()
+        if (status === PageStatus.Active) initialize()
     }
 
     Component.onCompleted: StorageJS.initDatabase()

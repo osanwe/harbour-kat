@@ -15,6 +15,7 @@ function getUsersAvatar(uid) {
                 var fullname = jsonObject.response[index].first_name + " " + jsonObject.response[index].last_name
                 updateDialogsList(index, jsonObject.response[index].photo_100, fullname, jsonObject.response[index].online)
             }
+            stopBusyIndicator()
         }
     }
     doc.open("GET", url, true)
