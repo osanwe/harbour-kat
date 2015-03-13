@@ -2,7 +2,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 BackgroundItem{
-    height: messageText.height
+    height: messageText.height + Theme.paddingMedium
     anchors.left: parent.left
     anchors.right: parent.right
     highlighted: io === 0 & readState === 0

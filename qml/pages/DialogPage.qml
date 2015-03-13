@@ -67,6 +67,7 @@ Page {
             }
         }
 
+        VerticalScrollDecorator {}
     }
 
     onPageContainerChanged: MessagesAPI.getHistory(isChat, dialogId)
