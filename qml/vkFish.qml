@@ -31,6 +31,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
+import "js/api/messages.js" as MessagesAPI
 
 ApplicationWindow
 {
@@ -38,6 +39,14 @@ ApplicationWindow
 
     initialPage: Component { MessagesPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
+
+//    Timer {
+//        interval: 1000
+//        running: true
+//        repeat: true
+
+//        onTriggered: {MessagesAPI.getUnreadMessagesCount(); doMainMenuItem() }
+//    }
 }
 
 

@@ -52,6 +52,10 @@ Page {
 
             header: Button {
 //                anchors.centerIn: parent
+//                anchors.left: parent.left
+//                anchors.right: parent.right
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width / 3 * 2
                 text: "Загрузить больше"
                 onClicked: { messagesOffset = messagesOffset + 50; MessagesAPI.getHistory(isChat, dialogId, messagesOffset) }
             }

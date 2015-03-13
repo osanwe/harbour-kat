@@ -99,11 +99,11 @@ Page {
                 text: "О программе"
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
-            MenuItem {
-                id: settingsItem
-                text: "Настройки"
-//                onClicked: doMainMenuItem()
-            }
+//            MenuItem {
+//                id: settingsItem
+//                text: "Настройки"
+////                onClicked: doMainMenuItem()
+//            }
             MenuItem {
                 id: newMessageItem
                 text: "Новое сообщение"
@@ -122,6 +122,10 @@ Page {
 
         footer: Button {
 //            anchors.centerIn: parent
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width / 3 * 2
             text: "Загрузить больше"
             onClicked: { dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
         }
