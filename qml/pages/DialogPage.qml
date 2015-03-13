@@ -90,4 +90,5 @@ Page {
     }
 
     Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+    Component.onDestruction: MessagesAPI.markDialogAsRead(dialogId)
 }

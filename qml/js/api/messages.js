@@ -175,3 +175,15 @@ function searchDialogs(substring) {
     doc.open("GET", url, true)
     doc.send()
 }
+
+function markDialogAsRead(uid) {
+    var url = "https://api.vk.com/method/"
+    url += "messages.markAsRead?"
+    url += "peer_id=" + uid
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.open("GET", url, true)
+    doc.send()
+}
