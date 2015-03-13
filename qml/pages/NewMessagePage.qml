@@ -7,8 +7,8 @@ Dialog {
 
     property Item contextMenu
 
-    function updateSearchContactsList(uid, name, photo) {
-        searchContactsList.model.append({ uid: uid, name: name, photo: photo })
+    function updateSearchContactsList(uid, name, photo, isOnline) {
+        searchContactsList.model.append({ uid: uid, name: name, photo: photo, isOnline: isOnline })
     }
 
     function sendNewMessage() {
@@ -58,9 +58,21 @@ Dialog {
             anchors.rightMargin: Theme.paddingLarge
             height: Theme.itemSizeSmall
 
-            Label {
+            Row {
                 anchors.fill: parent
-                text: name
+                spacing: 6
+
+                Switch {
+                    height: contactName.height
+                    width: height
+                    automaticCheck: false
+                    checked: isOnline
+                }
+
+                Label {
+                    id: contactName
+                    text: name
+                }
             }
 
             onClicked: {
