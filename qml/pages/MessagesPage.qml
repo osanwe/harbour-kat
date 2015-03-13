@@ -121,7 +121,7 @@ Page {
         }
 
         footer: Button {
-            anchors.centerIn: parent
+//            anchors.centerIn: parent
             text: "Загрузить больше"
             onClicked: { dialogsOffset = dialogsOffset + 20; chatsCounter = 0; MessagesAPI.getDialogs(dialogsOffset) }
         }

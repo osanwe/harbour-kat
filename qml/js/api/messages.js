@@ -119,7 +119,7 @@ function getHistory(isChat, dialogId, offset) {
                     formMessagesList(jsonObject.response[index].out, jsonObject.response[index].read_state, msg)
                 }
             }
-            scrollMessagesToBottom()
+            if (index > 1) scrollMessagesToBottom()
         }
     }
     doc.open("GET", url, true)

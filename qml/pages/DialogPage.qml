@@ -51,7 +51,7 @@ Page {
             model: ListModel {}
 
             header: Button {
-                anchors.centerIn: parent
+//                anchors.centerIn: parent
                 text: "Загрузить больше"
                 onClicked: { messagesOffset = messagesOffset + 50; MessagesAPI.getHistory(isChat, dialogId, messagesOffset) }
             }
