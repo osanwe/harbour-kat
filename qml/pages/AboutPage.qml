@@ -25,58 +25,57 @@ import Sailfish.Silica 1.0
 Page {
     id: aboutPage
 
-    SilicaFlickable {
+    SilicaListView {
         anchors.fill: parent
 
-        PageHeader {
-            id: versionLabel
-            title: "vkFish v0.1"
+        model: ListModel {
+
+            ListElement {
+                aboutItemText: "Неофициальный клиент для социальной сети ВКонтакте, \
+                                разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">\
+                                Linux User Group Удмуртия</a> и распространяемый под лицензией GNU \
+                                GPLv3."
+            }
+
+            ListElement {
+                aboutItemText: "Страница проекта"
+            }
+
+            ListElement {
+                aboutItemText: "GitHub"
+            }
+
+            ListElement {
+                aboutItemText: "<a href=\"https://twitter.com/Osanwe\">Ósanwe</a>"
+            }
+
+            ListElement {
+                aboutItemText: "<a href=\"https://m.vk.com/nostariel\">Nostariel</a>"
+            }
         }
 
-        Label {
-            id: shortInfo
-            anchors.top: versionLabel.bottom
+        header: PageHeader {
+            title: "vkFish v0.1.0"
+        }
+
+        delegate: Item {
             anchors.horizontalCenter: parent.horizontalCenter
+            height: aboutItem.height + Theme.paddingMedium
             width: parent.width - 30
-            textFormat: Text.StyledText
-            linkColor: Theme.highlightColor
-            text: "Неофициальный клиент для социальной сети ВКонтакте, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a> и распространяемый под лицензией GNU GPLv3."
-            wrapMode: TextEdit.Wrap
 
-            onLinkActivated: Qt.openUrlExternally(link)
-        }
-
-        SilicaListView {
-            anchors.fill: parent
-            anchors.topMargin: versionLabel.height + shortInfo.height
-            width: parent.width
-            clip: true
-
-            model: ListModel {
-
-                ListElement {
-                    developerInfo: "<a href=\"https://twitter.com/Osanwe\">Ósanwe</a>"
-                }
-
-                ListElement {
-                    developerInfo: "<a href=\"https://m.vk.com/nostariel\">Nostariel</a>"
-                }
-            }
-
-            delegate: Item {
-                height: Theme.itemSizeSmall
-                width: parent.width
-
-                Label {
-                    id: developerName
-                    anchors.centerIn: parent
-                    textFormat: Text.StyledText
-                    linkColor: Theme.highlightColor
-                    text: developerInfo
-
-                    onLinkActivated: Qt.openUrlExternally(link)
-                }
+            Label {
+                id: aboutItem
+                anchors.left: parent.left
+                anchors.right: parent.right
+                horizontalAlignment: index > 0 ? Text.AlignHCenter : Text.AlignLeft
+                textFormat: Text.StyledText
+                linkColor: Theme.highlightColor
+                wrapMode: TextEdit.Wrap
+                onLinkActivated: Qt.openUrlExternally(link)
+                text: aboutItemText
             }
         }
+
+        VerticalScrollDecorator {}
     }
 }
