@@ -47,7 +47,9 @@ Dialog {
             onTextChanged: { searchContactsList.model.clear(); MessagesAPI.searchDialogs(text) }
         }
 
-        model: ListModel {}
+        model: ListModel {
+            Component.onCompleted: { clear(); MessagesAPI.searchDialogs("") }
+        }
 
         delegate: BackgroundItem {
             anchors.left: parent.left
