@@ -34,12 +34,10 @@ Page {
     property int messagesOffset: 0
 
     function sendMessage() {
-        console.log("Send: " + messageInput.text)
         MessagesAPI.sendMessage(isChat, dialogId, messageInput.text, false)
         messages.model.clear()
         messageInput.text = ""
         messagesOffset = 0
-//        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
     }
 
     function formMessagesList(io, readState, text) {
@@ -75,10 +73,15 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 3 * 2
                 text: "Загрузить больше"
-                onClicked: { messagesOffset = messagesOffset + 50; MessagesAPI.getHistory(isChat, dialogId, messagesOffset) }
+                onClicked: {
+                    messagesOffset = messagesOffset + 50;
+                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+                }
             }
 
             delegate: MessageItem {}
+
+            VerticalScrollDecorator {}
         }
 
         TextArea {
@@ -94,6 +97,7 @@ Page {
         }
 
         PushUpMenu {
+
             MenuItem {
                 text: "Обновить"
                 onClicked: {
@@ -102,11 +106,19 @@ Page {
                     MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
                 }
             }
+
+            MenuItem {
+                text: "Отметить прочитанным"
+                onClicked: {
+                    messages.model.clear()
+                    messagesOffset = 0
+                    MessagesAPI.markDialogAsRead(isChat, dialogId)
+                }
+            }
         }
 
         VerticalScrollDecorator {}
     }
 
     Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
-    Component.onDestruction: MessagesAPI.markDialogAsRead(dialogId)
 }

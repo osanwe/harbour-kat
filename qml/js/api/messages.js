@@ -202,7 +202,7 @@ function searchDialogs(substring) {
     doc.send()
 }
 
-function markDialogAsRead(uid) {
+function markDialogAsRead(isChat, uid) {
     var url = "https://api.vk.com/method/"
     url += "messages.markAsRead?"
     url += "peer_id=" + uid
@@ -210,6 +210,11 @@ function markDialogAsRead(uid) {
     console.log(url)
 
     var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            getHistory(isChat, uid, 0)
+        }
+    }
     doc.open("GET", url, true)
     doc.send()
 }
