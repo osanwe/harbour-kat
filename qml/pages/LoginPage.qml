@@ -23,7 +23,6 @@ import QtQuick 2.0
 import QtQuick.LocalStorage 2.0
 import Sailfish.Silica 1.0
 import "../js/auth.js" as AuthJS
-import "../js/api/messages.js" as MessagesAPI
 import "../js/storage.js" as StorageJS
 
 
@@ -44,7 +43,12 @@ Dialog {
     SilicaWebView {
         id: loginView
         anchors.fill: parent
-        url: "https://oauth.vk.com/authorize?client_id=4803503&scope=messages,offline&redirect_uri=https://oauth.vk.com/blank.html&display=mobile&response_type=token"
+        url: "https://oauth.vk.com/authorize?" +
+             "client_id=4803503" +
+             "&scope=messages,offline" +
+             "&redirect_uri=https://oauth.vk.com/blank.html" +
+             "&display=mobile" +
+             "&response_type=token"
 
         onUrlChanged: checkUrl(url)
     }

@@ -30,7 +30,7 @@ function initDatabase() {
     var db = getDatabase()
     db.transaction( function(tx) {
         console.log("... create tables")
-//        tx.executeSql("DROP TABLE settings")
+        tx.executeSql("DROP TABLE settings")
         tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
     })
 }
