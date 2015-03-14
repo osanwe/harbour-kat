@@ -152,6 +152,7 @@ function getHistory(isChat, dialogId, offset) {
                                      msg)
                 }
             }
+            stopLoadingMessagesIndicator()
             if (index > 1) scrollMessagesToBottom()
         }
     }

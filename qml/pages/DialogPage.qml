@@ -52,6 +52,17 @@ Page {
             messages.positionViewAtIndex(49, ListView.Beginning)
     }
 
+    function stopLoadingMessagesIndicator() {
+        loadingMessagesIndicator.running = false
+    }
+
+    BusyIndicator {
+        id: loadingMessagesIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: true
+    }
+
     SilicaFlickable {
         anchors.fill: parent
 
@@ -72,8 +83,9 @@ Page {
             header: Button {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 3 * 2
-                text: "Загрузить больше"
+                text: qsTr("Загрузить больше")
                 onClicked: {
+                    loadingMessagesIndicator.running = true
                     messagesOffset = messagesOffset + 50;
                     MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
                 }
@@ -88,8 +100,8 @@ Page {
             id: messageInput
             width: parent.width
             anchors.bottom: parent.bottom
-            placeholderText: "Сообщение:"
-            label: "Сообщение:"
+            placeholderText: qsTr("Сообщение:")
+            label: qsTr("Сообщение:")
 
             EnterKey.enabled: text.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
@@ -99,19 +111,21 @@ Page {
         PushUpMenu {
 
             MenuItem {
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: {
                     messages.model.clear()
                     messagesOffset = 0
+                    loadingMessagesIndicator.running = true
                     MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
                 }
             }
 
             MenuItem {
-                text: "Отметить прочитанным"
+                text: qsTr("Отметить прочитанным")
                 onClicked: {
                     messages.model.clear()
                     messagesOffset = 0
+                    loadingMessagesIndicator.running = true
                     MessagesAPI.markDialogAsRead(isChat, dialogId)
                 }
             }

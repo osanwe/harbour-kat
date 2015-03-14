@@ -49,7 +49,6 @@ Page {
 
     function doMainMenuItem() {
         if (StorageJS.readSettingsValue("user_id")) {
-            console.log("Refreshing")
             loadingDialogsIndicator.running = true
             messagesList.footerItem.visible = false
             messagesList.model.clear()  // TODO: Oh, really?!
@@ -78,14 +77,11 @@ Page {
         while (messagesList.model.get(parseInt(index, 10)+chatsCounter+dialogsOffset).isChat)
             chatsCounter += 1
         messagesList.model.setProperty(parseInt(index, 10) + chatsCounter+dialogsOffset,
-                                       "avatarSource",
-                                       avatarURL)
+                                       "avatarSource", avatarURL)
         messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                                       "nameOrTitle",
-                                       fullname)
+                                       "nameOrTitle", fullname)
         messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                                       "isOnline",
-                                       online)
+                                       "isOnline", online)
     }
 
     function stopBusyIndicator() {
@@ -112,7 +108,7 @@ Page {
 
             MenuItem {
                 id: aboutItem
-                text: "О программе"
+                text: qsTr("О программе")
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
 
@@ -124,25 +120,25 @@ Page {
 
             MenuItem {
                 id: newMessageItem
-                text: "Новое сообщение"
+                text: qsTr("Новое сообщение")
                 onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))
             }
 
             MenuItem {
                 id: mainMenuItem
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: doMainMenuItem()
             }
         }
 
         header: PageHeader {
-            title: "Сообщения"
+            title: qsTr("Сообщения")
         }
 
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
-            text: "Загрузить больше"
+            text: qsTr("Загрузить больше")
 
             onClicked: {
                 loadingDialogsIndicator.running = true

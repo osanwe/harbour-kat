@@ -31,31 +31,31 @@ Page {
         model: ListModel {
 
             ListElement {
-                aboutItemText: "Неофициальный клиент для социальной сети ВКонтакте, \
-                                разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">\
-                                Linux User Group Удмуртия</a> и распространяемый под лицензией GNU \
-                                GPLv3."
+                aboutItemText: qsTr("Неофициальный клиент для социальной сети ВКонтакте, \
+                                     разрабатываемый силами \
+                                     <a href=\"https://udmlug.wordpress.com/\">Linux User Group \
+                                     Удмуртия</a> и распространяемый под лицензией GNU GPLv3.")
             }
 
             ListElement {
-                aboutItemText: "Страница проекта"
+                aboutItemText: qsTr("Страница проекта")
             }
 
             ListElement {
-                aboutItemText: "GitHub"
+                aboutItemText: qsTr("GitHub")
             }
 
             ListElement {
-                aboutItemText: "<a href=\"https://twitter.com/Osanwe\">Ósanwe</a>"
+                aboutItemText: qsTr("<a href=\"https://twitter.com/Osanwe\">Ósanwe</a>")
             }
 
             ListElement {
-                aboutItemText: "<a href=\"https://m.vk.com/nostariel\">Nostariel</a>"
+                aboutItemText: qsTr("<a href=\"https://m.vk.com/nostariel\">Nostariel</a>")
             }
         }
 
         header: PageHeader {
-            title: "vkFish v0.1.0"
+            title: qsTr("vkFish v0.1.0")
         }
 
         delegate: Item {
