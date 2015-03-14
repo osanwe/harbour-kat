@@ -16,7 +16,7 @@ Summary:    The unofficial client for vk.com
 Version:    0.1.0
 Release:    1
 Group:      Qt/Qt
-License:    COPYING
+License:    LICENSE
 URL:        https://udmlug.wordpress.com/our-projects/vkfish/
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  vkFish.yaml
