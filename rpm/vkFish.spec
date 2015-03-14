@@ -17,7 +17,7 @@ Version:    0.1.0
 Release:    1
 Group:      Qt/Qt
 License:    COPYING
-URL:        http://example.org/
+URL:        https://udmlug.wordpress.com/our-projects/vkfish/
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  vkFish.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my SailfishOS Application
+The unofficial client for the social network VK developed by Linux User Group Udmurtia and shared under the terms of the GNU General Public Licence version 3.
 
 
 %prep
