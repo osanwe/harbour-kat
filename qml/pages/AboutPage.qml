@@ -39,7 +39,7 @@ Page {
             }
 
             ListElement {
-                aboutItemText: "GitHub"
+                aboutItemText: "<a href=\"https://github.com/osanwe/vkFish\">GitHub</a>"
             }
 
             ListElement {
