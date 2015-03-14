@@ -108,7 +108,7 @@ Page {
 
             MenuItem {
                 id: aboutItem
-                text: qsTr("О программе")
+                text: "О программе"
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
 
@@ -120,25 +120,25 @@ Page {
 
             MenuItem {
                 id: newMessageItem
-                text: qsTr("Новое сообщение")
+                text: "Новое сообщение"
                 onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))
             }
 
             MenuItem {
                 id: mainMenuItem
-                text: qsTr("Обновить")
+                text: "Обновить"
                 onClicked: doMainMenuItem()
             }
         }
 
         header: PageHeader {
-            title: qsTr("Сообщения")
+            title: "Сообщения"
         }
 
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
-            text: qsTr("Загрузить больше")
+            text: "Загрузить больше"
 
             onClicked: {
                 loadingDialogsIndicator.running = true

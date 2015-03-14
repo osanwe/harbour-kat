@@ -52,8 +52,8 @@ Dialog {
 
     DialogHeader {
         id: newMessageHeader
-        acceptText: qsTr("Написать")
-        cancelText: qsTr("Отменить")
+        acceptText: "Написать"
+        cancelText: "Отменить"
     }
 
     SilicaListView {
@@ -66,7 +66,7 @@ Dialog {
         currentIndex: -1
         header: SearchField {
             width: parent.width
-            placeholderText: qsTr("Найти контакт")
+            placeholderText: "Найти контакт"
 
             onTextChanged: {
                 searchContactsList.model.clear();
@@ -177,7 +177,7 @@ Dialog {
                 property string index
 
                 MenuItem {
-                    text: qsTr("Удалить")
+                    text: "Удалить"
                     onClicked: currentContactsList.model.remove(index)
                 }
 
@@ -190,8 +190,8 @@ Dialog {
         id: newMessageText
         anchors.bottom: parent.bottom
         width: parent.width
-        placeholderText: qsTr("Сообщение:")
-        label: qsTr("Сообщение:")
+        placeholderText: "Сообщение:"
+        label: "Сообщение"
     }
 
     onAccepted: sendNewMessage()

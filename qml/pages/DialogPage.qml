@@ -83,7 +83,7 @@ Page {
             header: Button {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 3 * 2
-                text: qsTr("Загрузить больше")
+                text: "Загрузить больше"
                 onClicked: {
                     loadingMessagesIndicator.running = true
                     messagesOffset = messagesOffset + 50;
@@ -100,8 +100,8 @@ Page {
             id: messageInput
             width: parent.width
             anchors.bottom: parent.bottom
-            placeholderText: qsTr("Сообщение:")
-            label: qsTr("Сообщение:")
+            placeholderText: "Сообщение:"
+            label: "Сообщение"
 
             EnterKey.enabled: text.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
@@ -111,7 +111,7 @@ Page {
         PushUpMenu {
 
             MenuItem {
-                text: qsTr("Обновить")
+                text: "Обновить"
                 onClicked: {
                     messages.model.clear()
                     messagesOffset = 0
@@ -121,7 +121,7 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Отметить прочитанным")
+                text: "Отметить прочитанным"
                 onClicked: {
                     messages.model.clear()
                     messagesOffset = 0

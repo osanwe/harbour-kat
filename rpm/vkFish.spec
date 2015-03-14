@@ -13,10 +13,10 @@ Name:       vkFish
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    The unofficial client for vk.com
-Version:    0.1
+Version:    0.1.0
 Release:    1
 Group:      Qt/Qt
-License:    LICENSE
+License:    COPYING
 URL:        http://example.org/
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  vkFish.yaml
