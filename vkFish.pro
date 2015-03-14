@@ -40,7 +40,9 @@ OTHER_FILES += qml/vkFish.qml \
     qml/views/MessageItem.qml \
     qml/pages/AboutPage.qml \
     qml/pages/NewMessagePage.qml \
-    COPYING
+    LICENSE \
+    README.md \
+    .gitignore
 
 # to disable building translations every time, comment out the
 # following CONFIG line
