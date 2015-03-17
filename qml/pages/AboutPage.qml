@@ -31,7 +31,7 @@ Page {
         model: ListModel {
 
             ListElement {
-                aboutItemText: "Неофициальный клиент для социальной сети ВКонтакте, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a>; и распространяемый под лицензией GNU GPLv3."
+                aboutItemText: "Неофициальный клиент для самой популярной российской социальной сети, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a>; и распространяемый под лицензией GNU GPLv3."
             }
 
             ListElement {
@@ -52,7 +52,7 @@ Page {
         }
 
         header: PageHeader {
-            title: "vkFish v0.1.0"
+            title: "Kat v0.1.0"
         }
 
         delegate: Item {

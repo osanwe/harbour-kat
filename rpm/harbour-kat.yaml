@@ -1,4 +1,4 @@
-Name: vkFish
+Name: harbour-kat
 Summary: The unofficial client for vk.com
 Version: 0.1.0
 Release: 1
@@ -12,7 +12,7 @@ License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  The unofficial client for the social network VK developed by Linux User Group Udmurtia and shared under the terms of the GNU General Public Licence version 3.
+  The unofficial client for the most popular social network developed by Linux User Group Udmurtia and shared under the terms of the GNU General Public Licence version 3.
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution

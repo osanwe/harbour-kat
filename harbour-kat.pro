@@ -10,19 +10,16 @@
 #   - translation filenames have to be changed
 
 # The name of your application
-TARGET = vkFish
+TARGET = harbour-kat
 
 CONFIG += sailfishapp
 
-SOURCES += src/vkFish.cpp
+SOURCES += \
+    src/harbour-kat.cpp
 
-OTHER_FILES += qml/vkFish.qml \
+OTHER_FILES += \
     qml/cover/CoverPage.qml \
-    rpm/vkFish.changes.in \
-    rpm/vkFish.spec \
-    rpm/vkFish.yaml \
     translations/*.ts \
-    vkFish.desktop \
     qml/pages/LoginPage.qml \
     qml/auth.js \
     qml/storage.js \
@@ -42,12 +39,17 @@ OTHER_FILES += qml/vkFish.qml \
     qml/pages/NewMessagePage.qml \
     LICENSE \
     README.md \
-    .gitignore
+    .gitignore \
+    qml/harbour-kat.qml \
+    harbour-kat.desktop \
+    rpm/harbour-kat.yaml \
+    rpm/harbour-kat.spec \
+    rpm/harbour-kat.changes.in
 
 # to disable building translations every time, comment out the
 # following CONFIG line
-CONFIG += sailfishapp_i18n
-TRANSLATIONS += translations/vkFish-de.ts
+#CONFIG += sailfishapp_i18n
+#TRANSLATIONS += translations/vkFish-de.ts
 
 HEADERS +=
 
