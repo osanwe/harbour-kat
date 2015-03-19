@@ -58,7 +58,7 @@ Page {
         delegate: Item {
             anchors.horizontalCenter: parent.horizontalCenter
             height: aboutItem.height + Theme.paddingMedium
-            width: parent.width - 30
+            width: parent.width - Theme.paddingLarge * 2
 
             Label {
                 id: aboutItem
