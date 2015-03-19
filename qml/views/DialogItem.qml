@@ -36,10 +36,11 @@ BackgroundItem {
     Image {
         id: avatar
         anchors.top: parent.top
+        anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.topMargin: 5
-        anchors.leftMargin: 10
-        height: parent.height - 10
+        anchors.topMargin: Theme.paddingSmall
+        anchors.bottomMargin: Theme.paddingSmall
+        anchors.leftMargin: Theme.paddingLarge
         width: height
         source: avatarSource
     }
@@ -47,11 +48,10 @@ BackgroundItem {
     Row {
         anchors.top: avatar.top
         anchors.left: avatar.right
-        anchors.topMargin: 5
-        anchors.leftMargin: 10
+        anchors.leftMargin: Theme.paddingMedium
         anchors.right: parent.right
-        anchors.rightMargin: 5
-        spacing: 6
+        anchors.rightMargin: Theme.paddingLarge
+        spacing: Theme.paddingMedium
 
         Switch {
             id: isUserOnline
@@ -74,10 +74,9 @@ BackgroundItem {
         id: messagePreview
         anchors.bottom: avatar.bottom
         anchors.left: avatar.right
-        anchors.bottomMargin: 5
-        anchors.leftMargin: 10
+        anchors.leftMargin: Theme.paddingMedium
         anchors.right: parent.right
-        anchors.rightMargin: 5
+        anchors.rightMargin: Theme.paddingLarge
         color: { readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor }
         text: lastMessage
         truncationMode: TruncationMode.Fade

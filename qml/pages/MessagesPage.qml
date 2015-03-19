@@ -99,6 +99,7 @@ Page {
     SilicaListView {
         id: messagesList
         anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingMedium
 
         model: ListModel {}
 
