@@ -31,11 +31,15 @@ Page {
         model: ListModel {
 
             ListElement {
-                aboutItemText: "Неофициальный клиент для самой популярной российской социальной сети, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a>; и распространяемый под лицензией GNU GPLv3."
+                aboutItemText: "Неофициальный клиент для самой популярной российской социальной сети, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a> и распространяемый под лицензией GNU GPLv3."
             }
 
             ListElement {
-                aboutItemText: "<a href=\"https://udmlug.wordpress.com/our-projects/vkfish/\">Project page</a>"
+                aboutItemText: "Со всеми возникающими вопросами, пожеланиями и предложениями можно обращаться по следующим ссылкам:"
+            }
+
+            ListElement {
+                aboutItemText: "<a href=\"https://udmlug.wordpress.com/our-projects/vkfish/\">Страница проекта</a>"
             }
 
             ListElement {
@@ -64,7 +68,7 @@ Page {
                 id: aboutItem
                 anchors.left: parent.left
                 anchors.right: parent.right
-                horizontalAlignment: index > 0 ? Text.AlignHCenter : Text.AlignLeft
+                horizontalAlignment: index > 1 ? Text.AlignHCenter : Text.AlignLeft
                 textFormat: Text.StyledText
                 linkColor: Theme.highlightColor
                 wrapMode: TextEdit.Wrap
