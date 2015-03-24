@@ -25,9 +25,9 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     anchors.left: parent.left
     anchors.right: parent.right
-    height: messageAvatar.height >= messageText.height ?
+    height: messageAvatar.height >= (messageText.height + datetimeText.height) ?
                 messageAvatar.height + 2 * Theme.paddingMedium :
-                messageText.height + 2 * Theme.paddingMedium
+                messageText.height + datetimeText.height + 2 * Theme.paddingMedium
     highlighted: io === 0 & readState === 0
 
     Separator {
@@ -53,17 +53,30 @@ BackgroundItem {
             source: avatarSource
         }
 
-        Label {
-            id: messageText
-            width: parent.width - messageAvatar.width - Theme.paddingLarge
-            horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
-            text: message
-            textFormat: Text.StyledText
-            linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
-            color: readState === 1 ? Theme.primaryColor : Theme.highlightColor
-            wrapMode: Text.Wrap
+        Column {
+            width: parent.width - messageAvatar.width - Theme.paddingMedium
 
-            onLinkActivated: Qt.openUrlExternally(link)
+            Label {
+                id: datetimeText
+                width: parent.width - Theme.paddingMedium
+                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                text: "24.03.2015 23:50"
+                font.pixelSize: Theme.fontSizeTiny
+                color: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+            }
+
+            Label {
+                id: messageText
+                width: parent.width - Theme.paddingMedium
+                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                text: message
+                textFormat: Text.StyledText
+                linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+                color: readState === 1 ? Theme.primaryColor : Theme.highlightColor
+                wrapMode: Text.Wrap
+
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
         }
 
     }
