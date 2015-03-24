@@ -31,6 +31,7 @@ Page {
     property int dialogId
     property bool isChat
     property bool isOnline
+    property string avatarSource
 
     property int messagesOffset: 0
 
@@ -43,7 +44,7 @@ Page {
 
     function formMessagesList(io, readState, text) {
         text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {io: io, readState: readState, message: text} )
+        messages.model.insert(0, {io: io, readState: readState, message: text, avatarSource: avatarSource } )
     }
 
     function scrollMessagesToBottom() {
@@ -155,6 +156,5 @@ Page {
 
     Component.onCompleted: {
         MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
-//        dialogTitle.extraContent.children.append(new Switch())
     }
 }

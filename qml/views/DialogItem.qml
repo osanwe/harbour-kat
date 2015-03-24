@@ -30,7 +30,8 @@ BackgroundItem {
     function loadDialogPage() {
         console.log("dialog id = " + dialogId)
         pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                       { "fullname": name.text, "dialogId": dialogId, "isChat": isChat, "isOnline": isOnline })
+                       { "fullname": name.text, "dialogId": dialogId, "isChat": isChat,
+                           "isOnline": isOnline, "avatarSource": avatarSource })
     }
 
     Image {
