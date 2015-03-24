@@ -45,9 +45,11 @@ Page {
         messagesOffset = 0
     }
 
-    function formMessagesList(io, readState, text) {
+    function formMessagesList(io, readState, text, datetime) {
         text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {io: io, readState: readState, message: text, avatarSource: avatarSource, userAvatar: userAvatar } )
+        messages.model.insert(0, {io: io, readState: readState, message: text,
+                                  avatarSource: avatarSource, userAvatar: userAvatar,
+                                  datetime: datetime } )
     }
 
     function scrollMessagesToBottom() {

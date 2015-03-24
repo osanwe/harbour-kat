@@ -145,11 +145,19 @@ function getHistory(isChat, dialogId, offset) {
                         }
                         idx = idx + 1
                     }
-
                     if (jsonObject.response[index].attachment) msg = "[вложение] " + msg
+
+                    var date = new Date()
+                    date.setTime(parseInt(jsonObject.response[index].date) * 1000)
+//                    date.setSeconds(parseInt(jsonObject.response[index].date))
+//                    date.valueOf(jsonObject.response[index].date)
+//                    date.setMilliseconds(parseInt(jsonObject.response[index].date))
+//                    date.setHours(date.getHours() - date.getTimezoneOffset() / 60)
+
                     formMessagesList(jsonObject.response[index].out,
                                      jsonObject.response[index].read_state,
-                                     msg)
+                                     msg,
+                                     date.toLocaleString())
                 }
             }
             stopLoadingMessagesIndicator()

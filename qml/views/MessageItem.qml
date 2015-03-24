@@ -64,7 +64,7 @@ BackgroundItem {
                 id: datetimeText
                 width: parent.width - Theme.paddingMedium
                 horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
-                text: "24.03.2015 23:50"
+                text: datetime
                 font.pixelSize: Theme.fontSizeTiny
                 color: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
             }
