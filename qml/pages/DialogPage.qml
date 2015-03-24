@@ -30,6 +30,7 @@ Page {
     property string fullname
     property int dialogId
     property bool isChat
+    property bool isOnline
 
     property int messagesOffset: 0
 
@@ -66,9 +67,27 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
-        PageHeader {
+        Label {
             id: dialogTitle
-            title: fullname
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.paddingLarge
+            font.pixelSize: Theme.fontSizeLarge
+            color: Theme.highlightColor
+            height: Theme.fontSizeLarge + 3 * Theme.paddingLarge
+            verticalAlignment: Text.AlignVCenter
+            text: fullname
+        }
+
+        Switch {
+            id: dialogOnlineStatus
+            anchors.verticalCenter: dialogTitle.verticalCenter
+            anchors.right: dialogTitle.left
+            anchors.rightMargin: Theme.paddingMedium
+            automaticCheck: false
+            height: Theme.fontSizeLarge
+            width: Theme.fontSizeLarge
+            checked: isOnline
         }
 
         SilicaListView {
@@ -134,5 +153,8 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+    Component.onCompleted: {
+        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+//        dialogTitle.extraContent.children.append(new Switch())
+    }
 }
