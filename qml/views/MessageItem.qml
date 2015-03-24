@@ -32,6 +32,10 @@ BackgroundItem {
 
     Separator {
         anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: Theme.paddingMedium
+        anchors.rightMargin: Theme.paddingMedium
         width: parent.width
         color: Theme.secondaryHighlightColor
     }
