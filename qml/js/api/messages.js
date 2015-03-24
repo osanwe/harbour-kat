@@ -63,7 +63,7 @@ function getDialogs(offset) {
             } else {
                 uids = uids.substring(1)
                 chatsUids = chatsUids.substring(1)
-                UsersAPI.getUsersAvatar(uids)
+                UsersAPI.getUsersAvatarAndOnlineStatus(uids)
             }
         }
     }

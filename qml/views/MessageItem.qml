@@ -50,7 +50,7 @@ BackgroundItem {
             id: messageAvatar
             height: Theme.itemSizeMedium - 2 * Theme.paddingSmall
             width: height
-            source: avatarSource
+            source: io === 0 ? avatarSource : userAvatar
         }
 
         Column {

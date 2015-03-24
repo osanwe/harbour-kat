@@ -22,7 +22,9 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
+import "../js/storage.js" as StorageJS
 import "../js/api/messages.js" as MessagesAPI
+import "../js/api/users.js" as UsersAPI
 
 Page {
     id: dialogPage
@@ -32,6 +34,7 @@ Page {
     property bool isChat
     property bool isOnline
     property string avatarSource
+    property string userAvatar
 
     property int messagesOffset: 0
 
@@ -44,7 +47,7 @@ Page {
 
     function formMessagesList(io, readState, text) {
         text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {io: io, readState: readState, message: text, avatarSource: avatarSource } )
+        messages.model.insert(0, {io: io, readState: readState, message: text, avatarSource: avatarSource, userAvatar: userAvatar } )
     }
 
     function scrollMessagesToBottom() {
@@ -56,6 +59,10 @@ Page {
 
     function stopLoadingMessagesIndicator() {
         loadingMessagesIndicator.running = false
+    }
+
+    function setUserAvatar(source) {
+        userAvatar = source
     }
 
     BusyIndicator {
@@ -155,6 +162,7 @@ Page {
     }
 
     Component.onCompleted: {
+        UsersAPI.getUserAvatar(StorageJS.readSettingsValue("user_id"))
         MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
     }
 }
