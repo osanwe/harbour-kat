@@ -61,6 +61,8 @@ Page {
 
     function stopLoadingMessagesIndicator() {
         loadingMessagesIndicator.running = false
+        if (isChat) pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
+                                               { "chatTitle": fullname, "dialogId": dialogId })
     }
 
     function setUserAvatar(source) {

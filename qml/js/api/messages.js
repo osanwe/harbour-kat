@@ -234,3 +234,31 @@ function markDialogAsRead(isChat, uid) {
     doc.open("GET", url, true)
     doc.send()
 }
+
+function getChatUsers(dialogId) {
+    var url = "https://api.vk.com/method/"
+    url += "messages.getChat?"
+    url += "chat_id=" + dialogId
+    url += "&fields=online,photo_100,status"
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            var jsonObject = JSON.parse(doc.responseText)
+            console.log(doc.responseText)
+            for (var index in jsonObject.response.users) {
+                var name = jsonObject.response.users[index].first_name
+                name += " " + jsonObject.response.users[index].last_name
+                appendUser(jsonObject.response.users[index].uid,
+                           name,
+                           jsonObject.response.users[index].photo_100,
+                           jsonObject.response.users[index].online,
+                           jsonObject.response.users[index].status)
+            }
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
+}
