@@ -153,6 +153,7 @@ function getHistory(isChat, dialogId, offset) {
                     if (jsonObject.response[index].attachments) {
                         attachments = attachments + "<br /><a href=\"#\">Вложения</a>"
                     }
+                    attachments = attachments.substring(6)
 
                     var date = new Date()
                     date.setTime(parseInt(jsonObject.response[index].date) * 1000)
