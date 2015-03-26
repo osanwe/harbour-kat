@@ -152,7 +152,6 @@ function getHistory(isChat, dialogId, offset) {
                         attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
                     }
                     if (jsonObject.response[index].attachments) {
-//                        attachments = attachments + "<br /><a href=\"#\">Вложения</a>"
                         var photosCounter = 0
                         var videosCounter = 0
                         var audiosCounter = 0
@@ -160,28 +159,11 @@ function getHistory(isChat, dialogId, offset) {
                         var wallsCounter = 0
                         for (var itemIdx in jsonObject.response[index].attachments)
                             switch (jsonObject.response[index].attachments[itemIdx].type) {
-                            case "photo":
-                                photosCounter = photosCounter + 1
-                                break
-
-                            case "video":
-                                videosCounter = videosCounter + 1
-                                break
-
-                            case "audio":
-                                audiosCounter = audiosCounter + 1
-                                break
-
-                            case "doc":
-                                docsCounter = docsCounter + 1
-                                break
-
-                            case "wall":
-                                wallsCounter = wallsCounter + 1
-                                break
-
-                            default:
-                                console.log(jsonObject.response[index].attachments[itemIdx].type)
+                                case "photo": photosCounter += 1; break
+                                case "video": videosCounter += 1; break
+                                case "audio": audiosCounter += 1; break
+                                case "doc": docsCounter += 1; break
+                                case "wall": wallsCounter += 1; break
                             }
                         if (photosCounter > 0) attachments += "<br /><a href=\"#\">Фотография (" + photosCounter + ")</a>"
                         if (videosCounter > 0) attachments += "<br /><a href=\"#\">Видео (" + videosCounter + ")</a>"
