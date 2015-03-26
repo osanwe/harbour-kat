@@ -145,15 +145,13 @@ function getHistory(isChat, dialogId, offset) {
                         }
                         idx = idx + 1
                     }
+
+                    var attachments = ""
                     if (jsonObject.response[index].fwd_messages) {
-                        msg = msg + "<br /><a href=\"#\">Пересланные сообщения</a>"
-//                        msg = "[сообщения] " + msg
-                        console.log(jsonObject.response[index].fwd_messages)
+                        attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
                     }
                     if (jsonObject.response[index].attachments) {
-                        msg = msg + "<br /><a href=\"#\">Вложения</a>"
-//                        msg = "[вложение] " + msg
-                        console.log(jsonObject.response[index].attachments)
+                        attachments = attachments + "<br /><a href=\"#\">Вложения</a>"
                     }
 
                     var date = new Date()
@@ -162,7 +160,8 @@ function getHistory(isChat, dialogId, offset) {
                     formMessagesList(jsonObject.response[index].out,
                                      jsonObject.response[index].read_state,
                                      msg,
-                                     date.toLocaleString())
+                                     date.toLocaleString(),
+                                     attachments)
                 }
             }
             stopLoadingMessagesIndicator()

@@ -23,11 +23,16 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 BackgroundItem {
+    id: messageItem
+
+    function calculateMessageItemHeight() {
+        var textHeight = datetimeText.height + messageText.height + attachmentsText.height
+        return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
+    }
+
     anchors.left: parent.left
     anchors.right: parent.right
-    height: messageAvatar.height >= (messageText.height + datetimeText.height) ?
-                messageAvatar.height + 2 * Theme.paddingMedium :
-                messageText.height + datetimeText.height + 2 * Theme.paddingMedium
+    height: calculateMessageItemHeight()
     highlighted: io === 0 & readState === 0
 
     Separator {
@@ -80,6 +85,16 @@ BackgroundItem {
                 wrapMode: Text.Wrap
 
                 onLinkActivated: Qt.openUrlExternally(link)
+            }
+
+            Label {
+                id: attachmentsText
+                width: parent.width - Theme.paddingMedium
+                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                text: attachments
+                font.pixelSize: Theme.fontSizeSmall
+                textFormat: Text.StyledText
+                linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
             }
         }
 
