@@ -189,6 +189,10 @@ function getHistory(isChat, dialogId, offset) {
                         if (docsCounter > 0) attachments += "<br /><a href=\"#\">Документ (" + docsCounter + ")</a>"
                         if (wallsCounter > 0) attachments += "<br /><a href=\"#\">Запись на стене (" + wallsCounter + ")</a>"
                     }
+                    if (jsonObject.response[index].geo) {
+                        attachments += "<br /><a href=\"#\">Карта</a>"
+                    }
+
                     attachments = attachments.substring(6)
 
                     var date = new Date()
