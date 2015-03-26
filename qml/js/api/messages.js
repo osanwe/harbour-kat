@@ -41,8 +41,10 @@ function getDialogs(offset) {
                     var dialogId = jsonObject.response[index].uid
                     var messageBody = jsonObject.response[index].body
                     var isChat = false
-                    if (jsonObject.response[index].attachment)
-                        messageBody = "[вложение] " + messageBody
+                    if (jsonObject.response[index].fwd_messages)
+                        messageBody = "[сообщения] " + messageBody
+                    if (jsonObject.response[index].attachments)
+                        messageBody = "[вложения] " + messageBody
                     if (jsonObject.response[index].chat_id) {
                         dialogId = jsonObject.response[index].chat_id
                         chatsUids += "," + jsonObject.response[index].uid
