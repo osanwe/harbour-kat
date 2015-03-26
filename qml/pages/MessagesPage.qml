@@ -63,11 +63,12 @@ Page {
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
-        messagesList.model.append({ io: io,
+        messagesList.model.append({ isDialog: true,
+                                    out: io,
                                     avatarSource: "image://theme/icon-cover-message",
                                     nameOrTitle: title,
-                                    lastMessage: message,
-                                    dialogId: dialogId,
+                                    previewText: message,
+                                    itemId: dialogId,
                                     readState: readState,
                                     isOnline: false,
                                     isChat: isChat })
@@ -103,7 +104,7 @@ Page {
 
         model: ListModel {}
 
-        delegate: DialogItem {}
+        delegate: UserItem {}
 
         PullDownMenu {
 

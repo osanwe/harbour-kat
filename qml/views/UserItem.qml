@@ -23,16 +23,31 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 BackgroundItem {
-    width: parent.width
-    height: Theme.itemSizeMedium
-    highlighted: io === 0 && readState === 0
+    /*
+      Common fields:
+          itemId       - id of user or dialog
+          isDialog     - true if it is a dialog, false - elsewise
+          avatarSource - URL of user avatar
+          isOnline     - online status of user
+          nameOrTitle  - user name or chat title
+          previewText  - the text for preview. It may be last message or user status
+
+      Dialogs' fields:
+          isChat       - true if the dialog is chat, false - elsewise
+          out          - true if last message is output, false - elsewise
+          readState    - true if the dialog was read
+    */
+    id: userItem
 
     function loadDialogPage() {
-        console.log("dialog id = " + dialogId)
         pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                       { "fullname": name.text, "dialogId": dialogId, "isChat": isChat,
+                       { "fullname": name.text, "dialogId": itemId, "isChat": isChat,
                            "isOnline": isOnline, "avatarSource": avatarSource })
     }
+
+    width: parent.width
+    height: Theme.itemSizeMedium
+    highlighted: isDialog && out === 0 && readState === 0
 
     Image {
         id: avatar
@@ -55,7 +70,7 @@ BackgroundItem {
         spacing: Theme.paddingMedium
 
         Switch {
-            id: isUserOnline
+            id: onlineStatus
             height: name.height
             width: height
             automaticCheck: false
@@ -64,7 +79,7 @@ BackgroundItem {
 
         Label {
             id: name
-            color: { readState === 0 && io === 0 ? Theme.highlightColor : Theme.primaryColor }
+            color: isDialog && readState === 0 && out === 0 ? Theme.highlightColor : Theme.primaryColor
             text: nameOrTitle
             truncationMode: TruncationMode.Fade
             font.bold: true
@@ -78,10 +93,10 @@ BackgroundItem {
         anchors.leftMargin: Theme.paddingMedium
         anchors.right: parent.right
         anchors.rightMargin: Theme.paddingLarge
-        color: { readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor }
-        text: lastMessage
+        color: !isDialog || readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        text: previewText
         truncationMode: TruncationMode.Fade
     }
 
-    onClicked: loadDialogPage()
+    onClicked: if (isDialog) loadDialogPage()
 }

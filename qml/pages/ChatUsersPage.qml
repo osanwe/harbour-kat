@@ -33,9 +33,10 @@ Page {
 
     function appendUser(uid, name, photo, isOnline, status) {
         usersList.model.append({ dialogId:     uid,
+                                 isDialog:     false,
                                  avatarSource: photo,
                                  nameOrTitle:  name,
-                                 lastMessage:  status,
+                                 previewText:  status,
                                  isOnline:     isOnline })
     }
 
@@ -46,7 +47,7 @@ Page {
 
         model: ListModel {}
 
-        delegate: ChatUserItem {}
+        delegate: UserItem {}
 
         header: PageHeader {
             title: chatTitle

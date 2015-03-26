@@ -30,7 +30,6 @@ OTHER_FILES += \
     qml/js/auth.js \
     qml/js/storage.js \
     qml/js/api/messages.js \
-    qml/views/DialogItem.qml \
     qml/js/api/users.js \
     qml/pages/MessagesPage.qml \
     qml/pages/DialogPage.qml \
@@ -46,7 +45,7 @@ OTHER_FILES += \
     rpm/harbour-kat.spec \
     rpm/harbour-kat.changes.in \
     qml/pages/ChatUsersPage.qml \
-    qml/views/ChatUserItem.qml
+    qml/views/UserItem.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line
