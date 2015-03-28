@@ -23,6 +23,10 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 BackgroundItem {
+    /*
+     out
+     readState
+    */
     id: messageItem
 
     function calculateMessageItemHeight() {
@@ -33,7 +37,7 @@ BackgroundItem {
     anchors.left: parent.left
     anchors.right: parent.right
     height: calculateMessageItemHeight()
-    highlighted: io === 0 & readState === 0
+    highlighted: out === 0 & readState === 0
 
     Separator {
         anchors.top: parent.top
@@ -41,7 +45,6 @@ BackgroundItem {
         anchors.right: parent.right
         anchors.leftMargin: Theme.paddingMedium
         anchors.rightMargin: Theme.paddingMedium
-        width: parent.width
         color: Theme.secondaryHighlightColor
     }
 
@@ -53,13 +56,13 @@ BackgroundItem {
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         spacing: Theme.paddingMedium
-        layoutDirection: io === 0 ? Qt.LeftToRight : Qt.RightToLeft
+        layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
 
         Image {
             id: messageAvatar
             height: Theme.itemSizeMedium - 2 * Theme.paddingSmall
             width: height
-            source: io === 0 ? avatarSource : userAvatar
+            source: out === 0 ? avatarSource : userAvatar
         }
 
         Column {
@@ -68,7 +71,7 @@ BackgroundItem {
             Label {
                 id: datetimeText
                 width: parent.width - Theme.paddingMedium
-                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: datetime
                 font.pixelSize: Theme.fontSizeTiny
                 color: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
@@ -77,7 +80,7 @@ BackgroundItem {
             Label {
                 id: messageText
                 width: parent.width - Theme.paddingMedium
-                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: message
                 textFormat: Text.StyledText
                 linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
@@ -90,7 +93,7 @@ BackgroundItem {
             Label {
                 id: attachmentsText
                 width: parent.width - Theme.paddingMedium
-                horizontalAlignment: io === 1 ? Text.AlignRight : Text.AlignLeft
+                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: attachments
                 font.pixelSize: Theme.fontSizeSmall
                 textFormat: Text.StyledText

@@ -45,9 +45,9 @@ Page {
         messagesOffset = 0
     }
 
-    function formMessagesList(io, readState, text, datetime, attachments) {
+    function formMessagesList(out, readState, text, datetime, attachments) {
         text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {io: io, readState: readState, message: text,
+        messages.model.insert(0, {out: out, readState: readState, message: text,
                                   avatarSource: avatarSource, userAvatar: userAvatar,
                                   datetime: datetime, attachments: attachments } )
     }

@@ -264,7 +264,7 @@ function markDialogAsRead(isChat, uid) {
 
 function getChatUsers(dialogId) {
     var url = "https://api.vk.com/method/"
-    url += "messages.getChat?"
+    url += "messages.getChatUsers?"
     url += "chat_id=" + dialogId
     url += "&fields=online,photo_100,status"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
@@ -275,14 +275,14 @@ function getChatUsers(dialogId) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
-            for (var index in jsonObject.response.users) {
-                var name = jsonObject.response.users[index].first_name
-                name += " " + jsonObject.response.users[index].last_name
-                appendUser(jsonObject.response.users[index].uid,
+            for (var index in jsonObject.response) {
+                var name = jsonObject.response[index].first_name
+                name += " " + jsonObject.response[index].last_name
+                appendUser(jsonObject.response[index].uid,
                            name,
-                           jsonObject.response.users[index].photo_100,
-                           jsonObject.response.users[index].online,
-                           jsonObject.response.users[index].status)
+                           jsonObject.response[index].photo_100,
+                           jsonObject.response[index].online,
+                           jsonObject.response[index].status)
             }
         }
     }
