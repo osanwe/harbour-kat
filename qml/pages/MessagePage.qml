@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../views"
 
 Page {
     /*
@@ -34,13 +35,6 @@ Page {
     property bool isOnline
     property string fullname
     property string messageText
-
-//    BusyIndicator {
-//        id: loadingMessageIndicator
-//        anchors.centerIn: parent
-//        size: BusyIndicatorSize.Large
-//        running: true
-//    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -68,37 +62,24 @@ Page {
             checked: isOnline
         }
 
-        Label {
+        SilicaListView {
             id: messageContent
-            anchors.top: dialogTitle.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.fill: parent
+            anchors.topMargin: dialogTitle.height
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
-            textFormat: Text.StyledText
-            linkColor: Theme.secondaryColor
-            color: Theme.primaryColor
-            wrapMode: Text.Wrap
-            text: messageText
+            clip: true
+
+            model: ListModel {}
+
+            delegate: MessageContentItem {}
+
+            VerticalScrollDecorator {}
         }
-
-//        SilicaListView {
-//            id: messages
-//            anchors.fill: parent
-//            anchors.topMargin: dialogTitle.height
-//            anchors.bottomMargin: messageInput.height
-//            clip: true
-
-//            model: ListModel {}
-
-//            delegate: MessageItem {}
-
-//            VerticalScrollDecorator {}
-//        }
     }
 
-    Component.onCompleted: {
-        UsersAPI.getUserAvatar(StorageJS.readSettingsValue("user_id"))
-        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
-    }
+    onStatusChanged: if (status === PageStatus.Active) {
+                         console.log("onStatusChanged")
+                         messageContent.model.append({ msgText: messageText })
+                     }
 }
