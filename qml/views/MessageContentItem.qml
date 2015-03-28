@@ -27,8 +27,6 @@ BackgroundItem {
 
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.leftMargin: Theme.paddingLarge
-    anchors.rightMargin: Theme.paddingLarge
     height: messageText.height
 
     Label {

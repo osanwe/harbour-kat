@@ -66,6 +66,7 @@ Page {
             id: messageContent
             anchors.fill: parent
             anchors.topMargin: dialogTitle.height
+            anchors.bottomMargin: Theme.paddingLarge
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
             clip: true
@@ -78,8 +79,5 @@ Page {
         }
     }
 
-    onStatusChanged: if (status === PageStatus.Active) {
-                         console.log("onStatusChanged")
-                         messageContent.model.append({ msgText: messageText })
-                     }
+    Component.onCompleted: messageContent.model.append({ msgText: messageText })
 }
