@@ -180,7 +180,8 @@ function getHistory(isChat, dialogId, offset) {
                     var date = new Date()
                     date.setTime(parseInt(jsonObject.response[index].date) * 1000)
 
-                    formMessagesList(jsonObject.response[index].out,
+                    formMessagesList(jsonObject.response[index].mid,
+                                     jsonObject.response[index].out,
                                      jsonObject.response[index].read_state,
                                      msg,
                                      date.toLocaleString(),

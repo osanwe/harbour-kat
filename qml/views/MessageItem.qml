@@ -102,4 +102,6 @@ BackgroundItem {
         }
 
     }
+
+    onClicked: console.log("Message id = " + mid)
 }
