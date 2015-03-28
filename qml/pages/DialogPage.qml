@@ -46,7 +46,7 @@ Page {
     }
 
     function formMessagesList(mid, out, readState, text, datetime, attachments) {
-        text = text.replace(/<br>/g, "\n")
+//        text = text.replace(/<br>/g, "\n")
         messages.model.insert(0, {mid: mid, out: out, readState: readState, message: text,
                                   avatarSource: avatarSource, userAvatar: userAvatar,
                                   datetime: datetime, attachments: attachments } )
