@@ -29,10 +29,12 @@ Page {
           fullname
           isOnline
           messageText
+          attachments
     */
     id: messagePage
 
     property bool isOnline
+    property string attachments
     property string fullname
     property string messageText
 
@@ -79,5 +81,9 @@ Page {
         }
     }
 
-    Component.onCompleted: messageContent.model.append({ msgText: messageText })
+    Component.onCompleted: {
+        messageContent.model.append({ msgText: messageText })
+        var attachmentTypes = attachments.split("<br />")
+        for (var index in attachmentTypes) messageContent.model.append({ msgText: attachmentTypes[index] })
+    }
 }

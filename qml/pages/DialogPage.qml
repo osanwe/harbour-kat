@@ -124,11 +124,11 @@ Page {
 
             delegate: MessageItem {
                 onClicked: {
-                    console.log("Message id = " + mid + " | " + message)
                     dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
                                                   { "fullname": dialogTitle.text,
                                                     "isOnline": dialogOnlineStatus.isOnline,
-                                                    "messageText": message })
+                                                    "messageText": message,
+                                                    "attachments": attachments})
                 }
             }
 
