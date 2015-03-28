@@ -122,7 +122,15 @@ Page {
                 }
             }
 
-            delegate: MessageItem {}
+            delegate: MessageItem {
+                onClicked: {
+                    console.log("Message id = " + mid)
+                    dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
+                                   { "fullname": dialogTitle.text,
+                                      "isOnline": dialogOnlineStatus.isOnline,
+                                      "messageText": message })
+                }
+            }
 
             VerticalScrollDecorator {}
         }

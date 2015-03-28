@@ -45,7 +45,8 @@ OTHER_FILES += \
     rpm/harbour-kat.spec \
     rpm/harbour-kat.changes.in \
     qml/pages/ChatUsersPage.qml \
-    qml/views/UserItem.qml
+    qml/views/UserItem.qml \
+    qml/pages/MessagePage.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line
