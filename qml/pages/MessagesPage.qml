@@ -69,15 +69,15 @@ Page {
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
-        messagesList.model.append({ isDialog: true,
-                                    out: io,
+        messagesList.model.append({ isDialog:     true,
+                                    out:          io,
                                     avatarSource: "image://theme/icon-cover-message",
-                                    nameOrTitle: title,
-                                    previewText: message,
-                                    itemId: dialogId,
-                                    readState: readState,
-                                    isOnline: false,
-                                    isChat: isChat })
+                                    nameOrTitle:  title,
+                                    previewText:  message,
+                                    itemId:       dialogId,
+                                    readState:    readState,
+                                    isOnline:     false,
+                                    isChat:       isChat })
     }
 
     function updateDialogsList(index, avatarURL, fullname, online) {
@@ -113,9 +113,12 @@ Page {
         delegate: UserItem {
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                               { "fullname": nameOrTitle, "dialogId": itemId, "isChat": isChat,
-                                 "isOnline": isOnline, "avatarSource": avatarSource,
-                                 "userAvatar": userAvatar })
+                               { "fullname":     nameOrTitle,
+                                 "dialogId":     itemId,
+                                 "isChat":       isChat,
+                                 "isOnline":     isOnline,
+                                 "avatarSource": avatarSource,
+                                 "userAvatar":   userAvatar })
             }
         }
 
