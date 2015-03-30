@@ -29,7 +29,10 @@ Dialog {
     property Item contextMenu
 
     function updateSearchContactsList(uid, name, photo, isOnline) {
-        searchContactsList.model.append({ uid: uid, name: name, photo: photo, isOnline: isOnline })
+        searchContactsList.model.append({ uid:      uid,
+                                          name:     name,
+                                          photo:    photo,
+                                          isOnline: isOnline })
     }
 
     function sendNewMessage() {
@@ -114,7 +117,8 @@ Dialog {
                     }
                     index = index + 1
                 }
-                if (index !== -1) currentContactsList.model.append({ uid: uid, photoSource: photo })
+                if (index !== -1) currentContactsList.model.append({ uid:         uid,
+                                                                     photoSource: photo })
             }
         }
     }
@@ -163,7 +167,7 @@ Dialog {
                     console.log(index)
                     if (!contextMenu)
                         contextMenu = contextMenuComponent.createObject(currentContactsList,
-                                                                        {index: index})
+                                                                        { index: index })
                     contextMenu.show(myListItem)
                 }
             }
