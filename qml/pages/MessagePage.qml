@@ -84,6 +84,7 @@ Page {
     Component.onCompleted: {
         messageContent.model.append({ msgText: messageText })
         var attachmentTypes = attachments.split("<br />")
-        for (var index in attachmentTypes) messageContent.model.append({ msgText: attachmentTypes[index] })
+        for (var index in attachmentTypes)
+            messageContent.model.append({ msgText: attachmentTypes[index] })
     }
 }
