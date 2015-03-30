@@ -13,8 +13,8 @@ Name:       harbour-kat
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    The unofficial client for vk.com
-Version:    0.1.0
-Release:    1
+Version:    0.1.1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://udmlug.wordpress.com/our-projects/vkfish/
