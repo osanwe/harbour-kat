@@ -46,17 +46,22 @@ Page {
     }
 
     function formMessagesList(mid, out, readState, text, datetime, attachments) {
-//        text = text.replace(/<br>/g, "\n")
-        messages.model.insert(0, {mid: mid, out: out, readState: readState, message: text,
-                                  avatarSource: avatarSource, userAvatar: userAvatar,
-                                  datetime: datetime, attachments: attachments } )
+        messages.model.insert(0, { mid: mid,
+                                   out: out,
+                                   readState: readState,
+                                   message: text,
+                                   avatarSource: avatarSource,
+                                   userAvatar: userAvatar,
+                                   datetime: datetime,
+                                   attachments: attachments } )
     }
 
     function scrollMessagesToBottom() {
-        if (messagesOffset === 0)
+        if (messagesOffset === 0) {
             messages.positionViewAtEnd()
-        else
+        } else {
             messages.positionViewAtIndex(49, ListView.Beginning)
+        }
     }
 
     function stopLoadingMessagesIndicator() {
@@ -124,7 +129,7 @@ Page {
                                                   { "fullname": dialogTitle.text,
                                                     "isOnline": dialogOnlineStatus.isOnline,
                                                     "messageText": message,
-                                                    "attachments": attachments})
+                                                    "attachments": attachments })
                 }
             }
 
