@@ -52,6 +52,15 @@ CoverBackground {
         id: coverAction
 
         CoverAction {
+            iconSource: "image://theme/icon-cover-message"
+
+            onTriggered: {
+                pageStack.push(Qt.resolvedUrl("../pages/NewMessagePage.qml"))
+                window.activate()
+            }
+        }
+
+        CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
 
             onTriggered: {
@@ -63,7 +72,7 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: 900000
+        interval: 900000 // 15 minutes
         running: true
         repeat: true
 
