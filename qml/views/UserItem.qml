@@ -39,12 +39,6 @@ BackgroundItem {
     */
     id: userItem
 
-    function loadDialogPage() {
-        pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                       { "fullname": name.text, "dialogId": itemId, "isChat": isChat,
-                           "isOnline": isOnline, "avatarSource": avatarSource })
-    }
-
     width: parent.width
     height: Theme.itemSizeMedium
     highlighted: isDialog && out === 0 && readState === 0
@@ -97,6 +91,4 @@ BackgroundItem {
         text: previewText
         truncationMode: TruncationMode.Fade
     }
-
-    onClicked: if (isDialog) loadDialogPage()
 }

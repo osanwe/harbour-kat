@@ -33,6 +33,7 @@ Page {
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
+    property string userAvatar
 
     function initialize() {
         if (!StorageJS.readSettingsValue("user_id")) {
@@ -44,7 +45,12 @@ Page {
             messagesList.footerItem.visible = false
             messagesList.model.clear()  // TODO: Oh, really?!
             MessagesAPI.getDialogs(dialogsOffset)
+            UsersAPI.getUserAvatar(StorageJS.readSettingsValue("user_id"))
         }
+    }
+
+    function setUserAvatar(userAvatarSource) {
+        userAvatar = userAvatarSource
     }
 
     function doMainMenuItem() {
@@ -104,7 +110,14 @@ Page {
 
         model: ListModel {}
 
-        delegate: UserItem {}
+        delegate: UserItem {
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                               { "fullname": nameOrTitle, "dialogId": itemId, "isChat": isChat,
+                                 "isOnline": isOnline, "avatarSource": avatarSource,
+                                 "userAvatar": userAvatar })
+            }
+        }
 
         PullDownMenu {
 

@@ -65,10 +65,6 @@ Page {
                                                { "chatTitle": fullname, "dialogId": dialogId })
     }
 
-    function setUserAvatar(source) {
-        userAvatar = source
-    }
-
     BusyIndicator {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
@@ -173,8 +169,5 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: {
-        UsersAPI.getUserAvatar(StorageJS.readSettingsValue("user_id"))
-        MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
-    }
+    Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
 }
