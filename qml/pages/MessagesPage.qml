@@ -96,6 +96,8 @@ Page {
         loadingDialogsIndicator.running = false
     }
 
+    FontLoader { source: "../fonts/OpenSansEmoji.ttf" }
+
     BusyIndicator {
         id: loadingDialogsIndicator
         anchors.centerIn: parent
