@@ -36,6 +36,8 @@ Page {
     property string avatarSource
     property string userAvatar
 
+    property Item contextMenu
+
     property int messagesOffset: 0
 
     function sendMessage() {
@@ -123,13 +125,48 @@ Page {
                 }
             }
 
-            delegate: MessageItem {
-                onClicked: {
-                    dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
-                                                  { "fullname": dialogTitle.text,
-                                                    "isOnline": dialogOnlineStatus.isOnline,
-                                                    "messageText": message,
-                                                    "attachments": attachments })
+            delegate: Item {
+                id: messageItem
+
+                property bool menuOpen: contextMenu != null && contextMenu.parent === messageItem
+
+                height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
+                width: parent.width
+
+                MessageItem {
+                    id: contentItem
+                    width: parent.width
+
+                    onClicked: {
+                        dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
+                                                      { "fullname": dialogTitle.text,
+                                                        "isOnline": dialogOnlineStatus.isOnline,
+                                                        "messageText": message,
+                                                        "attachments": attachments })
+                    }
+                    onPressAndHold: {
+                        console.log(index)
+                        if (!contextMenu)
+                            contextMenu = contextMenuComponent.createObject(messages,
+                                                                            { message: message })
+                        contextMenu.show(messageItem)
+                    }
+                }
+            }
+
+            Component {
+                id: contextMenuComponent
+
+                ContextMenu {
+
+                    property string message
+
+                    MenuItem {
+                        text: "Копировать текст"
+                        onClicked: Clipboard.text = message
+                    }
+
+                    onClosed: contextMenu = null
                 }
             }
 

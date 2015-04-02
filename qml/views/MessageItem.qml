@@ -27,7 +27,6 @@ BackgroundItem {
      out
      readState
     */
-    id: messageItem
 
     function calculateMessageItemHeight() {
         var textHeight = datetimeText.height + messageText.height + attachmentsText.height
@@ -66,7 +65,6 @@ BackgroundItem {
         }
 
         Column {
-//            width: parent.width - messageAvatar.width - Theme.paddingMedium
 
             Label {
                 id: datetimeText
