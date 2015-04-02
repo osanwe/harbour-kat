@@ -201,14 +201,49 @@ function getHistory(isChat, dialogId, offset) {
 function parseMessage(jsonObject) {
     var messageData = []
 
-    msgData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
 
     if (jsonObject.attachments) {
         var photos = []
         var videos = []
         var audios = []
-        var docs = []
-        var walls = []
+        var docs   = []
+        var walls  = []
+        for (var index in jsonObject.attachments) {
+            console.log(jsonObject.attachments[index].type)
+            switch (jsonObject.attachments[index].type) {
+                case "photo": photos[photos.length] = jsonObject.attachments[index]; break
+                case "video": videos[videos.length] = jsonObject.attachments[index]; break
+                case "audio": audios[audios.length] = jsonObject.attachments[index]; break
+                case "doc":   docs[docs.length]     = jsonObject.attachments[index]; break
+                case "wall":  walls[walls.length]   = jsonObject.attachments[index]; break
+            }
+        }
+        if (photos.length > 0) {
+            messageData[messageData.length] =
+                    '<a href=\"#\">Фотографии (' + photos.length + ')</a>'
+            messageData[messageData.length] = photos
+        }
+        if (videos.length > 0) {
+            messageData[messageData.length] =
+                    '<a href=\"#\">Видеозаписи (' + videos.length + ')</a>'
+            messageData[messageData.length] = videos
+        }
+        if (audios.length > 0) {
+            messageData[messageData.length] =
+                    '<a href=\"#\">Аудиозаписи (' + audios.length + ')</a>'
+            messageData[messageData.length] = audios
+        }
+        if (docs.length > 0) {
+            messageData[messageData.length] =
+                   '<a href=\"#\">Документы (' + docs.length + ')</a>'
+            messageData[messageData.length] = docs
+        }
+        if (walls.length > 0) {
+            messageData[messageData.length] =
+                    '<a href=\"#\">Записи со стены (' + walls.length + ')</a>'
+            messageData[messageData.length] = walls
+        }
     }
 
 
