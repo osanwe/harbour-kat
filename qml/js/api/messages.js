@@ -199,17 +199,30 @@ function getHistory(isChat, dialogId, offset) {
 }
 
 function parseMessage(jsonObject) {
-    var msgData = []
+    var messageData = []
 
     msgData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
 
-
-    if (jsonObject.fwd_messages) {
-        msgData[msgData.length] = 'Пересланные сообщения (' + jsonObject.fwd_messages.length + ')'
-        msgData[msgData.length] = jsonObject.fwd_messages
+    if (jsonObject.attachments) {
+        var photos = []
+        var videos = []
+        var audios = []
+        var docs = []
+        var walls = []
     }
 
-    console.log(msgData)
+
+    if (jsonObject.fwd_messages) {
+        messageData[messageData.length] = '<a href=\"#\">Пересланные сообщения (' +
+                jsonObject.fwd_messages.length + ')</a>'
+        messageData[messageData.length] = jsonObject.fwd_messages
+    }
+
+    if (jsonObject.geo) {
+        //
+    }
+
+    console.log(messageData)
 }
 
 function getUnreadMessagesCount() {
