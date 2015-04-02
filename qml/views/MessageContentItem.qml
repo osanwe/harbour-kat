@@ -39,5 +39,7 @@ BackgroundItem {
         color: highlighted ? Theme.highlightColor : Theme.primaryColor
         wrapMode: Text.Wrap
         text: msgText
+
+        onLinkActivated: Qt.openUrlExternally(link)
     }
 }

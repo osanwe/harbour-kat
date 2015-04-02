@@ -254,7 +254,8 @@ function parseMessage(jsonObject) {
     }
 
     if (jsonObject.geo) {
-        //
+        var coordinates = jsonObject.geo.coordinates.replace(" ", ",")
+        messageData[messageData.length] = "<a href=\"geo:" + coordinates + "\">Местоположение</a>"
     }
 
     console.log(messageData)
