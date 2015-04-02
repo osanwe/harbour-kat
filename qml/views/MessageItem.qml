@@ -60,17 +60,17 @@ BackgroundItem {
 
         Image {
             id: messageAvatar
-            height: Theme.itemSizeMedium - 2 * Theme.paddingSmall
+            height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
             width: height
             source: out === 0 ? avatarSource : userAvatar
         }
 
         Column {
-            width: parent.width - messageAvatar.width - Theme.paddingMedium
+//            width: parent.width - messageAvatar.width - Theme.paddingMedium
 
             Label {
                 id: datetimeText
-                width: parent.width - Theme.paddingMedium
+                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: datetime
                 font.pixelSize: Theme.fontSizeTiny
@@ -79,7 +79,7 @@ BackgroundItem {
 
             Label {
                 id: messageText
-                width: parent.width - Theme.paddingMedium
+                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: message
                 textFormat: Text.StyledText
@@ -92,7 +92,7 @@ BackgroundItem {
 
             Label {
                 id: attachmentsText
-                width: parent.width - Theme.paddingMedium
+                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
                 text: attachments
                 font.pixelSize: Theme.fontSizeSmall
