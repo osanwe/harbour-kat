@@ -135,7 +135,7 @@ function getHistory(isChat, dialogId, offset) {
             console.log(doc.responseText)
             for (var index in jsonObject.response) {
                 if (index > 0) {
-                    parseMessage(jsonObject.response[index])
+                    var messageData = parseMessage(jsonObject.response[index])
 // --------------
                     var msg = ""
                     var msgParts = jsonObject.response[index].body.split(" ")
@@ -148,7 +148,7 @@ function getHistory(isChat, dialogId, offset) {
                         }
                         idx = idx + 1
                     }
-// --------------
+
                     var attachments = ""
                     if (jsonObject.response[index].fwd_messages) {
                         attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
@@ -181,7 +181,7 @@ function getHistory(isChat, dialogId, offset) {
 
                     var date = new Date()
                     date.setTime(parseInt(jsonObject.response[index].date) * 1000)
-
+// --------------
                     formMessagesList(jsonObject.response[index].mid,
                                      jsonObject.response[index].out,
                                      jsonObject.response[index].read_state,
@@ -198,10 +198,22 @@ function getHistory(isChat, dialogId, offset) {
     doc.send()
 }
 
+
+/*
+ * The function for parsing the json object of a message.
+ *
+ * [In]  + jsonObject - the json object of the message.
+ *
+ * [Out] + The array of message data, which contains message and date.
+ *         Also it can contain informaion about attachments, forwarded messages and location.
+ */
 function parseMessage(jsonObject) {
     var messageData = []
 
     messageData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+
+    var date = new Date()
+    messageData[1] = date.setTime(parseInt(jsonObject.date) * 1000).toLocaleString()
 
     if (jsonObject.attachments) {
         var photos = []
@@ -210,7 +222,6 @@ function parseMessage(jsonObject) {
         var docs   = []
         var walls  = []
         for (var index in jsonObject.attachments) {
-            console.log(jsonObject.attachments[index].type)
             switch (jsonObject.attachments[index].type) {
                 case "photo": photos[photos.length] = jsonObject.attachments[index]; break
                 case "video": videos[videos.length] = jsonObject.attachments[index]; break
@@ -258,8 +269,9 @@ function parseMessage(jsonObject) {
         messageData[messageData.length] = "<a href=\"geo:" + coordinates + "\">Местоположение</a>"
     }
 
-    console.log(messageData)
+    return messageData
 }
+
 
 function getUnreadMessagesCount() {
     var url = "https://api.vk.com/method/"
