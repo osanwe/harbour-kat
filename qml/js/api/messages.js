@@ -136,6 +136,7 @@ function getHistory(isChat, dialogId, offset) {
             for (var index in jsonObject.response) {
                 if (index > 0) {
                     parseMessage(jsonObject.response[index])
+// --------------
                     var msg = ""
                     var msgParts = jsonObject.response[index].body.split(" ")
                     var idx = 0
@@ -147,7 +148,7 @@ function getHistory(isChat, dialogId, offset) {
                         }
                         idx = idx + 1
                     }
-
+// --------------
                     var attachments = ""
                     if (jsonObject.response[index].fwd_messages) {
                         attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
@@ -198,7 +199,17 @@ function getHistory(isChat, dialogId, offset) {
 }
 
 function parseMessage(jsonObject) {
-    var messageBody = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+    var msgData = []
+
+    msgData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+
+
+    if (jsonObject.fwd_messages) {
+        msgData[msgData.length] = 'Пересланные сообщения (' + jsonObject.fwd_messages.length + ')'
+        msgData[msgData.length] = jsonObject.fwd_messages
+    }
+
+    console.log(msgData)
 }
 
 function getUnreadMessagesCount() {
