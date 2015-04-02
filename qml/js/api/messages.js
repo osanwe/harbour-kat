@@ -135,6 +135,7 @@ function getHistory(isChat, dialogId, offset) {
             console.log(doc.responseText)
             for (var index in jsonObject.response) {
                 if (index > 0) {
+                    parseMessage(jsonObject.response[index])
                     var msg = ""
                     var msgParts = jsonObject.response[index].body.split(" ")
                     var idx = 0
@@ -194,6 +195,10 @@ function getHistory(isChat, dialogId, offset) {
     }
     doc.open("GET", url, true)
     doc.send()
+}
+
+function parseMessage(jsonObject) {
+    var messageBody = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
 }
 
 function getUnreadMessagesCount() {
