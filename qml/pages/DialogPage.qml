@@ -47,17 +47,6 @@ Page {
         messagesOffset = 0
     }
 
-//    function formMessagesList(mid, out, readState, text, datetime, attachments) {
-//        messages.model.insert(0, { mid: mid,
-//                                   out: out,
-//                                   readState: readState,
-//                                   message: text,
-//                                   avatarSource: avatarSource,
-//                                   userAvatar: userAvatar,
-//                                   datetime: datetime,
-//                                   attachments: attachments } )
-//    }
-
     function formMessageList(messageData) {
         messages.model.insert(0, { mid: messageData[0],
                                    readState: messageData[1],
@@ -65,7 +54,8 @@ Page {
                                    message: messageData[3],
                                    datetime: messageData[4],
                                    avatarSource: avatarSource,
-                                   userAvatar: userAvatar })
+                                   userAvatar: userAvatar,
+                                   attachments: messageData.slice(5) })
     }
 
     function scrollMessagesToBottom() {

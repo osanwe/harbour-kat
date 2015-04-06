@@ -29,7 +29,7 @@ BackgroundItem {
     */
 
     function calculateMessageItemHeight() {
-        var textHeight = datetimeText.height + messageText.height + attachmentsText.height
+        var textHeight = datetimeText.height + messageText.height /*+ attachmentsText.height*/
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
@@ -38,14 +38,14 @@ BackgroundItem {
     height: calculateMessageItemHeight()
     highlighted: out === 0 & readState === 0
 
-    Separator {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingMedium
-        anchors.rightMargin: Theme.paddingMedium
-        color: Theme.secondaryHighlightColor
-    }
+//    Separator {
+//        anchors.top: parent.top
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+//        anchors.leftMargin: Theme.paddingMedium
+//        anchors.rightMargin: Theme.paddingMedium
+//        color: Theme.secondaryHighlightColor
+//    }
 
     Row {
         anchors.top: parent.top
@@ -67,15 +67,6 @@ BackgroundItem {
         Column {
 
             Label {
-                id: datetimeText
-                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
-                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
-                text: datetime
-                font.pixelSize: Theme.fontSizeTiny
-                color: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
-            }
-
-            Label {
                 id: messageText
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
@@ -88,14 +79,23 @@ BackgroundItem {
                 onLinkActivated: Qt.openUrlExternally(link)
             }
 
+//            Label {
+//                id: attachmentsText
+//                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
+//                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
+//                text: attachments
+//                font.pixelSize: Theme.fontSizeSmall
+//                textFormat: Text.StyledText
+//                linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+//            }
+
             Label {
-                id: attachmentsText
+                id: datetimeText
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
-                text: attachments
-                font.pixelSize: Theme.fontSizeSmall
-                textFormat: Text.StyledText
-                linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+                text: datetime
+                font.pixelSize: Theme.fontSizeTiny
+                color: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
             }
         }
 
