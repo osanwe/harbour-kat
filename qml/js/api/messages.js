@@ -135,59 +135,59 @@ function getHistory(isChat, dialogId, offset) {
             console.log(doc.responseText)
             for (var index in jsonObject.response) {
                 if (index > 0) {
-                    var messageData = parseMessage(jsonObject.response[index])
-// --------------
-                    var msg = ""
-                    var msgParts = jsonObject.response[index].body.split(" ")
-                    var idx = 0
-                    while (idx < msgParts.length) {
-                        if (msgParts[idx].search("http") === 0) {
-                            msg = msg + " <a href=\"" + msgParts[idx] + "\">" + msgParts[idx] + "</a>"
-                        } else {
-                            msg = msg + " " + msgParts[idx]
-                        }
-                        idx = idx + 1
-                    }
+                    formMessageList(parseMessage(jsonObject.response[index]))
 
-                    var attachments = ""
-                    if (jsonObject.response[index].fwd_messages) {
-                        attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
-                    }
-                    if (jsonObject.response[index].attachments) {
-                        var photosCounter = 0
-                        var videosCounter = 0
-                        var audiosCounter = 0
-                        var docsCounter = 0
-                        var wallsCounter = 0
-                        for (var itemIdx in jsonObject.response[index].attachments)
-                            switch (jsonObject.response[index].attachments[itemIdx].type) {
-                                case "photo": photosCounter += 1; break
-                                case "video": videosCounter += 1; break
-                                case "audio": audiosCounter += 1; break
-                                case "doc": docsCounter += 1; break
-                                case "wall": wallsCounter += 1; break
-                            }
-                        if (photosCounter > 0) attachments += "<br /><a href=\"#\">Фотография (" + photosCounter + ")</a>"
-                        if (videosCounter > 0) attachments += "<br /><a href=\"#\">Видео (" + videosCounter + ")</a>"
-                        if (audiosCounter > 0) attachments += "<br /><a href=\"#\">Аудио (" + audiosCounter + ")</a>"
-                        if (docsCounter > 0) attachments += "<br /><a href=\"#\">Документ (" + docsCounter + ")</a>"
-                        if (wallsCounter > 0) attachments += "<br /><a href=\"#\">Запись на стене (" + wallsCounter + ")</a>"
-                    }
-                    if (jsonObject.response[index].geo) {
-                        attachments += "<br /><a href=\"#\">Карта</a>"
-                    }
+//                    var msg = ""
+//                    var msgParts = jsonObject.response[index].body.split(" ")
+//                    var idx = 0
+//                    while (idx < msgParts.length) {
+//                        if (msgParts[idx].search("http") === 0) {
+//                            msg = msg + " <a href=\"" + msgParts[idx] + "\">" + msgParts[idx] + "</a>"
+//                        } else {
+//                            msg = msg + " " + msgParts[idx]
+//                        }
+//                        idx = idx + 1
+//                    }
 
-                    attachments = attachments.substring(6)
+//                    var attachments = ""
+//                    if (jsonObject.response[index].fwd_messages) {
+//                        attachments = attachments + "<br /><a href=\"#\">Пересланные сообщения</a>"
+//                    }
+//                    if (jsonObject.response[index].attachments) {
+//                        var photosCounter = 0
+//                        var videosCounter = 0
+//                        var audiosCounter = 0
+//                        var docsCounter = 0
+//                        var wallsCounter = 0
+//                        for (var itemIdx in jsonObject.response[index].attachments)
+//                            switch (jsonObject.response[index].attachments[itemIdx].type) {
+//                                case "photo": photosCounter += 1; break
+//                                case "video": videosCounter += 1; break
+//                                case "audio": audiosCounter += 1; break
+//                                case "doc": docsCounter += 1; break
+//                                case "wall": wallsCounter += 1; break
+//                            }
+//                        if (photosCounter > 0) attachments += "<br /><a href=\"#\">Фотография (" + photosCounter + ")</a>"
+//                        if (videosCounter > 0) attachments += "<br /><a href=\"#\">Видео (" + videosCounter + ")</a>"
+//                        if (audiosCounter > 0) attachments += "<br /><a href=\"#\">Аудио (" + audiosCounter + ")</a>"
+//                        if (docsCounter > 0) attachments += "<br /><a href=\"#\">Документ (" + docsCounter + ")</a>"
+//                        if (wallsCounter > 0) attachments += "<br /><a href=\"#\">Запись на стене (" + wallsCounter + ")</a>"
+//                    }
+//                    if (jsonObject.response[index].geo) {
+//                        attachments += "<br /><a href=\"#\">Карта</a>"
+//                    }
 
-                    var date = new Date()
-                    date.setTime(parseInt(jsonObject.response[index].date) * 1000)
-// --------------
-                    formMessagesList(jsonObject.response[index].mid,
-                                     jsonObject.response[index].out,
-                                     jsonObject.response[index].read_state,
-                                     msg,
-                                     date.toLocaleString(),
-                                     attachments)
+//                    attachments = attachments.substring(6)
+
+//                    var date = new Date()
+//                    date.setTime(parseInt(jsonObject.response[index].date) * 1000)
+
+//                    formMessagesList(jsonObject.response[index].mid,
+//                                     jsonObject.response[index].out,
+//                                     jsonObject.response[index].read_state,
+//                                     msg,
+//                                     date.toLocaleString(),
+//                                     attachments)
                 }
             }
             stopLoadingMessagesIndicator()
@@ -210,10 +210,19 @@ function getHistory(isChat, dialogId, offset) {
 function parseMessage(jsonObject) {
     var messageData = []
 
-    messageData[0] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
-
     var date = new Date()
-    messageData[1] = date.setTime(parseInt(jsonObject.date) * 1000).toLocaleString()
+    date.setTime(parseInt(jsonObject.date) * 1000)
+    console.log(date.getTimezoneOffset() / 60)
+
+    messageData[0] = jsonObject.mid
+    messageData[1] = jsonObject.read_state
+    messageData[2] = jsonObject.out
+    messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[4] = ("0" + date.getHours()).slice(-2) + ":" +
+                     ("0" + date.getMinutes()).slice(-2) + ", " +
+                     ("0" + date.getDate()).slice(-2) + "." +
+                     ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                     ("0" + date.getFullYear()).slice(-2)
 
     if (jsonObject.attachments) {
         var photos = []

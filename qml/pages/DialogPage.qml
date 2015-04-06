@@ -47,15 +47,25 @@ Page {
         messagesOffset = 0
     }
 
-    function formMessagesList(mid, out, readState, text, datetime, attachments) {
-        messages.model.insert(0, { mid: mid,
-                                   out: out,
-                                   readState: readState,
-                                   message: text,
+//    function formMessagesList(mid, out, readState, text, datetime, attachments) {
+//        messages.model.insert(0, { mid: mid,
+//                                   out: out,
+//                                   readState: readState,
+//                                   message: text,
+//                                   avatarSource: avatarSource,
+//                                   userAvatar: userAvatar,
+//                                   datetime: datetime,
+//                                   attachments: attachments } )
+//    }
+
+    function formMessageList(messageData) {
+        messages.model.insert(0, { mid: messageData[0],
+                                   readState: messageData[1],
+                                   out: messageData[2],
+                                   message: messageData[3],
+                                   datetime: messageData[4],
                                    avatarSource: avatarSource,
-                                   userAvatar: userAvatar,
-                                   datetime: datetime,
-                                   attachments: attachments } )
+                                   userAvatar: userAvatar })
     }
 
     function scrollMessagesToBottom() {
