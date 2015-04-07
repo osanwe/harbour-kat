@@ -158,7 +158,6 @@ function parseMessage(jsonObject) {
 
     var date = new Date()
     date.setTime(parseInt(jsonObject.date) * 1000)
-    console.log(date.getTimezoneOffset() / 60)
 
     messageData[0] = jsonObject.mid
     messageData[1] = jsonObject.read_state
@@ -171,57 +170,20 @@ function parseMessage(jsonObject) {
                      ("0" + date.getFullYear()).slice(-2)
 
     if (jsonObject.attachments) {
-        var photos = []
-        var videos = []
-        var audios = []
-        var docs   = []
-        var walls  = []
         for (var index in jsonObject.attachments) {
-            switch (jsonObject.attachments[index].type) {
-                case "photo": photos[photos.length] = jsonObject.attachments[index]; break
-                case "video": videos[videos.length] = jsonObject.attachments[index]; break
-                case "audio": audios[audios.length] = jsonObject.attachments[index]; break
-                case "doc":   docs[docs.length]     = jsonObject.attachments[index]; break
-                case "wall":  walls[walls.length]   = jsonObject.attachments[index]; break
-            }
-        }
-        if (photos.length > 0) {
-            messageData[messageData.length] =
-                    '<a href=\"#\">Фотографии (' + photos.length + ')</a>'
-            messageData[messageData.length] = photos
-        }
-        if (videos.length > 0) {
-            messageData[messageData.length] =
-                    '<a href=\"#\">Видеозаписи (' + videos.length + ')</a>'
-            messageData[messageData.length] = videos
-        }
-        if (audios.length > 0) {
-            messageData[messageData.length] =
-                    '<a href=\"#\">Аудиозаписи (' + audios.length + ')</a>'
-            messageData[messageData.length] = audios
-        }
-        if (docs.length > 0) {
-            messageData[messageData.length] =
-                   '<a href=\"#\">Документы (' + docs.length + ')</a>'
-            messageData[messageData.length] = docs
-        }
-        if (walls.length > 0) {
-            messageData[messageData.length] =
-                    '<a href=\"#\">Записи со стены (' + walls.length + ')</a>'
-            messageData[messageData.length] = walls
+            messageData[messageData.length] = jsonObject.attachments[index]
         }
     }
 
 
     if (jsonObject.fwd_messages) {
-        messageData[messageData.length] = '<a href=\"#\">Пересланные сообщения (' +
-                jsonObject.fwd_messages.length + ')</a>'
-        messageData[messageData.length] = jsonObject.fwd_messages
+        for (var index in jsonObject.fwd_messages) {
+            messageData[messageData.length] = jsonObject.fwd_messages[index]
+        }
     }
 
     if (jsonObject.geo) {
-        var coordinates = jsonObject.geo.coordinates.replace(" ", ",")
-        messageData[messageData.length] = "<a href=\"geo:" + coordinates + "\">Местоположение</a>"
+        messageData[messageData.length] = jsonObject.geo
     }
 
     return messageData

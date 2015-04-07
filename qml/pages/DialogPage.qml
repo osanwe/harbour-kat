@@ -48,14 +48,16 @@ Page {
     }
 
     function formMessageList(messageData) {
-        messages.model.insert(0, { mid: messageData[0],
-                                   readState: messageData[1],
-                                   out: messageData[2],
-                                   message: messageData[3],
-                                   datetime: messageData[4],
-                                   avatarSource: avatarSource,
-                                   userAvatar: userAvatar,
-                                   attachments: messageData.slice(5) })
+        var attachmentsData = messageData.slice(5)
+        console.log(attachmentsData)
+        messages.model.insert(0, { mid:             messageData[0],
+                                   readState:       messageData[1],
+                                   out:             messageData[2],
+                                   message:         messageData[3],
+                                   datetime:        messageData[4],
+                                   avatarSource:    avatarSource,
+                                   userAvatar:      userAvatar,
+                                   attachmentsData: attachmentsData })
     }
 
     function scrollMessagesToBottom() {

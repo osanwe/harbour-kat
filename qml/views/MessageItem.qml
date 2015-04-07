@@ -29,7 +29,7 @@ BackgroundItem {
     */
 
     function calculateMessageItemHeight() {
-        var textHeight = datetimeText.height + messageText.height /*+ attachmentsText.height*/
+        var textHeight = datetimeText.height + messageText.height + attachmentsList.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
@@ -37,15 +37,6 @@ BackgroundItem {
     anchors.right: parent.right
     height: calculateMessageItemHeight()
     highlighted: out === 0 & readState === 0
-
-//    Separator {
-//        anchors.top: parent.top
-//        anchors.left: parent.left
-//        anchors.right: parent.right
-//        anchors.leftMargin: Theme.paddingMedium
-//        anchors.rightMargin: Theme.paddingMedium
-//        color: Theme.secondaryHighlightColor
-//    }
 
     Row {
         anchors.top: parent.top
@@ -79,15 +70,48 @@ BackgroundItem {
                 onLinkActivated: Qt.openUrlExternally(link)
             }
 
-//            Label {
-//                id: attachmentsText
-//                width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
-//                horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
-//                text: attachments
-//                font.pixelSize: Theme.fontSizeSmall
-//                textFormat: Text.StyledText
-//                linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
-//            }
+            SilicaListView {
+                id: attachmentsList
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: attachmentsData.count > 0 ? Theme.itemSizeSmall : 0
+
+                spacing: 6
+                clip: true
+                orientation: ListView.Horizontal
+                layoutDirection: out == 0 ? Qt.LeftToRight : Qt.RightToLeft
+
+                model: attachmentsData
+
+                delegate: BackgroundItem {
+                    id: attachmentItem
+                    height: Theme.itemSizeSmall
+                    width: height
+
+                    Image {
+                        id: contactAvatar
+                        anchors.fill: parent
+                        source: {
+                            console.log(attachmentsData.get(index).type + "")
+                            if (attachmentsData.get(index).type) {
+                                switch (attachmentsData.get(index).type) {
+                                case "photo": return "image://theme/icon-l-image"
+                                case "video": return "image://theme/icon-l-video"
+                                case "audio": return "image://theme/icon-l-music"
+                                case "doc": return "image://theme/icon-l-document"
+                                case "wall": return "image://theme/icon-l-message"
+                                case "point": return "image://theme/icon-l-gps"
+                                }
+                            } else {
+                                return "image://theme/icon-l-redirect"
+                            }
+                        }
+                    }
+                }
+
+                HorizontalScrollDecorator {}
+            }
 
             Label {
                 id: datetimeText
