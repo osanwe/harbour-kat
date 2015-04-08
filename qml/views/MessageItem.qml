@@ -29,7 +29,7 @@ BackgroundItem {
     */
 
     function calculateMessageItemHeight() {
-        var textHeight = datetimeText.height + messageText.height + attachmentsList.height
+        var textHeight = datetimeText.height + messageText.height + photosAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
@@ -70,72 +70,112 @@ BackgroundItem {
                 onLinkActivated: Qt.openUrlExternally(link)
             }
 
-            SilicaListView {
-                id: attachmentsList
-
+            SilicaGridView {
+                id: photosAttachment
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: attachmentsData.count > 0 ? Theme.itemSizeSmall - 2 * Theme.paddingSmall : 0
-
-                spacing: 6
+                height: contentHeight
                 clip: true
-                orientation: ListView.Horizontal
-                layoutDirection: out == 0 ? Qt.LeftToRight : Qt.RightToLeft
+                layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
 
-                model: attachmentsData
+                model: ListModel {}
 
                 delegate: BackgroundItem {
-                    id: attachmentItem
-                    height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
-                    width: height
+                    width: Theme.itemSizeMedium
+                    height: Theme.itemSizeMedium
 
                     Image {
-                        id: contactAvatar
                         anchors.fill: parent
-                        source: {
-                            console.log(attachmentsData.get(index).type + "")
-                            if (attachmentsData.get(index).type) {
-                                switch (attachmentsData.get(index).type) {
-                                    case "photo": return "image://theme/icon-l-image"
-                                    case "video": return "image://theme/icon-l-video"
-                                    case "audio": return "image://theme/icon-l-music"
-                                    case "doc": return "image://theme/icon-l-document"
-                                    case "wall": return "image://theme/icon-l-message"
-                                    case "point": return "image://theme/icon-l-gps"
-                                }
-                            } else {
-                                return "image://theme/icon-l-redirect"
-                            }
-                        }
+                        source: src
+                        fillMode: Image.PreserveAspectCrop
                     }
 
                     onClicked: {
-                        if (attachmentsData.get(index).type) {
-                            switch (attachmentsData.get(index).type) {
-                                case "photo": {
-                                    var imageSrc = ""
-                                    if (attachmentsData.get(index).photo.src_xxbig) {
-                                        imageSrc = attachmentsData.get(index).photo.src_xxbig
-                                    } else if (attachmentsData.get(index).photo.src_xbig) {
-                                        imageSrc = attachmentsData.get(index).photo.src_xbig
-                                    } else if (attachmentsData.get(index).photo.src_big) {
-                                        imageSrc = attachmentsData.get(index).photo.src_big
-                                    } else {
-                                        imageSrc = attachmentsData.get(index).photo.src
-                                    }
-                                    pageContainer.push("../pages/ImagePage.qml",
-                                                       { "imageSource": imageSrc })
-                                    break;
+                        try {
+                            var data = { "imageSource": srcXXBig }
+                        } catch (e) {
+                            try {
+                                data = { "imageSource": srcXBig }
+                            } catch (e) {
+                                try {
+                                    data = { "imageSource": srcBig }
+                                } catch (e) {
+                                    data = { "imageSource": src }
                                 }
                             }
-                        } else {
-                            //
+                        } finally {
+                            pageContainer.push("../pages/ImagePage.qml", data)
                         }
                     }
                 }
-
-                HorizontalScrollDecorator {}
             }
+
+//            SilicaListView {
+//                id: attachmentsList
+//
+//                anchors.left: parent.left
+//                anchors.right: parent.right
+//                height: attachmentsData.count > 0 ? Theme.itemSizeSmall - 2 * Theme.paddingSmall : 0
+//
+//                spacing: 6
+//                clip: true
+//                orientation: ListView.Horizontal
+//                layoutDirection: out == 0 ? Qt.LeftToRight : Qt.RightToLeft
+//
+//                model: attachmentsData
+//
+//                delegate: BackgroundItem {
+//                    id: attachmentItem
+//                    height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
+//                    width: height
+//
+//                    Image {
+//                        id: contactAvatar
+//                        anchors.fill: parent
+//                        source: {
+//                            console.log(attachmentsData.get(index).type + "")
+//                            if (attachmentsData.get(index).type) {
+//                                switch (attachmentsData.get(index).type) {
+//                                    case "photo": return "image://theme/icon-l-image"
+//                                    case "video": return "image://theme/icon-l-video"
+//                                    case "audio": return "image://theme/icon-l-music"
+//                                    case "doc": return "image://theme/icon-l-document"
+//                                    case "wall": return "image://theme/icon-l-message"
+//                                    case "point": return "image://theme/icon-l-gps"
+//                                }
+//                            } else {
+//                                return "image://theme/icon-l-redirect"
+//                            }
+//                        }
+//                    }
+//
+//                    onClicked: {
+//                        if (attachmentsData.get(index).type) {
+//                            switch (attachmentsData.get(index).type) {
+//                                case "photo": {
+//                                    var imageSrc = ""
+//                                    if (attachmentsData.get(index).photo.src_xxbig) {
+//                                        imageSrc = attachmentsData.get(index).photo.src_xxbig
+//                                    } else if (attachmentsData.get(index).photo.src_xbig) {
+//                                        imageSrc = attachmentsData.get(index).photo.src_xbig
+//                                    } else if (attachmentsData.get(index).photo.src_big) {
+//                                        imageSrc = attachmentsData.get(index).photo.src_big
+//                                    } else {
+//                                        imageSrc = attachmentsData.get(index).photo.src
+//                                    }
+//                                    pageContainer.push("../pages/ImagePage.qml",
+//                                                       { "imageSource": imageSrc })
+//                                    break;
+//                                }
+//                            }
+//                        } else {
+//                            //
+//                        }
+//                    }
+//                }
+//
+//                HorizontalScrollDecorator {}
+//            }
 
             Label {
                 id: datetimeText
@@ -147,5 +187,27 @@ BackgroundItem {
             }
         }
 
+    }
+
+    Component.onCompleted: {
+        for (var index = 0; index < attachmentsData.count; index++) {
+            if (attachmentsData.get(index).type) {
+                switch (attachmentsData.get(index).type) {
+                    case "photo":
+                        photosAttachment.model.append({ src:      attachmentsData.get(index).photo.src,
+                                                        srcBig:   attachmentsData.get(index).photo.src_big,
+                                                        srcXBig:  attachmentsData.get(index).photo.src_xbig,
+                                                        srcXXBig: attachmentsData.get(index).photo.src_xxbig })
+                        break
+                    case "video": break
+                    case "audio": break
+                    case "doc": break
+                    case "wall": break
+                    case "point": break
+                }
+            } else {
+                break
+            }
+        }
     }
 }
