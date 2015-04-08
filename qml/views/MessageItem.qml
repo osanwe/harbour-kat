@@ -123,7 +123,8 @@ BackgroundItem {
                                     } else {
                                         imageSrc = attachmentsData.get(index).photo.src
                                     }
-                                    Qt.openUrlExternally(imageSrc);
+                                    pageContainer.push("../pages/ImagePage.qml",
+                                                       { "imageSource": imageSrc })
                                     break;
                                 }
                             }
