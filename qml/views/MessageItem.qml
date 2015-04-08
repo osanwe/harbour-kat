@@ -75,7 +75,7 @@ BackgroundItem {
 
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: attachmentsData.count > 0 ? Theme.itemSizeSmall : 0
+                height: attachmentsData.count > 0 ? Theme.itemSizeSmall - 2 * Theme.paddingSmall : 0
 
                 spacing: 6
                 clip: true
@@ -86,7 +86,7 @@ BackgroundItem {
 
                 delegate: BackgroundItem {
                     id: attachmentItem
-                    height: Theme.itemSizeSmall
+                    height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
                     width: height
 
                     Image {
@@ -96,16 +96,39 @@ BackgroundItem {
                             console.log(attachmentsData.get(index).type + "")
                             if (attachmentsData.get(index).type) {
                                 switch (attachmentsData.get(index).type) {
-                                case "photo": return "image://theme/icon-l-image"
-                                case "video": return "image://theme/icon-l-video"
-                                case "audio": return "image://theme/icon-l-music"
-                                case "doc": return "image://theme/icon-l-document"
-                                case "wall": return "image://theme/icon-l-message"
-                                case "point": return "image://theme/icon-l-gps"
+                                    case "photo": return "image://theme/icon-l-image"
+                                    case "video": return "image://theme/icon-l-video"
+                                    case "audio": return "image://theme/icon-l-music"
+                                    case "doc": return "image://theme/icon-l-document"
+                                    case "wall": return "image://theme/icon-l-message"
+                                    case "point": return "image://theme/icon-l-gps"
                                 }
                             } else {
                                 return "image://theme/icon-l-redirect"
                             }
+                        }
+                    }
+
+                    onClicked: {
+                        if (attachmentsData.get(index).type) {
+                            switch (attachmentsData.get(index).type) {
+                                case "photo": {
+                                    var imageSrc = ""
+                                    if (attachmentsData.get(index).photo.src_xxbig) {
+                                        imageSrc = attachmentsData.get(index).photo.src_xxbig
+                                    } else if (attachmentsData.get(index).photo.src_xbig) {
+                                        imageSrc = attachmentsData.get(index).photo.src_xbig
+                                    } else if (attachmentsData.get(index).photo.src_big) {
+                                        imageSrc = attachmentsData.get(index).photo.src_big
+                                    } else {
+                                        imageSrc = attachmentsData.get(index).photo.src
+                                    }
+                                    Qt.openUrlExternally(imageSrc);
+                                    break;
+                                }
+                            }
+                        } else {
+                            //
                         }
                     }
                 }
