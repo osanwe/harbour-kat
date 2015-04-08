@@ -27,26 +27,42 @@ Page {
 
     property string imageSource
 
-    Image {
-        id: showedImage
-        anchors.centerIn: parent
-        fillMode: Image.PreserveAspectFit
-        source: imageSource
-    }
-
-    MouseArea {
+    SilicaFlickable {
+        id: imageContainer
         anchors.fill: parent
+        contentWidth: Screen.width
+        contentHeight: Screen.height
 
-        property bool doubleSize: false
+        PinchArea {
+            anchors.fill: parent
 
-        onDoubleClicked: {
-            doubleSize = !doubleSize
-            if (doubleSize) {
-                showedImage.height *= 2
-                showedImage.width *= 2
-            } else {
-                showedImage.height /= 2
-                showedImage.width /= 2
+            property real initialWidth
+            property real initialHeight
+
+            Image {
+                id: showedImage
+                anchors.fill: parent
+                source: imageSource
+                fillMode: Image.PreserveAspectFit
+            }
+
+            onPinchStarted: {
+                initialWidth = imageContainer.contentWidth
+                initialHeight = imageContainer.contentHeight
+            }
+
+            onPinchUpdated: {
+                imageContainer.contentX += pinch.previousCenter.x - pinch.center.x
+                imageContainer.contentY += pinch.previousCenter.y - pinch.center.y
+                if (((initialWidth * pinch.scale) >= Screen.width) ||
+                        ((initialHeight * pinch.scale) >= Screen.height)) {
+                    imageContainer.resizeContent(initialWidth * pinch.scale,
+                                                 initialHeight * pinch.scale, pinch.center)
+                }
+            }
+
+            onPinchFinished: {
+                imageContainer.returnToBounds()
             }
         }
     }
