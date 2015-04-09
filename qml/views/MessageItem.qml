@@ -29,7 +29,8 @@ BackgroundItem {
     */
 
     function calculateMessageItemHeight() {
-        var textHeight = datetimeText.height + messageText.height + photosAttachment.height
+        var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
+                videosAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
@@ -77,6 +78,10 @@ BackgroundItem {
                 height: contentHeight
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
+                topMargin: 3
+                bottomMargin: 3
+                leftMargin: 3
+                rightMargin: 3
 
                 model: ListModel {}
 
@@ -110,72 +115,38 @@ BackgroundItem {
                 }
             }
 
-//            SilicaListView {
-//                id: attachmentsList
-//
-//                anchors.left: parent.left
-//                anchors.right: parent.right
-//                height: attachmentsData.count > 0 ? Theme.itemSizeSmall - 2 * Theme.paddingSmall : 0
-//
-//                spacing: 6
-//                clip: true
-//                orientation: ListView.Horizontal
-//                layoutDirection: out == 0 ? Qt.LeftToRight : Qt.RightToLeft
-//
-//                model: attachmentsData
-//
-//                delegate: BackgroundItem {
-//                    id: attachmentItem
-//                    height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
-//                    width: height
-//
-//                    Image {
-//                        id: contactAvatar
-//                        anchors.fill: parent
-//                        source: {
-//                            console.log(attachmentsData.get(index).type + "")
-//                            if (attachmentsData.get(index).type) {
-//                                switch (attachmentsData.get(index).type) {
-//                                    case "photo": return "image://theme/icon-l-image"
-//                                    case "video": return "image://theme/icon-l-video"
-//                                    case "audio": return "image://theme/icon-l-music"
-//                                    case "doc": return "image://theme/icon-l-document"
-//                                    case "wall": return "image://theme/icon-l-message"
-//                                    case "point": return "image://theme/icon-l-gps"
-//                                }
-//                            } else {
-//                                return "image://theme/icon-l-redirect"
-//                            }
-//                        }
-//                    }
-//
-//                    onClicked: {
-//                        if (attachmentsData.get(index).type) {
-//                            switch (attachmentsData.get(index).type) {
-//                                case "photo": {
-//                                    var imageSrc = ""
-//                                    if (attachmentsData.get(index).photo.src_xxbig) {
-//                                        imageSrc = attachmentsData.get(index).photo.src_xxbig
-//                                    } else if (attachmentsData.get(index).photo.src_xbig) {
-//                                        imageSrc = attachmentsData.get(index).photo.src_xbig
-//                                    } else if (attachmentsData.get(index).photo.src_big) {
-//                                        imageSrc = attachmentsData.get(index).photo.src_big
-//                                    } else {
-//                                        imageSrc = attachmentsData.get(index).photo.src
-//                                    }
-//                                    pageContainer.push("../pages/ImagePage.qml",
-//                                                       { "imageSource": imageSrc })
-//                                    break;
-//                                }
-//                            }
-//                        } else {
-//                            //
-//                        }
-//                    }
-//                }
-//
-//                HorizontalScrollDecorator {}
-//            }
+            SilicaListView {
+                id: videosAttachment
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: contentHeight
+                clip: true
+                layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
+                spacing: 6
+
+                model: ListModel {}
+
+                delegate: BackgroundItem {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.topMargin: 3
+                    anchors.bottomMargin: 3
+                    anchors.leftMargin: 3
+                    anchors.rightMargin: 3
+                    height: Theme.itemSizeLarge * 2
+
+                    Image {
+                        anchors.fill: parent
+                        source: image
+                        fillMode: Image.PreserveAspectCrop
+
+                        Image {
+                            anchors.centerIn: parent
+                            source: "image://theme/icon-l-play"
+                        }
+                    }
+                }
+            }
 
             Label {
                 id: datetimeText
@@ -199,7 +170,9 @@ BackgroundItem {
                                                         srcXBig:  attachmentsData.get(index).photo.src_xbig,
                                                         srcXXBig: attachmentsData.get(index).photo.src_xxbig })
                         break
-                    case "video": break
+                    case "video":
+                        videosAttachment.model.append({ image: attachmentsData.get(index).video.image })
+                        break
                     case "audio": break
                     case "doc": break
                     case "wall": break
