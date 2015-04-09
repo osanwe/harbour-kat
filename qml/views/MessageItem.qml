@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/api/videos.js" as VideosAPI
 
 BackgroundItem {
     /*
@@ -32,6 +33,10 @@ BackgroundItem {
         var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
                 videosAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
+    }
+
+    function openVideoPlayer(url) {
+        pageContainer.push("../pages/ImagePage.qml", { "url": url })
     }
 
     anchors.left: parent.left
@@ -141,6 +146,8 @@ BackgroundItem {
                             source: "image://theme/icon-l-play"
                         }
                     }
+
+                    onClicked: VideosAPI.getVideo(vid)
                 }
             }
 
@@ -167,7 +174,8 @@ BackgroundItem {
                                                         srcXXBig: attachmentsData.get(index).photo.src_xxbig })
                         break
                     case "video":
-                        videosAttachment.model.append({ image: attachmentsData.get(index).video.image })
+                        videosAttachment.model.append({ vid:   attachmentsData.get(index).video.vid,
+                                                        image: attachmentsData.get(index).video.image })
                         break
                     case "audio": break
                     case "doc": break

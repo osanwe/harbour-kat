@@ -49,7 +49,9 @@ OTHER_FILES += \
     qml/pages/MessagePage.qml \
     qml/views/MessageContentItem.qml \
     qml/fonts/OpenSansEmoji.ttf \
-    qml/pages/ImagePage.qml
+    qml/pages/ImagePage.qml \
+    qml/pages/VideoPage.qml \
+    qml/js/api/videos.js
 
 # to disable building translations every time, comment out the
 # following CONFIG line
