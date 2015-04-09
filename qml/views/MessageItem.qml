@@ -79,12 +79,14 @@ BackgroundItem {
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
                 interactive: false
+                cellWidth: Theme.itemSizeMedium
+                cellHeight: Theme.itemSizeMedium
 
                 model: ListModel {}
 
                 delegate: BackgroundItem {
-                    width: Theme.itemSizeMedium
-                    height: Theme.itemSizeMedium
+                    width: Theme.itemSizeMedium - Theme.paddingSmall
+                    height: Theme.itemSizeMedium - Theme.paddingSmall
 
                     Image {
                         anchors.fill: parent
