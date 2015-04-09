@@ -78,10 +78,7 @@ BackgroundItem {
                 height: contentHeight
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
-                topMargin: 3
-                bottomMargin: 3
-                leftMargin: 3
-                rightMargin: 3
+                interactive: false
 
                 model: ListModel {}
 
@@ -122,17 +119,14 @@ BackgroundItem {
                 height: contentHeight
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
-                spacing: 6
+                spacing: Theme.paddingMedium
+                interactive: false
 
                 model: ListModel {}
 
                 delegate: BackgroundItem {
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.topMargin: 3
-                    anchors.bottomMargin: 3
-                    anchors.leftMargin: 3
-                    anchors.rightMargin: 3
                     height: Theme.itemSizeLarge * 2
 
                     Image {
