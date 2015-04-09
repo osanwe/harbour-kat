@@ -174,7 +174,7 @@ BackgroundItem {
                                                         srcXXBig: attachmentsData.get(index).photo.src_xxbig })
                         break
                     case "video":
-                        videosAttachment.model.append({ vid:   attachmentsData.get(index).video.vid,
+                        videosAttachment.model.append({ vid:   attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
                                                         image: attachmentsData.get(index).video.image })
                         break
                     case "audio": break

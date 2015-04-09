@@ -35,7 +35,7 @@ Page {
     property int dialogsOffset: 0
     property string userAvatar
 
-    function initialize() {
+    function initialize() {  // TODO: Add check expires of access token
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {

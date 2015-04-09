@@ -25,7 +25,6 @@ function getVideo(vid) {
     var url = "https://api.vk.com/method/"
     url += "video.get?"
     url += "videos=" + vid
-    url += "&fields=photo_100"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -34,7 +33,7 @@ function getVideo(vid) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
-            openVideoPlayer(jsonObject.response.items[0].files.mp4_240)
+            openVideoPlayer("http://vk.com/" + jsonObject.response[0].link)
         }
     }
     doc.open("GET", url, true)
