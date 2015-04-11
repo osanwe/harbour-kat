@@ -33,7 +33,7 @@ function getVideo(vid) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
-            openVideoPlayer("http://vk.com/" + jsonObject.response[0].link)
+            openVideoPlayer(jsonObject.response[1].player)
         }
     }
     doc.open("GET", url, true)

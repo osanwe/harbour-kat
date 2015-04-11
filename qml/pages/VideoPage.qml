@@ -19,7 +19,6 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtMultimedia 5.0
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
@@ -29,11 +28,13 @@ Page {
 
     property string url
 
-    orientation: Orientation.Landscape
+//    allowedOrientations: Orientation.Landscape
 
-    Video {
+    SilicaWebView {
+        id: videoWebView
         anchors.fill: parent
-        autoPlay: true
-        source: url
     }
+
+    onStatusChanged: if (status === PageStatus.Active) videoWebView.url = url
+//    Component.onCompleted: videoWebView.url = url
 }

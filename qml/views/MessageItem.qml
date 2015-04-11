@@ -36,7 +36,8 @@ BackgroundItem {
     }
 
     function openVideoPlayer(url) {
-        pageContainer.push("../pages/ImagePage.qml", { "url": url })
+        console.log(url)
+        pageContainer.push("../pages/VideoPage.qml", { "url": url })
     }
 
     anchors.left: parent.left
