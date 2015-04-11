@@ -82,7 +82,11 @@ BackgroundItem {
                 id: photosAttachment
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: contentHeight
+                height: {
+                    var div = Math.floor(model.count / 4)
+                    if ((model.count % 4) != 0) div++
+                    return div * Theme.itemSizeMedium
+                }
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
                 interactive: false
@@ -125,7 +129,7 @@ BackgroundItem {
                 id: videosAttachment
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: contentHeight
+                height: model.count * Theme.itemSizeLarge * 2 + model.count * Theme.paddingMedium
                 clip: true
                 layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
                 spacing: Theme.paddingMedium
