@@ -162,7 +162,9 @@ function parseMessage(jsonObject) {
     messageData[0] = jsonObject.mid
     messageData[1] = jsonObject.read_state
     messageData[2] = jsonObject.out
-    messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    console.log(jsonObject.body)
+    console.log(messageData[3])
     messageData[4] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
