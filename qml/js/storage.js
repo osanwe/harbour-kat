@@ -22,15 +22,20 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 function getDatabase() {
-    return LS.LocalStorage.openDatabaseSync("vkFish", "1", "Properties and data", 100000)
+    return LS.LocalStorage.openDatabaseSync("vkFish", "", "Properties and data", 100000)
 }
 
 function initDatabase() {
     console.log("initDatabase()")
     var db = getDatabase()
+    if (db.version === "1") {
+        db.changeVersion("1", "2", function(tx) {
+            console.log("... recreate tables")
+            tx.executeSql("DROP TABLE settings")
+        })
+    }
     db.transaction( function(tx) {
         console.log("... create tables")
-//        tx.executeSql("DROP TABLE settings")
         tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
     })
 }

@@ -19,7 +19,10 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var accessToken = ""
+.import "storage.js" as StorageJS
+
+
+var accessToken
 var userId
 
 function checkUrl(url) {
