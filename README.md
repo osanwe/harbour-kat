@@ -12,7 +12,21 @@ __v0.2.0 (next)__
  + Adding the opportunity for working with attachments
  + Adding background refreshing
 
-__v0.1.0 (current)__
+__v0.1.2(3) (current)__
+ + Added emoji
+ + The messages view was optimized
+ + Added opportunity of copying messages
+ + Showing attached images
+ + Showing attached videos
+ + Links in messages was corrected
+
+__v0.1.1__
+ + The messages view in dialogs was modified
+ + The list of chat users was added
+ + The separate page for a message was added
+ + The way of creating new chat from cover was added
+
+__v0.1.0__
  + Discover your dialogs
  + Read and write messages WITHOUT attachments
  + Creating new dialogs and chats
