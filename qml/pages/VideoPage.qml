@@ -29,6 +29,8 @@ Page {
 
     property string url
 
+    property bool isPlaying: true
+
     allowedOrientations: Orientation.Landscape
 
     Video {
@@ -39,7 +41,29 @@ Page {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: {}
+            onClicked: {
+                playPauseButton.visible = !playPauseButton.visible
+            }
+        }
+    }
+
+    Image {
+        id: playPauseButton
+        anchors.centerIn: parent
+        visible: false
+        source: isPlaying ? "image://theme/icon-l-play" : "image://theme/icon-l-pause"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (isPlaying) {
+                    videoView.pause()
+                    isPlaying = false
+                } else {
+                    videoView.play()
+                    isPlaying = true
+                }
+            }
         }
     }
 }
