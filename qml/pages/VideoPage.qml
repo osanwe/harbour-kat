@@ -28,6 +28,7 @@ Page {
     id: videoPage
 
     property string url
+    property int duration
 
     property bool isPlaying: true
 
@@ -43,6 +44,7 @@ Page {
             anchors.fill: parent
             onClicked: {
                 playPauseButton.visible = !playPauseButton.visible
+                videoProgressBar.visible = !videoProgressBar.visible
             }
         }
     }
@@ -65,5 +67,14 @@ Page {
                 }
             }
         }
+    }
+
+    ProgressBar {
+        id: videoProgressBar
+        anchors.bottom: parent.bottom
+        width: parent.width
+        maximumValue: duration
+        value: videoView.position / 1000
+        visible: false
     }
 }

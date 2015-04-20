@@ -35,8 +35,9 @@ BackgroundItem {
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
-    function openVideoPlayer(urls) {
+    function openVideoPlayer(urls, duration) {
         console.log(urls)
+        console.log(duration)
         var url = ""
 
         if (urls.mp4_240) {
@@ -46,7 +47,7 @@ BackgroundItem {
             return
         }
 
-        pageContainer.push("../pages/VideoPage.qml", { "url": url })
+        pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })
     }
 
     anchors.left: parent.left
