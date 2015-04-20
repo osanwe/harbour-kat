@@ -32,16 +32,14 @@ Page {
     allowedOrientations: Orientation.Landscape
 
     Video {
+        id: videoView
         anchors.fill: parent
         autoPlay: true
         source: url
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {}
+        }
     }
-
-//    SilicaWebView {
-//        id: videoWebView
-//        anchors.fill: parent
-//    }
-
-//    onStatusChanged: if (status === PageStatus.Active) videoWebView.url = url
-//    Component.onCompleted: videoWebView.url = url
 }
