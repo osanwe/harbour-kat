@@ -33,7 +33,7 @@ function getVideo(vid) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
-            openVideoPlayer(jsonObject.response[1].player)
+            openVideoPlayer(jsonObject.response[1].files)
         }
     }
     doc.open("GET", url, true)

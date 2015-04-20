@@ -20,6 +20,7 @@
 */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Sailfish.Silica 1.0
 
 
@@ -28,13 +29,19 @@ Page {
 
     property string url
 
-//    allowedOrientations: Orientation.Landscape
+    allowedOrientations: Orientation.Landscape
 
-    SilicaWebView {
-        id: videoWebView
+    Video {
         anchors.fill: parent
+        autoPlay: true
+        source: url
     }
 
-    onStatusChanged: if (status === PageStatus.Active) videoWebView.url = url
+//    SilicaWebView {
+//        id: videoWebView
+//        anchors.fill: parent
+//    }
+
+//    onStatusChanged: if (status === PageStatus.Active) videoWebView.url = url
 //    Component.onCompleted: videoWebView.url = url
 }

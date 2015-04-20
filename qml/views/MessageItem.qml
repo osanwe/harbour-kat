@@ -35,10 +35,18 @@ BackgroundItem {
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
-    function openVideoPlayer(url) {
-        console.log(url)
-//        pageContainer.push("../pages/VideoPage.qml", { "url": url })
-        Qt.openUrlExternally(url)
+    function openVideoPlayer(urls) {
+        console.log(urls)
+        var url = ""
+
+        if (urls.mp4_240) {
+            url = urls.mp4_240
+        } else if (urls.external) {
+            Qt.openUrlExternally(urls.external)
+            return
+        }
+
+        pageContainer.push("../pages/VideoPage.qml", { "url": url })
     }
 
     anchors.left: parent.left
