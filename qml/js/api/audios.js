@@ -19,19 +19,24 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import QtMultimedia 5.0
-import Sailfish.Silica 1.0
-import "../views"
+.import "../storage.js" as StorageJS
 
+function getAudio(oid, aid) {
+    var url = "https://api.vk.com/method/"
+    url += "audio.get?"
+    url += "owner_id=" + oid
+    url += "&audio_ids=" + aid
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
 
-Page {
-    id: videoPage
-
-    property string url
-    property int duration
-
-    allowedOrientations: Orientation.Landscape
-
-    VideoPlayer {}
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            console.log(doc.responseText)
+            var jsonObject = JSON.parse(doc.responseText)
+            playAudio(jsonObject.response[1].url, jsonObject.response[1].duration)
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
 }

@@ -20,7 +20,9 @@
 */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Sailfish.Silica 1.0
+import "../js/api/audios.js" as AudiosAPI
 import "../js/api/videos.js" as VideosAPI
 
 BackgroundItem {
@@ -31,7 +33,7 @@ BackgroundItem {
 
     function calculateMessageItemHeight() {
         var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
-                videosAttachment.height
+                videosAttachment.height + audiosAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
@@ -48,6 +50,15 @@ BackgroundItem {
         }
 
         pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })
+    }
+
+    function playAudio(url) {
+        audioPlayer.source = url
+        audioPlayer.play()
+    }
+
+    Audio {
+        id: audioPlayer
     }
 
     anchors.left: parent.left
@@ -166,6 +177,65 @@ BackgroundItem {
                 }
             }
 
+            SilicaListView {
+                id: audiosAttachment
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: model.count * (Theme.itemSizeMedium + Theme.paddingMedium)
+                clip: true
+                layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
+                spacing: Theme.paddingMedium
+                interactive: false
+
+                model: ListModel {}
+
+                delegate: Item {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: Theme.itemSizeMedium
+
+                    property bool isPlaying: false
+
+                    Image {
+                        id: audioPlayPause
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        width: height
+                        source: isPlaying ? "image://theme/icon-l-pause" : "image://theme/icon-l-play"
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (isPlaying) {
+                                    audioPlayer.pause()
+                                    isPlaying = false
+                                } else {
+                                    audioPlayer.stop()
+                                    isPlaying = true
+                                    AudiosAPI.getAudio(oid, aid)
+                                }
+                            }
+                        }
+                    }
+
+                    Row {
+                        anchors.verticalCenter: audioPlayPause.verticalCenter
+                        anchors.left: audioPlayPause.right
+                        anchors.right: parent.right
+
+                        Label {
+                            text: artist
+                            font.bold: true
+                        }
+
+                        Label {
+                            text: " - " + title
+                        }
+                    }
+                }
+            }
+
             Label {
                 id: datetimeText
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
@@ -192,7 +262,12 @@ BackgroundItem {
                         videosAttachment.model.append({ vid:   attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
                                                         image: attachmentsData.get(index).video.image })
                         break
-                    case "audio": break
+                    case "audio":
+                        audiosAttachment.model.append({ oid:      attachmentsData.get(index).audio.owner_id,
+                                                        aid:      attachmentsData.get(index).audio.aid,
+                                                        artist:   attachmentsData.get(index).audio.artist,
+                                                        title:    attachmentsData.get(index).audio.title })
+                        break
                     case "doc": break
                     case "wall": break
                     case "point": break

@@ -51,7 +51,9 @@ OTHER_FILES += \
     qml/fonts/OpenSansEmoji.ttf \
     qml/pages/ImagePage.qml \
     qml/pages/VideoPage.qml \
-    qml/js/api/videos.js
+    qml/js/api/videos.js \
+    qml/views/VideoPlayer.qml \
+    qml/js/api/audios.js
 
 # to disable building translations every time, comment out the
 # following CONFIG line
