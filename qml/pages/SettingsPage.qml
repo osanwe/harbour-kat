@@ -38,7 +38,7 @@ Page {
 
             TextSwitch {
                 text: "Отображать разделитель в сообщениях"
-                checked: StorageJS.readSettingsValue("is_separated_messages")
+                checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
                 onCheckedChanged: {
                     StorageJS.storeSettingsValue("is_separated_messages", checked)

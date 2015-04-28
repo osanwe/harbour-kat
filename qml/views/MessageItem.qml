@@ -25,6 +25,7 @@ import Sailfish.Silica 1.0
 import "../js/api/audios.js" as AudiosAPI
 import "../js/api/videos.js" as VideosAPI
 import "../emojione/emojione.js" as EmojiOne
+import "../js/storage.js" as StorageJS
 
 BackgroundItem {
     /*
@@ -73,6 +74,16 @@ BackgroundItem {
     anchors.right: parent.right
     height: calculateMessageItemHeight()
     highlighted: out === 0 & readState === 0
+
+    Separator {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: Theme.paddingMedium
+        anchors.rightMargin: Theme.paddingMedium
+        color: Theme.secondaryHighlightColor
+        visible: StorageJS.readSettingsValue("is_separated_messages") === 'true'
+    }
 
     Row {
         anchors.top: parent.top
