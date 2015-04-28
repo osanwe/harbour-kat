@@ -46,19 +46,45 @@ BackgroundItem {
         return EmojiOne.toImage(message)
     }
 
+    function getVideoUrl(urls, quality) {
+        var url = ""
+        switch (quality) {
+        case 0:
+            url = urls.mp4_720
+            break;
+
+        case 1:
+            url = urls.mp4_480
+            break;
+
+        case 2:
+            url = urls.mp4_360
+            break;
+
+        case 3:
+            url = urls.mp4_240
+            break;
+        }
+        if (url) {
+            return url
+        } else if (quality < 3) {
+            return getVideoUrl(urls, quality+1)
+        } else {
+            return
+        }
+    }
+
     function openVideoPlayer(urls, duration) {
         console.log(urls)
         console.log(duration)
-        var url = ""
+        var url = getVideoUrl(urls, parseInt(StorageJS.readSettingsValue("video_quality"), 10))
+        console.log(url)
 
-        if (urls.mp4_240) {
-            url = urls.mp4_240
+        if (url) {
+            pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })
         } else if (urls.external) {
             Qt.openUrlExternally(urls.external)
-            return
         }
-
-        pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })
     }
 
     function playAudio(url) {
