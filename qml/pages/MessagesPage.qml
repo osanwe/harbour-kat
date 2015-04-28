@@ -132,11 +132,11 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
             }
 
-//            MenuItem {
-//                id: settingsItem
-//                text: "Настройки"
-//                onClicked: doMainMenuItem()
-//            }
+            MenuItem {
+                id: settingsItem
+                text: "Настройки"
+                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
 
             MenuItem {
                 id: newMessageItem
