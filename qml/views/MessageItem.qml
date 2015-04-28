@@ -24,6 +24,7 @@ import QtMultimedia 5.0
 import Sailfish.Silica 1.0
 import "../js/api/audios.js" as AudiosAPI
 import "../js/api/videos.js" as VideosAPI
+import "../emojione/emojione.js" as EmojiOne
 
 BackgroundItem {
     /*
@@ -35,6 +36,13 @@ BackgroundItem {
         var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
                 videosAttachment.height + audiosAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
+    }
+
+    function buildMessageWithEmoji(message) {
+//        EmojiOne.imageType = 'png'
+//        EmojiOne.ascii = true
+//        EmojiOne.imagePathPNG = '../emojione/png/'
+        return EmojiOne.toImage(message)
     }
 
     function openVideoPlayer(urls, duration) {
@@ -88,8 +96,9 @@ BackgroundItem {
             Label {
                 id: messageText
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
+                height: contentHeight
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
-                text: message
+                text: buildMessageWithEmoji(message)
                 textFormat: Text.StyledText
                 linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
                 color: readState === 1 ? Theme.primaryColor : Theme.highlightColor
@@ -247,6 +256,8 @@ BackgroundItem {
         }
 
     }
+
+    onClicked: console.log(messageText.text)
 
     Component.onCompleted: {
         for (var index = 0; index < attachmentsData.count; index++) {

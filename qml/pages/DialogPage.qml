@@ -141,13 +141,13 @@ Page {
 
                     highlighted: contextMenu
 
-                    onClicked: {
-                        dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
-                                                      { "fullname": dialogTitle.text,
-                                                        "isOnline": dialogOnlineStatus.isOnline,
-                                                        "messageText": message,
-                                                        "attachments": attachments })
-                    }
+//                    onClicked: {
+//                        dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
+//                                                      { "fullname": dialogTitle.text,
+//                                                        "isOnline": dialogOnlineStatus.isOnline,
+//                                                        "messageText": message,
+//                                                        "attachments": attachments })
+//                    }
                     onPressAndHold: {
                         console.log(index)
                         if (!contextMenu)
