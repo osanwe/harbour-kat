@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/storage.js" as StorageJS
 
 Page {
     id: aboutPage
@@ -37,12 +38,16 @@ Page {
 
             TextSwitch {
                 text: "Отображать разделитель в сообщениях"
+                checked: StorageJS.readSettingsValue("is_separated_messages")
 
-                onCheckedChanged: {}
+                onCheckedChanged: {
+                    StorageJS.storeSettingsValue("is_separated_messages", checked)
+                }
             }
 
             ComboBox {
                 label: "Предпочитаемое качество видео"
+                currentIndex: StorageJS.readSettingsValue("video_quality")
 
                 menu: ContextMenu {
                     MenuItem { text: "720p" }
@@ -50,7 +55,9 @@ Page {
                     MenuItem { text: "360p" }
                     MenuItem { text: "240p" }
 
-                    onActivated: {}
+                    onActivated: {
+                        StorageJS.storeSettingsValue("video_quality", index)
+                    }
                 }
             }
         }
