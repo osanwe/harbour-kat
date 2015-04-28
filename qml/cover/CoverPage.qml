@@ -52,7 +52,7 @@ CoverBackground {
         id: coverAction
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-message"
+            iconSource: "image://theme/icon-cover-new"
 
             onTriggered: {
                 pageStack.push(Qt.resolvedUrl("../pages/NewMessagePage.qml"))
