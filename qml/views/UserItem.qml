@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../emojione/emojione.js" as EmojiOne
 
 BackgroundItem {
     /*
@@ -88,7 +89,7 @@ BackgroundItem {
         anchors.right: parent.right
         anchors.rightMargin: Theme.paddingLarge
         color: !isDialog || readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
-        text: previewText
+        text: EmojiOne.toImage(previewText)
         truncationMode: TruncationMode.Fade
     }
 }

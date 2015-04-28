@@ -98,7 +98,7 @@ BackgroundItem {
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
                 height: contentHeight
                 horizontalAlignment: out === 1 ? Text.AlignRight : Text.AlignLeft
-                text: buildMessageWithEmoji(message)
+                text: EmojiOne.toImage(message)
                 textFormat: Text.StyledText
                 linkColor: readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
                 color: readState === 1 ? Theme.primaryColor : Theme.highlightColor

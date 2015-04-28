@@ -1,3 +1,5 @@
+//.import Sailfish.Silica 1.0 as Silica
+
 /* jshint maxerr: 10000 */
 /* jslint unused: true */
 /* jshint shadow: true */
@@ -238,7 +240,7 @@ var imagePathPNG = '../emojione/png/';
                         replaceWith = '<span class="emojione-'+unicode+'" title="'+shortname+'">'+alt+'</span>';
                     }
                     else {
-                        replaceWith = '<img src="'+imagePathPNG+unicode+'.png"/>';
+                        replaceWith = '<img height="' + Theme.fontSizeMedium + '" width="' + Theme.fontSizeMedium + '" src="'+imagePathPNG+unicode+'.png"/>';
                     }
                 }
                 else {
@@ -275,7 +277,7 @@ var imagePathPNG = '../emojione/png/';
                         replaceWith = m2+'<span class="emojione-'+unicode.toUpperCase()+'" title="'+escapeHTML(m3)+'">'+alt+'</span>';
                     }
                     else {
-                        replaceWith = m2+'<img src="'+imagePathPNG+unicode+'.png"/>';
+                        replaceWith = m2+'<img height="' + Theme.fontSizeMedium + '" width="' + Theme.fontSizeMedium + '" src="'+imagePathPNG+unicode+'.png"/>';
                     }
                 }
                 else {
@@ -321,7 +323,7 @@ var imagePathPNG = '../emojione/png/';
                         replaceWith = '<span class="emojione-'+unicode.toUpperCase()+'" title="'+mappedUnicode[unicode]+'">'+alt+'</span>';
                     }
                     else {
-                        replaceWith = '<img src="'+imagePathPNG+unicode+'.png"/>';
+                        replaceWith = '<img height="' + Theme.fontSizeMedium + '" width="' + Theme.fontSizeMedium + '" src="'+imagePathPNG+unicode+'.png"/>';
                     }
                 }
                 else {
@@ -387,42 +389,42 @@ var imagePathPNG = '../emojione/png/';
         }
     };
 
-//    escapeHTML = function (string) {
-//        var escaped = {
-//            '&' : '&amp;',
-//            '<' : '&lt;',
-//            '>' : '&gt;',
-//            '"' : '&quot;',
-//            '\'': '&#039;'
-//        };
+    function escapeHTML(string) {
+        var escaped = {
+            '&' : '&amp;',
+            '<' : '&lt;',
+            '>' : '&gt;',
+            '"' : '&quot;',
+            '\'': '&#039;'
+        };
 
-//        return string.replace(/[&<>"']/g, function (match) {
-//            return escaped[match];
-//        });
-//    };
-//    unescapeHTML = function (string) {
-//        var unescaped = {
-//            '&amp;'  : '&',
-//            '&#38;'  : '&',
-//            '&#x26;' : '&',
-//            '&lt;'   : '<',
-//            '&#60;'  : '<',
-//            '&#x3C;' : '<',
-//            '&gt;'   : '>',
-//            '&#62;'  : '>',
-//            '&#x3E;' : '>',
-//            '&quot;' : '"',
-//            '&#34;'  : '"',
-//            '&#x22;' : '"',
-//            '&apos;' : '\'',
-//            '&#39;'  : '\'',
-//            '&#x27;' : '\''
-//        };
+        return string.replace(/[&<>"']/g, function (match) {
+            return escaped[match];
+        });
+    };
+    function unescapeHTML(string) {
+        var unescaped = {
+            '&amp;'  : '&',
+            '&#38;'  : '&',
+            '&#x26;' : '&',
+            '&lt;'   : '<',
+            '&#60;'  : '<',
+            '&#x3C;' : '<',
+            '&gt;'   : '>',
+            '&#62;'  : '>',
+            '&#x3E;' : '>',
+            '&quot;' : '"',
+            '&#34;'  : '"',
+            '&#x22;' : '"',
+            '&apos;' : '\'',
+            '&#39;'  : '\'',
+            '&#x27;' : '\''
+        };
 
-//        return string.replace(/&(?:amp|#38|#x26|lt|#60|#x3C|gt|#62|#x3E|apos|#39|#x27|quot|#34|#x22);/ig, function (match) {
-//            return unescaped[match];
-//        });
-//    };
+        return string.replace(/&(?:amp|#38|#x26|lt|#60|#x3C|gt|#62|#x3E|apos|#39|#x27|quot|#34|#x22);/ig, function (match) {
+            return unescaped[match];
+        });
+    };
 //    mapShortToUnicode = function() {
 //        var new_obj = {};
 //        for (var shortname in emojioneList) {
