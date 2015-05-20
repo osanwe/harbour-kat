@@ -35,14 +35,11 @@ BackgroundItem {
 
     function calculateMessageItemHeight() {
         var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
-                videosAttachment.height + audiosAttachment.height
+                videosAttachment.height + audiosAttachment.height + docsAttachment.height
         return Math.max(messageAvatar.height, textHeight) + 2 * Theme.paddingMedium
     }
 
     function buildMessageWithEmoji(message) {
-//        EmojiOne.imageType = 'png'
-//        EmojiOne.ascii = true
-//        EmojiOne.imagePathPNG = '../emojione/png/'
         return EmojiOne.toImage(message)
     }
 
@@ -282,6 +279,44 @@ BackgroundItem {
                 }
             }
 
+            SilicaListView {
+                id: docsAttachment
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: model.count * (Theme.itemSizeMedium + Theme.paddingMedium)
+                clip: true
+                layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
+                spacing: Theme.paddingMedium
+                interactive: false
+
+                model: ListModel {}
+
+                delegate: BackgroundItem {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: Theme.itemSizeMedium
+
+                    Image {
+                        id: documentImage
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        width: height
+                        source: "image://theme/icon-l-document"
+                    }
+
+                    Row {
+                        anchors.verticalCenter: documentImage.verticalCenter
+                        anchors.left: documentImage.right
+                        anchors.right: parent.right
+
+                        Label { text: title }
+                    }
+
+                    onClicked: {}
+                }
+            }
+
             Label {
                 id: datetimeText
                 width: parent.parent.width - Theme.paddingMedium - messageAvatar.width
@@ -316,7 +351,10 @@ BackgroundItem {
                                                         artist:   attachmentsData.get(index).audio.artist,
                                                         title:    attachmentsData.get(index).audio.title })
                         break
-                    case "doc": break
+                    case "doc":
+                        docsAttachment.model.append({ title: attachmentsData.get(index).doc.title,
+                                                      url:   attachmentsData.get(index).doc.url })
+                        break
                     case "wall": break
                     case "point": break
                 }

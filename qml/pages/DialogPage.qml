@@ -139,8 +139,6 @@ Page {
                     id: contentItem
                     width: parent.width
 
-                    highlighted: contextMenu
-
 //                    onClicked: {
 //                        dialogPage.pageContainer.push(Qt.resolvedUrl("MessagePage.qml"),
 //                                                      { "fullname": dialogTitle.text,
