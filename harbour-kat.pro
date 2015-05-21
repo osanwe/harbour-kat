@@ -1109,7 +1109,8 @@ OTHER_FILES += \
     qml/emojione/png/303D.png \
     qml/emojione/png/3297.png \
     qml/emojione/png/3299.png \
-    qml/pages/SettingsPage.qml
+    qml/pages/SettingsPage.qml \
+    qml/pages/MainMenuPage.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line
