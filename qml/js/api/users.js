@@ -19,6 +19,28 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+function getUserMainInfo(uid) {
+    var url = "https://api.vk.com/method/"
+    url += "users.get?"
+    url += "user_ids=" + uid
+    url += "&fields=photo_100"
+    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(url)
+
+    var doc = new XMLHttpRequest()
+    doc.onreadystatechange = function() {
+        if (doc.readyState === XMLHttpRequest.DONE) {
+            console.log(doc.responseText)
+            var jsonObject = JSON.parse(doc.responseText)
+            updateUserInfo(
+                        jsonObject.response[0].first_name + " " + jsonObject.response[0].last_name,
+                        jsonObject.response[0].photo_100)
+        }
+    }
+    doc.open("GET", url, true)
+    doc.send()
+}
+
 function getUserAvatar(uid) {
     var url = "https://api.vk.com/method/"
     url += "users.get?"
