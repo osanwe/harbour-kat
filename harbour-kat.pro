@@ -14,8 +14,17 @@ TARGET = harbour-kat
 
 CONFIG += sailfishapp
 
+# to disable building translations every time, comment out the
+# following CONFIG line
+#CONFIG += sailfishapp_i18n
+#TRANSLATIONS += translations/vkFish-de.ts
+
+HEADERS += \
+    filedownloader.h
+
 SOURCES += \
-    src/harbour-kat.cpp
+    src/harbour-kat.cpp \
+    filedownloader.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
@@ -1111,11 +1120,4 @@ OTHER_FILES += \
     qml/emojione/png/3299.png \
     qml/pages/SettingsPage.qml \
     qml/pages/MainMenuPage.qml
-
-# to disable building translations every time, comment out the
-# following CONFIG line
-#CONFIG += sailfishapp_i18n
-#TRANSLATIONS += translations/vkFish-de.ts
-
-HEADERS +=
 
