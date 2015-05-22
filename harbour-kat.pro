@@ -20,11 +20,11 @@ CONFIG += sailfishapp
 #TRANSLATIONS += translations/vkFish-de.ts
 
 HEADERS += \
-    filedownloader.h
+    src/filedownloader.h
 
 SOURCES += \
     src/harbour-kat.cpp \
-    filedownloader.cpp
+    src/filedownloader.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
