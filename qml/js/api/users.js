@@ -19,6 +19,8 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+.import "../storage.js" as StorageJS
+
 function getUserMainInfo(uid) {
     var url = "https://api.vk.com/method/"
     url += "users.get?"
@@ -32,6 +34,8 @@ function getUserMainInfo(uid) {
         if (doc.readyState === XMLHttpRequest.DONE) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
+            StorageJS.saveUserName(jsonObject.response[0].first_name,
+                                   jsonObject.response[0].last_name)
             updateUserInfo(
                         jsonObject.response[0].first_name + " " + jsonObject.response[0].last_name,
                         jsonObject.response[0].photo_100)

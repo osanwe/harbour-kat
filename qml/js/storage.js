@@ -37,12 +37,17 @@ function initDatabase() {
     db.transaction( function(tx) {
         console.log("... create tables")
         tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
+        tx.executeSql("CREATE TABLE IF NOT EXISTS user_info (key TEXT UNIQUE, value TEXT)")
     })
 }
+
+
+// -------------- Functions for saving and reading settings parameters --------------
 
 function storeSettingsValue(key, value) {
     console.log("storeSettingsData()")
     var db = getDatabase()
+    if (!db) { return }
     db.transaction( function(tx) {
         console.log("... update it")
         tx.executeSql("INSERT OR REPLACE INTO settings VALUES (\"" + key + "\", \"" + value + "\")")
@@ -59,6 +64,40 @@ function readSettingsValue(key) {
         var result = tx.executeSql("SELECT value FROM settings WHERE key=\"" + key + "\"")
         if (result.rows.length === 1) {
             value = result.rows[0].value
+        }
+    })
+    console.log(value)
+    return value
+}
+
+
+// -------------- Functions for saving user data --------------
+
+function saveUserName(first_name, last_name) {
+    console.log("saveUserName()")
+    var db = getDatabase()
+    if (!db) { return }
+    db.transaction( function(tx) {
+        console.log("... saving ...")
+        tx.executeSql("INSERT OR REPLACE INTO user_info VALUES (\"first_name\", \"" + first_name + "\")")
+        tx.executeSql("INSERT OR REPLACE INTO user_info VALUES (\"last_name\", \"" + last_name + "\")")
+    })
+}
+
+
+// -------------- Functions for reading user data --------------
+
+function readFullUserName() {
+    console.log("readFullUserName()")
+    var db = getDatabase()
+    if (!db) { return }
+    var value = ""
+    db.transaction( function(tx) {
+        console.log("... reading ...")
+        var result = tx.executeSql(
+                    "SELECT value FROM user_info WHERE key=\"first_name\" OR key=\"last_name\"")
+        if (result.rows.length === 2) {
+            value = result.rows[0].value + " " + result.rows[1].value
         }
     })
     console.log(value)

@@ -33,6 +33,10 @@ Page {
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
         } else {
+            // From database
+            var fullUserName = StorageJS.readFullUserName()
+            updateUserInfo(fullUserName, "")
+            // Update now if need
             UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
         }
     }
