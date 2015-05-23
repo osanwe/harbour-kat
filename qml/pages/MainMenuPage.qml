@@ -38,7 +38,7 @@ Page {
             var avatarFileName = StorageJS.readUserAvatar()
             updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
             // Update now if need
-//            UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
+            UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
         }
     }
 

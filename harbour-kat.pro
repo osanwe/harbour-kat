@@ -1119,5 +1119,6 @@ OTHER_FILES += \
     qml/emojione/png/3297.png \
     qml/emojione/png/3299.png \
     qml/pages/SettingsPage.qml \
-    qml/pages/MainMenuPage.qml
+    qml/pages/MainMenuPage.qml \
+    qml/js/api/request.js
 
