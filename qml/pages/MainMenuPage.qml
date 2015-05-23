@@ -35,15 +35,15 @@ Page {
         } else {
             // From database
             var fullUserName = StorageJS.readFullUserName()
-            updateUserInfo(fullUserName, "")
+            var avatarFileName = StorageJS.readUserAvatar()
+            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
             // Update now if need
-            UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
+//            UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
         }
     }
 
     function updateUserInfo(name, avatarUrl) {
         userFullName = name
-        fileDownloader.startDownload(avatarUrl, 0)
         userAvatarUrl = avatarUrl
     }
 

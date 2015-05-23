@@ -84,6 +84,16 @@ function saveUserName(first_name, last_name) {
     })
 }
 
+function saveUserAvatar(fileName) {
+    console.log("saveUserAvatar()")
+    var db = getDatabase()
+    if (!db) { return }
+    db.transaction( function(tx) {
+        console.log("... saving ...")
+        tx.executeSql("INSERT OR REPLACE INTO user_info VALUES (\"user_avatar\", \"" + fileName + "\")")
+    })
+}
+
 
 // -------------- Functions for reading user data --------------
 
@@ -98,6 +108,22 @@ function readFullUserName() {
                     "SELECT value FROM user_info WHERE key=\"first_name\" OR key=\"last_name\"")
         if (result.rows.length === 2) {
             value = result.rows[0].value + " " + result.rows[1].value
+        }
+    })
+    console.log(value)
+    return value
+}
+
+function readUserAvatar() {
+    console.log("readUserAvatar()")
+    var db = getDatabase()
+    if (!db) { return }
+    var value = ""
+    db.transaction( function(tx) {
+        console.log("... reading ...")
+        var result = tx.executeSql("SELECT value FROM user_info WHERE key=\"user_avatar\"")
+        if (result.rows.length === 1) {
+            value = result.rows[0].value
         }
     })
     console.log(value)

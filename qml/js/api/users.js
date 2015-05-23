@@ -36,6 +36,9 @@ function getUserMainInfo(uid) {
             var jsonObject = JSON.parse(doc.responseText)
             StorageJS.saveUserName(jsonObject.response[0].first_name,
                                    jsonObject.response[0].last_name)
+            var avatarUrl = jsonObject.response[0].photo_100.split("/")
+            StorageJS.saveUserAvatar(avatarUrl[avatarUrl.length - 1])
+            fileDownloader.startDownload(jsonObject.response[0].photo_100, 0)
             updateUserInfo(
                         jsonObject.response[0].first_name + " " + jsonObject.response[0].last_name,
                         jsonObject.response[0].photo_100)
