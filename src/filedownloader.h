@@ -26,26 +26,36 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QFile>
+#include <QIODevice>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+
+#define SAVING_TO_CACHE 0
+#define SAVING_TO_DOWNLOADS 1
 
 class FileDownloader : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit FileDownloader(QUrl imageUrl, QObject *parent = 0);
+    explicit FileDownloader(QObject *parent = 0);
     virtual ~FileDownloader();
     QByteArray downloadedData() const;
 
 signals:
     void downloaded();
 
+public slots:
+    void startDownload(QString url, int mode);
+
 private slots:
     void fileDownloaded(QNetworkReply* pReply);
 
 private:
+    int m_Mode;
+    QString m_FileName;
     QNetworkAccessManager m_WebCtrl;
     QByteArray m_DownloadedData;
 };

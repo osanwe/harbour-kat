@@ -24,10 +24,25 @@
 #endif
 
 #include <sailfishapp.h>
+#include <QGuiApplication>
+#include <QScopedPointer>
+#include <QQuickView>
+#include <QQmlContext>
+
+#include "filedownloader.h"
 
 
 int main(int argc, char *argv[])
 {
-    return SailfishApp::main(argc, argv);
+    QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
+    QScopedPointer<QQuickView> view(SailfishApp::createView());
+    QScopedPointer<FileDownloader> fileDownloader(new FileDownloader(view.data()));
+
+    view->rootContext()->setContextProperty("fileDownloader", fileDownloader.data());
+    view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
+    view->show();
+
+    return application->exec();
+//    return SailfishApp::main(argc, argv);
 }
 

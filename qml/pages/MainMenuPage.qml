@@ -43,6 +43,7 @@ Page {
 
     function updateUserInfo(name, avatarUrl) {
         userFullName = name
+        fileDownloader.startDownload(avatarUrl, 0)
         userAvatarUrl = avatarUrl
     }
 

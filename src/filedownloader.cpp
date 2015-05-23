@@ -21,17 +21,22 @@
 
 #include "filedownloader.h"
 
-FileDownloader::FileDownloader(QUrl imageUrl, QObject *parent)
+FileDownloader::FileDownloader(QObject *parent)
     : QObject(parent)
 {
     connect(&m_WebCtrl, SIGNAL (finished(QNetworkReply*)), this, SLOT(fileDownloaded(QNetworkReply*)));
-
-    QNetworkRequest request(imageUrl);
-    m_WebCtrl.get(request);
 }
 
 FileDownloader::~FileDownloader()
 {
+}
+
+void FileDownloader::startDownload(QString url, int mode)
+{
+    m_Mode = mode;
+    m_FileName = url.split("/").last();
+    QNetworkRequest request(url);
+    m_WebCtrl.get(request);
 }
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
@@ -39,6 +44,31 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     //emit a signal
     pReply->deleteLater();
     emit downloaded();
+
+    switch (m_Mode) {
+    case SAVING_TO_CACHE:
+    {
+        QString path("/home/nemo/.cache/harbour-kat/");
+        QFile file(path.append(m_FileName));
+        file.open(QIODevice::WriteOnly);
+        file.write(m_DownloadedData);
+        file.close();
+        break;
+    }
+
+    case SAVING_TO_DOWNLOADS:
+    {
+        QString path("/home/nemo/Downloads/harbour-kat/");
+        QFile file(path.append(m_FileName));
+        file.open(QIODevice::WriteOnly);
+        file.write(m_DownloadedData);
+        file.close();
+        break;
+    }
+
+    default:
+        break;
+    }
 }
 
 QByteArray FileDownloader::downloadedData() const {
