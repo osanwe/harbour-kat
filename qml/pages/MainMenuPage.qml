@@ -29,22 +29,10 @@ Page {
     property string userAvatarUrl: "image://theme/icon-l-people"
     property string userFullName: "Имя Фамилия"
 
-    function getUpdates() {
-        if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
-        } else {
-            // From database
-            var fullUserName = StorageJS.readFullUserName()
-            var avatarFileName = StorageJS.readUserAvatar()
-            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
-            // Update now if need
-            UsersAPI.getUserMainInfo(StorageJS.readSettingsValue("user_id"))
-        }
-    }
-
-    function updateUserInfo(name, avatarUrl) {
-        userFullName = name
-        userAvatarUrl = avatarUrl
+    Connections {
+        target: fileDownloader
+        onDownloaded: updateUserInfo(StorageJS.readFullUserName(),
+                                     "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar())
     }
 
     SilicaListView {
@@ -209,4 +197,24 @@ Page {
 
     onStatusChanged: if (status === PageStatus.Active) getUpdates()
     Component.onCompleted: StorageJS.initDatabase()
+
+
+    function getUpdates() {
+        if (!StorageJS.readSettingsValue("user_id")) {
+            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+        } else {
+            // From database
+            var fullUserName = StorageJS.readFullUserName()
+            var avatarFileName = StorageJS.readUserAvatar()
+            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+            // Update now if need
+            UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
+        }
+    }
+
+    function updateUserInfo(name, avatarUrl) {
+        console.log("updateUserInfo()")
+        userFullName = name
+        userAvatarUrl = avatarUrl
+    }
 }

@@ -28,7 +28,12 @@ function sendRequest(query, callback) {
     console.log(query)
 
     var request = new XMLHttpRequest()
-    request.onreadystatechange = callback
+    request.onreadystatechange = function() {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            console.log(request.responseText)
+            callback(JSON.parse(request.responseText))
+        }
+    }
     request.open("GET", query, true)
     request.send()
 }

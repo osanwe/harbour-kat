@@ -41,9 +41,6 @@ void FileDownloader::startDownload(QString url, int mode)
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     m_DownloadedData = pReply->readAll();
-    //emit a signal
-    pReply->deleteLater();
-    emit downloaded();
 
     switch (m_Mode) {
     case SAVING_TO_CACHE:
@@ -69,6 +66,11 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     default:
         break;
     }
+
+    //emit a signal
+    pReply->deleteLater();
+//    emit downloaded();
+    Q_EMIT downloaded();
 }
 
 QByteArray FileDownloader::downloadedData() const {
