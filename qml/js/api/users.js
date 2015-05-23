@@ -39,21 +39,20 @@ function callback_getUserNameAndAvatar(jsonObject) {
     var firstName = jsonObject.response[0].first_name
     var secondName = jsonObject.response[0].last_name
     var fullName = firstName + " " + secondName
-    var avatarName = jsonObject.response[0].photo_100.split("/")
-    avatarName = avatarName[avatarName.length - 1]
+    var oldAvatarName = StorageJS.readUserAvatar()
+    var newAvatarName = jsonObject.response[0].photo_100.split("/")
+    newAvatarName = newAvatarName[newAvatarName.length - 1]
 
     if (StorageJS.readFullUserName() !== fullName) {
         console.log("Replacing user name...")
         StorageJS.saveUserName(firstName, secondName)
+        updateUserInfo(fullName, "/home/nemo/.cache/harbour-kat/" + oldAvatarName)
     }
-    if (StorageJS.readUserAvatar() !== avatarName) {
+    if (oldAvatarName !== newAvatarName) {
         console.log("Replacing user avatar...")
         fileDownloader.startDownload(jsonObject.response[0].photo_100, 0)
-        StorageJS.saveUserAvatar(avatarName)
+        StorageJS.saveUserAvatar(newAvatarName)
     }
-
-    avatarName = "/home/nemo/.cache/harbour-kat/" + avatarName
-    updateUserInfo(fullName, avatarName)
 }
 
 

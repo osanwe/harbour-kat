@@ -29,12 +29,6 @@ Page {
     property string userAvatarUrl: "image://theme/icon-l-people"
     property string userFullName: "Имя Фамилия"
 
-    Connections {
-        target: fileDownloader
-        onDownloaded: updateUserInfo(StorageJS.readFullUserName(),
-                                     "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar())
-    }
-
     SilicaListView {
         id: mainMenu
         anchors.fill: parent
@@ -51,6 +45,14 @@ Page {
                 width: Theme.itemSizeMedium - 2 * Theme.paddingMedium
                 height: Theme.itemSizeMedium - 2 * Theme.paddingMedium
                 source: userAvatarUrl
+
+                Connections {
+                    target: fileDownloader
+                    onDownloaded: {
+                        userAvatarUrl = "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar()
+                        userAvatar.source = userAvatarUrl
+                    }
+                }
             }
 
             Label {
