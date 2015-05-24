@@ -127,18 +127,6 @@ Page {
         PullDownMenu {
 
             MenuItem {
-                id: aboutItem
-                text: "О программе"
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-            }
-
-            MenuItem {
-                id: settingsItem
-                text: "Настройки"
-                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
-            }
-
-            MenuItem {
                 id: newMessageItem
                 text: "Новое сообщение"
                 onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))

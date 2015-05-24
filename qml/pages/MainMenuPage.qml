@@ -29,9 +29,49 @@ Page {
     property string userAvatarUrl: "image://theme/icon-l-people"
     property string userFullName: "Имя Фамилия"
 
+    function doStartUpdate() {
+        if (!StorageJS.readSettingsValue("user_id")) {
+            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+        } else {
+            var fullUserName = StorageJS.readFullUserName()
+            var avatarFileName = StorageJS.readUserAvatar()
+            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+
+            doForceUpdate()
+        }
+    }
+
+    function doForceUpdate() {
+        UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
+    }
+
+    function updateUserInfo(name, avatarUrl) {
+        console.log("updateUserInfo()")
+        userFullName = name
+        userAvatarUrl = avatarUrl
+    }
+
     SilicaListView {
         id: mainMenu
         anchors.fill: parent
+
+        PullDownMenu {
+
+            MenuItem {
+                text: "О программе"
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+
+            MenuItem {
+                text: "Настройки"
+                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+
+            MenuItem {
+                text: "Обновить"
+                onClicked: doForceUpdate()
+            }
+        }
 
         header: BackgroundItem {
             width: parent.width
@@ -197,26 +237,6 @@ Page {
         }
     }
 
-    onStatusChanged: if (status === PageStatus.Active) getUpdates()
+    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
     Component.onCompleted: StorageJS.initDatabase()
-
-
-    function getUpdates() {
-        if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
-        } else {
-            // From database
-            var fullUserName = StorageJS.readFullUserName()
-            var avatarFileName = StorageJS.readUserAvatar()
-            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
-            // Update now if need
-            UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
-        }
-    }
-
-    function updateUserInfo(name, avatarUrl) {
-        console.log("updateUserInfo()")
-        userFullName = name
-        userAvatarUrl = avatarUrl
-    }
 }
