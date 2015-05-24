@@ -46,7 +46,7 @@ function callback_getUserNameAndAvatar(jsonObject) {
     if (StorageJS.readFullUserName() !== fullName) {
         console.log("Replacing user name...")
         StorageJS.saveUserName(firstName, secondName)
-        updateUserInfo(fullName, "/home/nemo/.cache/harbour-kat/" + oldAvatarName)
+        updateUserNameAndAvatar(fullName, "/home/nemo/.cache/harbour-kat/" + oldAvatarName)
     }
     if (oldAvatarName !== newAvatarName) {
         console.log("Replacing user avatar...")

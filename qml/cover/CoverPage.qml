@@ -25,8 +25,8 @@ import "../js/api/messages.js" as MessagesAPI
 
 CoverBackground {
 
-    function updateCoverCounters(msgCounter) {
-        coverMessagesCount.text = msgCounter
+    function updateCoverCounters(counter) {
+        coverMessagesCount.text = counter ? counter : "0"
     }
 
     Row {
@@ -64,7 +64,7 @@ CoverBackground {
             iconSource: "image://theme/icon-cover-refresh"
 
             onTriggered: {
-                MessagesAPI.getUnreadMessagesCount()
+                MessagesAPI.api_getUnreadMessagesCounter(true)
                 updateTimer.restart()
             }
         }
@@ -76,10 +76,10 @@ CoverBackground {
         running: true
         repeat: true
 
-        onTriggered: MessagesAPI.getUnreadMessagesCount()
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
 
-    Component.onCompleted: MessagesAPI.getUnreadMessagesCount()
+    Component.onCompleted: MessagesAPI.api_getUnreadMessagesCounter(true)
 }
 
 

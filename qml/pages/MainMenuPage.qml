@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/storage.js" as StorageJS
+import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
 Page {
@@ -35,7 +36,7 @@ Page {
         } else {
             var fullUserName = StorageJS.readFullUserName()
             var avatarFileName = StorageJS.readUserAvatar()
-            updateUserInfo(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+            updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
 
             doForceUpdate()
         }
@@ -43,12 +44,17 @@ Page {
 
     function doForceUpdate() {
         UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
+        MessagesAPI.api_getUnreadMessagesCounter(false)
     }
 
-    function updateUserInfo(name, avatarUrl) {
+    function updateUserNameAndAvatar(name, avatarUrl) {
         console.log("updateUserInfo()")
         userFullName = name
         userAvatarUrl = avatarUrl
+    }
+
+    function updateUnreadMessagesCounter(counter) {
+        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
     }
 
     SilicaListView {

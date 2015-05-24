@@ -20,7 +20,33 @@
 */
 
 .import "../storage.js" as StorageJS
-.import "./users.js" as UsersAPI
+.import "request.js" as RequestAPI
+.import "users.js" as UsersAPI
+
+
+// -------------- API functions --------------
+
+function api_getUnreadMessagesCounter(isCover) {
+    var query = "messages.getDialogs?v=5.14"
+    query += "&unread=1"
+    RequestAPI.sendRequest(query, isCover ?
+                                  callback_getUnreadMessagesCounter_cover :
+                                  callback_getUnreadMessagesCounter_mainMenu)
+}
+
+
+// -------------- Callbacks --------------
+
+function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
+    updateUnreadMessagesCounter(jsonObject.response.count)
+}
+
+function callback_getUnreadMessagesCounter_cover(jsonObject) {
+    updateCoverCounters(jsonObject.response.count)
+}
+
+
+// -------------- Other functions --------------
 
 function getDialogs(offset) {
     var url = "https://api.vk.com/method/"
@@ -189,30 +215,6 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
-}
-
-
-function getUnreadMessagesCount() {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?v=5.14"
-    url += "&unread=1"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            if (jsonObject.response.count) {
-                updateCoverCounters(jsonObject.response.count)
-            } else {
-                updateCoverCounters(0)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }
 
 function searchDialogs(substring) {
