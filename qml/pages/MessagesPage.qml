@@ -33,37 +33,14 @@ Page {
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
-    property string userAvatar
 
-    function initialize() {  // TODO: Add check expires of access token
-        if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
-        } else {
-            dialogsOffset = 0
-            chatsCounter = 0
-            loadingDialogsIndicator.running = true
-            messagesList.footerItem.visible = false
-            messagesList.model.clear()  // TODO: Oh, really?!
-            MessagesAPI.getDialogs(dialogsOffset)
-            UsersAPI.getUserAvatar(StorageJS.readSettingsValue("user_id"))
-        }
-    }
-
-    function setUserAvatar(userAvatarSource) {
-        userAvatar = userAvatarSource
-    }
-
-    function doMainMenuItem() {
-        if (StorageJS.readSettingsValue("user_id")) {
-            loadingDialogsIndicator.running = true
-            messagesList.footerItem.visible = false
-            messagesList.model.clear()  // TODO: Oh, really?!
-            chatsCounter = 0
-            dialogsOffset = 0
-            MessagesAPI.getDialogs(dialogsOffset)
-        } else {
-            console.log("You have to sign in")
-        }
+    function updateDialogs() {
+        dialogsOffset = 0
+        chatsCounter = 0
+        loadingDialogsIndicator.running = true
+        messagesList.footerItem.visible = false
+        messagesList.model.clear()
+        MessagesAPI.getDialogs(dialogsOffset)
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
@@ -96,8 +73,6 @@ Page {
         loadingDialogsIndicator.running = false
     }
 
-    FontLoader { source: "../fonts/OpenSansEmoji.ttf" }
-
     BusyIndicator {
         id: loadingDialogsIndicator
         anchors.centerIn: parent
@@ -110,20 +85,6 @@ Page {
         anchors.fill: parent
         anchors.bottomMargin: Theme.paddingMedium
 
-        model: ListModel {}
-
-        delegate: UserItem {
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                               { "fullname":     nameOrTitle,
-                                 "dialogId":     itemId,
-                                 "isChat":       isChat,
-                                 "isOnline":     isOnline,
-                                 "avatarSource": avatarSource,
-                                 "userAvatar":   userAvatar })
-            }
-        }
-
         PullDownMenu {
 
             MenuItem {
@@ -135,12 +96,26 @@ Page {
             MenuItem {
                 id: mainMenuItem
                 text: "Обновить"
-                onClicked: doMainMenuItem()
+                onClicked: updateDialogs()
             }
         }
 
         header: PageHeader {
             title: "Сообщения"
+        }
+
+        model: ListModel {}
+
+        delegate: UserItem {
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                               { "fullname":     nameOrTitle,
+                                 "dialogId":     itemId,
+                                 "isChat":       isChat,
+                                 "isOnline":     isOnline,
+                                 "avatarSource": avatarSource,
+                                 "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
+            }
         }
 
         footer: Button {
@@ -159,8 +134,7 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    onStatusChanged: if (status === PageStatus.Active) initialize()
-    Component.onCompleted: StorageJS.initDatabase()
+    onStatusChanged: if (status === PageStatus.Active) updateDialogs()
 }
 
 

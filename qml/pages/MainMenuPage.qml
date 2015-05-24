@@ -37,6 +37,7 @@ Page {
             var fullUserName = StorageJS.readFullUserName()
             var avatarFileName = StorageJS.readUserAvatar()
             updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+            // TODO Calculating unread messages counter with cached data
 
             doForceUpdate()
         }
@@ -56,6 +57,9 @@ Page {
     function updateUnreadMessagesCounter(counter) {
         mainMenu.model.setProperty(1, "counter", counter ? counter : "")
     }
+
+    // For showing emoji in input fields
+    FontLoader { source: "../fonts/OpenSansEmoji.ttf" }
 
     SilicaListView {
         id: mainMenu
@@ -113,56 +117,67 @@ Page {
         }
 
         model: ListModel {
+
             ListElement {
                 icon: "image://theme/icon-l-message"
                 name: "Новости"
                 counter: ""
             }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-redirect"
 //                name: "Ответы"
 //                counter: "0"
 //            }
+
             ListElement {
                 icon: "image://theme/icon-l-email"
                 name: "Сообщения"
                 counter: ""
             }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-people"
 //                name: "Друзья"
 //                counter: "0"
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-people"
 //                name: "Группы"
 //                counter: "0"
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-image"
 //                name: "Фотографии"
 //                counter: "0"
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-video"
 //                name: "Видеозаписи"
 //                counter: "0"
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-music"
 //                name: "Аудиозаписи"
 //                counter: ""
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-favorite"
 //                name: "Закладки"
 //                counter: ""
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-l-document"
 //                name: "Документы"
 //                counter: ""
 //            }
+
 //            ListElement {
 //                icon: "image://theme/icon-cover-search"
 //                name: "Поиск"
