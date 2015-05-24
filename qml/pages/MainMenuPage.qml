@@ -112,56 +112,56 @@ Page {
                 name: "Новости"
                 counter: ""
             }
-            ListElement {
-                icon: "image://theme/icon-l-redirect"
-                name: "Ответы"
-                counter: "0"
-            }
+//            ListElement {
+//                icon: "image://theme/icon-l-redirect"
+//                name: "Ответы"
+//                counter: "0"
+//            }
             ListElement {
                 icon: "image://theme/icon-l-email"
                 name: "Сообщения"
-                counter: "0"
-            }
-            ListElement {
-                icon: "image://theme/icon-l-people"
-                name: "Друзья"
-                counter: "0"
-            }
-            ListElement {
-                icon: "image://theme/icon-l-people"
-                name: "Группы"
-                counter: "0"
-            }
-            ListElement {
-                icon: "image://theme/icon-l-image"
-                name: "Фотографии"
-                counter: "0"
-            }
-            ListElement {
-                icon: "image://theme/icon-l-video"
-                name: "Видеозаписи"
-                counter: "0"
-            }
-            ListElement {
-                icon: "image://theme/icon-l-music"
-                name: "Аудиозаписи"
                 counter: ""
             }
-            ListElement {
-                icon: "image://theme/icon-l-favorite"
-                name: "Закладки"
-                counter: ""
-            }
-            ListElement {
-                icon: "image://theme/icon-l-document"
-                name: "Документы"
-                counter: ""
-            }
-            ListElement {
-                icon: "image://theme/icon-cover-search"
-                name: "Поиск"
-                counter: ""
-            }
+//            ListElement {
+//                icon: "image://theme/icon-l-people"
+//                name: "Друзья"
+//                counter: "0"
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-people"
+//                name: "Группы"
+//                counter: "0"
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-image"
+//                name: "Фотографии"
+//                counter: "0"
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-video"
+//                name: "Видеозаписи"
+//                counter: "0"
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-music"
+//                name: "Аудиозаписи"
+//                counter: ""
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-favorite"
+//                name: "Закладки"
+//                counter: ""
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-l-document"
+//                name: "Документы"
+//                counter: ""
+//            }
+//            ListElement {
+//                icon: "image://theme/icon-cover-search"
+//                name: "Поиск"
+//                counter: ""
+//            }
         }
 
         delegate: BackgroundItem {
@@ -203,35 +203,35 @@ Page {
                     break
 
                 case 1:
-                    break
+//                    break
 
-                case 2:
+//                case 2:
                     pageStack.push(Qt.resolvedUrl("MessagesPage.qml"))
                     break;
 
-                case 3:
-                    break
+//                case 3:
+//                    break
 
-                case 4:
-                    break
+//                case 4:
+//                    break
 
-                case 5:
-                    break
+//                case 5:
+//                    break
 
-                case 6:
-                    break
+//                case 6:
+//                    break
 
-                case 7:
-                    break
+//                case 7:
+//                    break
 
-                case 8:
-                    break
+//                case 8:
+//                    break
 
-                case 9:
-                    break
+//                case 9:
+//                    break
 
-                case 10:
-                    break
+//                case 10:
+//                    break
                 }
             }
         }
