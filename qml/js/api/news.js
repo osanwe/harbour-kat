@@ -19,9 +19,22 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
+.import "request.js" as RequestAPI
 
-Rectangle {
-    width: 100
-    height: 62
+
+// -------------- API functions --------------
+
+function api_getLastNews(startFrom) {
+    var query = "newsfeed.get?v=5.13"
+    query += "&filters=post"
+    query += "&return_banned=0"
+    if (startFrom) query += "&start_from" + startFrom
+    RequestAPI.sendRequest(query, callback_getLastNews)
+}
+
+
+// -------------- Callbacks --------------
+
+function callback_getLastNews(jsonObject) {
+
 }
