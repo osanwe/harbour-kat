@@ -1120,5 +1120,6 @@ OTHER_FILES += \
     qml/emojione/png/3299.png \
     qml/pages/SettingsPage.qml \
     qml/pages/MainMenuPage.qml \
-    qml/js/api/request.js
+    qml/js/api/request.js \
+    qml/pages/NewsFeedPage.qml
 
