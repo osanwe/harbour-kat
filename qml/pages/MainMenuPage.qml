@@ -221,6 +221,7 @@ Page {
             onClicked: {
                 switch (index) {
                 case 0:
+                    pageStack.push(Qt.resolvedUrl("NewsFeedPage.qml"))
                     break
 
                 case 1:

@@ -20,8 +20,62 @@
 */
 
 import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-Rectangle {
-    width: 100
-    height: 62
+import "../js/api/news.js" as NewsAPI
+
+
+Page {
+
+    function doStartUpdate() {
+        newsfeedList.model.clear()
+        NewsAPI.api_getLastNews(null)
+    }
+
+    function appendPostToNewsFeed(postText) {
+        newsfeedList.model.append({ newsTextContent: postText })
+    }
+
+    SilicaListView {
+        id: newsfeedList
+        anchors.fill: parent
+
+        PullDownMenu {
+
+//            MenuItem {
+//                text: "Опубликовать"
+//                onClicked:
+//            }
+
+            MenuItem {
+                text: "Обновить"
+                onClicked: doStartUpdate()
+            }
+        }
+
+        header: PageHeader { title: "Новости" }
+
+        model: ListModel {}
+
+        delegate: BackgroundItem {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.paddingLarge
+            anchors.leftMargin: Theme.paddingLarge
+            height: newsText.height + Theme.paddingMedium
+
+            Label {
+                id: newsText
+                width: parent.width
+                height: contentHeight
+                color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                text: newsTextContent
+                wrapMode: Text.Wrap
+            }
+        }
+
+        VerticalScrollDecorator {}
+    }
+
+    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
 }

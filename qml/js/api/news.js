@@ -36,5 +36,8 @@ function api_getLastNews(startFrom) {
 // -------------- Callbacks --------------
 
 function callback_getLastNews(jsonObject) {
-
+    for (var index in jsonObject.response.items) {
+        var postText = jsonObject.response.items[index].text
+        appendPostToNewsFeed(postText)
+    }
 }
