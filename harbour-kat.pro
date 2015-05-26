@@ -1122,5 +1122,6 @@ OTHER_FILES += \
     qml/pages/MainMenuPage.qml \
     qml/js/api/request.js \
     qml/pages/NewsFeedPage.qml \
-    qml/js/api/news.js
+    qml/js/api/news.js \
+    qml/views/ContentItem.qml
 
