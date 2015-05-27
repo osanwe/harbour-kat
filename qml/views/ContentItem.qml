@@ -32,8 +32,8 @@ import "../js/api/videos.js" as VideosAPI
     attachmentsData - the json object with info about attachments
 
   Messages properties
-    out - the flag of incoming/outcoming messages; default - false
-    readState - "is message readed" flag; default - true
+    isOut - the flag of incoming/outcoming messages; default - false
+    isRead - "is message readed" flag; default - true
 
   Text properties
     content - the text for showing
@@ -64,8 +64,8 @@ Column {
 
     property string attachmentsData
 
-    property bool out: false
-    property bool readState: true
+    property bool isOut: false
+    property bool isRead: true
 
     property string content
 
@@ -89,10 +89,10 @@ Column {
     Label {
         id: contentText
         width: parent.width
-        horizontalAlignment: out ? Text.AlignRight : Text.AlignLeft
+        horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
         text: EmojiOne.toImage(content)
         textFormat: Text.StyledText
-        color: readState ? Theme.primaryColor : Theme.highlightColor
+        color: isRead ? Theme.primaryColor : Theme.highlightColor
         linkColor: readState ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap
 
@@ -109,7 +109,7 @@ Column {
             return div * Theme.itemSizeMedium
         }
         clip: true
-        layoutDirection: out ? Qt.RightToLeft: Qt.LeftToRight
+        layoutDirection: isOut ? Qt.RightToLeft: Qt.LeftToRight
         interactive: false
         cellWidth: Theme.itemSizeMedium
         cellHeight: Theme.itemSizeMedium
@@ -148,7 +148,7 @@ Column {
         anchors.right: parent.right
         height: model.count * Theme.itemSizeLarge * 2 + model.count * Theme.paddingMedium
         clip: true
-        layoutDirection: out ? Qt.RightToLeft : Qt.LeftToRight
+        layoutDirection: isOut ? Qt.RightToLeft : Qt.LeftToRight
         spacing: Theme.paddingMedium
         interactive: false
 
@@ -180,7 +180,7 @@ Column {
         anchors.right: parent.right
         height: model.count * (Theme.itemSizeMedium + Theme.paddingMedium)
         clip: true
-        layoutDirection: out ? Qt.RightToLeft: Qt.LeftToRight
+        layoutDirection: isOut ? Qt.RightToLeft: Qt.LeftToRight
         spacing: Theme.paddingMedium
         interactive: false
 
@@ -239,7 +239,7 @@ Column {
         anchors.right: parent.right
         height: model.count * (Theme.itemSizeMedium + Theme.paddingMedium)
         clip: true
-        layoutDirection: out ? Qt.RightToLeft : Qt.LeftToRight
+        layoutDirection: isOut ? Qt.RightToLeft : Qt.LeftToRight
         spacing: Theme.paddingMedium
         interactive: false
 
@@ -273,10 +273,10 @@ Column {
     Label {
         id: datetimeText
         width: parent.width
-        horizontalAlignment: out ? Text.AlignRight : Text.AlignLeft
+        horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
         text: datetime
         font.pixelSize: Theme.fontSizeTiny
-        color: readState ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
     }
 
     Component.onCompleted: {

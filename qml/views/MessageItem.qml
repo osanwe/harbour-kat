@@ -123,16 +123,17 @@ BackgroundItem {
 
         Image {
             id: messageAvatar
-            height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
             width: height
+            height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
             source: out === 0 ? avatarSource : userAvatar
         }
 
         ContentItem {
             id: mainContent
+            width: parent.width - messageAvatar.width - Theme.paddingMedium
             attachmentsData: attachmentsData
-            out: out
-            readState: readState
+            isOut: out === 1
+            isRead: readState === 1
             content: message
             dateTime: datetime
         }
