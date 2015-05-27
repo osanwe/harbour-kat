@@ -62,7 +62,7 @@ import "../js/api/videos.js" as VideosAPI
  */
 Column {
 
-    property string attachmentsData
+    property variant attachments
 
     property bool isOut: false
     property bool isRead: true
@@ -290,18 +290,18 @@ Column {
                                                         srcXXBig: attachmentsData.get(index).photo.src_xxbig })
                         break
                     case "video":
-                        videosAttachment.model.append({ vid:   attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
-                                                        image: attachmentsData.get(index).video.image })
+                        videosAttachment.model.append({ vid:          attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
+                                                        videoPreview: attachmentsData.get(index).video.image })
                         break
                     case "audio":
-                        audiosAttachment.model.append({ oid:      attachmentsData.get(index).audio.owner_id,
-                                                        aid:      attachmentsData.get(index).audio.aid,
-                                                        artist:   attachmentsData.get(index).audio.artist,
-                                                        title:    attachmentsData.get(index).audio.title })
+                        audiosAttachment.model.append({ oid:    attachmentsData.get(index).audio.owner_id,
+                                                        aid:    attachmentsData.get(index).audio.aid,
+                                                        artist: attachmentsData.get(index).audio.artist,
+                                                        title:  attachmentsData.get(index).audio.title })
                         break
                     case "doc":
-                        docsAttachment.model.append({ title: attachmentsData.get(index).doc.title,
-                                                      url:   attachmentsData.get(index).doc.url })
+                        docsAttachment.model.append({ docName: attachmentsData.get(index).doc.title,
+                                                      url:     attachmentsData.get(index).doc.url })
                         break
                     case "wall": break
                     case "point": break
