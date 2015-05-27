@@ -37,7 +37,43 @@ function api_getLastNews(startFrom) {
 
 function callback_getLastNews(jsonObject) {
     for (var index in jsonObject.response.items) {
-        var postText = jsonObject.response.items[index].text
-        appendPostToNewsFeed(postText)
+        appendPostToNewsFeed(parsePost(jsonObject.response.items[index]))
     }
+}
+
+
+// -------------- Other functions --------------
+
+function parsePost(jsonObject) {
+    var postData = []
+
+    var date = new Date()
+    date.setTime(parseInt(jsonObject.date) * 1000)
+
+    postData[0] = jsonObject.post_id
+    postData[1] = jsonObject.text.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    postData[2] = ("0" + date.getHours()).slice(-2) + ":" +
+                     ("0" + date.getMinutes()).slice(-2) + ", " +
+                     ("0" + date.getDate()).slice(-2) + "." +
+                     ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                     ("0" + date.getFullYear()).slice(-2)
+
+    if (jsonObject.attachments) {
+        for (var index in jsonObject.attachments) {
+            postData[postData.length] = jsonObject.attachments[index]
+        }
+    }
+
+
+//    if (jsonObject.fwd_messages) {
+//        for (var index in jsonObject.fwd_messages) {
+//            postData[messageData.length] = jsonObject.fwd_messages[index]
+//        }
+//    }
+
+//    if (jsonObject.geo) {
+//        postData[messageData.length] = jsonObject.geo
+//    }
+
+    return postData
 }
