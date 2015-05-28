@@ -28,6 +28,7 @@ function api_getLastNews(startFrom) {
     var query = "newsfeed.get?v=5.13"
     query += "&filters=post"
     query += "&return_banned=0"
+    query += "%fields=photo_100"
     if (startFrom) query += "&start_from" + startFrom
     RequestAPI.sendRequest(query, callback_getLastNews)
 }
@@ -36,15 +37,21 @@ function api_getLastNews(startFrom) {
 // -------------- Callbacks --------------
 
 function callback_getLastNews(jsonObject) {
+    var jsonElement
+    var jsonProfiles = jsonObject.response.profiles
+    var jsonGroups = jsonObject.response.groups
     for (var index in jsonObject.response.items) {
-        appendPostToNewsFeed(parsePost(jsonObject.response.items[index]))
+        jsonElement = jsonObject.response.items[index]
+        if (jsonElement.type === "post")
+            appendPostToNewsFeed(parsePost(jsonElement, jsonProfiles, jsonGroups))
     }
+    stopLoadingNewsIndicator()
 }
 
 
 // -------------- Other functions --------------
 
-function parsePost(jsonObject) {
+function parsePost(jsonObject, jsonProfiles, jsonGroups) {
     var postData = []
 
     var date = new Date()
@@ -58,22 +65,28 @@ function parsePost(jsonObject) {
                      ("0" + (date.getMonth() + 1)).slice(-2) + "." +
                      ("0" + date.getFullYear()).slice(-2)
 
+    if (jsonObject.source_id > 0) {
+        for (var index1 in jsonProfiles) {
+            if (jsonProfiles[index1].id === jsonObject.source_id) {
+                console.log(jsonProfiles[index1].photo_100)
+                postData[3] = jsonProfiles[index1].photo_100
+            }
+        }
+    } else {
+        var sourceId = Math.abs(jsonObject.source_id)
+        for (var index2 in jsonGroups) {
+            if (jsonGroups[index2].id === sourceId) {
+                console.log(jsonGroups[index2].photo_100)
+                postData[3] = jsonGroups[index2].photo_100
+            }
+        }
+    }
+
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {
             postData[postData.length] = jsonObject.attachments[index]
         }
     }
-
-
-//    if (jsonObject.fwd_messages) {
-//        for (var index in jsonObject.fwd_messages) {
-//            postData[messageData.length] = jsonObject.fwd_messages[index]
-//        }
-//    }
-
-//    if (jsonObject.geo) {
-//        postData[messageData.length] = jsonObject.geo
-//    }
 
     return postData
 }

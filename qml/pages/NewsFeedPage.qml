@@ -29,17 +29,29 @@ import "../js/api/news.js" as NewsAPI
 Page {
 
     function doStartUpdate() {
+        loadingNewsIndicator.running = true
         newsfeedList.model.clear()
         NewsAPI.api_getLastNews(null)
     }
 
     function appendPostToNewsFeed(postData) {
-        newsfeedList.model.append({ message: postData[1],
+        newsfeedList.model.append({ textBody: postData[1],
                                     out: 0,
                                     readState: 1,
                                     datetime: postData[2],
-                                    attachmentsData: postData.slice(3),
-                                    avatarSource: "" })
+                                    attachmentsData: postData.slice(4),
+                                    avatarSource: postData[3] })
+    }
+
+    function stopLoadingNewsIndicator() {
+        loadingNewsIndicator.running = false
+    }
+
+    BusyIndicator {
+        id: loadingNewsIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: true
     }
 
     SilicaListView {
@@ -49,7 +61,7 @@ Page {
         PullDownMenu {
 
 //            MenuItem {
-//                text: "Опубликовать"
+//                text: "Написать"
 //                onClicked:
 //            }
 
@@ -63,24 +75,7 @@ Page {
 
         model: ListModel {}
 
-//        delegate: BackgroundItem {
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.rightMargin: Theme.paddingLarge
-//            anchors.leftMargin: Theme.paddingLarge
-//            height: newsText.height + Theme.paddingMedium
-
-//            Label {
-//                id: newsText
-//                width: parent.width
-//                height: contentHeight
-//                color: highlighted ? Theme.highlightColor : Theme.primaryColor
-//                text: newsTextContent
-//                wrapMode: Text.Wrap
-//            }
-//        }
-
-        delegate: MessageItem {
+        delegate: PostItem {
             width: parent.width
         }
 

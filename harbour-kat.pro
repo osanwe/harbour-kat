@@ -1123,5 +1123,6 @@ OTHER_FILES += \
     qml/js/api/request.js \
     qml/pages/NewsFeedPage.qml \
     qml/js/api/news.js \
-    qml/views/ContentItem.qml
+    qml/views/ContentItem.qml \
+    qml/views/PostItem.qml
 
