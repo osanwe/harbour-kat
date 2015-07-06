@@ -120,7 +120,7 @@ Column {
         delegate: Image {
             width: Theme.itemSizeMedium - Theme.paddingSmall
             height: Theme.itemSizeMedium - Theme.paddingSmall
-            source: src
+            source: photo_75
             fillMode: Image.PreserveAspectCrop
 
             MouseArea {
@@ -128,15 +128,20 @@ Column {
 
                 onClicked: {
                     var data
-                    if (srcXXBig) {
-                        data = { "imageSource": srcXXBig }
-                    } else if (srcXBig) {
-                        data = { "imageSource": srcXBig }
-                    } else if (srcBig) {
-                        data = { "imageSource": srcBig }
+                    if (photo_2560) {
+                        data = { "imageSource": photo_2560 }
+                    } else if (photo_1280) {
+                        data = { "imageSource": photo_1280 }
+                    } else if (photo_807) {
+                        data = { "imageSource": photo_807 }
+                    } else if (photo_604) {
+                        data = { "imageSource": photo_604 }
+                    } else if (photo_130) {
+                        data = { "imageSource": photo_130 }
                     } else {
-                        data = { "imageSource": src }
+                        data = { "imageSource": photo_75 }
                     }
+
                     pageContainer.push("../pages/ImagePage.qml", data)
                 }
             }
@@ -288,10 +293,12 @@ Column {
             if (attachmentsData.get(index).type) {
                 switch (attachmentsData.get(index).type) {
                     case "photo":
-                        photosAttachment.model.append({ src:      attachmentsData.get(index).photo.src,
-                                                        srcBig:   attachmentsData.get(index).photo.src_big,
-                                                        srcXBig:  attachmentsData.get(index).photo.src_xbig,
-                                                        srcXXBig: attachmentsData.get(index).photo.src_xxbig })
+                        photosAttachment.model.append({ photo_75:   attachmentsData.get(index).photo.photo_75,
+                                                        photo_130:  attachmentsData.get(index).photo.photo_130,
+                                                        photo_604:  attachmentsData.get(index).photo.photo_604,
+                                                        photo_807:  attachmentsData.get(index).photo.photo_807,
+                                                        photo_1280: attachmentsData.get(index).photo.photo_1280,
+                                                        photo_2560: attachmentsData.get(index).photo.photo_2560 })
                         break
                     case "video":
                         videosAttachment.model.append({ vid:          attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,

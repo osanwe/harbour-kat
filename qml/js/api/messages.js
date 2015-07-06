@@ -50,8 +50,8 @@ function callback_getUnreadMessagesCounter_cover(jsonObject) {
 
 function getDialogs(offset) {
     var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?"
-    url += "offset=" + offset
+    url += "messages.getDialogs?v=5.1"
+    url += "&offset=" + offset
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -101,11 +101,11 @@ function getDialogs(offset) {
 
 function sendMessage(isChat, dialogId, message, isNew) {
     var url = "https://api.vk.com/method/"
-    url += "messages.send?"
+    url += "messages.send?v=5.14"
     if (isChat) {
-        url += "chat_id=" + dialogId
+        url += "&chat_id=" + dialogId
     } else {
-        url += "user_id=" + dialogId
+        url += "&user_id=" + dialogId
     }
     url += "&message=" + message
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
@@ -123,8 +123,8 @@ function sendMessage(isChat, dialogId, message, isNew) {
 
 function sendGroupMessage(ids, message) {
     var url = "https://api.vk.com/method/"
-    url += "messages.createChat?"
-    url += "user_ids=" + ids
+    url += "messages.createChat?v=5.14"
+    url += "&user_ids=" + ids
     url += "&message=" + message
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
@@ -143,11 +143,11 @@ function sendGroupMessage(ids, message) {
 
 function getHistory(isChat, dialogId, offset) {
     var url = "https://api.vk.com/method/"
-    url += "messages.getHistory?"
+    url += "messages.getHistory?v=5.14"
     if (isChat) {
-        url += "chat_id=" + dialogId
+        url += "&chat_id=" + dialogId
     } else {
-        url += "user_id=" + dialogId
+        url += "&user_id=" + dialogId
     }
     url += "&offset=" + offset
     url += "&count=50"
@@ -219,8 +219,8 @@ function parseMessage(jsonObject) {
 
 function searchDialogs(substring) {
     var url = "https://api.vk.com/method/"
-    url += "messages.searchDialogs?"
-    url += "q=" + substring
+    url += "messages.searchDialogs?v=5.14"
+    url += "&q=" + substring
     url += "&fields=photo_100,online"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
@@ -246,8 +246,8 @@ function searchDialogs(substring) {
 
 function markDialogAsRead(isChat, uid) {
     var url = "https://api.vk.com/method/"
-    url += "messages.markAsRead?"
-    url += "peer_id=" + uid
+    url += "messages.markAsRead?v=5.14"
+    url += "&peer_id=" + uid
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -263,8 +263,8 @@ function markDialogAsRead(isChat, uid) {
 
 function getChatUsers(dialogId) {
     var url = "https://api.vk.com/method/"
-    url += "messages.getChatUsers?"
-    url += "chat_id=" + dialogId
+    url += "messages.getChatUsers?v=5.14"
+    url += "&chat_id=" + dialogId
     url += "&fields=online,photo_100,status"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)

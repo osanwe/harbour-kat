@@ -25,7 +25,7 @@
 // -------------- API functions --------------
 
 function api_getLastNews(startFrom) {
-    var query = "newsfeed.get?v=5.13"
+    var query = "newsfeed.get?v=5.14"
     query += "&filters=post"
     query += "&return_banned=0"
     query += "%fields=photo_100"
