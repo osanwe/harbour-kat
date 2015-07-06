@@ -40,7 +40,7 @@ Page {
         loadingDialogsIndicator.running = true
         messagesList.footerItem.visible = false
         messagesList.model.clear()
-        MessagesAPI.getDialogs(dialogsOffset)
+        MessagesAPI.api_getDialogsList(dialogsOffset)
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
@@ -127,7 +127,7 @@ Page {
                 loadingDialogsIndicator.running = true
                 dialogsOffset = dialogsOffset + 20
                 chatsCounter = 0
-                MessagesAPI.getDialogs(dialogsOffset)
+                MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
 

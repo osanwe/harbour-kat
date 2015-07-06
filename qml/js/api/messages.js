@@ -34,6 +34,13 @@ function api_getUnreadMessagesCounter(isCover) {
                                   callback_getUnreadMessagesCounter_mainMenu)
 }
 
+function api_getDialogsList(offset) {
+    var query = "messages.getDialogs?v=5.14"
+    query += "&offset=" + offset
+    query += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    RequestAPI.sendRequest(query, callback_getDialogsList)
+}
+
 
 // -------------- Callbacks --------------
 
@@ -45,59 +52,45 @@ function callback_getUnreadMessagesCounter_cover(jsonObject) {
     updateCoverCounters(jsonObject.response.count)
 }
 
+function callback_getDialogsList(jsonObject) {
+    var uids = ""
+    var chatsUids = ""
+    var items = jsonObject.response.items
+    for (var index in items) {
+        var jsonMessage = items[index].message
+
+        var dialogId = jsonMessage.user_id
+        var messageBody = jsonMessage.body
+        var isChat = false
+        if (jsonMessage.fwd_messages)
+            messageBody = "[сообщения] " + messageBody
+        if (jsonMessage.attachments)
+            messageBody = "[вложения] " + messageBody
+        if (jsonMessage.chat_id) {
+            dialogId = jsonMessage.chat_id
+            chatsUids += "," + jsonMessage.user_id
+            isChat = true
+        } else {
+            uids += "," + jsonMessage.user_id
+        }
+        formDialogsList(jsonMessage.out,
+                        jsonMessage.title,
+                        messageBody,
+                        dialogId,
+                        jsonMessage.read_state,
+                        isChat)
+    }
+    if (uids.length === 0 && chatsUids.length === 0) {
+        stopBusyIndicator()
+    } else {
+        uids = uids.substring(1)
+        chatsUids = chatsUids.substring(1)
+        UsersAPI.getUsersAvatarAndOnlineStatus(uids)
+    }
+}
+
 
 // -------------- Other functions --------------
-
-function getDialogs(offset) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?v=5.1"
-    url += "&offset=" + offset
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            var uids = ""
-            var chatsUids = ""
-            for (var index in jsonObject.response) {
-                if (index > 0) {
-                    var dialogId = jsonObject.response[index].uid
-                    var messageBody = jsonObject.response[index].body
-                    var isChat = false
-                    if (jsonObject.response[index].fwd_messages)
-                        messageBody = "[сообщения] " + messageBody
-                    if (jsonObject.response[index].attachments)
-                        messageBody = "[вложения] " + messageBody
-                    if (jsonObject.response[index].chat_id) {
-                        dialogId = jsonObject.response[index].chat_id
-                        chatsUids += "," + jsonObject.response[index].uid
-                        isChat = true
-                    } else {
-                        uids += "," + jsonObject.response[index].uid
-                    }
-                    formDialogsList(jsonObject.response[index].out,
-                                    jsonObject.response[index].title,
-                                    messageBody,
-                                    dialogId,
-                                    jsonObject.response[index].read_state,
-                                    isChat)
-                }
-            }
-            if (uids.length === 0 && chatsUids.length === 0) {
-                stopBusyIndicator()
-            } else {
-                uids = uids.substring(1)
-                chatsUids = chatsUids.substring(1)
-                UsersAPI.getUsersAvatarAndOnlineStatus(uids)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
 
 function sendMessage(isChat, dialogId, message, isNew) {
     var url = "https://api.vk.com/method/"
