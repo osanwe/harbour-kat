@@ -95,6 +95,7 @@ Column {
         color: isRead ? Theme.primaryColor : Theme.highlightColor
         linkColor: readState ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap
+        maximumLineCount: 5
 
         onLinkActivated: Qt.openUrlExternally(link)
     }
@@ -266,7 +267,10 @@ Column {
                 text: docName
             }
 
-            onClicked: {}
+            onClicked: {
+                console.log("doc url = " + url)
+                fileDownloader.startDownload(url, 1)
+            }
         }
     }
 

@@ -55,7 +55,7 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
 
     case SAVING_TO_DOWNLOADS:
     {
-        QString path("/home/nemo/Downloads/harbour-kat/");
+        QString path("/home/nemo/Downloads/");
         QFile file(path.append(m_FileName));
         file.open(QIODevice::WriteOnly);
         file.write(m_DownloadedData);
