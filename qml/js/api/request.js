@@ -31,10 +31,12 @@ function sendRequest(query, callback, isNew) {
     request.onreadystatechange = function() {
         if (request.readyState === XMLHttpRequest.DONE) {
             console.log(request.responseText)
-            if (typeof isNew === 'undefined') {
-                callback(JSON.parse(request.responseText))
-            } else {
-                callback(JSON.parse(request.responseText), isNew)
+            if (typeof callback !== 'undefined') {
+                if (typeof isNew === 'undefined') {
+                    callback(JSON.parse(request.responseText))
+                } else {
+                    callback(JSON.parse(request.responseText), isNew)
+                }
             }
         }
     }

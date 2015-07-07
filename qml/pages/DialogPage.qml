@@ -199,19 +199,21 @@ Page {
                 }
             }
 
-            MenuItem {
-                text: "Отметить прочитанным"
-                onClicked: {
-                    messages.model.clear()
-                    messagesOffset = 0
-                    loadingMessagesIndicator.running = true
-                    MessagesAPI.markDialogAsRead(isChat, dialogId)
-                }
-            }
+//            MenuItem {
+//                text: "Отметить прочитанным"
+//                onClicked: {
+//                    messages.model.clear()
+//                    messagesOffset = 0
+//                    loadingMessagesIndicator.running = true
+//                    MessagesAPI.markDialogAsRead(isChat, dialogId)
+//                }
+//            }
         }
 
         VerticalScrollDecorator {}
     }
 
+    onStatusChanged: if (status === PageStatus.Inactive)
+                         MessagesAPI.api_markDialogAsRead(isChat, dialogId, messages.model.get(messages.model.count-1).mid)
     Component.onCompleted: MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
 }

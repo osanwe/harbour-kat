@@ -69,6 +69,13 @@ function api_searchDialogs(substring) {
     RequestAPI.sendRequest(query, callback_searchDialogs)
 }
 
+function api_markDialogAsRead(isChat, uid, mid) {
+    var query = "messages.markAsRead?v=5.14"
+    query += "&peer_id=" + uid
+    query += "&start_message_id=" + mid
+    RequestAPI.sendRequest(query)
+}
+
 
 // -------------- Callbacks --------------
 
@@ -163,7 +170,7 @@ function parseMessage(jsonObject) {
     var date = new Date()
     date.setTime(parseInt(jsonObject.date) * 1000)
 
-    messageData[0] = jsonObject.mid
+    messageData[0] = jsonObject.id
     messageData[1] = jsonObject.read_state
     messageData[2] = jsonObject.out
     messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
@@ -193,23 +200,6 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
-}
-
-function markDialogAsRead(isChat, uid) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.markAsRead?v=5.14"
-    url += "&peer_id=" + uid
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            getHistory(isChat, uid, 0)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }
 
 function getChatUsers(dialogId) {
