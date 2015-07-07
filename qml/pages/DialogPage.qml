@@ -123,7 +123,7 @@ Page {
                 onClicked: {
                     loadingMessagesIndicator.running = true
                     messagesOffset = messagesOffset + 50;
-                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
 
@@ -195,7 +195,7 @@ Page {
                     messages.model.clear()
                     messagesOffset = 0
                     loadingMessagesIndicator.running = true
-                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
 
@@ -213,5 +213,5 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+    Component.onCompleted: MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
 }

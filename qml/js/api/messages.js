@@ -37,8 +37,15 @@ function api_getUnreadMessagesCounter(isCover) {
 function api_getDialogsList(offset) {
     var query = "messages.getDialogs?v=5.14"
     query += "&offset=" + offset
-    query += "&access_token=" + StorageJS.readSettingsValue("access_token")
     RequestAPI.sendRequest(query, callback_getDialogsList)
+}
+
+function api_getHistory(isChat, dialogId, offset) {
+    var query = "messages.getHistory?v=5.14"
+    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
+    query += "&offset=" + offset
+    query += "&count=50"
+    RequestAPI.sendRequest(query, callback_getHistory)
 }
 
 
@@ -89,6 +96,15 @@ function callback_getDialogsList(jsonObject) {
     }
 }
 
+function callback_getHistory(jsonObject) {
+    var items = jsonObject.response.items
+    for (var index in items) {
+        formMessageList(parseMessage(items[index]))
+    }
+    stopLoadingMessagesIndicator()
+    scrollMessagesToBottom()
+}
+
 
 // -------------- Other functions --------------
 
@@ -128,35 +144,6 @@ function sendGroupMessage(ids, message) {
             var jsonObject = JSON.parse(doc.responseText)
             console.log(doc.responseText)
             sendMessage(true, jsonObject.response, message, true)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function getHistory(isChat, dialogId, offset) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getHistory?v=5.14"
-    if (isChat) {
-        url += "&chat_id=" + dialogId
-    } else {
-        url += "&user_id=" + dialogId
-    }
-    url += "&offset=" + offset
-    url += "&count=50"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                if (index > 0) formMessageList(parseMessage(jsonObject.response[index]))
-            }
-            stopLoadingMessagesIndicator()
-            if (index > 1) scrollMessagesToBottom()
         }
     }
     doc.open("GET", url, true)
