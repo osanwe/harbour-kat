@@ -292,7 +292,7 @@ Column {
         for (var index = 0; index < attachmentsData.count; index++) {
             if (attachmentsData.get(index).type) {
                 switch (attachmentsData.get(index).type) {
-                    case "photo":
+                    case "photo": // photo from photo album
                         photosAttachment.model.append({ photo_75:   attachmentsData.get(index).photo.photo_75,
                                                         photo_130:  attachmentsData.get(index).photo.photo_130,
                                                         photo_604:  attachmentsData.get(index).photo.photo_604,
@@ -300,22 +300,50 @@ Column {
                                                         photo_1280: attachmentsData.get(index).photo.photo_1280,
                                                         photo_2560: attachmentsData.get(index).photo.photo_2560 })
                         break
-                    case "video":
+
+                    case "posted_photo": // photo from user device
+                        break
+
+                    case "video": // videofile
                         videosAttachment.model.append({ vid:          attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
                                                         videoPreview: attachmentsData.get(index).video.image })
                         break
-                    case "audio":
+
+                    case "audio": // audiofile
                         audiosAttachment.model.append({ oid:    attachmentsData.get(index).audio.owner_id,
                                                         aid:    attachmentsData.get(index).audio.aid,
                                                         artist: attachmentsData.get(index).audio.artist,
                                                         title:  attachmentsData.get(index).audio.title })
                         break
-                    case "doc":
+
+                    case "doc": // document
                         docsAttachment.model.append({ docName: attachmentsData.get(index).doc.title,
                                                       url:     attachmentsData.get(index).doc.url })
                         break
-                    case "wall": break
-                    case "point": break
+
+                    case "graffiti": // graffiti
+                        break
+
+                    case "link": // link to web-page
+                        break
+
+                    case "note": // note
+                        break
+
+                    case "app": // image from app
+                        break
+
+                    case "poll": // poll
+                        break
+
+                    case "page": // wiki-page
+                        break
+
+                    case "album": // photo album
+                        break
+
+                    case "photos_list": // list of photos
+                        break
                 }
             } else {
                 break
