@@ -82,5 +82,5 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
+//    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
 }
