@@ -37,7 +37,7 @@ Dialog {
 
     function sendNewMessage() {
         if (currentContactsList.model.count === 1) {
-            MessagesAPI.sendMessage(false,
+            MessagesAPI.api_sendMessage(false,
                                     currentContactsList.model.get(0).uid,
                                     newMessageText.text,
                                     true)
@@ -49,7 +49,7 @@ Dialog {
                 index = index + 1
             }
             ids = ids.substring(1)
-            MessagesAPI.sendGroupMessage(ids, newMessageText.text)
+            MessagesAPI.api_createChat(ids, newMessageText.text)
         }
     }
 

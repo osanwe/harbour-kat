@@ -48,6 +48,20 @@ function api_getHistory(isChat, dialogId, offset) {
     RequestAPI.sendRequest(query, callback_getHistory)
 }
 
+function api_sendMessage(isChat, dialogId, message, isNew) {
+    var query = "messages.send?v=5.14"
+    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
+    query += "&message=" + message
+    RequestAPI.sendRequest(query, callback_sendMessage)
+}
+
+function api_createChat(ids, message) {
+    var query = "messages.createChat?v=5.14"
+    query += "&user_ids=" + ids
+    query += "&message=" + message
+    RequestAPI.sendRequest(query, callback_createChat)
+}
+
 
 // -------------- Callbacks --------------
 
@@ -105,53 +119,19 @@ function callback_getHistory(jsonObject) {
     scrollMessagesToBottom()
 }
 
+function callback_sendMessage(jsonObject, isNew) {
+    if (!isNew) api_getHistory(isChat, dialogId, messagesOffset)
+}
+
+function callback_createChat(jsonObject) {
+    api_sendMessage(true, jsonObject.response, message, true)
+}
+
 
 // -------------- Other functions --------------
 
-function sendMessage(isChat, dialogId, message, isNew) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.send?v=5.14"
-    if (isChat) {
-        url += "&chat_id=" + dialogId
-    } else {
-        url += "&user_id=" + dialogId
-    }
-    url += "&message=" + message
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
 
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            if (!isNew) getHistory(isChat, dialogId, messagesOffset)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function sendGroupMessage(ids, message) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.createChat?v=5.14"
-    url += "&user_ids=" + ids
-    url += "&message=" + message
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            sendMessage(true, jsonObject.response, message, true)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-
-/*
+/**
  * The function for parsing the json object of a message.
  *
  * [In]  + jsonObject - the json object of the message.

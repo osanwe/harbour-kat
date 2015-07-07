@@ -22,7 +22,7 @@
 .import "../storage.js" as StorageJS
 
 
-function sendRequest(query, callback) {
+function sendRequest(query, callback, isNew) {
     query = "https://api.vk.com/method/" + query
     query += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(query)
@@ -31,7 +31,11 @@ function sendRequest(query, callback) {
     request.onreadystatechange = function() {
         if (request.readyState === XMLHttpRequest.DONE) {
             console.log(request.responseText)
-            callback(JSON.parse(request.responseText))
+            if (typeof isNew === 'undefined') {
+                callback(JSON.parse(request.responseText))
+            } else {
+                callback(JSON.parse(request.responseText), isNew)
+            }
         }
     }
     request.open("GET", query, true)

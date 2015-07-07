@@ -41,10 +41,10 @@ Page {
     property int messagesOffset: 0
 
     function sendMessage() {
-        MessagesAPI.sendMessage(isChat, dialogId, messageInput.text, false)
         messages.model.clear()
-        messageInput.text = ""
         messagesOffset = 0
+        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, false)
+        messageInput.text = ""
     }
 
     function formMessageList(messageData) {
