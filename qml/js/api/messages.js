@@ -76,6 +76,13 @@ function api_markDialogAsRead(isChat, uid, mid) {
     RequestAPI.sendRequest(query)
 }
 
+function api_getChatUsers(dialogId) {
+    var query = "messages.getChatUsers?v=5.14"
+    query += "&chat_id=" + dialogId
+    query += "&fields=online,photo_100,status"
+    RequestAPI.sendRequest(query, callback_getChatUsers)
+}
+
 
 // -------------- Callbacks --------------
 
@@ -152,6 +159,22 @@ function callback_searchDialogs(jsonObject) {
     }
 }
 
+function callback_getChatUsers(jsonObject) {
+    var users = []
+    for (var index in jsonObject.response) {
+        var name = jsonObject.response[index].first_name
+        name += " " + jsonObject.response[index].last_name
+        users[users.length] = {
+            id:     jsonObject.response[index].id,
+            name:   name,
+            photo:  jsonObject.response[index].photo_100,
+            online: jsonObject.response[index].online,
+            status: jsonObject.response[index].status
+        }
+    }
+    saveUsers(users)
+}
+
 
 // -------------- Other functions --------------
 
@@ -171,12 +194,13 @@ function parseMessage(jsonObject) {
     date.setTime(parseInt(jsonObject.date) * 1000)
 
     messageData[0] = jsonObject.id
-    messageData[1] = jsonObject.read_state
-    messageData[2] = jsonObject.out
-    messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[1] = jsonObject.from_id
+    messageData[2] = jsonObject.read_state
+    messageData[3] = jsonObject.out
+    messageData[4] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
     console.log(jsonObject.body)
     console.log(messageData[3])
-    messageData[4] = ("0" + date.getHours()).slice(-2) + ":" +
+    messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
                      ("0" + (date.getMonth() + 1)).slice(-2) + "." +
@@ -200,32 +224,4 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
-}
-
-function getChatUsers(dialogId) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getChatUsers?v=5.14"
-    url += "&chat_id=" + dialogId
-    url += "&fields=online,photo_100,status"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                var name = jsonObject.response[index].first_name
-                name += " " + jsonObject.response[index].last_name
-                appendUser(jsonObject.response[index].uid,
-                           name,
-                           jsonObject.response[index].photo_100,
-                           jsonObject.response[index].online,
-                           jsonObject.response[index].status)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }

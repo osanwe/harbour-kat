@@ -28,8 +28,9 @@ import "../js/api/messages.js" as MessagesAPI
 Page {
     id: chatUsersPage
 
-    property int dialogId
+//    property int dialogId
     property string chatTitle
+    property variant users
 
     function appendUser(uid, name, photo, isOnline, status) {
         usersList.model.append({ dialogId:     uid,
@@ -56,5 +57,15 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: MessagesAPI.getChatUsers(dialogId)
+//    Component.onCompleted: MessagesAPI.api_getChatUsers(dialogId)
+    Component.onCompleted: {
+        for (var index in users) {
+            usersList.model.append({ dialogId:     users[index].id,
+                                     isDialog:     false,
+                                     avatarSource: users[index].photo,
+                                     nameOrTitle:  users[index].name,
+                                     previewText:  users[index].status,
+                                     isOnline:     users[index].online })
+        }
+    }
 }
