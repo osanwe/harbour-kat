@@ -58,8 +58,15 @@ function api_sendMessage(isChat, dialogId, message, isNew) {
 function api_createChat(ids, message) {
     var query = "messages.createChat?v=5.14"
     query += "&user_ids=" + ids
-    query += "&message=" + message
+    query += "&title=" + message
     RequestAPI.sendRequest(query, callback_createChat)
+}
+
+function api_searchDialogs(substring) {
+    var query = "messages.searchDialogs?v=5.14"
+    query += "&q=" + substring
+    query += "&fields=photo_100,online"
+    RequestAPI.sendRequest(query, callback_searchDialogs)
 }
 
 
@@ -127,6 +134,17 @@ function callback_createChat(jsonObject) {
     api_sendMessage(true, jsonObject.response, message, true)
 }
 
+function callback_searchDialogs(jsonObject) {
+    for (var index in jsonObject.response) {
+        var name = jsonObject.response[index].first_name
+        name += " " + jsonObject.response[index].last_name
+        updateSearchContactsList(jsonObject.response[index].id,
+                                 name,
+                                 jsonObject.response[index].photo_100,
+                                 jsonObject.response[index].online)
+    }
+}
+
 
 // -------------- Other functions --------------
 
@@ -175,33 +193,6 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
-}
-
-function searchDialogs(substring) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.searchDialogs?v=5.14"
-    url += "&q=" + substring
-    url += "&fields=photo_100,online"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                var name = jsonObject.response[index].first_name
-                name += " " + jsonObject.response[index].last_name
-                updateSearchContactsList(jsonObject.response[index].uid,
-                                         name,
-                                         jsonObject.response[index].photo_100,
-                                         jsonObject.response[index].online)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }
 
 function markDialogAsRead(isChat, uid) {
