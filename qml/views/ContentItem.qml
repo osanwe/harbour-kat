@@ -128,18 +128,18 @@ Column {
 
                 onClicked: {
                     var data
-                    if (photo_2560) {
-                        data = { "imageSource": photo_2560 }
-                    } else if (photo_1280) {
-                        data = { "imageSource": photo_1280 }
-                    } else if (photo_807) {
-                        data = { "imageSource": photo_807 }
-                    } else if (photo_604) {
-                        data = { "imageSource": photo_604 }
-                    } else if (photo_130) {
-                        data = { "imageSource": photo_130 }
+                    if (typeof photo_2560 !== 'undefined') {
+                        data = { "imageSource": photo_2560, "photoText": photo_text }
+                    } else if (typeof photo_1280 !== 'undefined') {
+                        data = { "imageSource": photo_1280, "photoText": photo_text }
+                    } else if (typeof photo_807 !== 'undefined') {
+                        data = { "imageSource": photo_807, "photoText": photo_text }
+                    } else if (typeof photo_604 !== 'undefined') {
+                        data = { "imageSource": photo_604, "photoText": photo_text }
+                    } else if (typeof photo_130 !== 'undefined') {
+                        data = { "imageSource": photo_130, "photoText": photo_text }
                     } else {
-                        data = { "imageSource": photo_75 }
+                        data = { "imageSource": photo_75, "photoText": photo_text }
                     }
 
                     pageContainer.push("../pages/ImagePage.qml", data)
@@ -298,7 +298,8 @@ Column {
                                                         photo_604:  attachmentsData.get(index).photo.photo_604,
                                                         photo_807:  attachmentsData.get(index).photo.photo_807,
                                                         photo_1280: attachmentsData.get(index).photo.photo_1280,
-                                                        photo_2560: attachmentsData.get(index).photo.photo_2560 })
+                                                        photo_2560: attachmentsData.get(index).photo.photo_2560,
+                                                        photo_text: attachmentsData.get(index).photo.text })
                         break
 
                     case "posted_photo": // photo from user device

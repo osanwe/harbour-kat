@@ -26,12 +26,20 @@ Page {
     id: imagePage
 
     property string imageSource
+    property string photoText
 
     SilicaFlickable {
         id: imageContainer
         anchors.fill: parent
         contentWidth: Screen.width
         contentHeight: Screen.height
+
+        PullDownMenu {
+
+            MenuLabel {
+                text: photoText
+            }
+        }
 
         PinchArea {
             anchors.fill: parent
