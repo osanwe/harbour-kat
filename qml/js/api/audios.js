@@ -20,23 +20,25 @@
 */
 
 .import "../storage.js" as StorageJS
+.import "request.js" as RequestAPI
 
-function getAudio(oid, aid) {
-    var url = "https://api.vk.com/method/"
-    url += "audio.get?"
-    url += "owner_id=" + oid
-    url += "&audio_ids=" + aid
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
 
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            console.log(doc.responseText)
-            var jsonObject = JSON.parse(doc.responseText)
-            playAudio(jsonObject.response[1].url, jsonObject.response[1].duration)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
+// -------------- API functions --------------
+
+function api_getAudio(oid, aid) {
+    var query = "audio.get?v=5.34"
+    query += "&owner_id=" + oid
+    query += "&audio_ids=" + aid
+    RequestAPI.sendRequest(query, callback_getAudio)
 }
+
+
+// -------------- Callbacks --------------
+
+function callback_getAudio(jsonObject) {
+    var audioItem = jsonObject.response.items[0]
+    playAudio(audioItem.url, audioItem.duration)
+}
+
+
+// -------------- Other functions --------------

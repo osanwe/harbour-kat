@@ -224,7 +224,7 @@ Column {
                         } else {
                             audioPlayer.stop()
                             isPlaying = true
-                            AudiosAPI.getAudio(oid, aid)
+                            AudiosAPI.api_getAudio(oid, aid)
                         }
                     }
                 }
@@ -322,7 +322,7 @@ Column {
 
                     case "audio": // audiofile
                         audiosAttachment.model.append({ oid:    attachmentsData.get(index).audio.owner_id,
-                                                        aid:    attachmentsData.get(index).audio.aid,
+                                                        aid:    attachmentsData.get(index).audio.id,
                                                         artist: attachmentsData.get(index).audio.artist,
                                                         title:  attachmentsData.get(index).audio.title })
                         break
