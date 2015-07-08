@@ -20,6 +20,7 @@
 */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Sailfish.Silica 1.0
 
 import "../js/storage.js" as StorageJS
@@ -28,6 +29,10 @@ BackgroundItem {
     anchors.left: parent.left
     anchors.right: parent.right
     height: Math.max(authorAvatar.height, mainContent.height) + 2 * Theme.paddingMedium
+
+    Audio {
+        id: audioPlayer
+    }
 
     Separator {
         anchors.top: parent.top
