@@ -290,7 +290,7 @@ Column {
 
     Component.onCompleted: {
         for (var index = 0; index < attachmentsData.count; index++) {
-            if (attachmentsData.get(index).type) {
+            if (typeof attachmentsData.get(index).type !== 'undefined') {
                 switch (attachmentsData.get(index).type) {
                     case "photo": // photo from photo album
                         photosAttachment.model.append({ photo_75:   attachmentsData.get(index).photo.photo_75,
@@ -344,6 +344,15 @@ Column {
                         break
 
                     case "photos_list": // list of photos
+                        break
+
+                    case "wall": // the post on the wall
+                        break
+
+                    case "wall_reply": // the reply on the wall
+                        break
+
+                    case "sticker": // stiker
                         break
                 }
             } else {
