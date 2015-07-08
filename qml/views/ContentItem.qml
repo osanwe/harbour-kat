@@ -20,6 +20,7 @@
 */
 
 import QtQuick 2.0
+import QtMultimedia 5.0
 import Sailfish.Silica 1.0
 
 import "../emojione/emojione.js" as EmojiOne
@@ -213,18 +214,22 @@ Column {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 width: height
-                source: isPlaying ? "image://theme/icon-l-pause" : "image://theme/icon-l-play"
+                source:
+                    if (audioPlayer.playbackState === MediaPlayer.PlayingState) {
+                        return "image://theme/icon-l-pause"
+                    } else {
+                        return "image://theme/icon-l-play"
+                    }
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (isPlaying) {
+                        if (audioPlayer.playbackState === MediaPlayer.PlayingState) {
                             audioPlayer.pause()
-                            isPlaying = false
-                        } else {
-                            audioPlayer.stop()
-                            isPlaying = true
+                        } else if (audioPlayer.playbackState === MediaPlayer.StoppedState) {
                             AudiosAPI.api_getAudio(oid, aid)
+                        } else {
+                            audioPlayer.play()
                         }
                     }
                 }
