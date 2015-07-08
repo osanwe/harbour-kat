@@ -56,6 +56,7 @@ Page {
                     MenuItem { text: "240p" }
 
                     onActivated: {
+                        console.log(index)
                         StorageJS.storeSettingsValue("video_quality", index)
                     }
                 }

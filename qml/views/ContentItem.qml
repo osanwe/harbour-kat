@@ -164,7 +164,15 @@ Column {
             anchors.left: parent.left
             anchors.right: parent.right
             height: Theme.itemSizeLarge * 2
-            source: videoPreview
+            source: {
+                if (typeof big_preview != 'undefined') {
+                    return big_preview
+                } else if (typeof medium_preview != 'undefined') {
+                    return medium_preview
+                } else if (typeof small_preview != 'undefined') {
+                    return small_preview
+                }
+            }
             fillMode: Image.PreserveAspectCrop
 
             Image {
@@ -175,7 +183,7 @@ Column {
             MouseArea {
                 anchors.fill: parent
 
-                onClicked: VideosAPI.getVideo(vid)
+                onClicked: VideosAPI.api_getVideo(vid)
             }
         }
     }
@@ -306,8 +314,10 @@ Column {
                         break
 
                     case "video": // videofile
-                        videosAttachment.model.append({ vid:          attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.vid,
-                                                        videoPreview: attachmentsData.get(index).video.image })
+                        videosAttachment.model.append({ vid:            attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.id,
+                                                        small_preview:  attachmentsData.get(index).video.photo_130,
+                                                        medium_preview: attachmentsData.get(index).video.photo_320,
+                                                        big_preview:    attachmentsData.get(index).video.photo_640 })
                         break
 
                     case "audio": // audiofile
