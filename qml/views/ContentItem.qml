@@ -200,6 +200,8 @@ Column {
         spacing: Theme.paddingMedium
         interactive: false
 
+        property int currentAid
+
         model: ListModel {}
 
         delegate: Item {
@@ -215,22 +217,26 @@ Column {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 width: height
-                source:
-                    if (audioPlayer.playbackState === MediaPlayer.PlayingState) {
-                        return "image://theme/icon-l-pause"
-                    } else {
-                        return "image://theme/icon-l-play"
-                    }
+                source: isPlaying ? "image://theme/icon-l-pause" : "image://theme/icon-l-play"
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         if (audioPlayer.playbackState === MediaPlayer.PlayingState) {
+                            isPlaying = false
                             audioPlayer.pause()
                         } else if (audioPlayer.playbackState === MediaPlayer.StoppedState) {
+                            isPlaying = true
+                            parent.parent.parent.currentAid = aid
                             AudiosAPI.api_getAudio(oid, aid)
                         } else {
-                            audioPlayer.play()
+                            if (parent.parent.parent.currentAid !== aid) {
+                                parent.parent.parent.currentAid = aid
+                                AudiosAPI.api_getAudio(oid, aid)
+                            } else {
+                                audioPlayer.play()
+                            }
+                            isPlaying = true
                         }
                     }
                 }

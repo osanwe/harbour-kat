@@ -30,6 +30,11 @@ BackgroundItem {
     anchors.right: parent.right
     height: Math.max(authorAvatar.height, mainContent.height) + 2 * Theme.paddingMedium
 
+    function playAudio(url) {
+        audioPlayer.source = url
+        audioPlayer.play()
+    }
+
     Audio {
         id: audioPlayer
     }
