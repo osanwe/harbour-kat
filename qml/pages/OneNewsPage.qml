@@ -24,67 +24,42 @@ import Sailfish.Silica 1.0
 import "../views"
 
 Page {
-    /*
-      Fields:
-          fullname
-          isOnline
-          messageText
-          attachments
-    */
-    id: messagePage
 
-    property bool isOnline
-    property string attachments
-    property string fullname
-    property string messageText
+    property string textBody
+    property string datetime
+    property string postAuthor
+    property variant attachmentsData
 
     SilicaFlickable {
         anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingLarge
+        contentHeight: newsAuthor.height + newsContent.height
 
         Label {
-            id: dialogTitle
+            id: newsAuthor
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.rightMargin: Theme.paddingLarge
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
+            width: parent.width
             height: Theme.fontSizeLarge + 3 * Theme.paddingLarge
+            horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter
-            text: fullname
+            text: postAuthor
         }
 
-        Switch {
-            id: dialogOnlineStatus
-            anchors.verticalCenter: dialogTitle.verticalCenter
-            anchors.right: dialogTitle.left
-            anchors.rightMargin: Theme.paddingMedium
-            automaticCheck: false
-            height: Theme.fontSizeLarge
-            width: Theme.fontSizeLarge
-            checked: isOnline
-        }
-
-        SilicaListView {
-            id: messageContent
-            anchors.fill: parent
-            anchors.topMargin: dialogTitle.height
-            anchors.bottomMargin: Theme.paddingLarge
+        ContentItem {
+            id: newsContent
+            anchors.top: newsAuthor.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
-            clip: true
-
-            model: ListModel {}
-
-            delegate: MessageContentItem {}
-
-            VerticalScrollDecorator {}
+            attachments: attachmentsData
+            content: textBody
+            dateTime: datetime
+            isNews: false
         }
-    }
-
-    Component.onCompleted: {
-        messageContent.model.append({ msgText: messageText })
-        var attachmentTypes = attachments.split("<br />")
-        for (var index in attachmentTypes)
-            messageContent.model.append({ msgText: attachmentTypes[index] })
     }
 }

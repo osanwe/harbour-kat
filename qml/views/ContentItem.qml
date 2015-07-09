@@ -96,7 +96,7 @@ Column {
         text: EmojiOne.toImage(content)
         textFormat: Text.StyledText
         color: isRead ? Theme.primaryColor : Theme.highlightColor
-        linkColor: readState ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        linkColor: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap
         truncationMode: TruncationMode.Fade
         maximumLineCount: isNews ? 5 : 2000000000

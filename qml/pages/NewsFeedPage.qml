@@ -39,8 +39,9 @@ Page {
                                     out:             0,
                                     readState:       1,
                                     datetime:        postData[2],
-                                    attachmentsData: postData.slice(4),
+                                    attachmentsData: postData.slice(5),
                                     avatarSource:    postData[3],
+                                    postAuthor:      postData[4],
                                     isNewsContent:   true })
     }
 
@@ -78,6 +79,12 @@ Page {
 
         delegate: PostItem {
             width: parent.width
+
+            onClicked: pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
+                                          { "datetime": datetime,
+                                            "textBody": textBody,
+                                            "postAuthor": postAuthor,
+                                            "attachmentsData": attachmentsData })
         }
 
         VerticalScrollDecorator {}

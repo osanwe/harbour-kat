@@ -70,6 +70,7 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
             if (jsonProfiles[index1].id === jsonObject.source_id) {
                 console.log(jsonProfiles[index1].photo_100)
                 postData[3] = jsonProfiles[index1].photo_100
+                postData[4] = jsonProfiles[index1].first_name + " " + jsonProfiles[index1].last_name
             }
         }
     } else {
@@ -78,9 +79,11 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
             if (jsonGroups[index2].id === sourceId) {
                 console.log(jsonGroups[index2].photo_100)
                 postData[3] = jsonGroups[index2].photo_100
+                postData[4] = jsonGroups[index2].name
             }
         }
     }
+    console.log(postData[4])
 
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {
