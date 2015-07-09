@@ -21,24 +21,29 @@
 
 .import QtQuick.LocalStorage 2.0 as LS
 
+
+var DATABASE_VERSION = "1"
+
 function getDatabase() {
-    return LS.LocalStorage.openDatabaseSync("vkFish", "", "Properties and data", 100000)
+    return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
 }
 
 function initDatabase() {
     console.log("initDatabase()")
     var db = getDatabase()
-    if (db.version !== "" || db.version !== "4") {
-        db.changeVersion(db.version, "4", function(tx) {
+    console.log("db.version = " + db.version)
+    if (db.version === "") {
+        db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
+            console.log("... create tables")
+            tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
+            tx.executeSql("CREATE TABLE IF NOT EXISTS user_info (key TEXT UNIQUE, value TEXT)")
+        })
+    } else if (db.version !== DATABASE_VERSION) {
+        db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
             console.log("... recreate tables")
             tx.executeSql("DROP TABLE settings")
         })
     }
-    db.transaction( function(tx) {
-        console.log("... create tables")
-        tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
-        tx.executeSql("CREATE TABLE IF NOT EXISTS user_info (key TEXT UNIQUE, value TEXT)")
-    })
 }
 
 
