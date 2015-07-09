@@ -66,7 +66,8 @@ Page {
                                        datetime:        messageData[5],
                                        avatarSource:    avatarSource,
                                        userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData })
+                                       attachmentsData: attachmentsData,
+                                       isNewsContent:   false })
         } else {
             messages.model.insert(0, { mid:             messageData[0],
                                        readState:       messageData[2],
@@ -75,7 +76,8 @@ Page {
                                        datetime:        messageData[5],
                                        avatarSource:    avatarSource,
                                        userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData })
+                                       attachmentsData: attachmentsData,
+                                       isNewsContent:   false })
         }
     }
 

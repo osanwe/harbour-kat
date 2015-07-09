@@ -73,6 +73,7 @@ BackgroundItem {
             isRead: readState === 1
             content: textBody
             dateTime: datetime
+            isNews: isNewsContent
         }
     }
 }

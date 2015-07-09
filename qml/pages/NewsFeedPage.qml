@@ -35,12 +35,13 @@ Page {
     }
 
     function appendPostToNewsFeed(postData) {
-        newsfeedList.model.append({ textBody: postData[1],
-                                    out: 0,
-                                    readState: 1,
-                                    datetime: postData[2],
+        newsfeedList.model.append({ textBody:        postData[1],
+                                    out:             0,
+                                    readState:       1,
+                                    datetime:        postData[2],
                                     attachmentsData: postData.slice(4),
-                                    avatarSource: postData[3] })
+                                    avatarSource:    postData[3],
+                                    isNewsContent:   true })
     }
 
     function stopLoadingNewsIndicator() {

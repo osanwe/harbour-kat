@@ -87,6 +87,8 @@ Column {
 
     property string dateTime
 
+    property bool isNews
+
     Label {
         id: contentText
         width: parent.width
@@ -97,7 +99,7 @@ Column {
         linkColor: readState ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap
         truncationMode: TruncationMode.Fade
-        maximumLineCount: 5
+        maximumLineCount: isNews ? 5 : 2000000000
 
         onLinkActivated: Qt.openUrlExternally(link)
     }

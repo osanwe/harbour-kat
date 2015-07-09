@@ -136,6 +136,7 @@ BackgroundItem {
             isRead: readState === 1
             content: message
             dateTime: datetime
+            isNews: isNewsContent
         }
     }
 }
