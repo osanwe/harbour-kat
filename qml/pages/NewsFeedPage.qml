@@ -83,4 +83,5 @@ Page {
     }
 
 //    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
+    Component.onCompleted: doStartUpdate()
 }
