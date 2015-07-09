@@ -28,8 +28,8 @@ function getDatabase() {
 function initDatabase() {
     console.log("initDatabase()")
     var db = getDatabase()
-    if (db.version !== "" && db.version !== "3") {
-        db.changeVersion(db.version, "3", function(tx) {
+    if (db.version !== "" || db.version !== "4") {
+        db.changeVersion(db.version, "4", function(tx) {
             console.log("... recreate tables")
             tx.executeSql("DROP TABLE settings")
         })
