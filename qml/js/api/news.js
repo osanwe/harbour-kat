@@ -29,7 +29,7 @@ function api_getLastNews(startFrom) {
     query += "&filters=post"
     query += "&return_banned=0"
     query += "%fields=photo_100"
-    if (startFrom) query += "&start_from" + startFrom
+    if (startFrom.length > 0) query += "&start_from=" + startFrom
     RequestAPI.sendRequest(query, callback_getLastNews)
 }
 
@@ -45,7 +45,7 @@ function callback_getLastNews(jsonObject) {
         if (jsonElement.type === "post")
             appendPostToNewsFeed(parsePost(jsonElement, jsonProfiles, jsonGroups))
     }
-    stopLoadingNewsIndicator()
+    stopLoadingNewsIndicator(jsonObject.response.next_from)
 }
 
 

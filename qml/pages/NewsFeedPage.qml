@@ -28,10 +28,13 @@ import "../js/api/news.js" as NewsAPI
 
 Page {
 
+    property string nextFrom
+
     function doStartUpdate() {
         loadingNewsIndicator.running = true
         newsfeedList.model.clear()
-        NewsAPI.api_getLastNews(null)
+        nextFrom = ""
+        NewsAPI.api_getLastNews(nextFrom)
     }
 
     function appendPostToNewsFeed(postData) {
@@ -45,7 +48,8 @@ Page {
                                     isNewsContent:   true })
     }
 
-    function stopLoadingNewsIndicator() {
+    function stopLoadingNewsIndicator(next_from) {
+        nextFrom = next_from
         loadingNewsIndicator.running = false
     }
 
@@ -85,6 +89,18 @@ Page {
                                             "textBody": textBody,
                                             "postAuthor": postAuthor,
                                             "attachmentsData": attachmentsData })
+        }
+
+        footer: Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width / 3 * 2
+            text: "Загрузить больше"
+
+            onClicked: {
+                loadingNewsIndicator.running = true
+                NewsAPI.api_getLastNews(nextFrom)
+//                MessagesAPI.api_getDialogsList(dialogsOffset)
+            }
         }
 
         VerticalScrollDecorator {}
