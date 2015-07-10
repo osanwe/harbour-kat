@@ -28,7 +28,7 @@ ApplicationWindow
 {
     id: application
 
-    initialPage: Component { MessagesPage { } }
+    initialPage: Component { MainMenuPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 }
 

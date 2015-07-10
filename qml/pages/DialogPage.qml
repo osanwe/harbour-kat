@@ -40,24 +40,45 @@ Page {
 
     property int messagesOffset: 0
 
+    property variant chatUsers
+
     function sendMessage() {
-        MessagesAPI.sendMessage(isChat, dialogId, messageInput.text, false)
         messages.model.clear()
-        messageInput.text = ""
         messagesOffset = 0
+        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, false)
+        messageInput.text = ""
     }
 
     function formMessageList(messageData) {
-        var attachmentsData = messageData.slice(5)
+        var attachmentsData = messageData.slice(6)
         console.log(attachmentsData)
-        messages.model.insert(0, { mid:             messageData[0],
-                                   readState:       messageData[1],
-                                   out:             messageData[2],
-                                   message:         messageData[3],
-                                   datetime:        messageData[4],
-                                   avatarSource:    avatarSource,
-                                   userAvatar:      userAvatar,
-                                   attachmentsData: attachmentsData })
+        if (isChat) {
+            for (var index in chatUsers) {
+                if (chatUsers[index].id === messageData[1]) {
+                    avatarSource = chatUsers[index].photo
+                }
+            }
+
+            messages.model.insert(0, { mid:             messageData[0],
+                                       readState:       messageData[2],
+                                       out:             messageData[3],
+                                       message:         messageData[4],
+                                       datetime:        messageData[5],
+                                       avatarSource:    avatarSource,
+                                       userAvatar:      userAvatar,
+                                       attachmentsData: attachmentsData,
+                                       isNewsContent:   false })
+        } else {
+            messages.model.insert(0, { mid:             messageData[0],
+                                       readState:       messageData[2],
+                                       out:             messageData[3],
+                                       message:         messageData[4],
+                                       datetime:        messageData[5],
+                                       avatarSource:    avatarSource,
+                                       userAvatar:      userAvatar,
+                                       attachmentsData: attachmentsData,
+                                       isNewsContent:   false })
+        }
     }
 
     function scrollMessagesToBottom() {
@@ -68,10 +89,15 @@ Page {
         }
     }
 
+    function saveUsers(users) {
+        chatUsers = users
+        pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
+                                   { "chatTitle": fullname, "users": users })
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    }
+
     function stopLoadingMessagesIndicator() {
         loadingMessagesIndicator.running = false
-        if (isChat) pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
-                                               { "chatTitle": fullname, "dialogId": dialogId })
     }
 
     BusyIndicator {
@@ -123,7 +149,7 @@ Page {
                 onClicked: {
                     loadingMessagesIndicator.running = true
                     messagesOffset = messagesOffset + 50;
-                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
 
@@ -195,17 +221,7 @@ Page {
                     messages.model.clear()
                     messagesOffset = 0
                     loadingMessagesIndicator.running = true
-                    MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
-                }
-            }
-
-            MenuItem {
-                text: "Отметить прочитанным"
-                onClicked: {
-                    messages.model.clear()
-                    messagesOffset = 0
-                    loadingMessagesIndicator.running = true
-                    MessagesAPI.markDialogAsRead(isChat, dialogId)
+                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
         }
@@ -213,5 +229,13 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: MessagesAPI.getHistory(isChat, dialogId, messagesOffset)
+    onStatusChanged:
+        if (status === PageStatus.Inactive)
+            MessagesAPI.api_markDialogAsRead(isChat, dialogId, messages.model.get(messages.model.count-1).mid)
+    Component.onCompleted:
+        if (isChat) {
+            MessagesAPI.api_getChatUsers(dialogId)
+        } else {
+            MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+        }
 }

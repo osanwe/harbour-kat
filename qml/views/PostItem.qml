@@ -23,69 +23,12 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 import Sailfish.Silica 1.0
 
-import "../views"
-import "../emojione/emojione.js" as EmojiOne
-import "../js/api/audios.js" as AudiosAPI
-import "../js/api/videos.js" as VideosAPI
 import "../js/storage.js" as StorageJS
 
-
 BackgroundItem {
-    /*
-     out
-     readState
-    */
-
-    function calculateMessageItemHeight() {
-//        var textHeight = datetimeText.height + messageText.height + photosAttachment.height +
-//                videosAttachment.height + audiosAttachment.height + docsAttachment.height
-        return Math.max(messageAvatar.height, mainContent.height) + 2 * Theme.paddingMedium
-    }
-
-    function buildMessageWithEmoji(message) {
-        return EmojiOne.toImage(message)
-    }
-
-    function getVideoUrl(urls, quality) {
-        var url = ""
-        switch (quality) {
-        case 0:
-            url = urls.mp4_720
-            break;
-
-        case 1:
-            url = urls.mp4_480
-            break;
-
-        case 2:
-            url = urls.mp4_360
-            break;
-
-        case 3:
-            url = urls.mp4_240
-            break;
-        }
-        if (url) {
-            return url
-        } else if (quality < 3) {
-            return getVideoUrl(urls, quality+1)
-        } else {
-            return
-        }
-    }
-
-    function openVideoPlayer(urls, duration) {
-        console.log(urls)
-        console.log(duration)
-        var url = getVideoUrl(urls, parseInt(StorageJS.readSettingsValue("video_quality"), 10))
-        console.log(url)
-
-        if (url) {
-            pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })
-        } else if (urls.external) {
-            Qt.openUrlExternally(urls.external)
-        }
-    }
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: Math.max(authorAvatar.height, mainContent.height) + 2 * Theme.paddingMedium
 
     function playAudio(url) {
         audioPlayer.source = url
@@ -95,11 +38,6 @@ BackgroundItem {
     Audio {
         id: audioPlayer
     }
-
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: calculateMessageItemHeight()
-    highlighted: out === 0 & readState === 0
 
     Separator {
         anchors.top: parent.top
@@ -119,22 +57,21 @@ BackgroundItem {
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         spacing: Theme.paddingMedium
-        layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
 
         Image {
-            id: messageAvatar
+            id: authorAvatar
             width: height
             height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
-            source: out === 0 ? avatarSource : userAvatar
+            source: avatarSource
         }
 
         ContentItem {
             id: mainContent
-            width: parent.width - messageAvatar.width - Theme.paddingMedium
+            width: parent.width - authorAvatar.width - Theme.paddingMedium
             attachments: attachmentsData
             isOut: out === 1
             isRead: readState === 1
-            content: message
+            content: textBody
             dateTime: datetime
             isNews: isNewsContent
         }

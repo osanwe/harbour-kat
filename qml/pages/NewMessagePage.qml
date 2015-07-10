@@ -37,11 +37,11 @@ Dialog {
 
     function sendNewMessage() {
         if (currentContactsList.model.count === 1) {
-            MessagesAPI.sendMessage(false,
+            MessagesAPI.api_sendMessage(false,
                                     currentContactsList.model.get(0).uid,
                                     newMessageText.text,
                                     true)
-        } else {
+        } else if (currentContactsList.model.count > 1) {
             var ids = ""
             var index = 0
             while (index < currentContactsList.model.count) {
@@ -49,13 +49,13 @@ Dialog {
                 index = index + 1
             }
             ids = ids.substring(1)
-            MessagesAPI.sendGroupMessage(ids, newMessageText.text)
+            MessagesAPI.api_createChat(ids, newMessageText.text)
         }
     }
 
     DialogHeader {
         id: newMessageHeader
-        acceptText: "Написать"
+        acceptText: currentContactsList.model.count > 1 ? "Создать" : "Написать"
         cancelText: "Отменить"
     }
 
@@ -73,13 +73,13 @@ Dialog {
 
             onTextChanged: {
                 searchContactsList.model.clear();
-                MessagesAPI.searchDialogs(text)
+                MessagesAPI.api_searchDialogs(text)
             }
         }
 
         model: ListModel {
             Component.onCompleted: {
-                clear(); MessagesAPI.searchDialogs("")
+                clear(); MessagesAPI.api_searchDialogs("")
             }
         }
 
@@ -194,8 +194,30 @@ Dialog {
         id: newMessageText
         anchors.bottom: parent.bottom
         width: parent.width
-        placeholderText: "Сообщение:"
-        label: "Сообщение"
+        placeholderText: {
+            switch (currentContactsList.model.count) {
+            case 0:
+                return "Сообщение или название чата:"
+
+            case 1:
+                return "Сообщение:"
+
+            default:
+                return "Название чата:"
+            }
+        }
+        label: {
+            switch (currentContactsList.model.count) {
+            case 0:
+                return "Сообщение или название чата"
+
+            case 1:
+                return "Сообщение"
+
+            default:
+                return "Название чата"
+            }
+        }
     }
 
     onAccepted: sendNewMessage()

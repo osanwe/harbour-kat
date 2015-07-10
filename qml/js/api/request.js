@@ -20,25 +20,26 @@
 */
 
 .import "../storage.js" as StorageJS
-.import "request.js" as RequestAPI
 
 
-// -------------- API functions --------------
+function sendRequest(query, callback, isNew) {
+    query = "https://api.vk.com/method/" + query
+    query += "&access_token=" + StorageJS.readSettingsValue("access_token")
+    console.log(query)
 
-function api_getAudio(oid, aid) {
-    var query = "audio.get?v=5.34"
-    query += "&owner_id=" + oid
-    query += "&audio_ids=" + aid
-    RequestAPI.sendRequest(query, callback_getAudio)
+    var request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            console.log(request.responseText)
+            if (typeof callback !== 'undefined') {
+                if (typeof isNew === 'undefined') {
+                    callback(JSON.parse(request.responseText))
+                } else {
+                    callback(JSON.parse(request.responseText), isNew)
+                }
+            }
+        }
+    }
+    request.open("GET", query, true)
+    request.send()
 }
-
-
-// -------------- Callbacks --------------
-
-function callback_getAudio(jsonObject) {
-    var audioItem = jsonObject.response.items[0]
-    playAudio(audioItem.url, audioItem.duration)
-}
-
-
-// -------------- Other functions --------------

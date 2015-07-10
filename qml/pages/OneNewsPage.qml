@@ -20,40 +20,38 @@
 */
 
 import QtQuick 2.0
-import QtQuick.LocalStorage 2.0
 import Sailfish.Silica 1.0
-import "../js/auth.js" as AuthJS
-import "../js/storage.js" as StorageJS
+import "../views"
 
+Page {
 
-Dialog {
-    id: loginPage
+    property string textBody
+    property string datetime
+    property string postAuthor
+    property variant attachmentsData
 
-    function checkUrl(url) {
-        if (AuthJS.checkUrl(url) !== 1) {
-            console.log(AuthJS.accessToken)
-            StorageJS.storeSettingsValue("access_token", AuthJS.accessToken)
-            StorageJS.storeSettingsValue("user_id", AuthJS.userId)
-            loginView.stop()
-            loginPage.close()
+    SilicaFlickable {
+        anchors.fill: parent
+        anchors.topMargin: Theme.paddingLarge
+        anchors.bottomMargin: Theme.paddingLarge
+        contentHeight: newsAuthor.height + newsContent.height
+
+        PageHeader {
+            id: newsAuthor
+            title: postAuthor
+        }
+
+        ContentItem {
+            id: newsContent
+            anchors.top: newsAuthor.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.rightMargin: Theme.paddingLarge
+            attachments: attachmentsData
+            content: textBody
+            dateTime: datetime
+            isNews: false
         }
     }
-
-    SilicaWebView {
-        id: loginView
-        anchors.fill: parent
-        url: "https://oauth.vk.com/authorize?" +
-             "client_id=4803503" +
-             "&scope=messages,video,wall,audio,friends,offline" +
-             "&redirect_uri=https://oauth.vk.com/blank.html" +
-             "&display=mobile" +
-             "&response_type=token"
-
-        onUrlChanged: checkUrl(url)
-    }
 }
-
-
-
-
-

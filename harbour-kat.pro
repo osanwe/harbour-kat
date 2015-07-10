@@ -14,8 +14,17 @@ TARGET = harbour-kat
 
 CONFIG += sailfishapp
 
+# to disable building translations every time, comment out the
+# following CONFIG line
+#CONFIG += sailfishapp_i18n
+#TRANSLATIONS += translations/vkFish-de.ts
+
+HEADERS += \
+    src/filedownloader.h
+
 SOURCES += \
-    src/harbour-kat.cpp
+    src/harbour-kat.cpp \
+    src/filedownloader.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
@@ -46,7 +55,6 @@ OTHER_FILES += \
     rpm/harbour-kat.changes.in \
     qml/pages/ChatUsersPage.qml \
     qml/views/UserItem.qml \
-    qml/pages/MessagePage.qml \
     qml/views/MessageContentItem.qml \
     qml/fonts/OpenSansEmoji.ttf \
     qml/pages/ImagePage.qml \
@@ -1109,12 +1117,12 @@ OTHER_FILES += \
     qml/emojione/png/303D.png \
     qml/emojione/png/3297.png \
     qml/emojione/png/3299.png \
-    qml/pages/SettingsPage.qml
-
-# to disable building translations every time, comment out the
-# following CONFIG line
-#CONFIG += sailfishapp_i18n
-#TRANSLATIONS += translations/vkFish-de.ts
-
-HEADERS +=
+    qml/pages/SettingsPage.qml \
+    qml/pages/MainMenuPage.qml \
+    qml/js/api/request.js \
+    qml/pages/NewsFeedPage.qml \
+    qml/js/api/news.js \
+    qml/views/ContentItem.qml \
+    qml/views/PostItem.qml \
+    qml/pages/OneNewsPage.qml
 
