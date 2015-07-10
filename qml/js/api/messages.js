@@ -69,10 +69,9 @@ function api_searchDialogs(substring) {
     RequestAPI.sendRequest(query, callback_searchDialogs)
 }
 
-function api_markDialogAsRead(isChat, uid, mid) {
+function api_markDialogAsRead(isChat, uid, mids) {
     var query = "messages.markAsRead?v=5.14"
-    query += "&peer_id=" + uid
-    query += "&start_message_id=" + mid
+    query += "&message_ids=" + mids
     RequestAPI.sendRequest(query)
 }
 
