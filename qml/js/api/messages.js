@@ -69,10 +69,9 @@ function api_searchDialogs(substring) {
     RequestAPI.sendRequest(query, callback_searchDialogs)
 }
 
-function api_markDialogAsRead(isChat, uid, mid) {
+function api_markDialogAsRead(isChat, uid, mids) {
     var query = "messages.markAsRead?v=5.14"
-    query += "&peer_id=" + uid
-    query += "&start_message_id=" + mid
+    query += "&message_ids=" + mids
     RequestAPI.sendRequest(query)
 }
 
@@ -198,6 +197,7 @@ function parseMessage(jsonObject) {
     messageData[2] = jsonObject.read_state
     messageData[3] = jsonObject.out
     messageData[4] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[4] = messageData[4].replace(/\n/g, "<br>")
     messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +

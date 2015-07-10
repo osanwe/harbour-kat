@@ -29,7 +29,7 @@ function api_getLastNews(startFrom) {
     query += "&filters=post"
     query += "&return_banned=0"
     query += "%fields=photo_100"
-    if (startFrom) query += "&start_from" + startFrom
+    if (startFrom.length > 0) query += "&start_from=" + startFrom
     RequestAPI.sendRequest(query, callback_getLastNews)
 }
 
@@ -45,7 +45,7 @@ function callback_getLastNews(jsonObject) {
         if (jsonElement.type === "post")
             appendPostToNewsFeed(parsePost(jsonElement, jsonProfiles, jsonGroups))
     }
-    stopLoadingNewsIndicator()
+    stopLoadingNewsIndicator(jsonObject.response.next_from)
 }
 
 
@@ -59,6 +59,7 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
 
     postData[0] = jsonObject.post_id
     postData[1] = jsonObject.text.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    postData[1] = postData[1].replace(/\n/g, "<br>")
     postData[2] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
@@ -70,6 +71,7 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
             if (jsonProfiles[index1].id === jsonObject.source_id) {
                 console.log(jsonProfiles[index1].photo_100)
                 postData[3] = jsonProfiles[index1].photo_100
+                postData[4] = jsonProfiles[index1].first_name + " " + jsonProfiles[index1].last_name
             }
         }
     } else {
@@ -78,9 +80,11 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
             if (jsonGroups[index2].id === sourceId) {
                 console.log(jsonGroups[index2].photo_100)
                 postData[3] = jsonGroups[index2].photo_100
+                postData[4] = jsonGroups[index2].name
             }
         }
     }
+    console.log(postData[4])
 
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {

@@ -100,6 +100,21 @@ Page {
         loadingMessagesIndicator.running = false
     }
 
+    function getUnreadMessagesFromModel() {
+        var messagesIdsList = ""
+        var index = 0
+        while (index < messages.model.count) {
+            console.log(index)
+            if (messages.model.get(index).readState === 0) {
+                console.log(messages.model.get(index).mid)
+                messagesIdsList += "," + messages.model.get(index).mid
+            }
+            index += 1
+        }
+        console.log(messagesIdsList)
+        return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
+    }
+
     BusyIndicator {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
@@ -230,8 +245,11 @@ Page {
     }
 
     onStatusChanged:
-        if (status === PageStatus.Inactive)
-            MessagesAPI.api_markDialogAsRead(isChat, dialogId, messages.model.get(messages.model.count-1).mid)
+        if (status === PageStatus.Inactive) {
+            var unreadMessagesIds = getUnreadMessagesFromModel()
+            if (unreadMessagesIds.length > 0)
+                MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
+        }
     Component.onCompleted:
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)

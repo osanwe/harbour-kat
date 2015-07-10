@@ -55,7 +55,6 @@ OTHER_FILES += \
     rpm/harbour-kat.changes.in \
     qml/pages/ChatUsersPage.qml \
     qml/views/UserItem.qml \
-    qml/pages/MessagePage.qml \
     qml/views/MessageContentItem.qml \
     qml/fonts/OpenSansEmoji.ttf \
     qml/pages/ImagePage.qml \
@@ -1124,5 +1123,6 @@ OTHER_FILES += \
     qml/pages/NewsFeedPage.qml \
     qml/js/api/news.js \
     qml/views/ContentItem.qml \
-    qml/views/PostItem.qml
+    qml/views/PostItem.qml \
+    qml/pages/OneNewsPage.qml
 
