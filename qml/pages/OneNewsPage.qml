@@ -32,21 +32,13 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
+        anchors.topMargin: Theme.paddingLarge
         anchors.bottomMargin: Theme.paddingLarge
         contentHeight: newsAuthor.height + newsContent.height
 
-        Label {
+        PageHeader {
             id: newsAuthor
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingLarge
-            font.pixelSize: Theme.fontSizeLarge
-            color: Theme.highlightColor
-            width: parent.width
-            height: Theme.fontSizeLarge + 3 * Theme.paddingLarge
-            horizontalAlignment: Text.AlignRight
-            verticalAlignment: Text.AlignVCenter
-            text: postAuthor
+            title: postAuthor
         }
 
         ContentItem {
