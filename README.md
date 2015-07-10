@@ -7,12 +7,7 @@ __For developers:__
  + _dev_ branch is for bug fixes
  + _dev-new_ branch is for new features
 
-__v0.2.0 (next)__
- + Creating the offline cache for dialogs and users
- + Adding the opportunity for working with attachments
- + Adding background refreshing
-
-__v0.1.2(3) (current)__
+__v0.1.2(3)__
  + Added emoji
  + The messages view was optimized
  + Added opportunity of copying messages
