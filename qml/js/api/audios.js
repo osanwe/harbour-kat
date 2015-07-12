@@ -26,9 +26,8 @@
 // -------------- API functions --------------
 
 function api_getAudio(oid, aid) {
-    var query = "audio.get?v=5.34"
-    query += "&owner_id=" + oid
-    query += "&audio_ids=" + aid
+    var query = "audio.getById?v=5.34"
+    query += "&audios=" + oid + "_" + aid
     RequestAPI.sendRequest(query, callback_getAudio)
 }
 
@@ -36,7 +35,7 @@ function api_getAudio(oid, aid) {
 // -------------- Callbacks --------------
 
 function callback_getAudio(jsonObject) {
-    var audioItem = jsonObject.response.items[0]
+    var audioItem = jsonObject.response[0]
     playAudio(audioItem.url, audioItem.duration)
 }
 
