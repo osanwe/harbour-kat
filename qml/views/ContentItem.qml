@@ -311,40 +311,44 @@ Column {
         color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
     }
 
-    Component.onCompleted: {
-        for (var index = 0; index < attachmentsData.count; index++) {
-            if (typeof attachmentsData.get(index).type !== 'undefined') {
-                switch (attachmentsData.get(index).type) {
+    function updateAttachments() {
+        photosAttachment.model.clear()
+        videosAttachment.model.clear()
+        audiosAttachment.model.clear()
+        docsAttachment.model.clear()
+        for (var index = 0; index < attachments.count; index++) {
+            if (typeof attachments.get(index).type !== 'undefined') {
+                switch (attachments.get(index).type) {
                     case "photo": // photo from photo album
-                        photosAttachment.model.append({ photo_75:   attachmentsData.get(index).photo.photo_75,
-                                                        photo_130:  attachmentsData.get(index).photo.photo_130,
-                                                        photo_604:  attachmentsData.get(index).photo.photo_604,
-                                                        photo_807:  attachmentsData.get(index).photo.photo_807,
-                                                        photo_1280: attachmentsData.get(index).photo.photo_1280,
-                                                        photo_2560: attachmentsData.get(index).photo.photo_2560,
-                                                        photo_text: attachmentsData.get(index).photo.text })
+                        photosAttachment.model.append({ photo_75:   attachments.get(index).photo.photo_75,
+                                                        photo_130:  attachments.get(index).photo.photo_130,
+                                                        photo_604:  attachments.get(index).photo.photo_604,
+                                                        photo_807:  attachments.get(index).photo.photo_807,
+                                                        photo_1280: attachments.get(index).photo.photo_1280,
+                                                        photo_2560: attachments.get(index).photo.photo_2560,
+                                                        photo_text: attachments.get(index).photo.text })
                         break
 
                     case "posted_photo": // photo from user device
                         break
 
                     case "video": // videofile
-                        videosAttachment.model.append({ vid:            attachmentsData.get(index).video.owner_id + "_" + attachmentsData.get(index).video.id,
-                                                        small_preview:  attachmentsData.get(index).video.photo_130,
-                                                        medium_preview: attachmentsData.get(index).video.photo_320,
-                                                        big_preview:    attachmentsData.get(index).video.photo_640 })
+                        videosAttachment.model.append({ vid:            attachments.get(index).video.owner_id + "_" + attachments.get(index).video.id,
+                                                        small_preview:  attachments.get(index).video.photo_130,
+                                                        medium_preview: attachments.get(index).video.photo_320,
+                                                        big_preview:    attachments.get(index).video.photo_640 })
                         break
 
                     case "audio": // audiofile
-                        audiosAttachment.model.append({ oid:    attachmentsData.get(index).audio.owner_id,
-                                                        aid:    attachmentsData.get(index).audio.id,
-                                                        artist: attachmentsData.get(index).audio.artist,
-                                                        title:  attachmentsData.get(index).audio.title })
+                        audiosAttachment.model.append({ oid:    attachments.get(index).audio.owner_id,
+                                                        aid:    attachments.get(index).audio.id,
+                                                        artist: attachments.get(index).audio.artist,
+                                                        title:  attachments.get(index).audio.title })
                         break
 
                     case "doc": // document
-                        docsAttachment.model.append({ docName: attachmentsData.get(index).doc.title,
-                                                      url:     attachmentsData.get(index).doc.url })
+                        docsAttachment.model.append({ docName: attachments.get(index).doc.title,
+                                                      url:     attachments.get(index).doc.url })
                         break
 
                     case "graffiti": // graffiti
@@ -385,5 +389,7 @@ Column {
             }
         }
     }
+
+    Component.onCompleted: updateAttachments()
 
 }
