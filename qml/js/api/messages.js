@@ -20,132 +20,165 @@
 */
 
 .import "../storage.js" as StorageJS
-.import "./users.js" as UsersAPI
+.import "request.js" as RequestAPI
+.import "users.js" as UsersAPI
 
-function getDialogs(offset) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?"
-    url += "offset=" + offset
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
 
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            var uids = ""
-            var chatsUids = ""
-            for (var index in jsonObject.response) {
-                if (index > 0) {
-                    var dialogId = jsonObject.response[index].uid
-                    var messageBody = jsonObject.response[index].body
-                    var isChat = false
-                    if (jsonObject.response[index].fwd_messages)
-                        messageBody = "[сообщения] " + messageBody
-                    if (jsonObject.response[index].attachments)
-                        messageBody = "[вложения] " + messageBody
-                    if (jsonObject.response[index].chat_id) {
-                        dialogId = jsonObject.response[index].chat_id
-                        chatsUids += "," + jsonObject.response[index].uid
-                        isChat = true
-                    } else {
-                        uids += "," + jsonObject.response[index].uid
-                    }
-                    formDialogsList(jsonObject.response[index].out,
-                                    jsonObject.response[index].title,
-                                    messageBody,
-                                    dialogId,
-                                    jsonObject.response[index].read_state,
-                                    isChat)
-                }
-            }
-            if (uids.length === 0 && chatsUids.length === 0) {
-                stopBusyIndicator()
-            } else {
-                uids = uids.substring(1)
-                chatsUids = chatsUids.substring(1)
-                UsersAPI.getUsersAvatarAndOnlineStatus(uids)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
+// -------------- API functions --------------
+
+function api_getUnreadMessagesCounter(isCover) {
+    var query = "messages.getDialogs?v=5.14"
+    query += "&unread=1"
+    RequestAPI.sendRequest(query, isCover ?
+                                  callback_getUnreadMessagesCounter_cover :
+                                  callback_getUnreadMessagesCounter_mainMenu)
 }
 
-function sendMessage(isChat, dialogId, message, isNew) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.send?"
-    if (isChat) {
-        url += "chat_id=" + dialogId
+function api_getDialogsList(offset) {
+    var query = "messages.getDialogs?v=5.14"
+    query += "&offset=" + offset
+    RequestAPI.sendRequest(query, callback_getDialogsList)
+}
+
+function api_getHistory(isChat, dialogId, offset) {
+    var query = "messages.getHistory?v=5.14"
+    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
+    query += "&offset=" + offset
+    query += "&count=50"
+    RequestAPI.sendRequest(query, callback_getHistory)
+}
+
+function api_sendMessage(isChat, dialogId, message, isNew) {
+    var query = "messages.send?v=5.14"
+    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
+    query += "&message=" + message
+    RequestAPI.sendRequest(query, callback_sendMessage)
+}
+
+function api_createChat(ids, message) {
+    var query = "messages.createChat?v=5.14"
+    query += "&user_ids=" + ids
+    query += "&title=" + message
+    RequestAPI.sendRequest(query, callback_createChat)
+}
+
+function api_searchDialogs(substring) {
+    var query = "messages.searchDialogs?v=5.14"
+    query += "&q=" + substring
+    query += "&fields=photo_100,online"
+    RequestAPI.sendRequest(query, callback_searchDialogs)
+}
+
+function api_markDialogAsRead(isChat, uid, mids) {
+    var query = "messages.markAsRead?v=5.14"
+    query += "&message_ids=" + mids
+    RequestAPI.sendRequest(query)
+}
+
+function api_getChatUsers(dialogId) {
+    var query = "messages.getChatUsers?v=5.14"
+    query += "&chat_id=" + dialogId
+    query += "&fields=online,photo_100,status"
+    RequestAPI.sendRequest(query, callback_getChatUsers)
+}
+
+
+// -------------- Callbacks --------------
+
+function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
+    updateUnreadMessagesCounter(jsonObject.response.count)
+}
+
+function callback_getUnreadMessagesCounter_cover(jsonObject) {
+    updateCoverCounters(jsonObject.response.count)
+}
+
+function callback_getDialogsList(jsonObject) {
+    var uids = ""
+    var chatsUids = ""
+    var items = jsonObject.response.items
+    for (var index in items) {
+        var jsonMessage = items[index].message
+
+        var dialogId = jsonMessage.user_id
+        var messageBody = jsonMessage.body
+        var isChat = false
+        if (jsonMessage.fwd_messages)
+            messageBody = "[сообщения] " + messageBody
+        if (jsonMessage.attachments)
+            messageBody = "[вложения] " + messageBody
+        if (jsonMessage.chat_id) {
+            dialogId = jsonMessage.chat_id
+            chatsUids += "," + jsonMessage.user_id
+            isChat = true
+        } else {
+            uids += "," + jsonMessage.user_id
+        }
+        formDialogsList(jsonMessage.out,
+                        jsonMessage.title,
+                        messageBody,
+                        dialogId,
+                        jsonMessage.read_state,
+                        isChat)
+    }
+    if (uids.length === 0 && chatsUids.length === 0) {
+        stopBusyIndicator()
     } else {
-        url += "user_id=" + dialogId
+        uids = uids.substring(1)
+        chatsUids = chatsUids.substring(1)
+        UsersAPI.getUsersAvatarAndOnlineStatus(uids)
     }
-    url += "&message=" + message
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            if (!isNew) getHistory(isChat, dialogId, messagesOffset)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }
 
-function sendGroupMessage(ids, message) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.createChat?"
-    url += "user_ids=" + ids
-    url += "&message=" + message
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            sendMessage(true, jsonObject.response, message, true)
-        }
+function callback_getHistory(jsonObject) {
+    var items = jsonObject.response.items
+    for (var index in items) {
+        formMessageList(parseMessage(items[index]))
     }
-    doc.open("GET", url, true)
-    doc.send()
+    stopLoadingMessagesIndicator()
+    scrollMessagesToBottom()
 }
 
-function getHistory(isChat, dialogId, offset) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getHistory?"
-    if (isChat) {
-        url += "chat_id=" + dialogId
-    } else {
-        url += "user_id=" + dialogId
-    }
-    url += "&offset=" + offset
-    url += "&count=50"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
+function callback_sendMessage(jsonObject, isNew) {
+    if (!isNew) api_getHistory(isChat, dialogId, messagesOffset)
+}
 
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                if (index > 0) formMessageList(parseMessage(jsonObject.response[index]))
-            }
-            stopLoadingMessagesIndicator()
-            if (index > 1) scrollMessagesToBottom()
+function callback_createChat(jsonObject) {
+    api_sendMessage(true, jsonObject.response, message, true)
+}
+
+function callback_searchDialogs(jsonObject) {
+    for (var index in jsonObject.response) {
+        var name = jsonObject.response[index].first_name
+        name += " " + jsonObject.response[index].last_name
+        updateSearchContactsList(jsonObject.response[index].id,
+                                 name,
+                                 jsonObject.response[index].photo_100,
+                                 jsonObject.response[index].online)
+    }
+}
+
+function callback_getChatUsers(jsonObject) {
+    var users = []
+    for (var index in jsonObject.response) {
+        var name = jsonObject.response[index].first_name
+        name += " " + jsonObject.response[index].last_name
+        users[users.length] = {
+            id:     jsonObject.response[index].id,
+            name:   name,
+            photo:  jsonObject.response[index].photo_100,
+            online: jsonObject.response[index].online,
+            status: jsonObject.response[index].status
         }
     }
-    doc.open("GET", url, true)
-    doc.send()
+    saveUsers(users)
 }
 
 
-/*
+// -------------- Other functions --------------
+
+
+/**
  * The function for parsing the json object of a message.
  *
  * [In]  + jsonObject - the json object of the message.
@@ -159,13 +192,13 @@ function parseMessage(jsonObject) {
     var date = new Date()
     date.setTime(parseInt(jsonObject.date) * 1000)
 
-    messageData[0] = jsonObject.mid
-    messageData[1] = jsonObject.read_state
-    messageData[2] = jsonObject.out
-    messageData[3] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-    console.log(jsonObject.body)
-    console.log(messageData[3])
-    messageData[4] = ("0" + date.getHours()).slice(-2) + ":" +
+    messageData[0] = jsonObject.id
+    messageData[1] = jsonObject.from_id
+    messageData[2] = jsonObject.read_state
+    messageData[3] = jsonObject.out
+    messageData[4] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
+    messageData[4] = messageData[4].replace(/\n/g, "<br>")
+    messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
                      ("0" + (date.getMonth() + 1)).slice(-2) + "." +
@@ -189,100 +222,4 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
-}
-
-
-function getUnreadMessagesCount() {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getDialogs?v=5.14"
-    url += "&unread=1"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            if (jsonObject.response.count) {
-                updateCoverCounters(jsonObject.response.count)
-            } else {
-                updateCoverCounters(0)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function searchDialogs(substring) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.searchDialogs?"
-    url += "q=" + substring
-    url += "&fields=photo_100,online"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                var name = jsonObject.response[index].first_name
-                name += " " + jsonObject.response[index].last_name
-                updateSearchContactsList(jsonObject.response[index].uid,
-                                         name,
-                                         jsonObject.response[index].photo_100,
-                                         jsonObject.response[index].online)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function markDialogAsRead(isChat, uid) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.markAsRead?"
-    url += "peer_id=" + uid
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            getHistory(isChat, uid, 0)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function getChatUsers(dialogId) {
-    var url = "https://api.vk.com/method/"
-    url += "messages.getChatUsers?"
-    url += "chat_id=" + dialogId
-    url += "&fields=online,photo_100,status"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            var jsonObject = JSON.parse(doc.responseText)
-            console.log(doc.responseText)
-            for (var index in jsonObject.response) {
-                var name = jsonObject.response[index].first_name
-                name += " " + jsonObject.response[index].last_name
-                appendUser(jsonObject.response[index].uid,
-                           name,
-                           jsonObject.response[index].photo_100,
-                           jsonObject.response[index].online,
-                           jsonObject.response[index].status)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
 }

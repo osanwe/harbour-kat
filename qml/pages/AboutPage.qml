@@ -53,10 +53,14 @@ Page {
             ListElement {
                 aboutItemText: "<a href=\"https://m.vk.com/nostariel\">Nostariel</a>"
             }
+
+            ListElement {
+                aboutItemText: "<a href=\"https://flattr.com/submit/auto?user_id=osanwe&url=https://vk.com/kat_sailfishos&title=Kat\">Поддержка</a>"
+            }
         }
 
         header: PageHeader {
-            title: "Kat v0.1.4"
+            title: "Kat v0.1.5"
         }
 
         delegate: Item {

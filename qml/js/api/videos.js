@@ -20,22 +20,21 @@
 */
 
 .import "../storage.js" as StorageJS
+.import "request.js" as RequestAPI
 
-function getVideo(vid) {
-    var url = "https://api.vk.com/method/"
-    url += "video.get?"
-    url += "videos=" + vid
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
 
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            console.log(doc.responseText)
-            var jsonObject = JSON.parse(doc.responseText)
-            openVideoPlayer(jsonObject.response[1].files, jsonObject.response[1].duration)
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
+// -------------- API functions --------------
+
+function api_getVideo(vid) {
+    var query = "video.get?v=5.34"
+    query += "&videos=" + vid
+    RequestAPI.sendRequest(query, callback_getVideo)
+}
+
+
+// -------------- Callbacks --------------
+
+function callback_getVideo(jsonObject) {
+    var videoItem = jsonObject.response.items[0]
+    openVideoPlayer(videoItem.files, videoItem.duration)
 }
