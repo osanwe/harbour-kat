@@ -60,7 +60,7 @@ Page {
         }
 
         header: PageHeader {
-            title: "Kat v0.2.0-1436550333888"
+            title: "Kat v0.1.5"
         }
 
         delegate: Item {
