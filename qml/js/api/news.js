@@ -25,12 +25,13 @@
 // -------------- API functions --------------
 
 function api_getLastNews(startFrom) {
-    var query = "newsfeed.get?v=5.14"
-    query += "&filters=post"
-    query += "&return_banned=0"
-    query += "%fields=photo_100"
-    if (startFrom.length > 0) query += "&start_from=" + startFrom
-    RequestAPI.sendRequest(query, callback_getLastNews)
+    var data = {
+        filters: "post",
+        return_banned:0,
+        fields: "photo_100"
+    }
+    if (startFrom.length > 0) data.start_from = startFrom
+    RequestAPI.sendRequest("newsfeed.get", "5.14", data, callback_getLastNews)
 }
 
 
