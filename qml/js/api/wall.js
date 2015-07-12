@@ -24,9 +24,9 @@
 
 // -------------- API functions --------------
 function api_getPostById(oid, pid) {
-    var query = "wall.getById?v=5.34"
-    query += "&posts=" + oid + "_" + pid
-    RequestAPI.sendRequest(query, callback_getPostById)
+    RequestAPI.sendRequest("wall.getById", "5.34", {
+                               posts: oid + "_" + pid
+                           }, callback_getPostById)
 }
 
 
