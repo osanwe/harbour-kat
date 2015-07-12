@@ -78,7 +78,7 @@ BackgroundItem {
         console.log(urls)
         console.log(duration)
         var url = getVideoUrl(urls, parseInt(StorageJS.readSettingsValue("video_quality"), 10))
-        console.log(url)
+//        console.log(url)
 
         if (url) {
             pageContainer.push("../pages/VideoPage.qml", { "url": url, "duration": duration })

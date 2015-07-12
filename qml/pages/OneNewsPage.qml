@@ -23,12 +23,22 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
 
+import "../js/api/wall.js" as WallAPI
+
 Page {
 
     property string textBody
     property string datetime
     property string postAuthor
     property variant attachmentsData
+
+    function update(postData) {
+        textBody = postData[1]
+        attachmentsData = postData.slice(3)
+        newsContent.attachments = attachmentsData
+        console.log(newsContent.attachments)
+        newsContent.updateAttachments()
+    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -54,4 +64,6 @@ Page {
             isNews: false
         }
     }
+
+    Component.onCompleted: WallAPI.api_getPostById(-43948962, 76708)
 }
