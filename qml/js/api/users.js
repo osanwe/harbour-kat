@@ -26,10 +26,10 @@
 // -------------- API functions --------------
 
 function api_getUserNameAndAvatar(uid) {
-    var query = "users.get?"
-    query += "user_ids=" + uid
-    query += "&fields=photo_100"
-    RequestAPI.sendRequest(query, callback_getUserNameAndAvatar)
+    RequestAPI.sendRequest("users.get", null, {
+                               user_ids: uid,
+                               fields: "photo_100"
+                           }, callback_getUserNameAndAvatar)
 }
 
 

@@ -21,10 +21,14 @@
 
 .import "../storage.js" as StorageJS
 
+var API_SERVER = "https://api.vk.com/method/";
 
-function sendRequest(query, callback, isNew) {
-    query = "https://api.vk.com/method/" + query
-    query += "&access_token=" + StorageJS.readSettingsValue("access_token")
+function sendRequest(method, apiVersion, data, callback, isNew) {
+    query = API_SERVER+method+"?"+(apiVersion?("?v="+apiVersion):"")+"&access_token=" + StorageJS.readSettingsValue("access_token");
+
+    for (var arg in data) {
+        query += "&"+arg+"="+data[arg];
+    }
     console.log(query)
 
     var request = new XMLHttpRequest()
