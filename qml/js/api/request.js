@@ -24,7 +24,7 @@
 var API_SERVER = "https://api.vk.com/method/";
 
 function sendRequest(method, apiVersion, data, callback, isNew) {
-    query = API_SERVER+method+"?"+(apiVersion?("?v="+apiVersion):"")+"&access_token=" + StorageJS.readSettingsValue("access_token");
+    var query = API_SERVER+method+"?"+(apiVersion?("?v="+apiVersion):"")+"&access_token=" + StorageJS.readSettingsValue("access_token");
 
     for (var arg in data) {
         query += "&"+arg+"="+data[arg];

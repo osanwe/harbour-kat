@@ -45,7 +45,7 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     switch (m_Mode) {
     case SAVING_TO_CACHE:
     {
-        QString path("/home/nemo/.cache/harbour-kat/");
+        QString path("$XDG_CACHE_HOME/harbour-kat/");
         QFile file(path.append(m_FileName));
         file.open(QIODevice::WriteOnly);
         file.write(m_DownloadedData);
@@ -55,7 +55,7 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
 
     case SAVING_TO_DOWNLOADS:
     {
-        QString path("/home/nemo/Downloads/");
+        QString path("$HOME/Downloads/");
         QFile file(path.append(m_FileName));
         file.open(QIODevice::WriteOnly);
         file.write(m_DownloadedData);

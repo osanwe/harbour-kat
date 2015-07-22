@@ -57,53 +57,128 @@ Page {
         id: loadingNewsIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: true
+        running: false // true
     }
 
-    SilicaListView {
-        id: newsfeedList
+    Drawer {
+        id: drawer
         anchors.fill: parent
+        open: true
+        dock: Dock.Left
 
-        PullDownMenu {
+        background: SilicaListView {
+            anchors.fill: parent
 
-//            MenuItem {
-//                text: "Написать"
-//                onClicked:
-//            }
+            model: ListModel {
 
-            MenuItem {
-                text: "Обновить"
-                onClicked: doStartUpdate()
+                ListElement {
+                    icon: "image://theme/icon-l-message"
+                    name: "Новости"
+                    counter: ""
+                }
+
+                ListElement {
+                    icon: "image://theme/icon-l-email"
+                    name: "Сообщения"
+                    counter: ""
+                }
             }
-        }
 
-        header: PageHeader { title: "Новости" }
+            delegate: BackgroundItem {
+                id: menuItem
+                height: Theme.itemSizeSmall
 
-        model: ListModel {}
+                Item {
+                    anchors.fill: parent
+                    anchors.rightMargin: Theme.paddingLarge
+                    anchors.leftMargin: Theme.paddingLarge
 
-        delegate: PostItem {
-            width: parent.width
+                    Image {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: Theme.iconSizeSmall
+                        height: Theme.iconSizeSmall
+                        source: icon
+                    }
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
-                                          { "datetime": datetime,
-                                            "textBody": textBody,
-                                            "postAuthor": postAuthor,
-                                            "attachmentsData": attachmentsData })
-        }
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: name
+                    }
 
-        footer: Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width / 3 * 2
-            text: "Загрузить больше"
-
-            onClicked: {
-                loadingNewsIndicator.running = true
-                NewsAPI.api_getLastNews(nextFrom)
-//                MessagesAPI.api_getDialogsList(dialogsOffset)
+                    Label {
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.bold: true
+                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: counter
+                    }
+                }
             }
+
+            VerticalScrollDecorator {}
         }
 
-        VerticalScrollDecorator {}
+        SilicaListView {
+            id: newsfeedList
+            anchors.fill: parent
+
+            PullDownMenu {
+
+    //            MenuItem {
+    //                text: "Написать"
+    //                onClicked:
+    //            }
+
+                MenuItem {
+                    text: "Обновить"
+                    onClicked: doStartUpdate()
+                }
+            }
+
+            model: ListModel {}
+
+            header: PageHeader { title: "Новости" }
+
+            delegate: PostItem {
+                width: parent.width
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    property real xPos
+                    property real yPos
+
+                    onPressed: { xPos = mouseX; yPos = mouseY; }
+                    onReleased:
+                        if (xPos == mouseX && yPos == mouseY) {
+                            pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
+                                               { "datetime":        datetime,
+                                                 "textBody":        textBody,
+                                                 "postAuthor":      postAuthor,
+                                                 "attachmentsData": attachmentsData })
+                        } else {
+                            drawer.open = (xPos < mouseX)
+                        }
+                }
+            }
+
+            footer: Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width / 3 * 2
+                text: "Загрузить больше"
+
+                onClicked: {
+                    loadingNewsIndicator.running = true
+                    NewsAPI.api_getLastNews(nextFrom)
+    //                MessagesAPI.api_getDialogsList(dialogsOffset)
+                }
+            }
+
+            VerticalScrollDecorator {}
+        }
     }
 
 //    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()

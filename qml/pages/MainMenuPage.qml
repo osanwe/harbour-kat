@@ -36,7 +36,7 @@ Page {
         } else {
             var fullUserName = StorageJS.readFullUserName()
             var avatarFileName = StorageJS.readUserAvatar()
-            updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+            updateUserNameAndAvatar(fullUserName, "$XDG_CACHE_HOME/harbour-kat/" + avatarFileName)
             // TODO Calculating unread messages counter with cached data
 
             doForceUpdate()
@@ -99,7 +99,7 @@ Page {
                 Connections {
                     target: fileDownloader
                     onDownloaded: {
-                        userAvatarUrl = "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar()
+                        userAvatarUrl = "$XDG_CACHE_HOME/harbour-kat/" + StorageJS.readUserAvatar()
                         userAvatar.source = userAvatarUrl
                     }
                 }

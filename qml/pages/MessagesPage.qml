@@ -114,7 +114,7 @@ Page {
                                  "isChat":       isChat,
                                  "isOnline":     isOnline,
                                  "avatarSource": avatarSource,
-                                 "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
+                                 "userAvatar":   "$XDG_CACHE_HOME/harbour-kat/" + StorageJS.readUserAvatar() })
             }
         }
 

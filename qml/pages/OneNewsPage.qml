@@ -65,5 +65,5 @@ Page {
         }
     }
 
-    Component.onCompleted: WallAPI.api_getPostById(-43948962, 76708)
+//    Component.onCompleted: WallAPI.api_getPostById(-43948962, 76708)
 }
