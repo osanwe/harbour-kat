@@ -1125,5 +1125,6 @@ OTHER_FILES += \
     qml/views/ContentItem.qml \
     qml/views/PostItem.qml \
     qml/pages/OneNewsPage.qml \
-    qml/js/api/wall.js
+    qml/js/api/wall.js \
+    qml/views/MainMenu.qml
 

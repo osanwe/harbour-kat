@@ -66,154 +66,7 @@ Page {
         open: true
         dock: Dock.Left
 
-        background: SilicaListView {
-            anchors.fill: parent
-
-            model: ListModel {
-
-                ListElement {
-                    icon: "image://theme/icon-l-message"
-                    name: "Новости"
-                    counter: ""
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-redirect"
-                    name: "Ответы"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-email"
-                    name: "Сообщения"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-people"
-                    name: "Друзья"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-people"
-                    name: "Группы"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-image"
-                    name: "Фотографии"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-video"
-                    name: "Видеозаписи"
-                    counter: "0"
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-music"
-                    name: "Аудиозаписи"
-                    counter: ""
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-favorite"
-                    name: "Закладки"
-                    counter: ""
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-l-document"
-                    name: "Документы"
-                    counter: ""
-                }
-
-                ListElement {
-                    icon: "image://theme/icon-cover-search"
-                    name: "Поиск"
-                    counter: ""
-                }
-            }
-
-            header: BackgroundItem {
-                width: parent.width
-                height: Theme.itemSizeMedium
-
-                Image {
-                    id: userAvatar
-                    anchors.left: parent.left
-                    anchors.leftMargin: Theme.paddingLarge
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Theme.itemSizeMedium - 2 * Theme.paddingMedium
-                    height: Theme.itemSizeMedium - 2 * Theme.paddingMedium
-                    source: userAvatarUrl
-
-                    Connections {
-                        target: fileDownloader
-                        onDownloaded: {
-                            userAvatarUrl = "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar()
-                            userAvatar.source = userAvatarUrl
-                        }
-                    }
-                }
-
-                Label {
-                    id: userName
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: Theme.fontSizeLarge
-                    height: Theme.itemSizeMedium
-                    verticalAlignment: Text.AlignVCenter
-                    color: Theme.highlightColor
-                    text: userFullName
-                }
-            }
-
-            delegate: BackgroundItem {
-                id: menuItem
-                height: Theme.itemSizeSmall
-
-                Item {
-                    anchors.fill: parent
-                    anchors.rightMargin: Theme.paddingLarge
-                    anchors.leftMargin: Theme.paddingLarge
-
-                    Image {
-                        id: menuItemIcon
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: Theme.iconSizeSmall
-                        height: Theme.iconSizeSmall
-                        source: icon
-                    }
-
-                    Label {
-                        anchors.left: menuItemIcon.right
-                        anchors.right: menuItemCounter.left
-                        anchors.leftMargin: Theme.paddingMedium
-                        anchors.rightMargin: menuItemCounter.text.length > 0 ? Theme.paddingMedium : 0
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                        maximumLineCount: 1
-                        truncationMode: TruncationMode.Fade
-                        text: name
-                    }
-
-                    Label {
-                        id: menuItemCounter
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.bold: true
-                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                        text: counter
-                    }
-                }
-            }
-
-            VerticalScrollDecorator {}
-        }
+        background: MainMenu {}
 
         SilicaListView {
             id: newsfeedList
@@ -269,7 +122,6 @@ Page {
                 onClicked: {
                     loadingNewsIndicator.running = true
                     NewsAPI.api_getLastNews(nextFrom)
-    //                MessagesAPI.api_getDialogsList(dialogsOffset)
                 }
             }
 
@@ -277,6 +129,5 @@ Page {
         }
     }
 
-//    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
     Component.onCompleted: doStartUpdate()
 }
