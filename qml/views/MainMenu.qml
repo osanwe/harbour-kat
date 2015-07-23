@@ -21,9 +21,43 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../js/storage.js" as StorageJS
+import "../js/api/messages.js" as MessagesAPI
+import "../js/api/users.js" as UsersAPI
 
 SilicaListView {
     anchors.fill: parent
+
+    property string userAvatarUrl: "image://theme/icon-l-people"
+    property string userFullName: "Имя Фамилия"
+
+    function doStartUpdate() {
+        if (!StorageJS.readSettingsValue("user_id")) {
+            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+        } else {
+            var fullUserName = StorageJS.readFullUserName()
+            var avatarFileName = StorageJS.readUserAvatar()
+            updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
+            // TODO Calculating unread messages counter with cached data
+
+            doForceUpdate()
+        }
+    }
+
+    function doForceUpdate() {
+        UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
+        MessagesAPI.api_getUnreadMessagesCounter(false)
+    }
+
+    function updateUserNameAndAvatar(name, avatarUrl) {
+        console.log("updateUserInfo()")
+        userFullName = name
+        userAvatarUrl = avatarUrl
+    }
+
+    function updateUnreadMessagesCounter(counter) {
+        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
+    }
 
     model: ListModel {
 
@@ -118,11 +152,14 @@ SilicaListView {
 
         Label {
             id: userName
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: Theme.fontSizeLarge
+            anchors.left: userAvatar.right
+            anchors.right: parent.right
+            anchors.leftMargin: Theme.paddingMedium
             height: Theme.itemSizeMedium
             verticalAlignment: Text.AlignVCenter
             color: Theme.highlightColor
+            wrapMode: Text.WordWrap
+//            font.pixelSize: Theme.fontSizeLarge
             text: userFullName
         }
     }
@@ -169,4 +206,6 @@ SilicaListView {
     }
 
     VerticalScrollDecorator {}
+
+    Component.onCompleted: doStartUpdate()
 }

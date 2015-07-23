@@ -22,7 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
-import "js/api/messages.js" as MessagesAPI
+import "js/storage.js" as StorageJS
 
 ApplicationWindow
 {
@@ -30,6 +30,8 @@ ApplicationWindow
 
     initialPage: Component { NewsFeedPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
+
+    Component.onCompleted: StorageJS.initDatabase()
 }
 
 
