@@ -99,7 +99,7 @@ Page {
                 Connections {
                     target: fileDownloader
                     onDownloaded: {
-                        userAvatarUrl = "$XDG_CACHE_HOME/harbour-kat/" + StorageJS.readUserAvatar()
+                        userAvatarUrl = "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar()
                         userAvatar.source = userAvatarUrl
                     }
                 }
