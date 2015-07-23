@@ -254,7 +254,9 @@ Page {
                                                  "postAuthor":      postAuthor,
                                                  "attachmentsData": attachmentsData })
                         } else {
-                            drawer.open = (xPos < mouseX)
+                            var delta = mouseX - xPos
+                            var idealDelta = Screen.width / 4
+                            if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
                         }
                 }
             }
