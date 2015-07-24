@@ -126,6 +126,11 @@ SilicaListView {
 //            name: "Поиск"
 //            counter: ""
 //        }
+
+        ListElement {
+            name: "О программе"
+            counter: ""
+        }
     }
 
     header: BackgroundItem {
@@ -207,17 +212,17 @@ SilicaListView {
         onClicked:
             switch (index) {
             case 0:
-//                pageStack.push(Qt.resolvedUrl("NewsFeedPage.qml"))
                 drawer.foreground = Qt.createComponent("NewsListView.qml").createObject()
                 drawer.open = false
                 break
 
             case 1:
-//                break
-
-//            case 2:
-//                pageStack.push(Qt.resolvedUrl("MessagesPage.qml"))
                 drawer.foreground = Qt.createComponent("DialogsListView.qml").createObject()
+                drawer.open = false
+                break
+
+            case 2:
+                drawer.foreground = Qt.createComponent("AboutView.qml").createObject()
                 drawer.open = false
                 break;
 
@@ -243,6 +248,9 @@ SilicaListView {
 //                break
 
 //            case 10:
+//                break
+
+//            case 11:
 //                break
             }
     }

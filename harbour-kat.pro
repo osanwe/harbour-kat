@@ -42,7 +42,6 @@ OTHER_FILES += \
     qml/js/api/users.js \
     qml/pages/DialogPage.qml \
     qml/views/MessageItem.qml \
-    qml/pages/AboutPage.qml \
     qml/pages/NewMessagePage.qml \
     LICENSE \
     README.md \
@@ -1126,5 +1125,6 @@ OTHER_FILES += \
     qml/views/MainMenu.qml \
     qml/pages/BasicPage.qml \
     qml/views/NewsListView.qml \
-    qml/views/DialogsListView.qml
+    qml/views/DialogsListView.qml \
+    qml/views/AboutView.qml
 
