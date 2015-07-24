@@ -26,8 +26,8 @@
 // -------------- API functions --------------
 
 function api_getAudio(oid, aid) {
-    RequestAPI.sendRequest("getById",
-                           { audios: ois + "_" + aid },
+    RequestAPI.sendRequest("audio.getById",
+                           { audios: oid + "_" + aid },
                            callback_getAudio)
 }
 

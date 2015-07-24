@@ -83,7 +83,7 @@ SilicaListView {
             onPressed: { xPos = mouseX; yPos = mouseY; }
             onReleased:
                 if (xPos == mouseX && yPos == mouseY) {
-                    pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
+                    pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
                                        { "datetime":        datetime,
                                          "textBody":        textBody,
                                          "postAuthor":      postAuthor,

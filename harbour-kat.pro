@@ -1120,7 +1120,6 @@ OTHER_FILES += \
     qml/pages/SettingsPage.qml \
     qml/pages/MainMenuPage.qml \
     qml/js/api/request.js \
-    qml/pages/NewsFeedPage.qml \
     qml/js/api/news.js \
     qml/views/ContentItem.qml \
     qml/views/PostItem.qml \
