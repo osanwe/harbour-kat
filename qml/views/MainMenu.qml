@@ -203,6 +203,46 @@ SilicaListView {
                 text: counter
             }
         }
+
+        onClicked:
+            switch (index) {
+            case 0:
+//                pageStack.push(Qt.resolvedUrl("NewsFeedPage.qml"))
+                drawer.foreground = Qt.createComponent("NewsListView.qml").createObject()
+                break
+
+            case 1:
+//                break
+
+//            case 2:
+//                pageStack.push(Qt.resolvedUrl("MessagesPage.qml"))
+                drawer.foreground = Qt.createComponent("DialogsListView.qml").createObject()
+                break;
+
+//            case 3:
+//                break
+
+//            case 4:
+//                break
+
+//            case 5:
+//                break
+
+//            case 6:
+//                break
+
+//            case 7:
+//                break
+
+//            case 8:
+//                break
+
+//            case 9:
+//                break
+
+//            case 10:
+//                break
+            }
     }
 
     VerticalScrollDecorator {}
