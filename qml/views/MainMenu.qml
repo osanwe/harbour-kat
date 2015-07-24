@@ -67,11 +67,11 @@ SilicaListView {
             counter: ""
         }
 
-        ListElement {
-            icon: "image://theme/icon-l-redirect"
-            name: "Ответы"
-            counter: "0"
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-redirect"
+//            name: "Ответы"
+//            counter: "0"
+//        }
 
         ListElement {
             icon: "image://theme/icon-l-email"
@@ -79,53 +79,53 @@ SilicaListView {
             counter: "0"
         }
 
-        ListElement {
-            icon: "image://theme/icon-l-people"
-            name: "Друзья"
-            counter: "0"
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-people"
+//            name: "Друзья"
+//            counter: "0"
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-people"
-            name: "Группы"
-            counter: "0"
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-people"
+//            name: "Группы"
+//            counter: "0"
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-image"
-            name: "Фотографии"
-            counter: "0"
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-image"
+//            name: "Фотографии"
+//            counter: "0"
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-video"
-            name: "Видеозаписи"
-            counter: "0"
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-video"
+//            name: "Видеозаписи"
+//            counter: "0"
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-music"
-            name: "Аудиозаписи"
-            counter: ""
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-music"
+//            name: "Аудиозаписи"
+//            counter: ""
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-favorite"
-            name: "Закладки"
-            counter: ""
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-favorite"
+//            name: "Закладки"
+//            counter: ""
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-l-document"
-            name: "Документы"
-            counter: ""
-        }
+//        ListElement {
+//            icon: "image://theme/icon-l-document"
+//            name: "Документы"
+//            counter: ""
+//        }
 
-        ListElement {
-            icon: "image://theme/icon-cover-search"
-            name: "Поиск"
-            counter: ""
-        }
+//        ListElement {
+//            icon: "image://theme/icon-cover-search"
+//            name: "Поиск"
+//            counter: ""
+//        }
     }
 
     header: BackgroundItem {
