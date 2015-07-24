@@ -77,6 +77,21 @@ SilicaListView {
             onLinkActivated: Qt.openUrlExternally(link)
             text: aboutItemText
         }
+
+        MouseArea {
+            anchors.fill: parent
+
+            property real xPos
+            property real yPos
+
+            onPressed: { xPos = mouseX; yPos = mouseY; }
+            onReleased:
+                if (!(xPos == mouseX && yPos == mouseY)) {
+                    var delta = mouseX - xPos
+                    var idealDelta = Screen.width / 4
+                    if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
+                }
+        }
     }
 
     VerticalScrollDecorator {}
