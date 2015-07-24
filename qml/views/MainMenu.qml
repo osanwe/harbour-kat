@@ -209,6 +209,7 @@ SilicaListView {
             case 0:
 //                pageStack.push(Qt.resolvedUrl("NewsFeedPage.qml"))
                 drawer.foreground = Qt.createComponent("NewsListView.qml").createObject()
+                drawer.open = false
                 break
 
             case 1:
@@ -217,6 +218,7 @@ SilicaListView {
 //            case 2:
 //                pageStack.push(Qt.resolvedUrl("MessagesPage.qml"))
                 drawer.foreground = Qt.createComponent("DialogsListView.qml").createObject()
+                drawer.open = false
                 break;
 
 //            case 3:

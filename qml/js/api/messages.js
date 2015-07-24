@@ -81,7 +81,7 @@ function api_markDialogAsRead(isChat, uid, mids) {
 }
 
 function api_getChatUsers(dialogId) {
-    RequestAPI.sendRequest("messages.markAsRead",
+    RequestAPI.sendRequest("messages.getChatUsers",
                            { chat_id: dialogId,
                              fields: "online,photo_100,status" },
                            callback_getChatUsers)
