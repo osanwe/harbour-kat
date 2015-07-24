@@ -26,9 +26,9 @@
 // -------------- API functions --------------
 
 function api_getVideo(vid) {
-    RequestAPI.sendRequest("video.get", "5.34", {
-                               videos: vid
-                           }, callback_getVideo)
+    RequestAPI.sendRequest("video.get",
+                           { videos: vid },
+                           callback_getVideo)
 }
 
 

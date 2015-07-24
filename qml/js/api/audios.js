@@ -26,9 +26,9 @@
 // -------------- API functions --------------
 
 function api_getAudio(oid, aid) {
-    var query = "audio.getById?v=5.34"
-    query += "&audios=" + oid + "_" + aid
-    RequestAPI.sendRequest(query, callback_getAudio)
+    RequestAPI.sendRequest("getById",
+                           { audios: ois + "_" + aid },
+                           callback_getAudio)
 }
 
 

@@ -76,7 +76,7 @@ SilicaListView {
         ListElement {
             icon: "image://theme/icon-l-email"
             name: "Сообщения"
-            counter: "0"
+            counter: ""
         }
 
 //        ListElement {
