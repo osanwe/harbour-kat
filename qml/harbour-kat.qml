@@ -28,7 +28,7 @@ ApplicationWindow
 {
     id: application
 
-    initialPage: Component { NewsFeedPage { } }
+    initialPage: Component { BasicPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
     Component.onCompleted: StorageJS.initDatabase()

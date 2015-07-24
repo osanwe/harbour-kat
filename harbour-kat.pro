@@ -1127,5 +1127,6 @@ OTHER_FILES += \
     qml/pages/OneNewsPage.qml \
     qml/js/api/wall.js \
     qml/views/MainMenu.qml \
-    qml/pages/BasicPage.qml
+    qml/pages/BasicPage.qml \
+    qml/views/NewsListView.qml
 

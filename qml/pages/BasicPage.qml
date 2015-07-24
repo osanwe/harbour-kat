@@ -42,64 +42,6 @@ Page {
 
         background: MainMenu {}
 
-        SilicaListView {
-            id: newsfeedList
-            anchors.fill: parent
-
-            PullDownMenu {
-
-    //            MenuItem {
-    //                text: "Написать"
-    //                onClicked:
-    //            }
-
-                MenuItem {
-                    text: "Обновить"
-                    onClicked: doStartUpdate()
-                }
-            }
-
-            model: ListModel {}
-
-            header: PageHeader { title: "Новости" }
-
-            delegate: PostItem {
-                width: parent.width
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    property real xPos
-                    property real yPos
-
-                    onPressed: { xPos = mouseX; yPos = mouseY; }
-                    onReleased:
-                        if (xPos == mouseX && yPos == mouseY) {
-                            pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
-                                               { "datetime":        datetime,
-                                                 "textBody":        textBody,
-                                                 "postAuthor":      postAuthor,
-                                                 "attachmentsData": attachmentsData })
-                        } else {
-                            var delta = mouseX - xPos
-                            var idealDelta = Screen.width / 4
-                            if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
-                        }
-                }
-            }
-
-            footer: Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width / 3 * 2
-                text: "Загрузить больше"
-
-                onClicked: {
-                    loadingNewsIndicator.running = true
-                    NewsAPI.api_getLastNews(nextFrom)
-                }
-            }
-
-            VerticalScrollDecorator {}
-        }
+        foreground: NewsListView {}
     }
 }
