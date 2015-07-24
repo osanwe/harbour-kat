@@ -26,9 +26,9 @@
 // -------------- API functions --------------
 
 function api_getVideo(vid) {
-    var query = "video.get?v=5.34"
-    query += "&videos=" + vid
-    RequestAPI.sendRequest(query, callback_getVideo)
+    RequestAPI.sendRequest("video.get",
+                           { videos: vid },
+                           callback_getVideo)
 }
 
 

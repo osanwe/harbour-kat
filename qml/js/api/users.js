@@ -26,10 +26,10 @@
 // -------------- API functions --------------
 
 function api_getUserNameAndAvatar(uid) {
-    var query = "users.get?"
-    query += "user_ids=" + uid
-    query += "&fields=photo_100"
-    RequestAPI.sendRequest(query, callback_getUserNameAndAvatar)
+    RequestAPI.sendRequest("users.get",
+                           { user_ids: uid,
+                             fields: "photo_100" },
+                           callback_getUserNameAndAvatar)
 }
 
 
@@ -46,7 +46,7 @@ function callback_getUserNameAndAvatar(jsonObject) {
     if (StorageJS.readFullUserName() !== fullName) {
         console.log("Replacing user name...")
         StorageJS.saveUserName(firstName, secondName)
-        updateUserNameAndAvatar(fullName, "/home/nemo/.cache/harbour-kat/" + oldAvatarName)
+        updateUserNameAndAvatar(fullName, "$XDG_CACHE_HOME/harbour-kat/" + oldAvatarName)
     }
     if (oldAvatarName !== newAvatarName) {
         console.log("Replacing user avatar...")

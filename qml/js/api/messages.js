@@ -23,63 +23,68 @@
 .import "request.js" as RequestAPI
 .import "users.js" as UsersAPI
 
+var HISTORY_COUNT = 50;
 
 // -------------- API functions --------------
 
 function api_getUnreadMessagesCounter(isCover) {
-    var query = "messages.getDialogs?v=5.14"
-    query += "&unread=1"
-    RequestAPI.sendRequest(query, isCover ?
-                                  callback_getUnreadMessagesCounter_cover :
-                                  callback_getUnreadMessagesCounter_mainMenu)
+    RequestAPI.sendRequest("messages.getDialogs",
+                           { unread:1 },
+                           isCover ? callback_getUnreadMessagesCounter_cover :
+                                     callback_getUnreadMessagesCounter_mainMenu)
 }
 
 function api_getDialogsList(offset) {
-    var query = "messages.getDialogs?v=5.14"
-    query += "&offset=" + offset
-    RequestAPI.sendRequest(query, callback_getDialogsList)
+    RequestAPI.sendRequest("messages.getDialogs",
+                           { offset: offset },
+                           callback_getDialogsList)
 }
 
 function api_getHistory(isChat, dialogId, offset) {
-    var query = "messages.getHistory?v=5.14"
-    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
-    query += "&offset=" + offset
-    query += "&count=50"
-    RequestAPI.sendRequest(query, callback_getHistory)
+    var data = {
+        offset: offset,
+        count: HISTORY_COUNT
+    };
+    data[isChat ? "chat_id" : "user_id"] = dialogId;
+    RequestAPI.sendRequest("messages.getHistory",
+                           data,
+                           callback_getHistory)
 }
 
 function api_sendMessage(isChat, dialogId, message, isNew) {
-    var query = "messages.send?v=5.14"
-    query += (isChat ? "&chat_id=" : "&user_id=") + dialogId
-    query += "&message=" + message
-    RequestAPI.sendRequest(query, callback_sendMessage)
+    var data = {
+        message: message
+    };
+    data[isChat ? "chat_id" : "user_id"] = dialogId;
+    RequestAPI.sendRequest("messages.send",
+                           data,
+                           callback_sendMessage)
 }
 
 function api_createChat(ids, message) {
-    var query = "messages.createChat?v=5.14"
-    query += "&user_ids=" + ids
-    query += "&title=" + message
-    RequestAPI.sendRequest(query, callback_createChat)
+    RequestAPI.sendRequest("messages.createChat",
+                           { user_ids: ids,
+                             title: message },
+                           callback_createChat)
 }
 
 function api_searchDialogs(substring) {
-    var query = "messages.searchDialogs?v=5.14"
-    query += "&q=" + substring
-    query += "&fields=photo_100,online"
-    RequestAPI.sendRequest(query, callback_searchDialogs)
+    RequestAPI.sendRequest("messages.searchDialogs",
+                           { q: substring,
+                             fields:"photo_100,online" },
+                           callback_searchDialogs)
 }
 
 function api_markDialogAsRead(isChat, uid, mids) {
-    var query = "messages.markAsRead?v=5.14"
-    query += "&message_ids=" + mids
-    RequestAPI.sendRequest(query)
+    RequestAPI.sendRequest("messages.markAsRead",
+                           { message_ids: mids })
 }
 
 function api_getChatUsers(dialogId) {
-    var query = "messages.getChatUsers?v=5.14"
-    query += "&chat_id=" + dialogId
-    query += "&fields=online,photo_100,status"
-    RequestAPI.sendRequest(query, callback_getChatUsers)
+    RequestAPI.sendRequest("messages.getChatUsers",
+                           { chat_id: dialogId,
+                             fields: "online,photo_100,status" },
+                           callback_getChatUsers)
 }
 
 

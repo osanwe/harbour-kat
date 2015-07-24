@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
 import "../views"
 import "../js/auth.js" as AuthJS
 import "../js/storage.js" as StorageJS
@@ -28,8 +29,10 @@ import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
 
-Page {
-    id: startPage
+SilicaListView {
+    id: messagesList
+    anchors.fill: parent
+    anchors.bottomMargin: Theme.paddingMedium
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
@@ -37,7 +40,7 @@ Page {
     function updateDialogs() {
         dialogsOffset = 0
         chatsCounter = 0
-        loadingDialogsIndicator.running = true
+        loadingIndicator.running = true
         messagesList.footerItem.visible = false
         messagesList.model.clear()
         MessagesAPI.api_getDialogsList(dialogsOffset)
@@ -70,71 +73,70 @@ Page {
 
     function stopBusyIndicator() {
         messagesList.footerItem.visible = true
-        loadingDialogsIndicator.running = false
+        loadingIndicator.running = false
     }
 
-    BusyIndicator {
-        id: loadingDialogsIndicator
-        anchors.centerIn: parent
-        size: BusyIndicatorSize.Large
-        running: true
+    PullDownMenu {
+
+        MenuItem {
+            id: newMessageItem
+            text: "Новое сообщение"
+            onClicked: pageContainer.push(Qt.resolvedUrl("NewMessagePage.qml"))
+        }
+
+        MenuItem {
+            id: mainMenuItem
+            text: "Обновить"
+            onClicked: updateDialogs()
+        }
     }
 
-    SilicaListView {
-        id: messagesList
-        anchors.fill: parent
-        anchors.bottomMargin: Theme.paddingMedium
-
-        PullDownMenu {
-
-            MenuItem {
-                id: newMessageItem
-                text: "Новое сообщение"
-                onClicked: pageStack.push(Qt.resolvedUrl("NewMessagePage.qml"))
-            }
-
-            MenuItem {
-                id: mainMenuItem
-                text: "Обновить"
-                onClicked: updateDialogs()
-            }
-        }
-
-        header: PageHeader {
-            title: "Сообщения"
-        }
-
-        model: ListModel {}
-
-        delegate: UserItem {
-            onClicked: {
-                pageStack.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                               { "fullname":     nameOrTitle,
-                                 "dialogId":     itemId,
-                                 "isChat":       isChat,
-                                 "isOnline":     isOnline,
-                                 "avatarSource": avatarSource,
-                                 "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
-            }
-        }
-
-        footer: Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width / 3 * 2
-            text: "Загрузить больше"
-
-            onClicked: {
-                loadingDialogsIndicator.running = true
-                dialogsOffset = dialogsOffset + 20
-                chatsCounter = 0
-                MessagesAPI.api_getDialogsList(dialogsOffset)
-            }
-        }
-
-        VerticalScrollDecorator {}
+    header: PageHeader {
+        title: "Сообщения"
     }
 
-    onStatusChanged: if (status === PageStatus.Active) updateDialogs()
+    model: ListModel {}
+
+    delegate: UserItem {
+
+        MouseArea {
+            anchors.fill: parent
+
+            property real xPos
+            property real yPos
+
+            onPressed: { xPos = mouseX; yPos = mouseY; }
+            onReleased:
+                if (xPos == mouseX && yPos == mouseY) {
+                    pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                                   { "fullname":     nameOrTitle,
+                                     "dialogId":     itemId,
+                                     "isChat":       isChat,
+                                     "isOnline":     isOnline,
+                                     "avatarSource": avatarSource,
+                                     "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
+                } else {
+                    var delta = mouseX - xPos
+                    var idealDelta = Screen.width / 4
+                    if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
+                }
+        }
+    }
+
+    footer: Button {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 3 * 2
+        text: "Загрузить больше"
+
+        onClicked: {
+            loadingDialogsIndicator.running = true
+            dialogsOffset = dialogsOffset + 20
+            chatsCounter = 0
+            MessagesAPI.api_getDialogsList(dialogsOffset)
+        }
+    }
+
+    VerticalScrollDecorator {}
+
+    Component.onCompleted: updateDialogs()
 }
-
-

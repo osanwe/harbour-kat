@@ -19,25 +19,29 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.import "../storage.js" as StorageJS
-.import "request.js" as RequestAPI
+import QtQuick 2.0
+import Sailfish.Silica 1.0
+
+import "../views"
 
 
-// -------------- API functions --------------
+Page {
 
-function api_getAudio(oid, aid) {
-    RequestAPI.sendRequest("audio.getById",
-                           { audios: oid + "_" + aid },
-                           callback_getAudio)
+    BusyIndicator {
+        id: loadingIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: false // true
+    }
+
+    Drawer {
+        id: drawer
+        anchors.fill: parent
+        open: true
+        dock: Dock.Left
+
+        background: MainMenu {}
+
+        foreground: NewsListView {}
+    }
 }
-
-
-// -------------- Callbacks --------------
-
-function callback_getAudio(jsonObject) {
-    var audioItem = jsonObject.response[0]
-    playAudio(audioItem.url, audioItem.duration)
-}
-
-
-// -------------- Other functions --------------

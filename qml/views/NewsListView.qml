@@ -22,16 +22,17 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-import "../views"
 import "../js/api/news.js" as NewsAPI
 
 
-Page {
+SilicaListView {
+    id: newsfeedList
+    anchors.fill: parent
 
     property string nextFrom
 
     function doStartUpdate() {
-        loadingNewsIndicator.running = true
+        loadingIndicator.running = true
         newsfeedList.model.clear()
         nextFrom = ""
         NewsAPI.api_getLastNews(nextFrom)
@@ -50,62 +51,63 @@ Page {
 
     function stopLoadingNewsIndicator(next_from) {
         nextFrom = next_from
-        loadingNewsIndicator.running = false
+        loadingIndicator.running = false
     }
 
-    BusyIndicator {
-        id: loadingNewsIndicator
-        anchors.centerIn: parent
-        size: BusyIndicatorSize.Large
-        running: true
-    }
-
-    SilicaListView {
-        id: newsfeedList
-        anchors.fill: parent
-
-        PullDownMenu {
+    PullDownMenu {
 
 //            MenuItem {
 //                text: "Написать"
 //                onClicked:
 //            }
 
-            MenuItem {
-                text: "Обновить"
-                onClicked: doStartUpdate()
-            }
+        MenuItem {
+            text: "Обновить"
+            onClicked: doStartUpdate()
         }
-
-        header: PageHeader { title: "Новости" }
-
-        model: ListModel {}
-
-        delegate: PostItem {
-            width: parent.width
-
-            onClicked: pageContainer.push(Qt.resolvedUrl("OneNewsPage.qml"),
-                                          { "datetime": datetime,
-                                            "textBody": textBody,
-                                            "postAuthor": postAuthor,
-                                            "attachmentsData": attachmentsData })
-        }
-
-        footer: Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width / 3 * 2
-            text: "Загрузить больше"
-
-            onClicked: {
-                loadingNewsIndicator.running = true
-                NewsAPI.api_getLastNews(nextFrom)
-//                MessagesAPI.api_getDialogsList(dialogsOffset)
-            }
-        }
-
-        VerticalScrollDecorator {}
     }
 
-//    onStatusChanged: if (status === PageStatus.Active) doStartUpdate()
+    model: ListModel {}
+
+    header: PageHeader { title: "Новости" }
+
+    delegate: PostItem {
+        width: parent.width
+
+        MouseArea {
+            anchors.fill: parent
+
+            property real xPos
+            property real yPos
+
+            onPressed: { xPos = mouseX; yPos = mouseY; }
+            onReleased:
+                if (xPos == mouseX && yPos == mouseY) {
+                    pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
+                                       { "datetime":        datetime,
+                                         "textBody":        textBody,
+                                         "postAuthor":      postAuthor,
+                                         "attachmentsData": attachmentsData })
+                } else {
+                    var delta = mouseX - xPos
+                    var idealDelta = Screen.width / 4
+                    if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
+                }
+        }
+    }
+
+    footer: Button {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 3 * 2
+        text: "Загрузить больше"
+
+        onClicked: {
+            loadingNewsIndicator.running = true
+            NewsAPI.api_getLastNews(nextFrom)
+        }
+    }
+
+    VerticalScrollDecorator {}
+
     Component.onCompleted: doStartUpdate()
 }
