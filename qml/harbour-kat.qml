@@ -31,7 +31,10 @@ ApplicationWindow
     initialPage: Component { BasicPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
-    Component.onCompleted: StorageJS.initDatabase()
+    Component.onCompleted: {
+        StorageJS.initDatabase()
+        if (!StorageJS.readSettingsValue("user_id")) {
+            pageStack.push(Qt.resolvedUrl("pages/LoginPage.qml"))
+        }
+    }
 }
-
-

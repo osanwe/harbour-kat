@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../js/storage.js" as StorageJS
 import "../js/api/news.js" as NewsAPI
 
 
@@ -32,10 +33,12 @@ SilicaListView {
     property string nextFrom
 
     function doStartUpdate() {
-        loadingIndicator.running = true
-        newsfeedList.model.clear()
-        nextFrom = ""
-        NewsAPI.api_getLastNews(nextFrom)
+        if (StorageJS.readSettingsValue("user_id")) {
+            loadingIndicator.running = true
+            newsfeedList.model.clear()
+            nextFrom = ""
+            NewsAPI.api_getLastNews(nextFrom)
+        }
     }
 
     function appendPostToNewsFeed(postData) {

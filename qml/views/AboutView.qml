@@ -58,7 +58,7 @@ SilicaListView {
     }
 
     header: PageHeader {
-        title: "Kat v0.2.0_1437718439292"
+        title: "Kat v0.2.0_1438089420440"
     }
 
     delegate: Item {

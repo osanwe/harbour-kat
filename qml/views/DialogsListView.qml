@@ -38,12 +38,14 @@ SilicaListView {
     property int dialogsOffset: 0
 
     function updateDialogs() {
-        dialogsOffset = 0
-        chatsCounter = 0
-        loadingIndicator.running = true
-        messagesList.footerItem.visible = false
-        messagesList.model.clear()
-        MessagesAPI.api_getDialogsList(dialogsOffset)
+        if (StorageJS.readSettingsValue("user_id")) {
+            dialogsOffset = 0
+            chatsCounter = 0
+            loadingIndicator.running = true
+            messagesList.footerItem.visible = false
+            messagesList.model.clear()
+            MessagesAPI.api_getDialogsList(dialogsOffset)
+        }
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
