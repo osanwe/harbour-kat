@@ -32,9 +32,7 @@ SilicaListView {
     property string userFullName: "Имя Фамилия"
 
     function doStartUpdate() {
-        if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("../pages/LoginPage.qml"))
-        } else {
+        if (StorageJS.readSettingsValue("user_id")) {
             var fullUserName = StorageJS.readFullUserName()
             var avatarFileName = StorageJS.readUserAvatar()
             updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
@@ -257,6 +255,6 @@ SilicaListView {
 
     VerticalScrollDecorator {}
 
-//    Component.onCompleted: doStartUpdate()
-    Component.onCompleted: doForceUpdate()
+    Component.onCompleted: doStartUpdate()
+//    Component.onCompleted: doForceUpdate()
 }

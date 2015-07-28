@@ -33,7 +33,8 @@ ApplicationWindow
 
     Component.onCompleted: {
         StorageJS.initDatabase()
-        if (!StorageJS.readSettingsValue("user_id"))
+        if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("pages/LoginPage.qml"))
+        }
     }
 }
