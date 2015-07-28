@@ -37,7 +37,7 @@ Page {
     Drawer {
         id: drawer
         anchors.fill: parent
-        open: true
+        open: false
         dock: Dock.Left
 
         background: MainMenu {}
