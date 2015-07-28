@@ -33,7 +33,7 @@ SilicaListView {
 
     function doStartUpdate() {
         if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("LoginPage.qml"))
+            pageStack.push(Qt.resolvedUrl("../pages/LoginPage.qml"))
         } else {
             var fullUserName = StorageJS.readFullUserName()
             var avatarFileName = StorageJS.readUserAvatar()
@@ -222,9 +222,7 @@ SilicaListView {
                 break
 
             case 2:
-                drawer.foreground = Qt.createComponent("AboutView.qml").createObject()
-                drawer.open = false
-                break;
+//                break;
 
 //            case 3:
 //                break
@@ -251,11 +249,14 @@ SilicaListView {
 //                break
 
 //            case 11:
-//                break
+                drawer.foreground = Qt.createComponent("AboutView.qml").createObject()
+                drawer.open = false
+                break
             }
     }
 
     VerticalScrollDecorator {}
 
-    Component.onCompleted: doStartUpdate()
+//    Component.onCompleted: doStartUpdate()
+    Component.onCompleted: doForceUpdate()
 }
