@@ -34,14 +34,5 @@ Page {
         running: false // true
     }
 
-    Drawer {
-        id: drawer
-        anchors.fill: parent
-        open: false
-        dock: Dock.Left
-
-        background: MainMenu {}
-
-        foreground: NewsListView {}
-    }
+    NewsListView {}
 }
