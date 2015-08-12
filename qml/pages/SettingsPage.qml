@@ -36,12 +36,18 @@ Page {
                 title: "Настройки"
             }
 
-            TextSwitch {
-                text: "Отображать разделитель в сообщениях"
-                checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
+            ComboBox {
+                label: "Стартовая страница"
+                currentIndex: StorageJS.readSettingsValue("start_page")
 
-                onCheckedChanged: {
-                    StorageJS.storeSettingsValue("is_separated_messages", checked)
+                menu: ContextMenu {
+                    MenuItem { text: "Новости" }
+                    MenuItem { text: "Сообщения" }
+
+                    onActivated: {
+                        console.log(index)
+                        StorageJS.storeSettingsValue("start_page", index)
+                    }
                 }
             }
 
@@ -59,6 +65,15 @@ Page {
                         console.log(index)
                         StorageJS.storeSettingsValue("video_quality", index)
                     }
+                }
+            }
+
+            TextSwitch {
+                text: "Отображать разделитель в сообщениях"
+                checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
+
+                onCheckedChanged: {
+                    StorageJS.storeSettingsValue("is_separated_messages", checked)
                 }
             }
         }

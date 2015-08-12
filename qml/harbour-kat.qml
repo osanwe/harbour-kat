@@ -28,11 +28,19 @@ ApplicationWindow
 {
     id: application
 
-    initialPage: Component { BasicPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    initialPage: {
+        StorageJS.initDatabase()
+
+        if (parseInt(StorageJS.readSettingsValue("start_page"), 10) === 1) {
+            return Qt.createQmlObject("import QtQuick 2.0; import \"pages\"; Component { DialogsListPage {} }", application)
+        } else {
+            return Qt.createQmlObject("import QtQuick 2.0; import \"pages\"; Component { NewsfeedPage {} }", application)
+        }
+    }
 
     Component.onCompleted: {
-        StorageJS.initDatabase()
+        pageStack.pushAttached(Qt.resolvedUrl("pages/MainMenuPage.qml"))
         if (!StorageJS.readSettingsValue("user_id")) {
             pageStack.push(Qt.resolvedUrl("pages/LoginPage.qml"))
         }

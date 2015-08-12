@@ -29,10 +29,7 @@ import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
 
-SilicaListView {
-    id: messagesList
-    anchors.fill: parent
-    anchors.bottomMargin: Theme.paddingMedium
+Page {
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
@@ -78,67 +75,65 @@ SilicaListView {
         loadingIndicator.running = false
     }
 
-    PullDownMenu {
-
-        MenuItem {
-            id: newMessageItem
-            text: "Новое сообщение"
-            onClicked: pageContainer.push(Qt.resolvedUrl("NewMessagePage.qml"))
-        }
-
-        MenuItem {
-            id: mainMenuItem
-            text: "Обновить"
-            onClicked: updateDialogs()
-        }
+    BusyIndicator {
+        id: loadingIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: false // true
     }
 
-    header: PageHeader {
-        title: "Сообщения"
-    }
+    SilicaListView {
+        id: messagesList
+        anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingMedium
 
-    model: ListModel {}
+        PullDownMenu {
 
-    delegate: UserItem {
+            MenuItem {
+                id: newMessageItem
+                text: "Новое сообщение"
+                onClicked: pageContainer.push(Qt.resolvedUrl("NewMessagePage.qml"))
+            }
 
-        MouseArea {
-            anchors.fill: parent
-
-            property real xPos
-            property real yPos
-
-            onPressed: { xPos = mouseX; yPos = mouseY; }
-            onReleased:
-                if (xPos == mouseX && yPos == mouseY) {
-                    pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                                   { "fullname":     nameOrTitle,
-                                     "dialogId":     itemId,
-                                     "isChat":       isChat,
-                                     "isOnline":     isOnline,
-                                     "avatarSource": avatarSource,
-                                     "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
-                } else {
-                    var delta = mouseX - xPos
-                    var idealDelta = Screen.width / 4
-                    if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
-                }
+            MenuItem {
+                id: mainMenuItem
+                text: "Обновить"
+                onClicked: updateDialogs()
+            }
         }
-    }
 
-    footer: Button {
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width / 3 * 2
-        text: "Загрузить больше"
-
-        onClicked: {
-            loadingDialogsIndicator.running = true
-            dialogsOffset = dialogsOffset + 20
-            chatsCounter = 0
-            MessagesAPI.api_getDialogsList(dialogsOffset)
+        header: PageHeader {
+            title: "Сообщения"
         }
-    }
 
-    VerticalScrollDecorator {}
+        model: ListModel {}
+
+        delegate: UserItem {
+
+            onClicked: pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                                          { "fullname":     nameOrTitle,
+                                            "dialogId":     itemId,
+                                            "isChat":       isChat,
+                                            "isOnline":     isOnline,
+                                            "avatarSource": avatarSource,
+                                            "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
+        }
+
+        footer: Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width / 3 * 2
+            text: "Загрузить больше"
+
+            onClicked: {
+                loadingIndicator.running = true
+                dialogsOffset = dialogsOffset + 20
+                chatsCounter = 0
+                MessagesAPI.api_getDialogsList(dialogsOffset)
+            }
+        }
+
+        VerticalScrollDecorator {}
+    }
 
     Component.onCompleted: updateDialogs()
 }

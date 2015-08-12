@@ -22,13 +22,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../views"
 import "../js/storage.js" as StorageJS
 import "../js/api/news.js" as NewsAPI
 
 
-SilicaListView {
-    id: newsfeedList
-    anchors.fill: parent
+Page {
 
     property string nextFrom
 
@@ -57,60 +56,57 @@ SilicaListView {
         loadingIndicator.running = false
     }
 
-    PullDownMenu {
-
-//            MenuItem {
-//                text: "Написать"
-//                onClicked:
-//            }
-
-        MenuItem {
-            text: "Обновить"
-            onClicked: doStartUpdate()
-        }
+    BusyIndicator {
+        id: loadingIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: false // true
     }
 
-    model: ListModel {}
+    SilicaListView {
+        id: newsfeedList
+        anchors.fill: parent
 
-    header: PageHeader { title: "Новости" }
+        PullDownMenu {
 
-    delegate: PostItem {
-        width: parent.width
+    //            MenuItem {
+    //                text: "Написать"
+    //                onClicked:
+    //            }
 
-        MouseArea {
-            anchors.fill: parent
-
-            property real xPos
-            property real yPos
-
-            onPressed: { xPos = mouseX; yPos = mouseY; }
-            onReleased:
-                if (xPos == mouseX && yPos == mouseY) {
-                    pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
-                                       { "datetime":        datetime,
-                                         "textBody":        textBody,
-                                         "postAuthor":      postAuthor,
-                                         "attachmentsData": attachmentsData })
-                } else {
-                    var delta = mouseX - xPos
-                    var idealDelta = Screen.width / 4
-                    if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
-                }
+            MenuItem {
+                text: "Обновить"
+                onClicked: doStartUpdate()
+            }
         }
-    }
 
-    footer: Button {
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width / 3 * 2
-        text: "Загрузить больше"
+        model: ListModel {}
 
-        onClicked: {
-            loadingNewsIndicator.running = true
-            NewsAPI.api_getLastNews(nextFrom)
+        header: PageHeader { title: "Новости" }
+
+        delegate: PostItem {
+            width: parent.width
+
+            onClicked: pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
+                                          { "datetime":        datetime,
+                                            "textBody":        textBody,
+                                            "postAuthor":      postAuthor,
+                                            "attachmentsData": attachmentsData })
         }
-    }
 
-    VerticalScrollDecorator {}
+        footer: Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width / 3 * 2
+            text: "Загрузить больше"
+
+            onClicked: {
+                loadingIndicator.running = true
+                NewsAPI.api_getLastNews(nextFrom)
+            }
+        }
+
+        VerticalScrollDecorator {}
+    }
 
     Component.onCompleted: doStartUpdate()
 }
