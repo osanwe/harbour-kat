@@ -110,28 +110,13 @@ Page {
 
         delegate: UserItem {
 
-            MouseArea {
-                anchors.fill: parent
-
-                property real xPos
-                property real yPos
-
-                onPressed: { xPos = mouseX; yPos = mouseY; }
-                onReleased:
-                    if (xPos == mouseX && yPos == mouseY) {
-                        pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                                       { "fullname":     nameOrTitle,
-                                         "dialogId":     itemId,
-                                         "isChat":       isChat,
-                                         "isOnline":     isOnline,
-                                         "avatarSource": avatarSource,
-                                         "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
-                    } else {
-                        var delta = mouseX - xPos
-                        var idealDelta = Screen.width / 4
-                        if (Math.abs(delta) >= idealDelta) drawer.open = (delta > 0)
-                    }
-            }
+            onClicked: pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                                          { "fullname":     nameOrTitle,
+                                            "dialogId":     itemId,
+                                            "isChat":       isChat,
+                                            "isOnline":     isOnline,
+                                            "avatarSource": avatarSource,
+                                            "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
         }
 
         footer: Button {
