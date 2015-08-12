@@ -91,7 +91,7 @@ function api_getChatUsers(dialogId) {
 // -------------- Callbacks --------------
 
 function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
-    updateUnreadMessagesCounter(jsonObject.response.count)
+//    updateUnreadMessagesCounter(jsonObject.response.count)
 }
 
 function callback_getUnreadMessagesCounter_cover(jsonObject) {
