@@ -105,7 +105,7 @@ SilicaListView {
         text: "Загрузить больше"
 
         onClicked: {
-            loadingNewsIndicator.running = true
+            loadingIndicator.running = true
             NewsAPI.api_getLastNews(nextFrom)
         }
     }

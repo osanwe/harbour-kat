@@ -131,7 +131,7 @@ SilicaListView {
         text: "Загрузить больше"
 
         onClicked: {
-            loadingDialogsIndicator.running = true
+            loadingIndicator.running = true
             dialogsOffset = dialogsOffset + 20
             chatsCounter = 0
             MessagesAPI.api_getDialogsList(dialogsOffset)
