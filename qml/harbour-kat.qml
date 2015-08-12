@@ -28,7 +28,7 @@ ApplicationWindow
 {
     id: application
 
-    initialPage: Component { BasicPage { } }
+    initialPage: Component { NewsfeedPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
     Component.onCompleted: {

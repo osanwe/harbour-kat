@@ -23,9 +23,38 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 import "../views"
+import "../js/storage.js" as StorageJS
+import "../js/api/news.js" as NewsAPI
 
 
 Page {
+
+    property string nextFrom
+
+    function doStartUpdate() {
+        if (StorageJS.readSettingsValue("user_id")) {
+            loadingIndicator.running = true
+            newsfeedList.model.clear()
+            nextFrom = ""
+            NewsAPI.api_getLastNews(nextFrom)
+        }
+    }
+
+    function appendPostToNewsFeed(postData) {
+        newsfeedList.model.append({ textBody:        postData[1],
+                                    out:             0,
+                                    readState:       1,
+                                    datetime:        postData[2],
+                                    attachmentsData: postData.slice(5),
+                                    avatarSource:    postData[3],
+                                    postAuthor:      postData[4],
+                                    isNewsContent:   true })
+    }
+
+    function stopLoadingNewsIndicator(next_from) {
+        nextFrom = next_from
+        loadingIndicator.running = false
+    }
 
     BusyIndicator {
         id: loadingIndicator
@@ -37,33 +66,6 @@ Page {
     SilicaListView {
         id: newsfeedList
         anchors.fill: parent
-
-        property string nextFrom
-
-        function doStartUpdate() {
-            if (StorageJS.readSettingsValue("user_id")) {
-                loadingIndicator.running = true
-                newsfeedList.model.clear()
-                nextFrom = ""
-                NewsAPI.api_getLastNews(nextFrom)
-            }
-        }
-
-        function appendPostToNewsFeed(postData) {
-            newsfeedList.model.append({ textBody:        postData[1],
-                                        out:             0,
-                                        readState:       1,
-                                        datetime:        postData[2],
-                                        attachmentsData: postData.slice(5),
-                                        avatarSource:    postData[3],
-                                        postAuthor:      postData[4],
-                                        isNewsContent:   true })
-        }
-
-        function stopLoadingNewsIndicator(next_from) {
-            nextFrom = next_from
-            loadingIndicator.running = false
-        }
 
         PullDownMenu {
 
@@ -119,7 +121,7 @@ Page {
         }
 
         VerticalScrollDecorator {}
-
-        Component.onCompleted: doStartUpdate()
     }
+
+    Component.onCompleted: doStartUpdate()
 }

@@ -128,6 +128,12 @@ Page {
 
             ListElement {
                 icon: ""
+                name: "Настройки"
+                counter: ""
+            }
+
+            ListElement {
+                icon: ""
                 name: "О программе"
                 counter: ""
             }
@@ -221,9 +227,10 @@ Page {
                     break
 
                 case 2:
-    //                break;
+                    pageContainer.push(Qt.resolvedUrl("SettingsPage.qml"))
+                    break;
 
-    //            case 3:
+                case 3:
     //                break
 
     //            case 4:
@@ -248,6 +255,10 @@ Page {
     //                break
 
     //            case 11:
+//                    break;
+
+//                case 12:
+//                    break;
                     pageContainer.push(Qt.resolvedUrl("AboutPage.qml"))
                     break
                 }
