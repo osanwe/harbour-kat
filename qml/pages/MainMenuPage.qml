@@ -211,13 +211,13 @@ Page {
             onClicked:
                 switch (index) {
                 case 0:
-                    drawer.foreground = Qt.createComponent("NewsListView.qml").createObject()
-                    drawer.open = false
+                    pageContainer.replaceAbove(null, Qt.resolvedUrl("NewsfeedPage.qml"))
+                    pageContainer.pushAttached(Qt.resolvedUrl("MainMenuPage.qml"))
                     break
 
                 case 1:
-                    drawer.foreground = Qt.createComponent("DialogsListView.qml").createObject()
-                    drawer.open = false
+                    pageContainer.replaceAbove(null, Qt.resolvedUrl("DialogsListPage.qml"))
+                    pageContainer.pushAttached(Qt.resolvedUrl("MainMenuPage.qml"))
                     break
 
                 case 2:
@@ -248,8 +248,7 @@ Page {
     //                break
 
     //            case 11:
-                    drawer.foreground = Qt.createComponent("AboutView.qml").createObject()
-                    drawer.open = false
+                    pageContainer.push(Qt.resolvedUrl("AboutPage.qml"))
                     break
                 }
         }
