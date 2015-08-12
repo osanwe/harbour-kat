@@ -30,7 +30,7 @@ Page{
         model: ListModel {
 
             ListElement {
-                aboutItemText: "Неофициальный клиент для самой популярной российской социальной сети, разрабатываемый силами <a href=\"https://udmlug.wordpress.com/\">Linux User Group Удмуртия</a> и распространяемый под лицензией GNU GPLv3."
+                aboutItemText: "Неофициальный клиент для самой популярной российской социальной сети, распространяемый под лицензией GNU GPLv3."
             }
 
             ListElement {
@@ -59,7 +59,7 @@ Page{
         }
 
         header: PageHeader {
-            title: "Kat v0.2.0_1438089420440"
+            title: "Kat 0.2.0_1439412416509"
         }
 
         delegate: Item {
