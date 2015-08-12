@@ -37,7 +37,7 @@ CoverBackground {
             anchors.verticalCenter: coverMessagesCount.verticalCenter
             width: Theme.iconSizeSmall
             height: Theme.iconSizeSmall
-            source: "image://theme/icon-cover-message"
+            source: "image://theme/icon-l-email"
         }
 
         Label {
