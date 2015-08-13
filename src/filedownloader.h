@@ -32,6 +32,10 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
+#include <QUrl>
+#include <QStandardPaths>
+#include <QStringList>
+
 #define SAVING_TO_CACHE 0
 #define SAVING_TO_DOWNLOADS 1
 

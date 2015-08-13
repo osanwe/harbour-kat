@@ -29,6 +29,10 @@
 #include <QQuickView>
 #include <QQmlContext>
 
+#include <QUrl>
+#include <QStandardPaths>
+#include <QStringList>
+
 #include "filedownloader.h"
 
 
@@ -38,11 +42,16 @@ int main(int argc, char *argv[])
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     QScopedPointer<FileDownloader> fileDownloader(new FileDownloader(view.data()));
 
+    QUrl cachePath;
+    QStringList cacheLocation = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
+    if (cacheLocation.isEmpty()) cachePath = getenv("$XDG_CACHE_HOME/harbour-kat/");
+    else cachePath = QString("%1/").arg(cacheLocation.first());
+
+    view->rootContext()->setContextProperty("cachePath", cachePath);
     view->rootContext()->setContextProperty("fileDownloader", fileDownloader.data());
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
     view->show();
 
     return application->exec();
-//    return SailfishApp::main(argc, argv);
 }
 

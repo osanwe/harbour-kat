@@ -116,7 +116,7 @@ Page {
                                             "isChat":       isChat,
                                             "isOnline":     isOnline,
                                             "avatarSource": avatarSource,
-                                            "userAvatar":   "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar() })
+                                            "userAvatar":   cachePath + StorageJS.readUserAvatar() })
         }
 
         footer: Button {
