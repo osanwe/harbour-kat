@@ -21,6 +21,8 @@
 
 #include "filedownloader.h"
 
+#include <QDebug>
+
 FileDownloader::FileDownloader(QObject *parent)
     : QObject(parent)
 {
@@ -45,8 +47,13 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     switch (m_Mode) {
     case SAVING_TO_CACHE:
     {
-        QString path("$XDG_CACHE_HOME/harbour-kat/");
-        QFile file(path.append(m_FileName));
+        QUrl path;
+        QStringList location = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
+        if (location.isEmpty()) path = QString("%1/%2").arg(getenv("$XDG_CACHE_HOME/harbour-kat/"), m_FileName);
+        else path = QString("%1/%2").arg(location.first(), m_FileName);
+
+//        QString path("/home/nemo/.cache/harbour-kat/");
+        QFile file(path.toString());
         file.open(QIODevice::WriteOnly);
         file.write(m_DownloadedData);
         file.close();
@@ -55,8 +62,14 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
 
     case SAVING_TO_DOWNLOADS:
     {
-        QString path("$HOME/Downloads/");
-        QFile file(path.append(m_FileName));
+        QUrl path;
+        QStringList location = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
+        if (location.isEmpty()) path = QString("%1/%2").arg(getenv("$HOME/Downloads/"), m_FileName);
+        else path = QString("%1/%2").arg(location.first(), m_FileName);
+
+//        QString path("/home/nemo/Downloads/");
+//        QFile file(path.append(m_FileName));
+        QFile file(path.toString());
         file.open(QIODevice::WriteOnly);
         file.write(m_DownloadedData);
         file.close();

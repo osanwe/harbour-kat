@@ -26,33 +26,33 @@ import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
 Page {
+
+    property string userAvatarUrl: "image://theme/icon-l-people"
+    property string userFullName: "Имя Фамилия"
+
+    function doStartUpdate() {
+        if (StorageJS.readSettingsValue("user_id")) {
+            var fullUserName = StorageJS.readFullUserName()
+            var avatarFileName = StorageJS.readUserAvatar()
+            updateUserNameAndAvatar(fullUserName, cachePath + avatarFileName)
+            // TODO Calculating unread messages counter with cached data
+
+            doForceUpdate()
+        }
+    }
+
+    function doForceUpdate() {
+        UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
+        MessagesAPI.api_getUnreadMessagesCounter(false)
+    }
+
+    function updateUserNameAndAvatar(name, avatarUrl) {
+        console.log("updateUserInfo()")
+        userFullName = name
+        userAvatarUrl = avatarUrl
+    }
     SilicaListView {
         anchors.fill: parent
-
-        property string userAvatarUrl: "image://theme/icon-l-people"
-        property string userFullName: "Имя Фамилия"
-
-        function doStartUpdate() {
-            if (StorageJS.readSettingsValue("user_id")) {
-                var fullUserName = StorageJS.readFullUserName()
-                var avatarFileName = StorageJS.readUserAvatar()
-                updateUserNameAndAvatar(fullUserName, "/home/nemo/.cache/harbour-kat/" + avatarFileName)
-                // TODO Calculating unread messages counter with cached data
-
-                doForceUpdate()
-            }
-        }
-
-        function doForceUpdate() {
-            UsersAPI.api_getUserNameAndAvatar(StorageJS.readSettingsValue("user_id"))
-            MessagesAPI.api_getUnreadMessagesCounter(false)
-        }
-
-        function updateUserNameAndAvatar(name, avatarUrl) {
-            console.log("updateUserInfo()")
-            userFullName = name
-            userAvatarUrl = avatarUrl
-        }
 
         function updateUnreadMessagesCounter(counter) {
     //        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
@@ -155,7 +155,7 @@ Page {
                 Connections {
                     target: fileDownloader
                     onDownloaded: {
-                        userAvatarUrl = "/home/nemo/.cache/harbour-kat/" + StorageJS.readUserAvatar()
+                        userAvatarUrl = cachePath + StorageJS.readUserAvatar()
                         userAvatar.source = userAvatarUrl
                     }
                 }
@@ -265,7 +265,7 @@ Page {
         }
 
         VerticalScrollDecorator {}
-
-        Component.onCompleted: doStartUpdate()
     }
+
+    Component.onCompleted: doStartUpdate()
 }
