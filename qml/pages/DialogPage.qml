@@ -33,6 +33,7 @@ Page {
     property int dialogId
     property bool isChat
     property bool isOnline
+    property string lastSeenTime
     property string avatarSource
     property string userAvatar
 
@@ -41,6 +42,14 @@ Page {
     property int messagesOffset: 0
 
     property variant chatUsers
+
+    function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
+        avatarSource = avatarURL
+        fullname = name
+        isOnline = online
+        lastSeenTime = lastSeen
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    }
 
     function sendMessage() {
         messages.model.clear()
@@ -168,6 +177,15 @@ Page {
                 }
             }
 
+            footer: Label {
+                width: parent.width
+                height: (isChat || isOnline) ? 0 : Theme.itemSizeSmall
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.secondaryHighlightColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: "Был(a) в сети: " + lastSeenTime
+            }
+
             delegate: Item {
                 id: messageItem
 
@@ -254,6 +272,6 @@ Page {
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)
         } else {
-            MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
         }
 }

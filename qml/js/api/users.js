@@ -84,7 +84,7 @@ function getUsersAvatarAndOnlineStatus(uid) {
     var url = "https://api.vk.com/method/"
     url += "users.get?"
     url += "user_ids=" + uid
-    url += "&fields=photo_100,online"
+    url += "&fields=photo_100,online,last_seen"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
 
@@ -96,10 +96,24 @@ function getUsersAvatarAndOnlineStatus(uid) {
             for (var index in jsonObject.response) {
                 var fullname = jsonObject.response[index].first_name + " " +
                         jsonObject.response[index].last_name
-                updateDialogsList(index,
-                                  jsonObject.response[index].photo_100,
-                                  fullname,
-                                  jsonObject.response[index].online)
+
+                var lastSeenTime = "";
+                var lastSeen = jsonObject.response[index].last_seen
+                if (typeof lastSeen !== 'undefined') {
+                    var date = new Date()
+                    date.setTime(parseInt(lastSeen.time) * 1000)
+                    lastSeenTime = ("0" + date.getHours()).slice(-2) + ":" +
+                                   ("0" + date.getMinutes()).slice(-2) + ", " +
+                                   ("0" + date.getDate()).slice(-2) + "." +
+                                   ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                                   ("0" + date.getFullYear()).slice(-2)
+                }
+
+                updateDialogInfo(index,
+                                 jsonObject.response[index].photo_100,
+                                 fullname,
+                                 (jsonObject.response[index].online === 1),
+                                 lastSeenTime)
             }
             stopBusyIndicator()
         }
