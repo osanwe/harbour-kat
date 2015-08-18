@@ -59,15 +59,13 @@ Page {
                                     isChat:       isChat })
     }
 
-    function updateDialogsList(index, avatarURL, fullname, online) {
-        while (messagesList.model.get(parseInt(index, 10)+chatsCounter+dialogsOffset).isChat)
+    function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
+        while (messagesList.model.get(parseInt(index, 10) + chatsCounter + dialogsOffset).isChat)
             chatsCounter += 1
-        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter+dialogsOffset,
-                                       "avatarSource", avatarURL)
-        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                                       "nameOrTitle", fullname)
-        messagesList.model.setProperty(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                                       "isOnline", online)
+        messagesList.model.set(parseInt(index, 10) + chatsCounter + dialogsOffset,
+                               { "avatarSource": avatarURL,
+                                 "nameOrTitle":  fullname,
+                                 "isOnline":     online })
     }
 
     function stopBusyIndicator() {
@@ -110,13 +108,16 @@ Page {
 
         delegate: UserItem {
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                                          { "fullname":     nameOrTitle,
+            onClicked: {
+                pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
+                                          { /*"fullname":     nameOrTitle,*/
                                             "dialogId":     itemId,
                                             "isChat":       isChat,
-                                            "isOnline":     isOnline,
-                                            "avatarSource": avatarSource,
+//                                            "isOnline":     isOnline,
+//                                            "lastSeenTime": lastSeenTime,
+//                                            "avatarSource": avatarSource,
                                             "userAvatar":   cachePath + StorageJS.readUserAvatar() })
+            }
         }
 
         footer: Button {

@@ -1,7 +1,7 @@
 Name: harbour-kat
 Summary: The unofficial client for vk.com
-Version: 0.1.6
-Release: 12
+Version: 0.1.6_1439888888
+Release: 13
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
 Group: Qt/Qt
