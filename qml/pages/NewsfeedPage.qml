@@ -52,7 +52,7 @@ Page {
     }
 
     function stopLoadingNewsIndicator(next_from) {
-        nextFrom = next_from
+        if (typeof next_from !== 'undefined') nextFrom = next_from
         loadingIndicator.running = false
     }
 
@@ -98,6 +98,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
             text: "Загрузить больше"
+            visible: nextFrom !== ''
 
             onClicked: {
                 loadingIndicator.running = true
