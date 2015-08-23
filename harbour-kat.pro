@@ -12,7 +12,10 @@
 # The name of your application
 TARGET = harbour-kat
 
-CONFIG += sailfishapp
+QT += dbus
+
+CONFIG += link_pkgconfig sailfishapp
+PKGCONFIG += mlite5
 
 # to disable building translations every time, comment out the
 # following CONFIG line
@@ -20,11 +23,15 @@ CONFIG += sailfishapp
 #TRANSLATIONS += translations/vkFish-de.ts
 
 HEADERS += \
-    src/filedownloader.h
+    src/filedownloader.h \
+    src/api/apirequest.h \
+    src/notificationhelper.h
 
 SOURCES += \
     src/harbour-kat.cpp \
-    src/filedownloader.cpp
+    src/filedownloader.cpp \
+    src/api/apirequest.cpp \
+    src/notificationhelper.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
@@ -1125,5 +1132,8 @@ OTHER_FILES += \
     qml/pages/MainMenuPage.qml \
     qml/pages/DialogsListPage.qml \
     qml/pages/NewsfeedPage.qml \
-    qml/pages/AboutPage.qml
+    qml/pages/AboutPage.qml \
+    qml/js/api/likes.js
+
+RESOURCES +=
 

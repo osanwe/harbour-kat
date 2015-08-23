@@ -74,6 +74,7 @@ BackgroundItem {
 
         Label {
             id: name
+            width: parent.width - onlineStatus.width - Theme.paddingMedium
             color: isDialog && readState === 0 && out === 0 ? Theme.highlightColor : Theme.primaryColor
             text: nameOrTitle
             truncationMode: TruncationMode.Fade

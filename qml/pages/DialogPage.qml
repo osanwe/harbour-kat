@@ -181,6 +181,7 @@ Page {
                 width: parent.width
                 height: (isChat || isOnline) ? 0 : Theme.itemSizeSmall
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignBottom
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeSmall
                 text: "Был(a) в сети: " + lastSeenTime
@@ -208,26 +209,25 @@ Page {
                     onPressAndHold: {
                         console.log(index)
                         if (!contextMenu)
-                            contextMenu = contextMenuComponent.createObject(messages,
-                                                                            { message: message })
+                            contextMenu = contextMenuComponent.createObject(messages)
                         contextMenu.show(messageItem)
                     }
                 }
-            }
 
-            Component {
-                id: contextMenuComponent
+                Component {
+                    id: contextMenuComponent
 
-                ContextMenu {
+                    ContextMenu {
 
-                    property string message
+                        property string message
 
-                    MenuItem {
-                        text: "Копировать текст"
-                        onClicked: Clipboard.text = message
+                        MenuItem {
+                            text: "Копировать текст"
+                            onClicked: Clipboard.text = messages.model.get(index).message
+                        }
+
+                        onClosed: contextMenu = null
                     }
-
-                    onClosed: contextMenu = null
                 }
             }
 
