@@ -208,8 +208,7 @@ Page {
                     onPressAndHold: {
                         console.log(index)
                         if (!contextMenu)
-                            contextMenu = contextMenuComponent.createObject(messages/*,
-                                                                            { message: message }*/)
+                            contextMenu = contextMenuComponent.createObject(messages)
                         contextMenu.show(messageItem)
                     }
                 }

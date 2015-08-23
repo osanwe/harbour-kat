@@ -89,6 +89,8 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
     }
     console.log(postData[4])
 
+    postData[5] = jsonObject.source_id
+
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {
             postData[postData.length] = jsonObject.attachments[index]

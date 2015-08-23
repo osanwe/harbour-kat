@@ -25,11 +25,14 @@ import Sailfish.Silica 1.0
 import "../views"
 import "../js/storage.js" as StorageJS
 import "../js/api/news.js" as NewsAPI
+import "../js/api/likes.js" as LikesAPI
 
 
 Page {
 
     property string nextFrom
+
+    property Item contextMenu
 
     function doStartUpdate() {
         if (StorageJS.readSettingsValue("user_id")) {
@@ -41,19 +44,25 @@ Page {
     }
 
     function appendPostToNewsFeed(postData) {
-        newsfeedList.model.append({ textBody:        postData[1],
+        newsfeedList.model.append({ postId:          postData[0],
+                                    textBody:        postData[1],
                                     out:             0,
                                     readState:       1,
                                     datetime:        postData[2],
-                                    attachmentsData: postData.slice(5),
+                                    attachmentsData: postData.slice(6),
                                     avatarSource:    postData[3],
                                     postAuthor:      postData[4],
+                                    sourceId:        postData[5],
                                     isNewsContent:   true })
     }
 
     function stopLoadingNewsIndicator(next_from) {
         if (typeof next_from !== 'undefined') nextFrom = next_from
         loadingIndicator.running = false
+    }
+
+    function shownotification(text) {
+        notificationHelper.sendNotification("", text)
     }
 
     BusyIndicator {
@@ -84,15 +93,49 @@ Page {
 
         header: PageHeader { title: "Новости" }
 
-        delegate: PostItem {
-            width: parent.width
+        delegate: Item {
+            id: newsItem
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
-                                          { "datetime":        datetime,
-                                            "textBody":        textBody,
-                                            "postAuthor":      postAuthor,
-                                            "attachmentsData": attachmentsData })
+            property bool menuOpen: contextMenu != null && contextMenu.parent === newsItem
+
+            width: parent.width
+            height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
+
+            PostItem {
+                id: contentItem
+                width: parent.width
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
+                                              { "datetime":        datetime,
+                                                "textBody":        textBody,
+                                                "itemId":          postId,
+                                                "ownerId":         sourceId,
+                                                "attachmentsData": attachmentsData })
+                onPressAndHold: {
+                    if (!contextMenu)
+                        contextMenu = contextMenuComponent.createObject(newsfeedList)
+                    contextMenu.show(newsItem)
+                }
+            }
+
+            Component {
+                id: contextMenuComponent
+
+                ContextMenu {
+
+                    MenuItem {
+                        text: "Мне нравится"
+                        onClicked: LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
+                    }
+
+                    onClosed: contextMenu = null
+                }
+            }
         }
+
+//        delegate: PostItem {
+//            width: parent.width
+//        }
 
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -109,5 +152,7 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: doStartUpdate()
+    Component.onCompleted: {
+        doStartUpdate()
+    }
 }

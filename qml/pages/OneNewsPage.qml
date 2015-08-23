@@ -26,8 +26,12 @@ import "../views"
 
 import "../js/api/wall.js" as WallAPI
 import "../js/storage.js" as StorageJS
+import "../js/api/likes.js" as LikesAPI
 
 Page {
+
+    property int itemId
+    property int ownerId
 
     property string textBody
     property string datetime
@@ -40,6 +44,10 @@ Page {
         newsContent.attachments = attachmentsData
         console.log(newsContent.attachments)
         newsContent.updateAttachments()
+    }
+
+    function shownotification(text) {
+        notificationHelper.sendNotification("", text)
     }
 
     function playAudio(url) {
@@ -94,12 +102,19 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
-        anchors.topMargin: Theme.paddingLarge
-        anchors.bottomMargin: Theme.paddingLarge
         contentHeight: newsAuthor.height + newsContent.height
+
+        PullDownMenu {
+
+            MenuItem {
+                text: "Мне нравится"
+                onClicked: LikesAPI.api_addLike("post", itemId, ownerId)
+            }
+        }
 
         PageHeader {
             id: newsAuthor
+            anchors.topMargin: Theme.paddingLarge
             title: postAuthor
         }
 
@@ -108,6 +123,7 @@ Page {
             anchors.top: newsAuthor.bottom
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.bottomMargin: Theme.paddingLarge
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
             attachments: attachmentsData
