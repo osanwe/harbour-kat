@@ -108,6 +108,7 @@ Page {
                 onClicked: pageContainer.push(Qt.resolvedUrl("../pages/OneNewsPage.qml"),
                                               { "datetime":        datetime,
                                                 "textBody":        textBody,
+                                                "postAuthor":      postAuthor,
                                                 "itemId":          postId,
                                                 "ownerId":         sourceId,
                                                 "attachmentsData": attachmentsData })
