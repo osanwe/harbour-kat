@@ -181,6 +181,7 @@ Page {
                 width: parent.width
                 height: (isChat || isOnline) ? 0 : Theme.itemSizeSmall
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignBottom
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeSmall
                 text: "Был(a) в сети: " + lastSeenTime
