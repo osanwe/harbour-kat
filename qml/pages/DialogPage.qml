@@ -208,26 +208,26 @@ Page {
                     onPressAndHold: {
                         console.log(index)
                         if (!contextMenu)
-                            contextMenu = contextMenuComponent.createObject(messages,
-                                                                            { message: message })
+                            contextMenu = contextMenuComponent.createObject(messages/*,
+                                                                            { message: message }*/)
                         contextMenu.show(messageItem)
                     }
                 }
-            }
 
-            Component {
-                id: contextMenuComponent
+                Component {
+                    id: contextMenuComponent
 
-                ContextMenu {
+                    ContextMenu {
 
-                    property string message
+                        property string message
 
-                    MenuItem {
-                        text: "Копировать текст"
-                        onClicked: Clipboard.text = message
+                        MenuItem {
+                            text: "Копировать текст"
+                            onClicked: Clipboard.text = messages.model.get(index).message
+                        }
+
+                        onClosed: contextMenu = null
                     }
-
-                    onClosed: contextMenu = null
                 }
             }
 
