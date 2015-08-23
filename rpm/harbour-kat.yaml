@@ -1,11 +1,11 @@
 Name: harbour-kat
 Summary: The unofficial client for vk.com
-Version: 0.1.6_1439888888
-Release: 13
+Version: 0.1.6_1440357260
+Release: 14
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
 Group: Qt/Qt
-URL: https://udmlug.wordpress.com/our-projects/vkfish/
+URL: https://vk.com/kat_sailfishos
 License: LICENSE
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
