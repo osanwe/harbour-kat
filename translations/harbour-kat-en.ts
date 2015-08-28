@@ -184,22 +184,22 @@
 <context>
     <name>NewsfeedPage</name>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="87"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="91"/>
         <source>Обновить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="94"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="98"/>
         <source>Новости</source>
         <translation type="unfinished">Newsfeed</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="128"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="132"/>
         <source>Мне нравится</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="144"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="151"/>
         <source>Загрузить больше</source>
         <translation type="unfinished"></translation>
     </message>

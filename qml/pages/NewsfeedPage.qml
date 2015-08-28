@@ -49,10 +49,14 @@ Page {
                                     out:             0,
                                     readState:       1,
                                     datetime:        postData[2],
-                                    attachmentsData: postData.slice(6),
+                                    attachmentsData: postData.slice(10),
                                     avatarSource:    postData[3],
                                     postAuthor:      postData[4],
                                     sourceId:        postData[5],
+                                    likesCount:      postData[6],
+                                    isPostLiked:     postData[7],
+                                    repostsCount:    postData[8],
+                                    isPostReposted:  postData[9],
                                     isNewsContent:   true })
     }
 
@@ -126,17 +130,16 @@ Page {
 
                     MenuItem {
                         text: qsTr("Мне нравится")
-                        onClicked: LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
+                        onClicked: {
+                            newsfeedList.model.setProperty(index, "isPostLiked", 1)
+                            LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
+                        }
                     }
 
                     onClosed: contextMenu = null
                 }
             }
         }
-
-//        delegate: PostItem {
-//            width: parent.width
-//        }
 
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter

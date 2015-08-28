@@ -91,6 +91,11 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
 
     postData[5] = jsonObject.source_id
 
+    postData[6] = jsonObject.likes.count
+    postData[7] = jsonObject.likes.user_likes
+    postData[8] = jsonObject.reposts.count
+    postData[9] = jsonObject.reposts.user_reposted
+
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {
             postData[postData.length] = jsonObject.attachments[index]

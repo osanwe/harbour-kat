@@ -87,6 +87,10 @@ Column {
 
     property string dateTime
 
+    property int likes
+    property int reposts
+    property bool isLiked
+
     property bool isNews
 
     Label {
@@ -321,7 +325,7 @@ Column {
             anchors.right: likesCounter.left
             width: isNews ? Theme.fontSizeExtraSmall : 0
             height: isNews ? Theme.fontSizeExtraSmall : 0
-            source: "image://theme/icon-m-favorite-selected"
+            source: isLiked ? "image://theme/icon-m-favorite-selected" : "image://theme/icon-m-favorite"
         }
 
         Label {
@@ -329,7 +333,7 @@ Column {
             anchors.right: repostsImage.left
             font.pixelSize: Theme.fontSizeTiny
             color: Theme.secondaryColor
-            text: isNews ? "0" : ""
+            text: isNews ? likes : ""
         }
 
         Image {
@@ -345,7 +349,7 @@ Column {
             anchors.right: parent.right
             font.pixelSize: Theme.fontSizeTiny
             color: Theme.secondaryColor
-            text: isNews ? "0" : ""
+            text: isNews ? reposts : ""
         }
     }
 
