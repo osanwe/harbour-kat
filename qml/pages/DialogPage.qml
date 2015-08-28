@@ -180,6 +180,7 @@ Page {
             footer: Label {
                 width: parent.width
                 height: (isChat || isOnline) ? 0 : Theme.itemSizeSmall
+                visible: !(isChat || isOnline)
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignBottom
                 color: Theme.secondaryHighlightColor

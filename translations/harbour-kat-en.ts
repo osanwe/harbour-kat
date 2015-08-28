@@ -47,27 +47,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="187"/>
+        <location filename="../qml/pages/DialogPage.qml" line="188"/>
         <source>Был(a) в сети: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="225"/>
+        <location filename="../qml/pages/DialogPage.qml" line="226"/>
         <source>Копировать текст</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="241"/>
+        <location filename="../qml/pages/DialogPage.qml" line="242"/>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="242"/>
+        <location filename="../qml/pages/DialogPage.qml" line="243"/>
         <source>Сообщение</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="252"/>
+        <location filename="../qml/pages/DialogPage.qml" line="253"/>
         <source>Обновить</source>
         <translation type="unfinished"></translation>
     </message>
