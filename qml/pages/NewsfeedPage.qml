@@ -84,14 +84,14 @@ Page {
     //            }
 
             MenuItem {
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: doStartUpdate()
             }
         }
 
         model: ListModel {}
 
-        header: PageHeader { title: "Новости" }
+        header: PageHeader { title: qsTr("Новости") }
 
         delegate: Item {
             id: newsItem
@@ -125,7 +125,7 @@ Page {
                 ContextMenu {
 
                     MenuItem {
-                        text: "Мне нравится"
+                        text: qsTr("Мне нравится")
                         onClicked: LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
                     }
 
@@ -141,7 +141,7 @@ Page {
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
-            text: "Загрузить больше"
+            text: qsTr("Загрузить больше")
             visible: nextFrom !== ''
 
             onClicked: {

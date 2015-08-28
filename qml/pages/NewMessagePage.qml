@@ -55,8 +55,8 @@ Dialog {
 
     DialogHeader {
         id: newMessageHeader
-        acceptText: currentContactsList.model.count > 1 ? "Создать" : "Написать"
-        cancelText: "Отменить"
+        acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
+        cancelText: qsTr("Отменить")
     }
 
     SilicaListView {
@@ -69,7 +69,7 @@ Dialog {
         currentIndex: -1
         header: SearchField {
             width: parent.width
-            placeholderText: "Найти контакт"
+            placeholderText: qsTr("Найти контакт")
 
             onTextChanged: {
                 searchContactsList.model.clear();
@@ -181,7 +181,7 @@ Dialog {
                 property string index
 
                 MenuItem {
-                    text: "Удалить"
+                    text: qsTr("Удалить")
                     onClicked: currentContactsList.model.remove(index)
                 }
 
@@ -197,25 +197,25 @@ Dialog {
         placeholderText: {
             switch (currentContactsList.model.count) {
             case 0:
-                return "Сообщение или название чата:"
+                return qsTr("Сообщение или название чата:")
 
             case 1:
-                return "Сообщение:"
+                return qsTr("Сообщение:")
 
             default:
-                return "Название чата:"
+                return qsTr("Название чата:")
             }
         }
         label: {
             switch (currentContactsList.model.count) {
             case 0:
-                return "Сообщение или название чата"
+                return qsTr("Сообщение или название чата")
 
             case 1:
-                return "Сообщение"
+                return qsTr("Сообщение")
 
             default:
-                return "Название чата"
+                return qsTr("Название чата")
             }
         }
     }

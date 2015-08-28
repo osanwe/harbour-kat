@@ -302,13 +302,51 @@ Column {
         }
     }
 
-    Label {
-        id: datetimeText
+    Item {
         width: parent.width
-        horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
-        text: datetime
-        font.pixelSize: Theme.fontSizeTiny
-        color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        height: Theme.fontSizeTiny
+
+        Label {
+            id: datetimeText
+            anchors.left: parent.left
+            anchors.right: likesImage.left
+            horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
+            text: datetime
+            font.pixelSize: Theme.fontSizeTiny
+            color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        }
+
+        Image {
+            id: likesImage
+            anchors.right: likesCounter.left
+            width: isNews ? Theme.fontSizeExtraSmall : 0
+            height: isNews ? Theme.fontSizeExtraSmall : 0
+            source: "image://theme/icon-m-favorite-selected"
+        }
+
+        Label {
+            id: likesCounter
+            anchors.right: repostsImage.left
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.secondaryColor
+            text: isNews ? "0" : ""
+        }
+
+        Image {
+            id: repostsImage
+            anchors.right: repostsCounter.left
+            width: isNews ? Theme.fontSizeExtraSmall : 0
+            height: isNews ? Theme.fontSizeExtraSmall : 0
+            source: "image://theme/icon-m-redirect"
+        }
+
+        Label {
+            id: repostsCounter
+            anchors.right: parent.right
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.secondaryColor
+            text: isNews ? "0" : ""
+        }
     }
 
     function updateAttachments() {

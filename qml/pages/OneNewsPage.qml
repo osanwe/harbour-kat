@@ -107,7 +107,7 @@ Page {
         PullDownMenu {
 
             MenuItem {
-                text: "Мне нравится"
+                text: qsTr("Мне нравится")
                 onClicked: LikesAPI.api_addLike("post", itemId, ownerId)
             }
         }
@@ -129,7 +129,7 @@ Page {
             attachments: attachmentsData
             content: textBody
             dateTime: datetime
-            isNews: false
+            isNews: true
         }
     }
 
