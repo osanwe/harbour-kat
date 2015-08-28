@@ -87,6 +87,10 @@ Column {
 
     property string dateTime
 
+    property int likes
+    property int reposts
+    property bool isLiked
+
     property bool isNews
 
     Label {
@@ -302,13 +306,51 @@ Column {
         }
     }
 
-    Label {
-        id: datetimeText
+    Item {
         width: parent.width
-        horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
-        text: datetime
-        font.pixelSize: Theme.fontSizeTiny
-        color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        height: Theme.fontSizeTiny
+
+        Label {
+            id: datetimeText
+            anchors.left: parent.left
+            anchors.right: likesImage.left
+            horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
+            text: datetime
+            font.pixelSize: Theme.fontSizeTiny
+            color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        }
+
+        Image {
+            id: likesImage
+            anchors.right: likesCounter.left
+            width: isNews ? Theme.fontSizeExtraSmall : 0
+            height: isNews ? Theme.fontSizeExtraSmall : 0
+            source: isLiked ? "image://theme/icon-m-favorite-selected" : "image://theme/icon-m-favorite"
+        }
+
+        Label {
+            id: likesCounter
+            anchors.right: repostsImage.left
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.secondaryColor
+            text: isNews ? likes : ""
+        }
+
+        Image {
+            id: repostsImage
+            anchors.right: repostsCounter.left
+            width: isNews ? Theme.fontSizeExtraSmall : 0
+            height: isNews ? Theme.fontSizeExtraSmall : 0
+            source: "image://theme/icon-m-redirect"
+        }
+
+        Label {
+            id: repostsCounter
+            anchors.right: parent.right
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.secondaryColor
+            text: isNews ? reposts : ""
+        }
     }
 
     function updateAttachments() {

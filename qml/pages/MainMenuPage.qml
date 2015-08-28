@@ -26,9 +26,26 @@ import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
 Page {
+    id: mainMenuPage
 
     property string userAvatarUrl: "image://theme/icon-l-people"
-    property string userFullName: "Имя Фамилия"
+    property string userFullName: qsTr("Имя Фамилия")
+
+    property var model: [
+        { icon: "image://theme/icon-l-message", name: qsTr("Новости"), counter: "" },
+//        { icon: "image://theme/icon-l-redirect", name: "Ответы", counter: "0" },
+        { icon: "image://theme/icon-l-email", name: qsTr("Сообщения"), counter: "" },
+//        { icon: "image://theme/icon-l-people", name: "Друзья", counter: "0" },
+//        { icon: "image://theme/icon-l-people", name: "Группы", counter: "0" },
+//        { icon: "image://theme/icon-l-image", name: "Фотографии", counter: "0" },
+//        { icon: "image://theme/icon-l-video", name: "Видеозаписи", counter: "0" },
+//        { icon: "image://theme/icon-l-music", name: "Аудиозаписи", counter: "" },
+//        { icon: "image://theme/icon-l-favorite", name: "Закладки", counter: "" },
+//        { icon: "image://theme/icon-l-document", name: "Документы", counter: "" },
+//        { icon: "image://theme/icon-cover-search", name: "Поиск", counter: "" },
+        { icon: "", name: qsTr("Настройки"), counter: "" },
+        { icon: "", name: qsTr("О программе"), counter: "" }
+    ]
 
     function doStartUpdate() {
         if (StorageJS.readSettingsValue("user_id")) {
@@ -58,86 +75,7 @@ Page {
     //        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
         }
 
-        model: ListModel {
-
-            ListElement {
-                icon: "image://theme/icon-l-message"
-                name: "Новости"
-                counter: ""
-            }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-redirect"
-    //            name: "Ответы"
-    //            counter: "0"
-    //        }
-
-            ListElement {
-                icon: "image://theme/icon-l-email"
-                name: "Сообщения"
-                counter: ""
-            }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-people"
-    //            name: "Друзья"
-    //            counter: "0"
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-people"
-    //            name: "Группы"
-    //            counter: "0"
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-image"
-    //            name: "Фотографии"
-    //            counter: "0"
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-video"
-    //            name: "Видеозаписи"
-    //            counter: "0"
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-music"
-    //            name: "Аудиозаписи"
-    //            counter: ""
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-favorite"
-    //            name: "Закладки"
-    //            counter: ""
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-l-document"
-    //            name: "Документы"
-    //            counter: ""
-    //        }
-
-    //        ListElement {
-    //            icon: "image://theme/icon-cover-search"
-    //            name: "Поиск"
-    //            counter: ""
-    //        }
-
-            ListElement {
-                icon: ""
-                name: "Настройки"
-                counter: ""
-            }
-
-            ListElement {
-                icon: ""
-                name: "О программе"
-                counter: ""
-            }
-        }
+        model: mainMenuPage.model
 
         header: BackgroundItem {
             width: parent.width
@@ -178,6 +116,8 @@ Page {
             id: menuItem
             height: Theme.itemSizeSmall
 
+            property var item: model.modelData ? model.modelData : model
+
             Item {
                 anchors.fill: parent
                 anchors.rightMargin: Theme.paddingLarge
@@ -189,7 +129,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
-                    source: icon
+                    source: item.icon
                 }
 
                 Label {
@@ -201,7 +141,7 @@ Page {
                     color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                     maximumLineCount: 1
                     truncationMode: TruncationMode.Fade
-                    text: name
+                    text: item.name
                 }
 
                 Label {
@@ -210,7 +150,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     font.bold: true
                     color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                    text: counter
+                    text: item.counter
                 }
             }
 

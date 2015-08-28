@@ -49,10 +49,14 @@ Page {
                                     out:             0,
                                     readState:       1,
                                     datetime:        postData[2],
-                                    attachmentsData: postData.slice(6),
+                                    attachmentsData: postData.slice(10),
                                     avatarSource:    postData[3],
                                     postAuthor:      postData[4],
                                     sourceId:        postData[5],
+                                    likesCount:      postData[6],
+                                    isPostLiked:     postData[7],
+                                    repostsCount:    postData[8],
+                                    isPostReposted:  postData[9],
                                     isNewsContent:   true })
     }
 
@@ -84,14 +88,14 @@ Page {
     //            }
 
             MenuItem {
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: doStartUpdate()
             }
         }
 
         model: ListModel {}
 
-        header: PageHeader { title: "Новости" }
+        header: PageHeader { title: qsTr("Новости") }
 
         delegate: Item {
             id: newsItem
@@ -111,6 +115,10 @@ Page {
                                                 "postAuthor":      postAuthor,
                                                 "itemId":          postId,
                                                 "ownerId":         sourceId,
+                                                "likesCount":      likesCount,
+                                                "repostsCount":    repostsCount,
+                                                "isPostLiked":     isPostLiked,
+                                                "isPostReposted":  isPostReposted,
                                                 "attachmentsData": attachmentsData })
                 onPressAndHold: {
                     if (!contextMenu)
@@ -125,8 +133,11 @@ Page {
                 ContextMenu {
 
                     MenuItem {
-                        text: "Мне нравится"
-                        onClicked: LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
+                        text: qsTr("Мне нравится")
+                        onClicked: {
+                            newsfeedList.model.setProperty(index, "isPostLiked", 1)
+                            LikesAPI.api_addLike("post", newsfeedList.model.get(index).postId, newsfeedList.model.get(index).sourceId)
+                        }
                     }
 
                     onClosed: contextMenu = null
@@ -134,14 +145,10 @@ Page {
             }
         }
 
-//        delegate: PostItem {
-//            width: parent.width
-//        }
-
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
-            text: "Загрузить больше"
+            text: qsTr("Загрузить больше")
             visible: nextFrom !== ''
 
             onClicked: {

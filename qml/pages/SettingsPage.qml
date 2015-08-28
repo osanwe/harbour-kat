@@ -33,16 +33,16 @@ Page {
             anchors.fill: parent
 
             PageHeader {
-                title: "Настройки"
+                title: qsTr("Настройки")
             }
 
             ComboBox {
-                label: "Стартовая страница"
+                label: qsTr("Стартовая страница")
                 currentIndex: StorageJS.readSettingsValue("start_page")
 
                 menu: ContextMenu {
-                    MenuItem { text: "Новости" }
-                    MenuItem { text: "Сообщения" }
+                    MenuItem { text: qsTr("Новости") }
+                    MenuItem { text: qsTr("Сообщения") }
 
                     onActivated: {
                         console.log(index)
@@ -52,7 +52,7 @@ Page {
             }
 
             ComboBox {
-                label: "Предпочитаемое качество видео"
+                label: qsTr("Предпочитаемое качество видео")
                 currentIndex: StorageJS.readSettingsValue("video_quality")
 
                 menu: ContextMenu {
@@ -69,7 +69,7 @@ Page {
             }
 
             TextSwitch {
-                text: "Отображать разделитель в сообщениях"
+                text: qsTr("Отображать разделитель в сообщениях")
                 checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
                 onCheckedChanged: {

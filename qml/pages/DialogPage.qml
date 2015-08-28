@@ -169,7 +169,7 @@ Page {
             header: Button {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width / 3 * 2
-                text: "Загрузить больше"
+                text: qsTr("Загрузить больше")
                 onClicked: {
                     loadingMessagesIndicator.running = true
                     messagesOffset = messagesOffset + 50;
@@ -180,11 +180,12 @@ Page {
             footer: Label {
                 width: parent.width
                 height: (isChat || isOnline) ? 0 : Theme.itemSizeSmall
+                visible: !(isChat || isOnline)
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignBottom
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeSmall
-                text: "Был(a) в сети: " + lastSeenTime
+                text: qsTr("Был(a) в сети: %1").arg(lastSeenTime)
             }
 
             delegate: Item {
@@ -222,7 +223,7 @@ Page {
                         property string message
 
                         MenuItem {
-                            text: "Копировать текст"
+                            text: qsTr("Копировать текст")
                             onClicked: Clipboard.text = messages.model.get(index).message
                         }
 
@@ -238,8 +239,8 @@ Page {
             id: messageInput
             width: parent.width
             anchors.bottom: parent.bottom
-            placeholderText: "Сообщение:"
-            label: "Сообщение"
+            placeholderText: qsTr("Сообщение:")
+            label: qsTr("Сообщение")
 
             EnterKey.enabled: text.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
@@ -249,7 +250,7 @@ Page {
         PushUpMenu {
 
             MenuItem {
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: {
                     messages.model.clear()
                     messagesOffset = 0

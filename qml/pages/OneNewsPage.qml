@@ -38,6 +38,11 @@ Page {
     property string postAuthor
     property variant attachmentsData
 
+    property int likesCount
+    property int repostsCount
+    property bool isPostLiked
+    property bool isPostReposted
+
     function update(postData) {
         textBody = postData[1]
         attachmentsData = postData.slice(3)
@@ -107,8 +112,11 @@ Page {
         PullDownMenu {
 
             MenuItem {
-                text: "Мне нравится"
-                onClicked: LikesAPI.api_addLike("post", itemId, ownerId)
+                text: qsTr("Мне нравится")
+                onClicked: {
+                    isPostLiked = true
+                    LikesAPI.api_addLike("post", itemId, ownerId)
+                }
             }
         }
 
@@ -129,7 +137,10 @@ Page {
             attachments: attachmentsData
             content: textBody
             dateTime: datetime
-            isNews: false
+            likes: likesCount
+            reposts: repostsCount
+            isLiked: isPostLiked
+            isNews: true
         }
     }
 

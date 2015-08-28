@@ -89,19 +89,19 @@ Page {
 
             MenuItem {
                 id: newMessageItem
-                text: "Новое сообщение"
+                text: qsTr("Новое сообщение")
                 onClicked: pageContainer.push(Qt.resolvedUrl("NewMessagePage.qml"))
             }
 
             MenuItem {
                 id: mainMenuItem
-                text: "Обновить"
+                text: qsTr("Обновить")
                 onClicked: updateDialogs()
             }
         }
 
         header: PageHeader {
-            title: "Сообщения"
+            title: qsTr("Сообщения")
         }
 
         model: ListModel {}
@@ -123,7 +123,7 @@ Page {
         footer: Button {
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 3 * 2
-            text: "Загрузить больше"
+            text: qsTr("Загрузить больше")
 
             onClicked: {
                 loadingIndicator.running = true
