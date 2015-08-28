@@ -194,7 +194,7 @@
         <translation type="unfinished">Newsfeed</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="132"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="136"/>
         <source>Мне нравится</source>
         <translation type="unfinished"></translation>
     </message>
@@ -207,7 +207,7 @@
 <context>
     <name>OneNewsPage</name>
     <message>
-        <location filename="../qml/pages/OneNewsPage.qml" line="110"/>
+        <location filename="../qml/pages/OneNewsPage.qml" line="115"/>
         <source>Мне нравится</source>
         <translation type="unfinished"></translation>
     </message>

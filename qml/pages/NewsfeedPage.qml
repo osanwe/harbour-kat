@@ -115,6 +115,10 @@ Page {
                                                 "postAuthor":      postAuthor,
                                                 "itemId":          postId,
                                                 "ownerId":         sourceId,
+                                                "likesCount":      likesCount,
+                                                "repostsCount":    repostsCount,
+                                                "isPostLiked":     isPostLiked,
+                                                "isPostReposted":  isPostReposted,
                                                 "attachmentsData": attachmentsData })
                 onPressAndHold: {
                     if (!contextMenu)
