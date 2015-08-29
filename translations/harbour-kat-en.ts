@@ -90,7 +90,7 @@
         <translation type="unfinished">Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="126"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="123"/>
         <source>Загрузить больше</source>
         <translation type="unfinished"></translation>
     </message>
@@ -178,6 +178,34 @@
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="218"/>
         <source>Название чата</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewWallPostPage</name>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="28"/>
+        <source>На стену</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="33"/>
+        <source>Отменить</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="46"/>
+        <source>Найти группу</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="90"/>
+        <source>Сообщение:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="91"/>
+        <source>Сообщение</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
