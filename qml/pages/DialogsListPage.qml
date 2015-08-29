@@ -110,12 +110,9 @@ Page {
 
             onClicked: {
                 pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
-                                          { /*"fullname":     nameOrTitle,*/
+                                          { "fullname":     nameOrTitle,
                                             "dialogId":     itemId,
                                             "isChat":       isChat,
-//                                            "isOnline":     isOnline,
-//                                            "lastSeenTime": lastSeenTime,
-//                                            "avatarSource": avatarSource,
                                             "userAvatar":   cachePath + StorageJS.readUserAvatar() })
             }
         }
