@@ -19,13 +19,22 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
+import "../js/api/groups.js" as GroupsAPI
+
 
 Dialog {
     id: newMessageDialog
 
     property string deal: qsTr("На стену")
+
+    function addGroupToList(gid, gName) {
+        searchGroupsList.model.append({ gid: gid,
+                                        name: gName })
+    }
 
     DialogHeader {
         id: newMessageHeader
@@ -34,25 +43,17 @@ Dialog {
     }
 
     SilicaListView {
-        id: searchContactsList
+        id: searchGroupsList
         anchors.fill: parent
         anchors.topMargin: newMessageHeader.height
         anchors.bottomMargin: newMessageText.height
         clip: true
 
         currentIndex: -1
-        header: SearchField {
-            width: parent.width
-            placeholderText: qsTr("Найти группу")
-
-            onTextChanged: {
-                searchContactsList.model.clear();
-            }
-        }
 
         model: ListModel {
             Component.onCompleted: {
-                clear();
+                GroupsAPI.api_getModeredGroups()
             }
         }
 
@@ -68,13 +69,15 @@ Dialog {
                 spacing: 6
 
                 Switch {
-                    height: contactName.height
+                    height: groupName.height
                     width: height
                     automaticCheck: false
                 }
 
                 Label {
-                    id: contactName
+                    id: groupName
+                    width: parent.width - groupName.height - 6
+                    truncationMode: TruncationMode.Fade
                     text: name
                 }
             }

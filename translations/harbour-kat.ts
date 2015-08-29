@@ -159,10 +159,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Найти группу</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>

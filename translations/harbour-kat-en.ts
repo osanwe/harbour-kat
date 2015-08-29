@@ -146,37 +146,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="184"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="185"/>
         <source>Удалить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="200"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="201"/>
         <source>Сообщение или название чата:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="203"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="204"/>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="206"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="207"/>
         <source>Название чата:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="212"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="213"/>
         <source>Сообщение или название чата</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="215"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="216"/>
         <source>Сообщение</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="218"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="219"/>
         <source>Название чата</source>
         <translation type="unfinished"></translation>
     </message>
@@ -184,27 +184,22 @@
 <context>
     <name>NewWallPostPage</name>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="28"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="32"/>
         <source>На стену</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="33"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="42"/>
         <source>Отменить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="46"/>
-        <source>Найти группу</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="90"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="93"/>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="91"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="94"/>
         <source>Сообщение</source>
         <translation type="unfinished"></translation>
     </message>

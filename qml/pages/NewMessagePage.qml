@@ -72,14 +72,15 @@ Dialog {
             placeholderText: qsTr("Найти контакт")
 
             onTextChanged: {
-                searchContactsList.model.clear();
+                searchContactsList.model.clear()
                 MessagesAPI.api_searchDialogs(text)
             }
         }
 
         model: ListModel {
             Component.onCompleted: {
-                clear(); MessagesAPI.api_searchDialogs("")
+                clear()
+                MessagesAPI.api_searchDialogs("")
             }
         }
 

@@ -45,7 +45,8 @@ OTHER_FILES += \
     LICENSE \
     README.md \
     .gitignore \
-    qml/pages/NewWallPostPage.qml
+    qml/pages/NewWallPostPage.qml \
+    qml/js/api/groups.js
 
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \
