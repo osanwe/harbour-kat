@@ -92,6 +92,7 @@ Column {
     property bool isLiked
 
     property bool isNews
+    property bool isOpenedNews: false
 
     Label {
         id: contentText
@@ -103,7 +104,7 @@ Column {
         linkColor: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap
         truncationMode: TruncationMode.Fade
-        maximumLineCount: isNews ? 5 : 2000000000
+        maximumLineCount: isNews ? (isOpenedNews ? 2000000000 : 5) : 2000000000
 
         onLinkActivated: Qt.openUrlExternally(link)
     }

@@ -149,6 +149,25 @@
     </message>
 </context>
 <context>
+    <name>NewWallPostPage</name>
+    <message>
+        <source>На стену</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Отменить</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Сообщение:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Сообщение</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NewsfeedPage</name>
     <message>
         <source>Обновить</source>

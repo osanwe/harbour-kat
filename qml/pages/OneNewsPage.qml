@@ -141,6 +141,7 @@ Page {
             reposts: repostsCount
             isLiked: isPostLiked
             isNews: true
+            isOpenedNews: true
         }
     }
 

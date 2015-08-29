@@ -259,8 +259,6 @@ Page {
                 }
             }
         }
-
-        VerticalScrollDecorator {}
     }
 
     onStatusChanged:

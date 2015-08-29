@@ -82,10 +82,10 @@ Page {
 
         PullDownMenu {
 
-    //            MenuItem {
-    //                text: "Написать"
-    //                onClicked:
-    //            }
+            MenuItem {
+                text: "Написать"
+                onClicked: pageContainer.push(Qt.resolvedUrl("NewWallPostPage.qml"))
+            }
 
             MenuItem {
                 text: qsTr("Обновить")

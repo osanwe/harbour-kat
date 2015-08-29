@@ -23,10 +23,25 @@
 
 
 // -------------- API functions --------------
+
 function api_getPostById(oid, pid) {
     RequestAPI.sendRequest("wall.getById",
                            { posts: oid + "_" + pid },
                            callback_getPostById)
+}
+
+function api_post(isGroup, ownerId, message) {
+    if (ownerId !== 0) {
+        RequestAPI.sendRequest("wall.post",
+                               { owner_id: isGroup ? "-" + ownerId : ownerId,
+                                 from_group: 1,
+                                 message: message },
+                               callback_post)
+    } else {
+        RequestAPI.sendRequest("wall.post",
+                               { message: message },
+                               callback_post)
+    }
 }
 
 
@@ -35,6 +50,10 @@ function api_getPostById(oid, pid) {
 function callback_getPostById(jsonObject) {
     var item = jsonObject.response[0]
     update(parsePost(item))
+}
+
+function callback_post(jsonObject) {
+    //
 }
 
 

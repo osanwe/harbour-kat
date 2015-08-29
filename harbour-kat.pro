@@ -44,7 +44,9 @@ OTHER_FILES += \
     rpm/harbour-kat.changes.in \
     LICENSE \
     README.md \
-    .gitignore
+    .gitignore \
+    qml/pages/NewWallPostPage.qml \
+    qml/js/api/groups.js
 
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \
