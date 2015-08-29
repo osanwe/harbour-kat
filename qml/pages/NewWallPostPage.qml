@@ -24,16 +24,27 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 import "../js/api/groups.js" as GroupsAPI
+import "../js/api/wall.js" as WallAPI
 
 
 Dialog {
     id: newMessageDialog
 
+    property int groupId: 0
     property string deal: qsTr("На стену")
 
     function addGroupToList(gid, gName) {
         searchGroupsList.model.append({ gid: gid,
-                                        name: gName })
+                                        name: gName,
+                                        isChoosen: false })
+    }
+
+    function clearChoosenItems() {
+        var idx = 0
+        while (idx < searchGroupsList.model.count) {
+            searchGroupsList.model.set(idx, { isChoosen: false })
+            idx++
+        }
     }
 
     DialogHeader {
@@ -69,9 +80,11 @@ Dialog {
                 spacing: 6
 
                 Switch {
+                    id: groupChoosenMode
                     height: groupName.height
                     width: height
                     automaticCheck: false
+                    checked: isChoosen
                 }
 
                 Label {
@@ -82,7 +95,17 @@ Dialog {
                 }
             }
 
-//            onClicked:
+            onClicked: {
+                clearChoosenItems()
+                if (deal === name) {
+                    deal = qsTr("На стену")
+                    groupId = 0
+                } else {
+                    searchGroupsList.model.set(index, { isChoosen: true })
+                    deal = name
+                    groupId = gid
+                }
+            }
         }
     }
 
@@ -94,5 +117,8 @@ Dialog {
         label: qsTr("Сообщение")
     }
 
-//    onAccepted:
+    onAccepted: {
+        var messageText = encodeURIComponent(newMessageText.text)
+        WallAPI.api_post(true, groupId, messageText)
+    }
 }

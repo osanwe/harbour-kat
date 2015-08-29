@@ -184,22 +184,23 @@
 <context>
     <name>NewWallPostPage</name>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="32"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="34"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="101"/>
         <source>На стену</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="42"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="53"/>
         <source>Отменить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="93"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="116"/>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="94"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="117"/>
         <source>Сообщение</source>
         <translation type="unfinished"></translation>
     </message>
