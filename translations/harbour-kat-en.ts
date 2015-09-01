@@ -11,7 +11,7 @@
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="31"/>
         <source>Со всеми возникающими вопросами, пожеланиями и предложениями можно обращаться по следующим ссылкам:</source>
-        <translation>Check this links if you have questions or ideas:</translation>
+        <translation>Check this links if you have questions, ideas or requests:</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="32"/>
