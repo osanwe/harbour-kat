@@ -26,7 +26,7 @@
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="34"/>
         <source>Поддержать проект</source>
-        <translation>Поддержать проект</translation>
+        <translation>Support the project</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="35"/>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="58"/>
         <source>Написать</source>
-        <translation>Write</translation>
+        <translation>Compose</translation>
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="59"/>
