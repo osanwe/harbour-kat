@@ -56,7 +56,7 @@ Page {
     function sendMessage() {
         messages.model.clear()
         messagesOffset = 0
-        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, attachmentsList, false)
+        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
     }

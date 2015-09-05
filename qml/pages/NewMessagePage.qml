@@ -41,7 +41,7 @@ Dialog {
         if (currentContactsList.model.count === 1) {
             MessagesAPI.api_sendMessage(false,
                                     currentContactsList.model.get(0).uid,
-                                    newMessageText.text,
+                                    encodeURIComponent(newMessageText.text),
                                     attachmentsList,
                                     true)
         } else if (currentContactsList.model.count > 1) {
@@ -52,7 +52,7 @@ Dialog {
                 index = index + 1
             }
             ids = ids.substring(1)
-            MessagesAPI.api_createChat(ids, newMessageText.text, attachmentsList)
+            MessagesAPI.api_createChat(ids, encodeURIComponent(newMessageText.text), attachmentsList)
         }
     }
 
