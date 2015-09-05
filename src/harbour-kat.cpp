@@ -34,9 +34,7 @@
 #include <QStringList>
 
 #include "filedownloader.h"
-
 #include "notificationhelper.h"
-
 
 int main(int argc, char *argv[])
 {

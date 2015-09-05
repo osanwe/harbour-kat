@@ -13,11 +13,11 @@ void ApiRequest::startRequest(QString method, QHash<QString, QString> args) {
     QString url = "";
     QHashIterator<QString, QString> iterator(args);
     url = url.append(BASE_URL).append(method).append(API_VERSION);
+    url = url.append("&access_token=").append(Storage().getAccessToken());
     while (iterator.hasNext()) {
         iterator.next();
         url = url.append("&").append(iterator.key()).append("=").append(iterator.value());
     }
-//    url = url.append("&access_token=").append(); // TODO: get access token from database
 
     qDebug() << url;
 

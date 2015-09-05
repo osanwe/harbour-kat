@@ -12,7 +12,7 @@
 # The name of your application
 TARGET = harbour-kat
 
-QT += dbus
+QT += dbus sql
 
 CONFIG += link_pkgconfig sailfishapp
 PKGCONFIG += mlite5
@@ -20,13 +20,15 @@ PKGCONFIG += mlite5
 HEADERS += \
     src/filedownloader.h \
     src/notificationhelper.h \
-    src/api/apirequest.h
+    src/api/apirequest.h \
+    src/storage.h
 
 SOURCES += \
     src/harbour-kat.cpp \
     src/filedownloader.cpp \
     src/notificationhelper.cpp \
-    src/api/apirequest.cpp
+    src/api/apirequest.cpp \
+    src/storage.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \

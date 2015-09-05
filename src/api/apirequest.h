@@ -8,6 +8,8 @@
 #include <QNetworkRequest>
 #include <QObject>
 
+#include "../storage.h"
+
 class ApiRequest : public QObject
 {
     Q_OBJECT
