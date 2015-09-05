@@ -52,6 +52,13 @@ Dialog {
     SilicaFlickable {
         anchors.fill: parent
 
+        BusyIndicator {
+            id: uploadingIndicator
+            anchors.centerIn: parent
+            size: BusyIndicatorSize.Large
+            running: false
+        }
+
         DialogHeader {
             id: newMessageHeader
             acceptText: deal
@@ -129,6 +136,7 @@ Dialog {
                 onClicked: {
                     var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
                     imagePicker.selectedContentChanged.connect(function () {
+                        uploadingIndicator.running = true
                         photos.attachImage(imagePicker.selectedContent, "WALL")
                     })
                 }
@@ -138,7 +146,10 @@ Dialog {
 
     Connections {
         target: photos
-        onImageUploaded: attachmentsList += imageName + ",";
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            uploadingIndicator.running = false
+        }
     }
 
     onAccepted: {

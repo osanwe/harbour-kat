@@ -59,6 +59,13 @@ Dialog {
     SilicaFlickable {
         anchors.fill: parent
 
+        BusyIndicator {
+            id: uploadingIndicator
+            anchors.centerIn: parent
+            size: BusyIndicatorSize.Large
+            running: false
+        }
+
         DialogHeader {
             id: newMessageHeader
             acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
@@ -234,6 +241,7 @@ Dialog {
                 onClicked: {
                     var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
                     imagePicker.selectedContentChanged.connect(function () {
+                        uploadingIndicator.running = true
                         photos.attachImage(imagePicker.selectedContent, "MESSAGE")
                     })
                 }
@@ -243,7 +251,10 @@ Dialog {
 
     Connections {
         target: photos
-        onImageUploaded: attachmentsList += imageName + ",";
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            uploadingIndicator.running = false
+        }
     }
 
     onAccepted: sendNewMessage()
