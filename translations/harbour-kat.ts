@@ -147,6 +147,10 @@
         <source>Название чата</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Attach image</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewWallPostPage</name>

@@ -6,7 +6,7 @@ ApiRequest::ApiRequest(QObject *parent)
     : QObject(parent)
 {
     BASE_URL = "https://api.vk.com/method/";
-    API_VERSION = "?v=5.35";
+    API_VERSION = "?v=5.37";
 }
 
 void ApiRequest::startRequest(QString method, QHash<QString, QString> args) {
@@ -29,6 +29,6 @@ void ApiRequest::startRequest(QString method, QHash<QString, QString> args) {
 }
 
 void ApiRequest::httpFinished(QNetworkReply *rep) {
-    if (rep->error() == QNetworkReply::NoError) qDebug() << "Success:" << rep->readAll();
+    if (rep->error() == QNetworkReply::NoError) emit finished(rep->readAll());
     else qDebug() << "Failture:" << rep->errorString();
 }

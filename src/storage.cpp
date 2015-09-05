@@ -21,7 +21,7 @@ QString Storage::getAccessToken() {
 QString Storage::getPathToDatabase() {
     QString pathToDatabase;
 
-    QStringList cacheLocation = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    QStringList cacheLocation = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
     if (cacheLocation.isEmpty()) pathToDatabase = getenv("$XDG_DATA_HOME/harbour-kat/");
     else pathToDatabase = QString("%1/").arg(cacheLocation.first());
     pathToDatabase = pathToDatabase.append("QML/OfflineStorage/Databases/");

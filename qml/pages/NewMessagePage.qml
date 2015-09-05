@@ -53,170 +53,187 @@ Dialog {
         }
     }
 
-    DialogHeader {
-        id: newMessageHeader
-        acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
-        cancelText: qsTr("Отменить")
-    }
-
-    SilicaListView {
-        id: searchContactsList
+    SilicaFlickable {
         anchors.fill: parent
-        anchors.topMargin: newMessageHeader.height
-        anchors.bottomMargin: newMessageText.height + currentContactsList.height
-        clip: true
 
-        currentIndex: -1
-        header: SearchField {
-            width: parent.width
-            placeholderText: qsTr("Найти контакт")
+        DialogHeader {
+            id: newMessageHeader
+            acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
+            cancelText: qsTr("Отменить")
+        }
 
-            onTextChanged: {
-                searchContactsList.model.clear()
-                MessagesAPI.api_searchDialogs(text)
+        SilicaListView {
+            id: searchContactsList
+            anchors.fill: parent
+            anchors.topMargin: newMessageHeader.height
+            anchors.bottomMargin: newMessageText.height + currentContactsList.height
+            clip: true
+
+            currentIndex: -1
+            header: SearchField {
+                width: parent.width
+                placeholderText: qsTr("Найти контакт")
+
+                onTextChanged: {
+                    searchContactsList.model.clear()
+                    MessagesAPI.api_searchDialogs(text)
+                }
+            }
+
+            model: ListModel {
+                Component.onCompleted: {
+                    clear()
+                    MessagesAPI.api_searchDialogs("")
+                }
+            }
+
+            delegate: BackgroundItem {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.rightMargin: Theme.paddingLarge
+                height: Theme.itemSizeSmall
+
+                Row {
+                    anchors.fill: parent
+                    spacing: 6
+
+                    Switch {
+                        height: contactName.height
+                        width: height
+                        automaticCheck: false
+                        checked: isOnline
+                    }
+
+                    Label {
+                        id: contactName
+                        text: name
+                    }
+                }
+
+                onClicked: {
+                    console.log(uid + " | " + name)
+                    var index = 0
+                    while (index < currentContactsList.model.count) {
+                        if (uid === currentContactsList.model.get(index).uid) {
+                            index = -1
+                            break
+                        }
+                        index = index + 1
+                    }
+                    if (index !== -1) currentContactsList.model.append({ uid:         uid,
+                                                                         photoSource: photo })
+                }
             }
         }
 
-        model: ListModel {
-            Component.onCompleted: {
-                clear()
-                MessagesAPI.api_searchDialogs("")
-            }
-        }
+        SilicaListView {
+            id: currentContactsList
 
-        delegate: BackgroundItem {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
-            height: Theme.itemSizeSmall
+            anchors.bottom: newMessageText.top
+            height: {
+                if (model.count > 0)
+                    return contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
+                else
+                    return 0
+            }
 
-            Row {
-                anchors.fill: parent
-                spacing: 6
+            spacing: 6
+            clip: true
+            orientation: ListView.Horizontal
 
-                Switch {
-                    height: contactName.height
+            model: ListModel {}
+
+            delegate: Item {
+                id: myListItem
+
+                property bool menuOpen: contextMenu != null && contextMenu.parent === myListItem
+
+                height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
+                width: Theme.itemSizeMedium
+
+                BackgroundItem {
+                    id: contentItem
+                    height: Theme.itemSizeMedium
                     width: height
-                    automaticCheck: false
-                    checked: isOnline
-                }
 
-                Label {
-                    id: contactName
-                    text: name
-                }
-            }
-
-            onClicked: {
-                console.log(uid + " | " + name)
-                var index = 0
-                while (index < currentContactsList.model.count) {
-                    if (uid === currentContactsList.model.get(index).uid) {
-                        index = -1
-                        break
+                    Image {
+                        id: contactAvatar
+                        anchors.fill: parent
+                        source: photoSource
                     }
-                    index = index + 1
+
+                    onPressAndHold: {
+                        console.log(index)
+                        if (!contextMenu)
+                            contextMenu = contextMenuComponent.createObject(currentContactsList,
+                                                                            { index: index })
+                        contextMenu.show(myListItem)
+                    }
                 }
-                if (index !== -1) currentContactsList.model.append({ uid:         uid,
-                                                                     photoSource: photo })
             }
-        }
-    }
 
-    SilicaListView {
-        id: currentContactsList
+            Component {
+                id: contextMenuComponent
 
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingLarge
-        anchors.rightMargin: Theme.paddingLarge
-        anchors.bottom: newMessageText.top
-        height: {
-            if (model.count > 0)
-                return contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
-            else
-                return 0
-        }
+                ContextMenu {
 
-        spacing: 6
-        clip: true
-        orientation: ListView.Horizontal
+                    property string index
 
-        model: ListModel {}
+                    MenuItem {
+                        text: qsTr("Удалить")
+                        onClicked: currentContactsList.model.remove(index)
+                    }
 
-        delegate: Item {
-            id: myListItem
-
-            property bool menuOpen: contextMenu != null && contextMenu.parent === myListItem
-
-            height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
-            width: Theme.itemSizeMedium
-
-            BackgroundItem {
-                id: contentItem
-                height: Theme.itemSizeMedium
-                width: height
-
-                Image {
-                    id: contactAvatar
-                    anchors.fill: parent
-                    source: photoSource
-                }
-
-                onPressAndHold: {
-                    console.log(index)
-                    if (!contextMenu)
-                        contextMenu = contextMenuComponent.createObject(currentContactsList,
-                                                                        { index: index })
-                    contextMenu.show(myListItem)
+                    onClosed: contextMenu = null
                 }
             }
         }
 
-        Component {
-            id: contextMenuComponent
+        TextArea {
+            id: newMessageText
+            anchors.bottom: parent.bottom
+            width: parent.width
+            placeholderText: {
+                switch (currentContactsList.model.count) {
+                case 0:
+                    return qsTr("Сообщение или название чата:")
 
-            ContextMenu {
+                case 1:
+                    return qsTr("Сообщение:")
 
-                property string index
-
-                MenuItem {
-                    text: qsTr("Удалить")
-                    onClicked: currentContactsList.model.remove(index)
+                default:
+                    return qsTr("Название чата:")
                 }
+            }
+            label: {
+                switch (currentContactsList.model.count) {
+                case 0:
+                    return qsTr("Сообщение или название чата")
 
-                onClosed: contextMenu = null
+                case 1:
+                    return qsTr("Сообщение")
+
+                default:
+                    return qsTr("Название чата")
+                }
             }
         }
-    }
 
-    TextArea {
-        id: newMessageText
-        anchors.bottom: parent.bottom
-        width: parent.width
-        placeholderText: {
-            switch (currentContactsList.model.count) {
-            case 0:
-                return qsTr("Сообщение или название чата:")
+        PushUpMenu {
 
-            case 1:
-                return qsTr("Сообщение:")
-
-            default:
-                return qsTr("Название чата:")
-            }
-        }
-        label: {
-            switch (currentContactsList.model.count) {
-            case 0:
-                return qsTr("Сообщение или название чата")
-
-            case 1:
-                return qsTr("Сообщение")
-
-            default:
-                return qsTr("Название чата")
+            MenuItem {
+                text: qsTr("Attach image")
+                onClicked: {
+                    var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                    imagePicker.selectedContentChanged.connect(function () {
+                        photos.attachImage(imagePicker.selectedContent)
+                    })
+                }
             }
         }
     }

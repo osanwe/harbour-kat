@@ -126,59 +126,64 @@
 <context>
     <name>NewMessagePage</name>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="58"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="61"/>
         <source>Создать</source>
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="58"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="61"/>
         <source>Написать</source>
         <translation>Compose</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="59"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="62"/>
         <source>Отменить</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="72"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="75"/>
         <source>Найти контакт</source>
         <translation>Find contact</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="185"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="188"/>
         <source>Удалить</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="201"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="204"/>
         <source>Сообщение или название чата:</source>
         <translation>Massage or chat name:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="204"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="207"/>
         <source>Сообщение:</source>
         <translation>Messages:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="207"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="210"/>
         <source>Название чата:</source>
         <translation>Chat name:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="213"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="216"/>
         <source>Сообщение или название чата</source>
         <translation>Massage or chat name</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="216"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="219"/>
         <source>Сообщение</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="219"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="222"/>
         <source>Название чата</source>
         <translation>Chat name</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewMessagePage.qml" line="230"/>
+        <source>Attach image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

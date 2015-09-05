@@ -17,6 +17,9 @@ class ApiRequest : public QObject
 public:
     ApiRequest(QObject *parent = 0);
 
+signals:
+    void finished(QString jsonData);
+
 public slots:
     void startRequest(QString method, QHash<QString, QString> args);
 

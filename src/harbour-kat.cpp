@@ -35,13 +35,16 @@
 
 #include "filedownloader.h"
 #include "notificationhelper.h"
+#include "api/photos.h"
 
 int main(int argc, char *argv[])
 {
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+
     QScopedPointer<FileDownloader> fileDownloader(new FileDownloader(view.data()));
     QScopedPointer<NotificationHelper> notificationHelper(new NotificationHelper(view.data()));
+    QScopedPointer<Photos> photos(new Photos(view.data()));
 
     QUrl cachePath;
     QStringList cacheLocation = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
@@ -51,6 +54,8 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("cachePath", cachePath);
     view->rootContext()->setContextProperty("fileDownloader", fileDownloader.data());
     view->rootContext()->setContextProperty("notificationHelper", notificationHelper.data());
+    view->rootContext()->setContextProperty("photos", photos.data());
+
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
     view->show();
 
