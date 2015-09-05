@@ -22,7 +22,7 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 
-var DATABASE_VERSION = "1"
+var DATABASE_VERSION = "2"
 
 function getDatabase() {
     return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
@@ -41,7 +41,7 @@ function initDatabase() {
     } else if (db.version !== DATABASE_VERSION) {
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
             console.log("... recreate tables")
-            tx.executeSql("DROP TABLE settings")
+            tx.executeSql("DELETE FROM settings")
         })
     }
 }
