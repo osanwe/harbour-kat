@@ -275,11 +275,26 @@
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="55"/>
+        <source>Создать с обложки</source>
+        <translation>Create from cover</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="59"/>
+        <source>Сообщение</source>
+        <translation>Message</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <source>Запись на стене</source>
+        <translation>Wall post</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="70"/>
         <source>Предпочитаемое качество видео</source>
         <translation>Preferred video quality</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="72"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="87"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>
