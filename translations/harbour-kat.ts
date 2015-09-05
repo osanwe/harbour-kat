@@ -58,6 +58,10 @@
         <source>Обновить</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Attach image</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogsListPage</name>

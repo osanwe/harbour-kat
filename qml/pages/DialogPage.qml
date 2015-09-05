@@ -43,6 +43,8 @@ Page {
 
     property variant chatUsers
 
+    property string attachmentsList: ""
+
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
         fullname = name
@@ -54,7 +56,7 @@ Page {
     function sendMessage() {
         messages.model.clear()
         messagesOffset = 0
-        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, false)
+        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, attachmentsList, false)
         messageInput.text = ""
     }
 
@@ -258,6 +260,25 @@ Page {
                     MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
+
+            MenuItem {
+                text: qsTr("Attach image")
+                onClicked: {
+                    var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                    imagePicker.selectedContentChanged.connect(function () {
+                        loadingMessagesIndicator.running = true
+                        photos.attachImage(imagePicker.selectedContent, "MESSAGE")
+                    })
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: photos
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            loadingMessagesIndicator.running = false
         }
     }
 

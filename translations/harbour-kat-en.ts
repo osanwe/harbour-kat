@@ -42,34 +42,39 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="172"/>
+        <location filename="../qml/pages/DialogPage.qml" line="174"/>
         <source>Загрузить больше</source>
         <translation>Load more</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="188"/>
+        <location filename="../qml/pages/DialogPage.qml" line="190"/>
         <source>Был(a) в сети: %1</source>
         <translation>Last online at: %1</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="226"/>
+        <location filename="../qml/pages/DialogPage.qml" line="228"/>
         <source>Копировать текст</source>
         <translation>Copy text</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="242"/>
+        <location filename="../qml/pages/DialogPage.qml" line="244"/>
         <source>Сообщение:</source>
         <translation>Messages:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="243"/>
+        <location filename="../qml/pages/DialogPage.qml" line="245"/>
         <source>Сообщение</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="253"/>
+        <location filename="../qml/pages/DialogPage.qml" line="255"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DialogPage.qml" line="265"/>
+        <source>Attach image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -126,62 +131,62 @@
 <context>
     <name>NewMessagePage</name>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="70"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="71"/>
         <source>Создать</source>
         <translation>Create</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="70"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="71"/>
         <source>Написать</source>
         <translation>Compose</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="71"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="72"/>
         <source>Отменить</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="84"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="85"/>
         <source>Найти контакт</source>
         <translation>Find contact</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="197"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="198"/>
         <source>Удалить</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="213"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="214"/>
         <source>Сообщение или название чата:</source>
         <translation>Massage or chat name:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="216"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="217"/>
         <source>Сообщение:</source>
         <translation>Messages:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="219"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="220"/>
         <source>Название чата:</source>
         <translation>Chat name:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="225"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="226"/>
         <source>Сообщение или название чата</source>
         <translation>Massage or chat name</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="228"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="229"/>
         <source>Сообщение</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="231"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="232"/>
         <source>Название чата</source>
         <translation>Chat name</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewMessagePage.qml" line="239"/>
+        <location filename="../qml/pages/NewMessagePage.qml" line="240"/>
         <source>Attach image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -190,27 +195,27 @@
     <name>NewWallPostPage</name>
     <message>
         <location filename="../qml/pages/NewWallPostPage.qml" line="34"/>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="112"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="113"/>
         <source>На стену</source>
         <translation>Post it</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="64"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="65"/>
         <source>Отменить</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="127"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="128"/>
         <source>Сообщение:</source>
         <translation>Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="128"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="129"/>
         <source>Сообщение</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="134"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="135"/>
         <source>Attach image</source>
         <translation type="unfinished"></translation>
     </message>
