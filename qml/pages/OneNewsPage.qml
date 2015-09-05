@@ -107,6 +107,7 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingLarge
         contentHeight: newsAuthor.height + newsContent.height
 
         PullDownMenu {
@@ -143,6 +144,8 @@ Page {
             isNews: true
             isOpenedNews: true
         }
+
+        VerticalScrollDecorator {}
     }
 
 //    Component.onCompleted: WallAPI.api_getPostById(-43948962, 76708)

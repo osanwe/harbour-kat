@@ -246,7 +246,7 @@
 <context>
     <name>OneNewsPage</name>
     <message>
-        <location filename="../qml/pages/OneNewsPage.qml" line="115"/>
+        <location filename="../qml/pages/OneNewsPage.qml" line="116"/>
         <source>Мне нравится</source>
         <translation>Like</translation>
     </message>
