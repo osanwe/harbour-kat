@@ -23,9 +23,10 @@ Photos::~Photos() {
 //    request = 0;
 }
 
-void Photos::attachImage(QString image, QString mode) {
+void Photos::attachImage(QString image, QString mode, int groupId) {
     pathToImage = image.replace("file://", "");
     mMode = mode;
+    mGroupId = groupId;
     if (mode == "MESSAGE") api_getMessagesUploadServer();
     else if (mode == "WALL") api_getWallUploadServer();
 }
@@ -51,6 +52,7 @@ void Photos::uploadedImage(QNetworkReply *reply) {
         qDebug() << jsonData;
         QHash<QString, QString> args;
         QJsonObject object = QJsonDocument::fromJson(jsonData.toUtf8()).object();
+        if (mGroupId != 0) args["group_id"] = QString::number(mGroupId);
         args["server"] = QString::number(object.value("server").toInt());
         args["photo"] = object.value("photo").toString();
         args["hash"] = object.value("hash").toString();
@@ -93,5 +95,8 @@ void Photos::api_getMessagesUploadServer() {
 void Photos::api_getWallUploadServer() {
     ApiRequest *request = new ApiRequest(this);
     connect(request, SIGNAL(finished(QString)), this, SLOT(gotServer(QString)));
-    request->startRequest("photos.getWallUploadServer", QHash<QString, QString>());
+
+    QHash<QString, QString> args;
+    if (mGroupId != 0) args["group_id"] = QString::number(mGroupId);
+    request->startRequest("photos.getWallUploadServer", args);
 }

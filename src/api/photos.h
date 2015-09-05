@@ -22,7 +22,7 @@ signals:
     void imageUploaded(QString imageName);
 
 public slots:
-    void attachImage(QString image, QString mode);
+    void attachImage(QString image, QString mode, int groupId);
 
 private slots:
     void gotServer(QString jsonData);
@@ -32,6 +32,7 @@ private slots:
 private:
     QString pathToImage;
     QString mMode;
+    int mGroupId;
 //    ApiRequest *request;
 
     void uploadFileToServer(QString url);
