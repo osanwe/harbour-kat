@@ -28,6 +28,8 @@ Dialog {
 
     property Item contextMenu
 
+    property string attachmentsList: ""
+
     function updateSearchContactsList(uid, name, photo, isOnline) {
         searchContactsList.model.append({ uid:      uid,
                                           name:     name,
@@ -40,6 +42,7 @@ Dialog {
             MessagesAPI.api_sendMessage(false,
                                     currentContactsList.model.get(0).uid,
                                     newMessageText.text,
+                                    attachmentsList,
                                     true)
         } else if (currentContactsList.model.count > 1) {
             var ids = ""
@@ -49,7 +52,7 @@ Dialog {
                 index = index + 1
             }
             ids = ids.substring(1)
-            MessagesAPI.api_createChat(ids, newMessageText.text)
+            MessagesAPI.api_createChat(ids, newMessageText.text, attachmentsList)
         }
     }
 
@@ -236,6 +239,11 @@ Dialog {
                 }
             }
         }
+    }
+
+    Connections {
+        target: photos
+        onImageUploaded: attachmentsList += imageName + ",";
     }
 
     onAccepted: sendNewMessage()

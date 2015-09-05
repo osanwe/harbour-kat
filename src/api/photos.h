@@ -19,6 +19,7 @@ public:
     ~Photos();
 
 signals:
+    void imageUploaded(QString imageName);
 
 public slots:
     void attachImage(QString image);

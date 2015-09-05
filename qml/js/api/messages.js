@@ -51,9 +51,10 @@ function api_getHistory(isChat, dialogId, offset) {
                            callback_getHistory)
 }
 
-function api_sendMessage(isChat, dialogId, message, isNew) {
+function api_sendMessage(isChat, dialogId, message, attachments, isNew) {
     var data = {
-        message: message
+        message: message,
+        attachment: attachments
     };
     data[isChat ? "chat_id" : "user_id"] = dialogId;
     RequestAPI.sendRequest("messages.send",

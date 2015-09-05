@@ -10,6 +10,8 @@
 #include <QHttpMultiPart>
 #include <QHttpPart>
 
+#include <QJsonArray>
+
 Photos::Photos(QObject *parent) :
     QObject(parent)
 {
@@ -36,6 +38,9 @@ void Photos::gotServer(QString jsonData) {
 
 void Photos::savedImage(QString jsonData) {
     qDebug() << jsonData;
+    QJsonObject object = QJsonDocument::fromJson(jsonData.toUtf8()).object().value("response").toArray().at(0).toObject();
+    emit imageUploaded(QString("photo%1_%2").arg(QString::number(object.value("owner_id").toInt()),
+                                                 QString::number(object.value("id").toInt())));
 }
 
 void Photos::uploadedImage(QNetworkReply *reply) {
