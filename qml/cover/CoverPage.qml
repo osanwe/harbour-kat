@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/api/messages.js" as MessagesAPI
+import "../js/storage.js" as StorageJS
 
 CoverBackground {
 
@@ -55,7 +56,13 @@ CoverBackground {
             iconSource: "image://theme/icon-cover-new"
 
             onTriggered: {
-                pageStack.push(Qt.resolvedUrl("../pages/NewMessagePage.qml"))
+                var pageComponent
+                if (parseInt(StorageJS.readSettingsValue("create_from_cover"), 10) === 1) {
+                    pageComponent = Qt.createQmlObject("import QtQuick 2.0; import \"../pages\"; Component { NewWallPostPage {} }", application)
+                } else {
+                    pageComponent = Qt.createQmlObject("import QtQuick 2.0; import \"../pages\"; Component { NewMessagePage {} }", application)
+                }
+                pageStack.push(pageComponent)
                 window.activate()
             }
         }

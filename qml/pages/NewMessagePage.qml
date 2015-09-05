@@ -28,6 +28,8 @@ Dialog {
 
     property Item contextMenu
 
+    property string attachmentsList: ""
+
     function updateSearchContactsList(uid, name, photo, isOnline) {
         searchContactsList.model.append({ uid:      uid,
                                           name:     name,
@@ -39,7 +41,8 @@ Dialog {
         if (currentContactsList.model.count === 1) {
             MessagesAPI.api_sendMessage(false,
                                     currentContactsList.model.get(0).uid,
-                                    newMessageText.text,
+                                    encodeURIComponent(newMessageText.text),
+                                    attachmentsList,
                                     true)
         } else if (currentContactsList.model.count > 1) {
             var ids = ""
@@ -49,175 +52,237 @@ Dialog {
                 index = index + 1
             }
             ids = ids.substring(1)
-            MessagesAPI.api_createChat(ids, newMessageText.text)
+            MessagesAPI.api_createChat(ids, encodeURIComponent(newMessageText.text), attachmentsList)
         }
     }
 
-    DialogHeader {
-        id: newMessageHeader
-        acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
-        cancelText: qsTr("Отменить")
-    }
-
-    SilicaListView {
-        id: searchContactsList
+    SilicaFlickable {
         anchors.fill: parent
-        anchors.topMargin: newMessageHeader.height
-        anchors.bottomMargin: newMessageText.height + currentContactsList.height
-        clip: true
 
-        currentIndex: -1
-        header: SearchField {
-            width: parent.width
-            placeholderText: qsTr("Найти контакт")
+        BusyIndicator {
+            id: uploadingIndicator
+            anchors.centerIn: parent
+            size: BusyIndicatorSize.Large
+            running: false
+        }
 
-            onTextChanged: {
-                searchContactsList.model.clear()
-                MessagesAPI.api_searchDialogs(text)
+        DialogHeader {
+            id: newMessageHeader
+            acceptText: currentContactsList.model.count > 1 ? qsTr("Создать") : qsTr("Написать")
+            cancelText: qsTr("Отменить")
+        }
+
+        SilicaListView {
+            id: searchContactsList
+            anchors.fill: parent
+            anchors.topMargin: newMessageHeader.height
+            anchors.bottomMargin: newMessageText.height + currentContactsList.height
+            clip: true
+
+            currentIndex: -1
+            header: SearchField {
+                width: parent.width
+                placeholderText: qsTr("Найти контакт")
+
+                onTextChanged: {
+                    searchContactsList.model.clear()
+                    MessagesAPI.api_searchDialogs(text)
+                }
+            }
+
+            model: ListModel {
+                Component.onCompleted: {
+                    clear()
+                    MessagesAPI.api_searchDialogs("")
+                }
+            }
+
+            delegate: BackgroundItem {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.rightMargin: Theme.paddingLarge
+                height: Theme.itemSizeSmall
+
+                Row {
+                    anchors.fill: parent
+                    spacing: 6
+
+                    Switch {
+                        height: contactName.height
+                        width: height
+                        automaticCheck: false
+                        checked: isOnline
+                    }
+
+                    Label {
+                        id: contactName
+                        text: name
+                    }
+                }
+
+                onClicked: {
+                    console.log(uid + " | " + name)
+                    var index = 0
+                    while (index < currentContactsList.model.count) {
+                        if (uid === currentContactsList.model.get(index).uid) {
+                            index = -1
+                            break
+                        }
+                        index = index + 1
+                    }
+                    if (index !== -1) currentContactsList.model.append({ uid:         uid,
+                                                                         photoSource: photo })
+                }
             }
         }
 
-        model: ListModel {
-            Component.onCompleted: {
-                clear()
-                MessagesAPI.api_searchDialogs("")
-            }
-        }
+        SilicaListView {
+            id: currentContactsList
 
-        delegate: BackgroundItem {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
-            height: Theme.itemSizeSmall
+            anchors.bottom: newMessageText.top
+            height: {
+                if (model.count > 0)
+                    return contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
+                else
+                    return 0
+            }
 
-            Row {
-                anchors.fill: parent
-                spacing: 6
+            spacing: 6
+            clip: true
+            orientation: ListView.Horizontal
 
-                Switch {
-                    height: contactName.height
+            model: ListModel {}
+
+            delegate: Item {
+                id: myListItem
+
+                property bool menuOpen: contextMenu != null && contextMenu.parent === myListItem
+
+                height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
+                width: Theme.itemSizeMedium
+
+                BackgroundItem {
+                    id: contentItem
+                    height: Theme.itemSizeMedium
                     width: height
-                    automaticCheck: false
-                    checked: isOnline
-                }
 
-                Label {
-                    id: contactName
-                    text: name
-                }
-            }
-
-            onClicked: {
-                console.log(uid + " | " + name)
-                var index = 0
-                while (index < currentContactsList.model.count) {
-                    if (uid === currentContactsList.model.get(index).uid) {
-                        index = -1
-                        break
+                    Image {
+                        id: contactAvatar
+                        anchors.fill: parent
+                        source: photoSource
                     }
-                    index = index + 1
+
+                    onPressAndHold: {
+                        console.log(index)
+                        if (!contextMenu)
+                            contextMenu = contextMenuComponent.createObject(currentContactsList,
+                                                                            { index: index })
+                        contextMenu.show(myListItem)
+                    }
                 }
-                if (index !== -1) currentContactsList.model.append({ uid:         uid,
-                                                                     photoSource: photo })
+            }
+
+            Component {
+                id: contextMenuComponent
+
+                ContextMenu {
+
+                    property string index
+
+                    MenuItem {
+                        text: qsTr("Удалить")
+                        onClicked: currentContactsList.model.remove(index)
+                    }
+
+                    onClosed: contextMenu = null
+                }
+            }
+        }
+
+        IconButton {
+            id: attachmentsButton
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.verticalCenter: newMessageText.verticalCenter
+            width: Theme.iconSizeSmallPlus
+            height: Theme.iconSizeSmallPlus
+            icon.width: Theme.iconSizeSmallPlus
+            icon.height: Theme.iconSizeSmallPlus
+            icon.fillMode: Image.PreserveAspectFit
+            icon.source: "image://theme/icon-m-attach"
+        }
+
+        Label {
+            id: attachmentsCounter
+            anchors.verticalCenter: attachmentsButton.top
+            anchors.left: attachmentsButton.left
+            anchors.leftMargin: text === "10" ? 0 : Theme.paddingSmall
+            anchors.verticalCenterOffset: Theme.paddingSmall
+            font.bold: true
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.highlightColor
+            text: {
+                var attachmentsCount = attachmentsList.split(',').length - 1
+                return attachmentsCount > 0 ? attachmentsCount : ""
+            }
+        }
+
+        TextArea {
+            id: newMessageText
+            anchors.bottom: parent.bottom
+            anchors.left: attachmentsButton.right
+            anchors.right: parent.right
+            placeholderText: {
+                switch (currentContactsList.model.count) {
+                case 0:
+                    return qsTr("Сообщение или название чата:")
+
+                case 1:
+                    return qsTr("Сообщение:")
+
+                default:
+                    return qsTr("Название чата:")
+                }
+            }
+            label: {
+                switch (currentContactsList.model.count) {
+                case 0:
+                    return qsTr("Сообщение или название чата")
+
+                case 1:
+                    return qsTr("Сообщение")
+
+                default:
+                    return qsTr("Название чата")
+                }
+            }
+        }
+
+        PushUpMenu {
+
+            MenuItem {
+                text: qsTr("Прикрепить изображение")
+                onClicked: {
+                    var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                    imagePicker.selectedContentChanged.connect(function () {
+                        uploadingIndicator.running = true
+                        photos.attachImage(imagePicker.selectedContent, "MESSAGE", 0)
+                    })
+                }
             }
         }
     }
 
-    SilicaListView {
-        id: currentContactsList
-
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingLarge
-        anchors.rightMargin: Theme.paddingLarge
-        anchors.bottom: newMessageText.top
-        height: {
-            if (model.count > 0)
-                return contextMenu ? contextMenu.height + Theme.itemSizeMedium : Theme.itemSizeMedium
-            else
-                return 0
-        }
-
-        spacing: 6
-        clip: true
-        orientation: ListView.Horizontal
-
-        model: ListModel {}
-
-        delegate: Item {
-            id: myListItem
-
-            property bool menuOpen: contextMenu != null && contextMenu.parent === myListItem
-
-            height: menuOpen ? contextMenu.height + contentItem.height : contentItem.height
-            width: Theme.itemSizeMedium
-
-            BackgroundItem {
-                id: contentItem
-                height: Theme.itemSizeMedium
-                width: height
-
-                Image {
-                    id: contactAvatar
-                    anchors.fill: parent
-                    source: photoSource
-                }
-
-                onPressAndHold: {
-                    console.log(index)
-                    if (!contextMenu)
-                        contextMenu = contextMenuComponent.createObject(currentContactsList,
-                                                                        { index: index })
-                    contextMenu.show(myListItem)
-                }
-            }
-        }
-
-        Component {
-            id: contextMenuComponent
-
-            ContextMenu {
-
-                property string index
-
-                MenuItem {
-                    text: qsTr("Удалить")
-                    onClicked: currentContactsList.model.remove(index)
-                }
-
-                onClosed: contextMenu = null
-            }
-        }
-    }
-
-    TextArea {
-        id: newMessageText
-        anchors.bottom: parent.bottom
-        width: parent.width
-        placeholderText: {
-            switch (currentContactsList.model.count) {
-            case 0:
-                return qsTr("Сообщение или название чата:")
-
-            case 1:
-                return qsTr("Сообщение:")
-
-            default:
-                return qsTr("Название чата:")
-            }
-        }
-        label: {
-            switch (currentContactsList.model.count) {
-            case 0:
-                return qsTr("Сообщение или название чата")
-
-            case 1:
-                return qsTr("Сообщение")
-
-            default:
-                return qsTr("Название чата")
-            }
+    Connections {
+        target: photos
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            uploadingIndicator.running = false
         }
     }
 

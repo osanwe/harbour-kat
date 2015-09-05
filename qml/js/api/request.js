@@ -27,7 +27,7 @@ var API_VERSION = "v=5.35"
 function sendRequest(method, data, callback, isNew) {
     var query = API_SERVER + method + "?" + API_VERSION +
             "&access_token=" + StorageJS.readSettingsValue("access_token");
-    for (var arg in data) query += "&" + arg + "=" + data[arg];
+    for (var arg in data) if (data[arg] !== "") query += "&" + arg + "=" + data[arg];
     console.log(query)
 
     var request = new XMLHttpRequest()

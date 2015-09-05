@@ -42,7 +42,7 @@ Page {
         model: aboutPage.model
 
         header: PageHeader {
-            title: "Kat 0.1.6_1440876374"
+            title: "Kat 0.1.6_1441478382"
         }
 
         delegate: Item {

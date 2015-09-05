@@ -43,6 +43,8 @@ Page {
 
     property variant chatUsers
 
+    property string attachmentsList: ""
+
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
         fullname = name
@@ -54,8 +56,9 @@ Page {
     function sendMessage() {
         messages.model.clear()
         messagesOffset = 0
-        MessagesAPI.api_sendMessage(isChat, dialogId, messageInput.text, false)
+        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
+        attachmentsList = ""
     }
 
     function formMessageList(messageData) {
@@ -235,10 +238,39 @@ Page {
             VerticalScrollDecorator {}
         }
 
+        IconButton {
+            id: attachmentsButton
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.verticalCenter: messageInput.verticalCenter
+            width: Theme.iconSizeSmallPlus
+            height: Theme.iconSizeSmallPlus
+            icon.width: Theme.iconSizeSmallPlus
+            icon.height: Theme.iconSizeSmallPlus
+            icon.fillMode: Image.PreserveAspectFit
+            icon.source: "image://theme/icon-m-attach"
+        }
+
+        Label {
+            id: attachmentsCounter
+            anchors.verticalCenter: attachmentsButton.top
+            anchors.left: attachmentsButton.left
+            anchors.leftMargin: text === "10" ? 0 : Theme.paddingSmall
+            anchors.verticalCenterOffset: Theme.paddingSmall
+            font.bold: true
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.highlightColor
+            text: {
+                var attachmentsCount = attachmentsList.split(',').length - 1
+                return attachmentsCount > 0 ? attachmentsCount : ""
+            }
+        }
+
         TextArea {
             id: messageInput
-            width: parent.width
             anchors.bottom: parent.bottom
+            anchors.left: attachmentsButton.right
+            anchors.right: parent.right
             placeholderText: qsTr("Сообщение:")
             label: qsTr("Сообщение")
 
@@ -258,6 +290,25 @@ Page {
                     MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
+
+            MenuItem {
+                text: qsTr("Прикрепить изображение")
+                onClicked: {
+                    var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                    imagePicker.selectedContentChanged.connect(function () {
+                        loadingMessagesIndicator.running = true
+                        photos.attachImage(imagePicker.selectedContent, "MESSAGE", 0)
+                    })
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: photos
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            loadingMessagesIndicator.running = false
         }
     }
 

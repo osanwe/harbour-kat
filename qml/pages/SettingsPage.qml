@@ -52,6 +52,21 @@ Page {
             }
 
             ComboBox {
+                label: qsTr("Создать с обложки")
+                currentIndex: StorageJS.readSettingsValue("create_from_cover")
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Сообщение") }
+                    MenuItem { text: qsTr("Запись на стене") }
+
+                    onActivated: {
+                        console.log(index)
+                        StorageJS.storeSettingsValue("create_from_cover", index)
+                    }
+                }
+            }
+
+            ComboBox {
                 label: qsTr("Предпочитаемое качество видео")
                 currentIndex: StorageJS.readSettingsValue("video_quality")
 

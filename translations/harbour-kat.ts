@@ -58,6 +58,10 @@
         <source>Обновить</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Прикрепить изображение</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogsListPage</name>
@@ -147,6 +151,10 @@
         <source>Название чата</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Прикрепить изображение</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewWallPostPage</name>
@@ -164,6 +172,10 @@
     </message>
     <message>
         <source>Сообщение</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Прикрепить изображение</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -217,6 +229,18 @@
     </message>
     <message>
         <source>Отображать разделитель в сообщениях</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Создать с обложки</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Сообщение</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Запись на стене</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -8,12 +8,17 @@
 #include <QNetworkRequest>
 #include <QObject>
 
+#include "../storage.h"
+
 class ApiRequest : public QObject
 {
     Q_OBJECT
 
 public:
     ApiRequest(QObject *parent = 0);
+
+signals:
+    void finished(QString jsonData);
 
 public slots:
     void startRequest(QString method, QHash<QString, QString> args);

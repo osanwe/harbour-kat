@@ -30,16 +30,18 @@ function api_getPostById(oid, pid) {
                            callback_getPostById)
 }
 
-function api_post(isGroup, ownerId, message) {
+function api_post(isGroup, ownerId, message, attachments) {
     if (ownerId !== 0) {
         RequestAPI.sendRequest("wall.post",
                                { owner_id: isGroup ? "-" + ownerId : ownerId,
                                  from_group: 1,
-                                 message: message },
+                                 message: message,
+                                 attachment: attachments},
                                callback_post)
     } else {
         RequestAPI.sendRequest("wall.post",
-                               { message: message },
+                               { message: message,
+                                 attachment: attachments},
                                callback_post)
     }
 }
