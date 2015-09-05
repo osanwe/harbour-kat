@@ -22,7 +22,7 @@ signals:
     void imageUploaded(QString imageName);
 
 public slots:
-    void attachImage(QString image);
+    void attachImage(QString image, QString mode);
 
 private slots:
     void gotServer(QString jsonData);
@@ -31,10 +31,12 @@ private slots:
 
 private:
     QString pathToImage;
+    QString mMode;
 //    ApiRequest *request;
 
     void uploadFileToServer(QString url);
     void api_getMessagesUploadServer();
+    void api_getWallUploadServer();
 };
 
 #endif // PHOTOS_H

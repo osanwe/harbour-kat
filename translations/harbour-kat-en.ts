@@ -190,24 +190,29 @@
     <name>NewWallPostPage</name>
     <message>
         <location filename="../qml/pages/NewWallPostPage.qml" line="34"/>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="101"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="106"/>
         <source>На стену</source>
         <translation>Post it</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="53"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="58"/>
         <source>Отменить</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="116"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="121"/>
         <source>Сообщение:</source>
         <translation>Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewWallPostPage.qml" line="117"/>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="122"/>
         <source>Сообщение</source>
         <translation>Message</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NewWallPostPage.qml" line="128"/>
+        <source>Attach image</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

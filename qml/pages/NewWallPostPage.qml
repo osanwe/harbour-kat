@@ -33,6 +33,8 @@ Dialog {
     property int groupId: 0
     property string deal: qsTr("На стену")
 
+    property string attachmentsList: ""
+
     function addGroupToList(gid, gName) {
         searchGroupsList.model.append({ gid: gid,
                                         name: gName,
@@ -47,78 +49,100 @@ Dialog {
         }
     }
 
-    DialogHeader {
-        id: newMessageHeader
-        acceptText: deal
-        cancelText: qsTr("Отменить")
-    }
-
-    SilicaListView {
-        id: searchGroupsList
+    SilicaFlickable {
         anchors.fill: parent
-        anchors.topMargin: newMessageHeader.height
-        anchors.bottomMargin: newMessageText.height
-        clip: true
 
-        currentIndex: -1
+        DialogHeader {
+            id: newMessageHeader
+            acceptText: deal
+            cancelText: qsTr("Отменить")
+        }
 
-        model: ListModel {
-            Component.onCompleted: {
-                GroupsAPI.api_getModeredGroups()
+        SilicaListView {
+            id: searchGroupsList
+            anchors.fill: parent
+            anchors.topMargin: newMessageHeader.height
+            anchors.bottomMargin: newMessageText.height
+            clip: true
+
+            currentIndex: -1
+
+            model: ListModel {
+                Component.onCompleted: {
+                    GroupsAPI.api_getModeredGroups()
+                }
+            }
+
+            delegate: BackgroundItem {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.rightMargin: Theme.paddingLarge
+                height: Theme.itemSizeSmall
+
+                Row {
+                    anchors.fill: parent
+                    spacing: 6
+
+                    Switch {
+                        id: groupChoosenMode
+                        height: groupName.height
+                        width: height
+                        automaticCheck: false
+                        checked: isChoosen
+                    }
+
+                    Label {
+                        id: groupName
+                        width: parent.width - groupName.height - 6
+                        truncationMode: TruncationMode.Fade
+                        text: name
+                    }
+                }
+
+                onClicked: {
+                    clearChoosenItems()
+                    if (deal === name) {
+                        deal = qsTr("На стену")
+                        groupId = 0
+                    } else {
+                        searchGroupsList.model.set(index, { isChoosen: true })
+                        deal = name
+                        groupId = gid
+                    }
+                }
             }
         }
 
-        delegate: BackgroundItem {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: Theme.paddingLarge
-            anchors.rightMargin: Theme.paddingLarge
-            height: Theme.itemSizeSmall
+        TextArea {
+            id: newMessageText
+            anchors.bottom: parent.bottom
+            width: parent.width
+            placeholderText: qsTr("Сообщение:")
+            label: qsTr("Сообщение")
+        }
 
-            Row {
-                anchors.fill: parent
-                spacing: 6
+        PushUpMenu {
 
-                Switch {
-                    id: groupChoosenMode
-                    height: groupName.height
-                    width: height
-                    automaticCheck: false
-                    checked: isChoosen
-                }
-
-                Label {
-                    id: groupName
-                    width: parent.width - groupName.height - 6
-                    truncationMode: TruncationMode.Fade
-                    text: name
-                }
-            }
-
-            onClicked: {
-                clearChoosenItems()
-                if (deal === name) {
-                    deal = qsTr("На стену")
-                    groupId = 0
-                } else {
-                    searchGroupsList.model.set(index, { isChoosen: true })
-                    deal = name
-                    groupId = gid
+            MenuItem {
+                text: qsTr("Attach image")
+                onClicked: {
+                    var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                    imagePicker.selectedContentChanged.connect(function () {
+                        photos.attachImage(imagePicker.selectedContent, "WALL")
+                    })
                 }
             }
         }
     }
 
-    TextArea {
-        id: newMessageText
-        anchors.bottom: parent.bottom
-        width: parent.width
-        placeholderText: qsTr("Сообщение:")
-        label: qsTr("Сообщение")
+    Connections {
+        target: photos
+        onImageUploaded: attachmentsList += imageName + ",";
     }
 
     onAccepted: {
         var messageText = encodeURIComponent(newMessageText.text)
-        WallAPI.api_post(true, groupId, messageText)
+        WallAPI.api_post(true, groupId, messageText, attachmentsList)
     }
 }

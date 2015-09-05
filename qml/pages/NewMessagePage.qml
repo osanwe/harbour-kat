@@ -234,7 +234,7 @@ Dialog {
                 onClicked: {
                     var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
                     imagePicker.selectedContentChanged.connect(function () {
-                        photos.attachImage(imagePicker.selectedContent)
+                        photos.attachImage(imagePicker.selectedContent, "MESSAGE")
                     })
                 }
             }
