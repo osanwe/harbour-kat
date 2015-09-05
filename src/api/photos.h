@@ -5,6 +5,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkReply>
 #include <QObject>
 #include <QString>
 
@@ -24,11 +25,13 @@ public slots:
 
 private slots:
     void gotServer(QString jsonData);
+    void uploadedImage(QNetworkReply *reply);
 
 private:
     QString pathToImage;
     ApiRequest *request;
 
+    void uploadFileToServer(QString url);
     void api_getMessagesUploadServer();
 };
 
