@@ -161,7 +161,7 @@ Dialog {
         PushUpMenu {
 
             MenuItem {
-                text: qsTr("Attach image")
+                text: qsTr("Прикрепить изображение")
                 onClicked: {
                     var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
                     imagePicker.selectedContentChanged.connect(function () {

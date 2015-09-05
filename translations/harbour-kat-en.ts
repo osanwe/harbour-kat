@@ -59,7 +59,7 @@
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="274"/>
         <source>Сообщение:</source>
-        <translation>Messages:</translation>
+        <translation>Message:</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="275"/>
@@ -73,8 +73,8 @@
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="295"/>
-        <source>Attach image</source>
-        <translation type="unfinished"></translation>
+        <source>Прикрепить изображение</source>
+        <translation>Attach image</translation>
     </message>
 </context>
 <context>
@@ -82,7 +82,7 @@
     <message>
         <location filename="../qml/pages/DialogsListPage.qml" line="92"/>
         <source>Новое сообщение</source>
-        <translation>New massage</translation>
+        <translation>New message</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogsListPage.qml" line="98"/>
@@ -105,7 +105,7 @@
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="32"/>
         <source>Имя Фамилия</source>
-        <translation>First Name Last Name</translation>
+        <translation>First Name, Last Name</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="35"/>
@@ -158,12 +158,12 @@
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="243"/>
         <source>Сообщение или название чата:</source>
-        <translation>Massage or chat name:</translation>
+        <translation>Message or chat name:</translation>
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="246"/>
         <source>Сообщение:</source>
-        <translation>Messages:</translation>
+        <translation>Message:</translation>
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="249"/>
@@ -173,12 +173,12 @@
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="255"/>
         <source>Сообщение или название чата</source>
-        <translation>Massage or chat name</translation>
+        <translation>Message or chat name</translation>
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="258"/>
         <source>Сообщение</source>
-        <translation>Messages</translation>
+        <translation>Message</translation>
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="261"/>
@@ -187,8 +187,8 @@
     </message>
     <message>
         <location filename="../qml/pages/NewMessagePage.qml" line="269"/>
-        <source>Attach image</source>
-        <translation type="unfinished"></translation>
+        <source>Прикрепить изображение</source>
+        <translation>Attach image</translation>
     </message>
 </context>
 <context>
@@ -216,8 +216,8 @@
     </message>
     <message>
         <location filename="../qml/pages/NewWallPostPage.qml" line="164"/>
-        <source>Attach image</source>
-        <translation type="unfinished"></translation>
+        <source>Прикрепить изображение</source>
+        <translation>Attach image</translation>
     </message>
 </context>
 <context>
@@ -281,7 +281,7 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="72"/>
         <source>Отображать разделитель в сообщениях</source>
-        <translation>Display separator in messages</translation>
+        <translation>Display separators in messages</translation>
     </message>
 </context>
 </TS>

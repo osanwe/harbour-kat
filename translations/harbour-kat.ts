@@ -59,7 +59,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Attach image</source>
+        <source>Прикрепить изображение</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -152,7 +152,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Attach image</source>
+        <source>Прикрепить изображение</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -175,7 +175,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Attach image</source>
+        <source>Прикрепить изображение</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
