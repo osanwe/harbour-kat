@@ -13,12 +13,12 @@
 Photos::Photos(QObject *parent) :
     QObject(parent)
 {
-    request = new ApiRequest();
+//    request = new ApiRequest();
 }
 
 Photos::~Photos() {
-    delete request;
-    request = 0;
+//    delete request;
+//    request = 0;
 }
 
 void Photos::attachImage(QString image) {
@@ -27,8 +27,6 @@ void Photos::attachImage(QString image) {
 }
 
 void Photos::gotServer(QString jsonData) {
-    disconnect(request, SIGNAL(finished(QString)), this, SLOT(gotServer(QString)));
-
     QJsonDocument document = QJsonDocument::fromJson(jsonData.toUtf8());
     QJsonObject object = document.object();
 
@@ -36,9 +34,24 @@ void Photos::gotServer(QString jsonData) {
     uploadFileToServer(object.value("response").toObject().value("upload_url").toString());
 }
 
+void Photos::savedImage(QString jsonData) {
+    qDebug() << jsonData;
+}
+
 void Photos::uploadedImage(QNetworkReply *reply) {
-    if (reply->error() == QNetworkReply::NoError) qDebug() << reply->readAll();
-    else qDebug() << "Failture:" << reply->errorString();
+    if (reply->error() == QNetworkReply::NoError) {
+        QString jsonData = reply->readAll();
+        qDebug() << jsonData;
+        QHash<QString, QString> args;
+        QJsonObject object = QJsonDocument::fromJson(jsonData.toUtf8()).object();
+        args["server"] = QString::number(object.value("server").toInt());
+        args["photo"] = object.value("photo").toString();
+        args["hash"] = object.value("hash").toString();
+
+        ApiRequest *request = new ApiRequest(this);
+        connect(request, SIGNAL(finished(QString)), this, SLOT(savedImage(QString)));
+        request->startRequest("photos.saveMessagesPhoto", args);
+    } else qDebug() << "Failture:" << reply->errorString();
 }
 
 void Photos::uploadFileToServer(QString url) {
@@ -64,6 +77,7 @@ void Photos::uploadFileToServer(QString url) {
 }
 
 void Photos::api_getMessagesUploadServer() {
+    ApiRequest *request = new ApiRequest(this);
     connect(request, SIGNAL(finished(QString)), this, SLOT(gotServer(QString)));
     request->startRequest("photos.getMessagesUploadServer", QHash<QString, QString>());
 }
