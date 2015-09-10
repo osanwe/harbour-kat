@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 
 Page {
     id: aboutPage
@@ -79,6 +80,23 @@ Page {
                     onActivated: {
                         console.log(index)
                         StorageJS.storeSettingsValue("video_quality", index)
+                    }
+                }
+            }
+
+            ComboBox {
+                label: qsTr("Обновление сообщений")
+                currentIndex: StorageJS.readSettingsValue("update_interval")
+
+                menu: ContextMenu {
+                    MenuItem { text: TypesJS.UpdateInterval.items[0].name }
+                    MenuItem { text: TypesJS.UpdateInterval.items[1].name }
+                    MenuItem { text: TypesJS.UpdateInterval.items[2].name }
+                    MenuItem { text: TypesJS.UpdateInterval.items[3].name }
+
+                    onActivated: {
+                        console.log(index)
+                        StorageJS.storeSettingsValue("update_interval", index)
                     }
                 }
             }

@@ -243,5 +243,9 @@
         <source>Запись на стене</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Обновление сообщений</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
