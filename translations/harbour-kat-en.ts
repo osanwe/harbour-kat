@@ -299,4 +299,12 @@
         <translation>Display separators in messages</translation>
     </message>
 </context>
+<context>
+    <name>wall</name>
+    <message>
+        <location filename="../qml/js/api/wall.js" line="58"/>
+        <source>Опубликовано</source>
+        <translation>Published</translation>
+    </message>
+</context>
 </TS>

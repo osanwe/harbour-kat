@@ -244,4 +244,11 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>wall</name>
+    <message>
+        <source>������������������������</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
