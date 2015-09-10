@@ -254,47 +254,52 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="36"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="37"/>
         <source>Настройки</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="40"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="41"/>
         <source>Стартовая страница</source>
         <translation>Start page</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="44"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="45"/>
         <source>Новости</source>
         <translation>Newsfeed</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="45"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="46"/>
         <source>Сообщения</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="55"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="56"/>
         <source>Создать с обложки</source>
         <translation>Create from cover</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="59"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
         <source>Сообщение</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="61"/>
         <source>Запись на стене</source>
         <translation>Wall post</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="70"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="71"/>
         <source>Предпочитаемое качество видео</source>
         <translation>Preferred video quality</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="87"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="88"/>
+        <source>Обновление сообщений</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="105"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>

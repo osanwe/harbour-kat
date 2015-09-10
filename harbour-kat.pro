@@ -50,7 +50,8 @@ OTHER_FILES += \
     README.md \
     .gitignore \
     qml/pages/NewWallPostPage.qml \
-    qml/js/api/groups.js
+    qml/js/api/groups.js \
+    qml/js/types.js
 
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \

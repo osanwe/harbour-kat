@@ -23,6 +23,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/api/messages.js" as MessagesAPI
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 
 CoverBackground {
 
@@ -79,9 +80,14 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: 900000 // 15 minutes
+        interval: TypesJS.UpdateInterval.getValue()
         running: true
         repeat: true
+
+        onRunningChanged: {
+            if (running) // if cover-refresh triggered
+                interval = TypesJS.UpdateInterval.getValue()
+        }
 
         onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
