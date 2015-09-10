@@ -127,6 +127,13 @@ Page {
         return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
     }
 
+    function updateDialog() {
+        messages.model.clear()
+        messagesOffset = 0
+        loadingMessagesIndicator.running = true
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    }
+
     BusyIndicator {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
@@ -283,12 +290,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Обновить")
-                onClicked: {
-                    messages.model.clear()
-                    messagesOffset = 0
-                    loadingMessagesIndicator.running = true
-                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
-                }
+                onClicked: updateDialog()
             }
 
             MenuItem {
@@ -318,6 +320,10 @@ Page {
             if (unreadMessagesIds.length > 0)
                 MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
         }
+    onVisibleChanged: {
+        if (visible)
+            updateDialog()
+    }
     Component.onCompleted:
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)
