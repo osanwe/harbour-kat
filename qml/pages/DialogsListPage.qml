@@ -137,5 +137,4 @@ Page {
         if (visible)
             updateDialogs()
     }
-    Component.onCompleted: updateDialogs()
 }
