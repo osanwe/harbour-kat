@@ -133,5 +133,9 @@ Page {
         VerticalScrollDecorator {}
     }
 
+    onVisibleChanged: {
+        if (visible)
+            updateDialogs()
+    }
     Component.onCompleted: updateDialogs()
 }
