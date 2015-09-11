@@ -250,18 +250,20 @@ Column {
                 }
             }
 
-            Row {
+            Column {
                 anchors.verticalCenter: audioPlayPause.verticalCenter
                 anchors.left: audioPlayPause.right
                 anchors.right: parent.right
 
                 Label {
+                    width: parent.width
                     text: artist
                     font.bold: true
                 }
 
                 Label {
-                    text: " - " + title
+                    width: parent.width
+                    text: title
                 }
             }
         }
