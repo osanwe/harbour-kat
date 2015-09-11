@@ -38,6 +38,7 @@ Page {
     property string postAuthor
     property variant attachmentsData
 
+    property int commentsCount
     property int likesCount
     property int repostsCount
     property bool isPostLiked
@@ -138,6 +139,7 @@ Page {
             attachments: attachmentsData
             content: textBody
             dateTime: datetime
+            comments: commentsCount
             likes: likesCount
             reposts: repostsCount
             isLiked: isPostLiked

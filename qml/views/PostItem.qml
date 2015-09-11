@@ -114,6 +114,7 @@ BackgroundItem {
             isRead: readState === 1
             content: textBody
             dateTime: datetime
+            comments: commentsCount
             likes: likesCount
             reposts: repostsCount
             isLiked: isPostLiked

@@ -67,10 +67,10 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
                                  .replace(/>/g, '&gt;')
                                  .replace(/\n/g, "<br>")
     postData[2] = ("0" + date.getHours()).slice(-2) + ":" +
-                     ("0" + date.getMinutes()).slice(-2) + ", " +
-                     ("0" + date.getDate()).slice(-2) + "." +
-                     ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-                     ("0" + date.getFullYear()).slice(-2)
+                  ("0" + date.getMinutes()).slice(-2) + ", " +
+                  ("0" + date.getDate()).slice(-2) + "." +
+                  ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                  ("0" + date.getFullYear()).slice(-2)
 
     if (jsonObject.source_id > 0) {
         for (var index1 in jsonProfiles) {
@@ -94,10 +94,11 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
 
     postData[5] = jsonObject.source_id
 
-    postData[6] = jsonObject.likes.count
-    postData[7] = jsonObject.likes.user_likes
-    postData[8] = jsonObject.reposts.count
-    postData[9] = jsonObject.reposts.user_reposted
+    postData[6] = jsonObject.comments.count
+    postData[7] = jsonObject.likes.count
+    postData[8] = jsonObject.likes.user_likes
+    postData[9] = jsonObject.reposts.count
+    postData[10] = jsonObject.reposts.user_reposted
 
     if (jsonObject.attachments) {
         for (var index in jsonObject.attachments) {
