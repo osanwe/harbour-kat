@@ -107,7 +107,7 @@ function callback_getDialogsList(jsonObject) {
         var jsonMessage = items[index].message
 
         var dialogId = jsonMessage.user_id
-        var messageBody = jsonMessage.body
+        var messageBody = jsonMessage.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         var isChat = false
         if (jsonMessage.fwd_messages)
             messageBody = "[сообщения] " + messageBody
@@ -203,7 +203,10 @@ function parseMessage(jsonObject) {
     messageData[2] = jsonObject.read_state
     messageData[3] = jsonObject.out
     messageData[4] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-    messageData[4] = messageData[4].replace(/\n/g, "<br>")
+                                    .replace(/&/g, '&amp;')
+                                    .replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;')
+                                    .replace(/\n/g, "<br>")
     messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +

@@ -62,7 +62,10 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
 
     postData[0] = jsonObject.post_id
     postData[1] = jsonObject.text.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-    postData[1] = postData[1].replace(/\n/g, "<br>")
+                                 .replace(/&/g, '&amp;')
+                                 .replace(/</g, '&lt;')
+                                 .replace(/>/g, '&gt;')
+                                 .replace(/\n/g, "<br>")
     postData[2] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
