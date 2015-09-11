@@ -76,9 +76,8 @@ BackgroundItem {
             id: name
             width: parent.width - onlineStatus.width - Theme.paddingMedium
             color: isDialog && readState === 0 && out === 0 ? Theme.highlightColor : Theme.primaryColor
-            text: nameOrTitle
+            text: '<b>' + EmojiOne.toImage(nameOrTitle) + '</b>'
             truncationMode: TruncationMode.Fade
-            font.bold: true
         }
     }
 
