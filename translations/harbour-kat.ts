@@ -35,18 +35,6 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <source>Загрузить больше</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Был(a) в сети: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Копировать текст</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Сообщение:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -60,6 +48,18 @@
     </message>
     <message>
         <source>Прикрепить изображение</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Загрузить больше</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Был(a) в сети: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Копировать текст</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
