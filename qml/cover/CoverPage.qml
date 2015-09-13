@@ -47,6 +47,11 @@ CoverBackground {
             text: "0"
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
+
+            onTextChanged: {
+                if (text !== "0")
+                    notificationHelper.activateLed()
+            }
         }
     }
 
