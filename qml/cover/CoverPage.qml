@@ -26,9 +26,13 @@ import "../js/storage.js" as StorageJS
 import "../js/types.js" as TypesJS
 
 CoverBackground {
+    property int unreadDialogs: 0
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
+        if (counter > unreadDialogs)
+            notificationHelper.activateLed()
+        unreadDialogs = counter
     }
 
     Row {
@@ -47,11 +51,6 @@ CoverBackground {
             text: "0"
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
-
-            onTextChanged: {
-                if (text !== "0")
-                    notificationHelper.activateLed()
-            }
         }
     }
 
