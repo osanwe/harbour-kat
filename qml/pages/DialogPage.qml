@@ -134,6 +134,12 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
+    function markDialogAsRead() {
+        var unreadMessagesIds = getUnreadMessagesFromModel()
+        if (unreadMessagesIds.length > 0)
+            MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
+    }
+
     BusyIndicator {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
@@ -291,7 +297,10 @@ Page {
 
             MenuItem {
                 text: qsTr("Обновить")
-                onClicked: updateDialog()
+                onClicked: {
+                    markDialogAsRead()
+                    updateDialog()
+                }
             }
 
             MenuItem {
@@ -317,9 +326,7 @@ Page {
 
     onStatusChanged:
         if (status === PageStatus.Inactive) {
-            var unreadMessagesIds = getUnreadMessagesFromModel()
-            if (unreadMessagesIds.length > 0)
-                MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
+            markDialogAsRead()
         }
     onVisibleChanged: {
         if (visible)
