@@ -223,22 +223,22 @@
 <context>
     <name>NewsfeedPage</name>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="91"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="92"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="98"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="99"/>
         <source>Новости</source>
         <translation>Newsfeed</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="136"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="138"/>
         <source>Мне нравится</source>
         <translation>Like</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="151"/>
+        <location filename="../qml/pages/NewsfeedPage.qml" line="153"/>
         <source>Загрузить больше</source>
         <translation>Load more</translation>
     </message>
@@ -246,7 +246,7 @@
 <context>
     <name>OneNewsPage</name>
     <message>
-        <location filename="../qml/pages/OneNewsPage.qml" line="116"/>
+        <location filename="../qml/pages/OneNewsPage.qml" line="117"/>
         <source>Мне нравится</source>
         <translation>Like</translation>
     </message>
@@ -297,6 +297,14 @@
         <location filename="../qml/pages/SettingsPage.qml" line="87"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
+    </message>
+</context>
+<context>
+    <name>wall</name>
+    <message>
+        <location filename="../qml/js/api/wall.js" line="58"/>
+        <source>������������������������</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

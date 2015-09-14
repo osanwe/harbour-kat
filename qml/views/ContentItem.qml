@@ -87,6 +87,7 @@ Column {
 
     property string dateTime
 
+    property int comments
     property int likes
     property int reposts
     property bool isLiked
@@ -249,18 +250,20 @@ Column {
                 }
             }
 
-            Row {
+            Column {
                 anchors.verticalCenter: audioPlayPause.verticalCenter
                 anchors.left: audioPlayPause.right
                 anchors.right: parent.right
 
                 Label {
+                    width: parent.width
                     text: artist
                     font.bold: true
                 }
 
                 Label {
-                    text: " - " + title
+                    width: parent.width
+                    text: title
                 }
             }
         }
@@ -319,6 +322,22 @@ Column {
             text: datetime
             font.pixelSize: Theme.fontSizeTiny
             color: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        }
+
+        Image {
+            id: commentsImage
+            anchors.right: commentsCounter.left
+            width: isNews ? Theme.fontSizeExtraSmall : 0
+            height: isNews ? Theme.fontSizeExtraSmall : 0
+            source: "image://theme/icon-m-chat"
+        }
+
+        Label {
+            id: commentsCounter
+            anchors.right: likesImage.left
+            font.pixelSize: Theme.fontSizeTiny
+            color: Theme.secondaryColor
+            text: isNews ? comments : ""
         }
 
         Image {

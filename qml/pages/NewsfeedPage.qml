@@ -49,14 +49,15 @@ Page {
                                     out:             0,
                                     readState:       1,
                                     datetime:        postData[2],
-                                    attachmentsData: postData.slice(10),
+                                    attachmentsData: postData.slice(11),
                                     avatarSource:    postData[3],
                                     postAuthor:      postData[4],
                                     sourceId:        postData[5],
-                                    likesCount:      postData[6],
-                                    isPostLiked:     postData[7],
-                                    repostsCount:    postData[8],
-                                    isPostReposted:  postData[9],
+                                    commentsCount:   postData[6],
+                                    likesCount:      postData[7],
+                                    isPostLiked:     postData[8],
+                                    repostsCount:    postData[9],
+                                    isPostReposted:  postData[10],
                                     isNewsContent:   true })
     }
 
@@ -115,6 +116,7 @@ Page {
                                                 "postAuthor":      postAuthor,
                                                 "itemId":          postId,
                                                 "ownerId":         sourceId,
+                                                "commentsCount":   commentsCount,
                                                 "likesCount":      likesCount,
                                                 "repostsCount":    repostsCount,
                                                 "isPostLiked":     isPostLiked,
