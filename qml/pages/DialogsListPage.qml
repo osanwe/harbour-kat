@@ -133,5 +133,18 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: updateDialogs()
+    onVisibleChanged: {
+        if (visible)
+            updateDialogs()
+    }
+
+    Timer {
+        interval: 0
+        running: Qt.application.active
+
+        onTriggered: {
+            if (visible)
+                updateDialogs()
+        }
+    }
 }
