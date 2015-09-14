@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/api/messages.js" as MessagesAPI
+import "../js/api/account.js" as AccountAPI
 import "../js/storage.js" as StorageJS
 import "../js/types.js" as TypesJS
 
@@ -93,10 +94,17 @@ CoverBackground {
                 interval = TypesJS.UpdateInterval.getValue()
         }
 
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+        onTriggered: {
+            AccountAPI.api_setOnline()
+            MessagesAPI.api_getUnreadMessagesCounter(true)
+        }
     }
 
-    Component.onCompleted: MessagesAPI.api_getUnreadMessagesCounter(true)
+    Component.onCompleted: {
+        AccountAPI.api_setOnline()
+        MessagesAPI.api_getUnreadMessagesCounter(true)
+    }
+    Component.onDestruction: AccountAPI.api_setOffline()
 }
 
 

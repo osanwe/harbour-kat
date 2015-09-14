@@ -51,7 +51,8 @@ OTHER_FILES += \
     .gitignore \
     qml/pages/NewWallPostPage.qml \
     qml/js/api/groups.js \
-    qml/js/types.js
+    qml/js/types.js \
+    qml/js/api/account.js
 
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \
