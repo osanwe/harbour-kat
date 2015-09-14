@@ -121,7 +121,7 @@ function callback_getDialogsList(jsonObject) {
             uids += "," + jsonMessage.user_id
         }
         formDialogsList(jsonMessage.out,
-                        jsonMessage.title,
+                        jsonMessage.title.replace(/&/g, '&amp;').replace(/</g, '&lt; ').replace(/>/g, ' &gt;'),
                         messageBody,
                         dialogId,
                         jsonMessage.read_state,
@@ -202,11 +202,11 @@ function parseMessage(jsonObject) {
     messageData[1] = jsonObject.from_id
     messageData[2] = jsonObject.read_state
     messageData[3] = jsonObject.out
-    messageData[4] = jsonObject.body.replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-                                    .replace(/&/g, '&amp;')
+    messageData[4] = jsonObject.body.replace(/&/g, '&amp;')
                                     .replace(/</g, '&lt;')
                                     .replace(/>/g, '&gt;')
                                     .replace(/\n/g, "<br>")
+                                    .replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
     messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
                      ("0" + date.getMinutes()).slice(-2) + ", " +
                      ("0" + date.getDate()).slice(-2) + "." +
