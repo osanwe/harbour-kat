@@ -34,7 +34,7 @@ Page {
     property var model: [
         { name: qsTr("Новости"), counter: "" },
 //        { name: "Ответы", counter: "0" },
-        { name: qsTr("Сообщения"), counter: "1" },
+        { name: qsTr("Сообщения"), counter: "" },
 //        { name: "Друзья", counter: "0" },
 //        { name: "Группы", counter: "0" },
 //        { name: "Фотографии", counter: "0" },
