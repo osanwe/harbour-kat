@@ -105,7 +105,7 @@
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="32"/>
         <source>Имя Фамилия</source>
-        <translation>First Name, Last Name</translation>
+        <translation>First Name Last Name</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="35"/>
@@ -303,8 +303,8 @@
     <name>wall</name>
     <message>
         <location filename="../qml/js/api/wall.js" line="58"/>
-        <source>������������������������</source>
-        <translation type="unfinished"></translation>
+        <source>Опубликовано</source>
+        <translation>Posted</translation>
     </message>
 </context>
 </TS>
