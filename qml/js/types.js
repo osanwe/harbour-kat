@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+.pragma library
 .import "storage.js" as StorageJS
 
 var UpdateInterval = {
@@ -44,5 +44,39 @@ var UpdateInterval = {
             return this.items[this.index].value
 
         return -1
+    }
+}
+
+var LongPollWorker = {
+    items: {},
+
+    addValue: function(key, value) {
+        var hasKey = key in this.items
+        this.items[key] = value
+        return hasKey
+    },
+
+    addValues: function(values) {
+        for (var key in values)
+            this.addValue(key, values[key])
+    },
+
+    delValue: function(key) {
+        return delete this.items[key]
+    },
+
+    delValues: function(keys) {
+        for (var key in keys)
+            this.delValue(key)
+    },
+
+    getValue: function(key) {
+        if (key in this.items)
+            return this.items[key]
+        return function() {console.log("!@# EMPTY WORKER")}
+    },
+
+    applyValue: function(key, args) {
+        return this.getValue(key).apply(null, args)
     }
 }
