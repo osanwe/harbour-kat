@@ -109,6 +109,7 @@ CoverBackground {
     Component.onCompleted: {
         AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)
+        MessagesAPI.api_startLongPoll(25, 2)
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }
