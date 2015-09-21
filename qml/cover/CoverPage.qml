@@ -86,18 +86,24 @@ CoverBackground {
     Timer {
         id: updateTimer
         interval: TypesJS.UpdateInterval.getValue()
-        running: true
+        running: !Qt.application.active
         repeat: true
+        triggeredOnStart: true
 
         onRunningChanged: {
             if (running) // if cover-refresh triggered
                 interval = TypesJS.UpdateInterval.getValue()
         }
 
-        onTriggered: {
-            AccountAPI.api_setOnline()
-            MessagesAPI.api_getUnreadMessagesCounter(true)
-        }
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+    }
+
+    Timer {
+        interval: 900000 // 15 minutes
+        running: true
+        repeat: true
+
+        onTriggered: AccountAPI.api_setOnline()
     }
 
     Component.onCompleted: {
