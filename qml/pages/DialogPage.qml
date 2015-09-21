@@ -61,7 +61,7 @@ Page {
         attachmentsList = ""
     }
 
-    function formMessageList(messageData) {
+    function formMessageList(messageData, insertToEnd) {
         var attachmentsData = messageData.slice(6)
         console.log(attachmentsData)
         if (isChat) {
@@ -70,27 +70,18 @@ Page {
                     avatarSource = chatUsers[index].photo
                 }
             }
-
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
-        } else {
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
         }
+
+        index = (insertToEnd === true) ? messages.model.count : 0;
+        messages.model.insert(index, { mid:             messageData[0],
+                                       readState:       messageData[2],
+                                       out:             messageData[3],
+                                       message:         messageData[4],
+                                       datetime:        messageData[5],
+                                       avatarSource:    avatarSource,
+                                       userAvatar:      userAvatar,
+                                       attachmentsData: attachmentsData,
+                                       isNewsContent:   false })
     }
 
     function scrollMessagesToBottom() {
@@ -125,13 +116,6 @@ Page {
         }
         console.log(messagesIdsList)
         return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
-    }
-
-    function updateDialog() {
-        messages.model.clear()
-        messagesOffset = 0
-        loadingMessagesIndicator.running = true
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function markDialogAsRead() {
@@ -299,7 +283,10 @@ Page {
                 text: qsTr("Обновить")
                 onClicked: {
                     markDialogAsRead()
-                    updateDialog()
+                    messages.model.clear()
+                    messagesOffset = 0
+                    loadingMessagesIndicator.running = true
+                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
                 }
             }
 
@@ -328,14 +315,11 @@ Page {
         if (status === PageStatus.Inactive) {
             markDialogAsRead()
         }
-    onVisibleChanged: {
-        if (visible)
-            updateDialog()
-    }
-    Component.onCompleted:
+    Component.onCompleted: {
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)
         } else {
             UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
         }
+    }
 }
