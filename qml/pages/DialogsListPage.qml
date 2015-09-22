@@ -27,7 +27,7 @@ import "../js/auth.js" as AuthJS
 import "../js/storage.js" as StorageJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
-
+import "../js/types.js" as TypesJS
 
 Page {
 
@@ -133,23 +133,48 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Timer {
-        interval: 0
-        running: Qt.application.active
+    Component.onCompleted: {
+        updateDialogs()
 
-        onTriggered: {
-            if (visible)
-                updateDialogs()
-        }
+        TypesJS.LongPollWorker.addValues({
+            "message": function() {
+                if (arguments.length === 7) {
+                    var message_id = arguments[0]
+                    var flags = arguments[1]
+                    var from_id = arguments[2]
+    //                var timestamp = arguments[3]
+                    var subject = arguments[4]
+                    var text = arguments[5]
+    //                var attachments = arguments[6]
+
+                    var readState = (1 & flags) === 1
+                    var isOut = (2 & flags) === 2
+                    var isChat = (16 & flags) === 16
+
+                    for (var i = 0; i < messagesList.model.count; ++i) {
+                        if (messagesList.model.get(i).itemId === from_id) {
+                            messagesList.model.set(i, {"previewText": text,
+                                                       "readState": +readState,
+                                                       "out": +isOut})
+                            if (isChat)
+                                messagesList.model.setProperty(i, "nameOrTitle", subject)
+                            break
+                        }
+                    }
+                }
+            },
+            "friends": function(userId, status) {
+                for (var i = 0; i < messagesList.model.count; ++i) {
+                    if (messagesList.model.get(i).itemId === userId) {
+                        messagesList.model.setProperty(i, "isOnline", status)
+                        break
+                    }
+                }
+            }
+        })
     }
 
-    Timer {
-        interval: 0
-        running: Qt.application.active
-
-        onTriggered: {
-            if (visible)
-                updateDialogs()
-        }
+    Component.onDestruction: {
+        TypesJS.LongPollWorker.delValues(["message", "friends"])
     }
 }
