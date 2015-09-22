@@ -84,21 +84,6 @@ CoverBackground {
     }
 
     Timer {
-        id: updateTimer
-        interval: TypesJS.UpdateInterval.getValue()
-        running: !Qt.application.active
-        repeat: true
-        triggeredOnStart: true
-
-        onRunningChanged: {
-            if (running) // if cover-refresh triggered
-                interval = TypesJS.UpdateInterval.getValue()
-        }
-
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
-    }
-
-    Timer {
         interval: 900000 // 15 minutes
         running: true
         repeat: true
@@ -107,9 +92,13 @@ CoverBackground {
     }
 
     Component.onCompleted: {
+        TypesJS.LongPollWorker.addValues({
+            "cover.unread": updateCoverCounters
+        })
+
         AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)
-        MessagesAPI.api_startLongPoll(25, 2)
+        MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }

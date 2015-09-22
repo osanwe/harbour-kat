@@ -137,7 +137,7 @@ Page {
         updateDialogs()
 
         TypesJS.LongPollWorker.addValues({
-            "message": function() {
+            "dialoglist.message.add": function() {
                 if (arguments.length === 7) {
                     var message_id = arguments[0]
                     var flags = arguments[1]
@@ -145,25 +145,36 @@ Page {
     //                var timestamp = arguments[3]
                     var subject = arguments[4]
                     var text = arguments[5]
-    //                var attachments = arguments[6]
+                    var attachments = arguments[6]
 
                     var readState = (1 & flags) === 1
                     var isOut = (2 & flags) === 2
                     var isChat = (16 & flags) === 16
+
+                    text = text.replace(/<br>/g, " ")
+
+                    if (Object.keys(attachments).length > 0)
+                        text = "[вложения] " + text
 
                     for (var i = 0; i < messagesList.model.count; ++i) {
                         if (messagesList.model.get(i).itemId === from_id) {
                             messagesList.model.set(i, {"previewText": text,
                                                        "readState": +readState,
                                                        "out": +isOut})
-                            if (isChat)
-                                messagesList.model.setProperty(i, "nameOrTitle", subject)
+
+    //                        if (isChat)
+    //                            messagesList.model.setProperty(i, "nameOrTitle", subject)
+
+                            messagesList.model.move(i, 0, 1)
                             break
                         }
                     }
                 }
             },
-            "friends": function(userId, status) {
+            "dialogList.message.flags": function(msgId, flags, action, userId) {
+                // TODO: обработать флаги сообщений
+            },
+            "dialoglist.friends": function(userId, status) {
                 for (var i = 0; i < messagesList.model.count; ++i) {
                     if (messagesList.model.get(i).itemId === userId) {
                         messagesList.model.setProperty(i, "isOnline", status)
@@ -175,6 +186,8 @@ Page {
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues(["message", "friends"])
+        TypesJS.LongPollWorker.delValues(["dialoglist.message.add",
+                                          "dialogList.message.flags",
+                                          "dialoglist.friends"])
     }
 }

@@ -29,7 +29,6 @@ var LONGPOLL_SERVER = {
     key: '',
     server: '',
     ts: -1,
-    wait: 25,
     mode: 2
 };
 
@@ -96,9 +95,7 @@ function api_getChatUsers(dialogId) {
                            callback_getChatUsers)
 }
 
-function api_startLongPoll(wait, mode) {
-    if (wait)
-        LONGPOLL_SERVER.wait = wait
+function api_startLongPoll(mode) {
     if (mode)
         LONGPOLL_SERVER.mode = mode
 
@@ -209,7 +206,7 @@ function callback_initStartLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
                                            ts: LONGPOLL_SERVER.ts,
-                                           wait: LONGPOLL_SERVER.wait,
+                                           wait: TypesJS.UpdateInterval.getValue(),
                                            mode: LONGPOLL_SERVER.mode},
                                        callback_startLongPoll)
     }
@@ -223,14 +220,32 @@ function callback_startLongPoll(jsonObject) {
                 var eventId = update[0]
 
                 switch (eventId) {
+                case 0: // удаление сообщения
+                    break;
+                case 1: // замена флагов сообщения (FLAGS:=$flags)
+                case 2: // установка флагов сообщения (FLAGS|=$mask)
+                case 3: // сброс флагов сообщения (FLAGS&=~$mask)
+                    var msgId = update[1]
+                    var flags = update[2]
+                    var userId = update.lenght > 3 ? update[3] : null
+                    var action = eventId === 1 ? TypesJS.Action.SET:
+                                (eventId === 2 ? TypesJS.Action.ADD :
+                                                 TypesJS.Action.DEL)
+                    TypesJS.LongPollWorker.applyValue('message.flags',
+                                                 [msgId, flags, action, userId])
+                    break;
                 case 4: // добавление нового сообщения
-                    TypesJS.LongPollWorker.applyValue('message', update.slice(1))
+                    TypesJS.LongPollWorker.applyValue('message.add', update.slice(1))
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:
                     var isOnline = eventId === 8
                     var userId = update[1]
                     TypesJS.LongPollWorker.applyValue('friends', [-userId, isOnline])
+                    break;
+                case 80: // счетчик непрочитанных
+                    var count = update[1]
+                    TypesJS.LongPollWorker.applyValue('unread', [count])
                     break;
                 default:
                     break;
@@ -241,7 +256,7 @@ function callback_startLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
                                            ts: jsonObject.ts,
-                                           wait: LONGPOLL_SERVER.wait,
+                                           wait: TypesJS.UpdateInterval.getValue(),
                                            mode: LONGPOLL_SERVER.mode},
                                        callback_startLongPoll)
     }

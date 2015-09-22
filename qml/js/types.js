@@ -21,19 +21,45 @@
 .pragma library
 .import "storage.js" as StorageJS
 
+var Action = {
+    ADD: 0,
+    SET: 1,
+    DEL: 2
+}
+
+var LongPollMode = {
+    ATTACH: 2, // получать прикрепления
+    VIDEO: 8, // возвращать расширенный набор событий (видеозвонки)
+    PTS: 32, // возвращать pts
+    EXTRA: 64 // возвращать дополнительные данные
+}
+
+var MsgFlag = {
+    UNREAD: 1, // сообщение не прочитано
+    OUTBOX: 2,	// исходящее сообщение
+    REPLIED: 4,	// на сообщение был создан ответ
+    IMPORTANT: 8, // помеченное сообщение
+    CHAT: 16, // сообщение отправлено через чат
+    FRIENDS: 32, // сообщение отправлено другом
+    SPAM: 64, // сообщение помечено как "Спам"
+    DELЕTЕD: 128, // сообщение удалено (в корзине)
+    FIXED: 256, // сообщение проверено пользователем на спам
+    MEDIA: 512 // сообщение содержит медиаконтент
+}
+
 var UpdateInterval = {
     items: [{
         name: "15 min",
-        value: 900000
+        value: 900
     }, {
         name: "5 min",
-        value: 300000
+        value: 300
     }, {
         name: "1 min",
-        value: 60000
+        value: 60
     }, {
-        name: "30 sec",
-        value: 30000
+        name: "25 sec",
+        value: 25
     }],
     index: 0,
 
@@ -77,6 +103,11 @@ var LongPollWorker = {
     },
 
     applyValue: function(key, args) {
-        return this.getValue(key).apply(null, args)
+        var keys = Object.keys(this.items).filter(function(o) {
+            return key === o || key === o.substr(o.indexOf('.') + 1);
+          })
+        keys.forEach(function(o) {
+            LongPollWorker.getValue(o).apply(null, args)
+        })
     }
 }
