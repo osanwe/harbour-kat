@@ -98,7 +98,7 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
-    function stopLoadingMessagesIndicator() {
+    function stopBusyIndicator() {
         loadingMessagesIndicator.running = false
     }
 

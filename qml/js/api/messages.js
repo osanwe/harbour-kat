@@ -157,7 +157,7 @@ function callback_getHistory(jsonObject) {
     for (var index in items) {
         formMessageList(parseMessage(items[index]))
     }
-    stopLoadingMessagesIndicator()
+    stopBusyIndicator()
     scrollMessagesToBottom()
 }
 
