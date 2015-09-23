@@ -23,6 +23,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
@@ -54,8 +55,6 @@ Page {
     }
 
     function sendMessage() {
-        messages.model.clear()
-        messagesOffset = 0
         MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
@@ -63,7 +62,7 @@ Page {
 
     function formMessageList(messageData, insertToEnd) {
         var attachmentsData = messageData.slice(6)
-        console.log(attachmentsData)
+        console.log(JSON.stringify(attachmentsData))
         if (isChat) {
             for (var index in chatUsers) {
                 if (chatUsers[index].id === messageData[1]) {
@@ -315,10 +314,73 @@ Page {
         if (status === PageStatus.Inactive) {
             markDialogAsRead()
         }
-    Component.onCompleted:
+    Component.onCompleted: {
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)
         } else {
             UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
         }
+
+        TypesJS.LongPollWorker.addValues({
+            "dialog.message.add": function() {
+                var fromId = arguments[2]
+
+                if (dialogId === fromId) {
+                    var messageId = arguments[0]
+                    var flags = arguments[1]
+                    var timestamp = arguments[3]
+                    var text = arguments[5]
+                    var attachments = arguments[6]
+
+                    var isOut = (2 & flags) === 2
+                    var readState = (1 & flags) === 1
+
+                    var msg = {"id": messageId,
+                               "body": text,
+                               "user_id": fromId,
+                               "date": timestamp,
+                               "read_state": +readState,
+                               "out": +isOut,
+                               "attachments": attachments
+                    }
+                    formMessageList(MessagesAPI.parseMessage(msg), true)
+                    scrollMessagesToBottom()
+                }
+            },
+            "dialog.message.flags": function(msgId, flags, action, userId) {
+                if (dialogId === userId) {
+                    for (var i = 0; messages.model.count; ++i) {
+                        if (messages.model.get(i).mid === msgId) {
+                            switch (action) {
+                            case TypesJS.Action.ADD:
+                                // TODO: добавить флаги
+                                break
+                            case TypesJS.Action.SET:
+                                // TODO: установить флаги
+                                break
+                            case TypesJS.Action.DEL:
+                                // TODO: удалить флаги
+                                break
+                            default:
+                                break
+                            }
+                            break
+                        }
+                    }
+                }
+            },
+            "dialoglist.friends": function(userId, status) {
+                if (dialogId === userId) {
+                    isOnline = status
+                    dialogOnlineStatus.checked = status
+                }
+            }
+        })
+    }
+
+    Component.onDestruction: {
+        TypesJS.LongPollWorker.delValues(["dialog.message.add",
+                                          "dialog.message.flags",
+                                          "dialog.friends"])
+    }
 }

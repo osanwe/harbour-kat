@@ -162,7 +162,7 @@ function callback_getHistory(jsonObject) {
 }
 
 function callback_sendMessage(jsonObject, isNew) {
-    if (!isNew) api_getHistory(isChat, dialogId, messagesOffset)
+    scrollMessagesToBottom()
 }
 
 function callback_createChat(jsonObject) {
