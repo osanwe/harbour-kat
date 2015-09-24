@@ -369,7 +369,7 @@ Page {
                     }
                 }
             },
-            "dialoglist.friends": function(userId, status) {
+            "dialog.friends": function(userId, status) {
                 if (dialogId === userId) {
                     isOnline = status
                     dialogOnlineStatus.checked = status
