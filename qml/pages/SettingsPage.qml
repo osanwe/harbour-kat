@@ -86,7 +86,7 @@ Page {
 
             ComboBox {
                 label: qsTr("Обновление сообщений")
-                currentIndex: StorageJS.readSettingsValue("update_interval")
+                currentIndex: StorageJS.readSettingsValue("update_interval", 3)
 
                 menu: ContextMenu {
                     MenuItem { text: TypesJS.UpdateInterval.items[0].name }

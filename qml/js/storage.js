@@ -59,7 +59,7 @@ function storeSettingsValue(key, value) {
     })
 }
 
-function readSettingsValue(key) {
+function readSettingsValue(key, default_value) {
     console.log("readData()")
     var db = getDatabase()
     if (!db) { return }
@@ -72,6 +72,8 @@ function readSettingsValue(key) {
         }
     })
     console.log(value)
+    if (value === "")
+        value = default_value
     return value
 }
 

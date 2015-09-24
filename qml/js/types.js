@@ -64,7 +64,7 @@ var UpdateInterval = {
     index: 0,
 
     getValue: function() {
-        this.index = parseInt(StorageJS.readSettingsValue("update_interval"), 10)
+        this.index = parseInt(StorageJS.readSettingsValue("update_interval", 3), 10)
 
         if (this.items.length > this.index)
             return this.items[this.index].value
