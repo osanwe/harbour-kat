@@ -42,7 +42,7 @@ var MsgFlag = {
     CHAT: 16, // сообщение отправлено через чат
     FRIENDS: 32, // сообщение отправлено другом
     SPAM: 64, // сообщение помечено как "Спам"
-    DELЕTЕD: 128, // сообщение удалено (в корзине)
+    DELETED: 128, // сообщение удалено (в корзине)
     FIXED: 256, // сообщение проверено пользователем на спам
     MEDIA: 512 // сообщение содержит медиаконтент
 }
@@ -88,18 +88,20 @@ var LongPollWorker = {
     },
 
     delValue: function(key) {
-        return delete this.items[key]
+        if (key in this.items)
+            return delete this.items[key]
+        return false
     },
 
     delValues: function(keys) {
-        for (var key in keys)
-            this.delValue(key)
+        for (var i in keys)
+            this.delValue(keys[i])
     },
 
     getValue: function(key) {
         if (key in this.items)
             return this.items[key]
-        return function() {console.log("!@# EMPTY WORKER")}
+        return function() {}
     },
 
     applyValue: function(key, args) {
@@ -107,7 +109,11 @@ var LongPollWorker = {
             return key === o || key === o.substr(o.indexOf('.') + 1);
           })
         keys.forEach(function(o) {
-            LongPollWorker.getValue(o).apply(null, args)
+            try {
+                LongPollWorker.getValue(o).apply(null, args)
+            } catch (e) {
+                console.log("ERROR " + e.name + ": " + e.message)
+            }
         })
     }
 }

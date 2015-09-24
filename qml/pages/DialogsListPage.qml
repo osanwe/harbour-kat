@@ -139,35 +139,45 @@ Page {
         TypesJS.LongPollWorker.addValues({
             "dialoglist.message.add": function() {
                 if (arguments.length === 7) {
-                    var message_id = arguments[0]
                     var flags = arguments[1]
-                    var from_id = arguments[2]
-    //                var timestamp = arguments[3]
+                    var fromId = arguments[2]
                     var subject = arguments[4]
                     var text = arguments[5]
-                    var attachments = arguments[6]
+                    var extra = arguments[6]
 
+                    var hasAttach = Object.keys(extra).some(function(o) {
+                        return o.indexOf("attach") === 0
+                    })
                     var readState = (1 & flags) === 1
                     var isOut = (2 & flags) === 2
-                    var isChat = (16 & flags) === 16
+                    var isChat = "from" in extra
 
-                    text = text.replace(/<br>/g, " ")
+                    text = text.replace(/<br>/g, " ").replace(/&/g, '&amp;')
+                               .replace(/</g, '&lt; ').replace(/>/g, ' &gt;')
+                    subject = subject.replace(/&/g, '&amp;')
+                                     .replace(/</g, '&lt; ').replace(/>/g, ' &gt;')
 
-                    if (Object.keys(attachments).length > 0)
+                    if (hasAttach)
                         text = "[вложения] " + text
 
+                    var isNewDialog = true
                     for (var i = 0; i < messagesList.model.count; ++i) {
-                        if (messagesList.model.get(i).itemId === from_id) {
+                        if (messagesList.model.get(i).itemId === fromId) {
                             messagesList.model.set(i, {"previewText": text,
-                                                       "readState": +readState,
+                                                       "readState": +!readState,
                                                        "out": +isOut})
 
-    //                        if (isChat)
-    //                            messagesList.model.setProperty(i, "nameOrTitle", subject)
+                            if (isChat)
+                                messagesList.model.setProperty(i, "nameOrTitle", subject)
 
                             messagesList.model.move(i, 0, 1)
+                            isNewDialog = false
                             break
                         }
+                    }
+                    if (isNewDialog) {
+                        formDialogsList(+isOut, subject, text, fromId, +!readState, isChat)
+                        // TODO: если !isChat загрузить данные пользователя
                     }
                 }
             },
