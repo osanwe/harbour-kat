@@ -303,8 +303,8 @@
     <name>wall</name>
     <message>
         <location filename="../qml/js/api/wall.js" line="58"/>
-        <source>Опубликовано</source>
-        <translation>Posted</translation>
+        <source>������������������������</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

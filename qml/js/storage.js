@@ -143,3 +143,17 @@ function readUserAvatar() {
     console.log(value)
     return value
 }
+
+
+// -------------- Cache functions --------------
+
+function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
+    var db = getDatabase()
+    if (!db) return
+
+    db.transaction( function (tx) {
+        tx.executeSql('INSERT OR REPLACE INTO users (id, first_name, last_name, avatar) VALUES (' +
+                      userId + ', \"' + firstName + '\", \"' + lastName + '\", \"' +
+                      avatarName + '\"' + ')')
+    })
+}
