@@ -137,9 +137,6 @@ Page {
         interval: 0
         running: Qt.application.active
 
-        onTriggered: {
-            if (visible)
-                updateDialogs()
-        }
+        onTriggered: if (visible) updateDialogs()
     }
 }
