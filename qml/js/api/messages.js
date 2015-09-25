@@ -313,3 +313,69 @@ function parseMessage(jsonObject) {
 
     return messageData
 }
+
+
+/**
+ * The function for parsing message from long polling.
+ *
+ * [In]  + argsArray - the array of message data.
+ *
+ * [Out] + The array of message data, which contains message and date.
+ *         Also it can contain informaion about attachments and forwarded messages.
+ */
+function parseLongPollMessage(argsArray) {
+    var jsonObject = {}
+    var flags = argsArray[1]
+    var extra = argsArray[6]
+
+    jsonObject.id = argsArray[0]
+    jsonObject.from_id = argsArray[2]
+    jsonObject.date = argsArray[3]
+    jsonObject.read_state = +!((1 & flags) === 1)
+    jsonObject.out = +((2 & flags) === 2)
+    jsonObject.body = argsArray[5]
+
+    var media = []
+    Object.keys(extra).forEach(function(key) {
+        if (key === "from")
+            jsonObject.from_id = extra.from
+        else if (key.startsWith("attach")) {
+            if (key.endsWith("_type")) {
+                var keyVal = key.substr(0, key.indexOf('_'))
+                var owner_item = extra[keyVal].split('_')
+                var ownerId = parseInt(owner_item[0], 10)
+                var itemId = parseInt(owner_item[1], 10)
+                var item = {}
+
+                switch(extra[key]) {
+                case 'photo':
+                case 'video':
+                case 'audio':
+                case 'doc':
+                    item[key[0] + id] = itemId
+                    item.owner_id = ownerId
+                    break
+                case 'wall':
+                    item.id = itemId
+                    item.to_id = ownerId
+                    break
+                }
+                media.push(item)
+            }
+        }
+        else if (key === "fwd") {
+            jsonObject.fwd_messages = []
+            extra.fwd.forEach(function (o) {
+                var user_msg = o.split('_')
+                jsonObject.fwd_messages.push({
+                    "uid":user_msg[0],
+                    "mid":user_msg[1]
+                })
+            })
+        }
+    })
+    if (media.length > 0)
+        jsonObject.attachments = media
+
+    return parseMessage(jsonObject)
+}

@@ -326,24 +326,7 @@ Page {
                 var fromId = arguments[2]
 
                 if (dialogId === fromId) {
-                    var messageId = arguments[0]
-                    var flags = arguments[1]
-                    var timestamp = arguments[3]
-                    var text = arguments[5]
-                    var attachments = arguments[6]
-
-                    var isOut = (2 & flags) === 2
-                    var readState = (1 & flags) === 1
-
-                    var msg = {"id": messageId,
-                               "body": text,
-                               "user_id": fromId,
-                               "date": timestamp,
-                               "read_state": +readState,
-                               "out": +isOut,
-                               "attachments": attachments
-                    }
-                    formMessageList(MessagesAPI.parseMessage(msg), true)
+                    formMessageList(MessagesAPI.parseLongPollMessage(arguments), true)
                     scrollMessagesToBottom()
                 }
             },
