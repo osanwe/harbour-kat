@@ -33,44 +33,69 @@ Page {
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
+    property var dialogsData: []
 
-    function updateDialogs() {
+    function formNewDialogsList() {
+        console.log('formNewDialogsList()')
         var lastDialogs = StorageJS.getLastDialogs()
         for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
-//        if (StorageJS.readSettingsValue("user_id")) {
-//            dialogsOffset = 0
-//            chatsCounter = 0
-//            loadingIndicator.running = true
-//            messagesList.footerItem.visible = false
+        updateDialogs()
+    }
+
+    function updateDialogs() {
+        console.log('updateDialogs()')
+        if (StorageJS.readSettingsValue("user_id")) {
+            dialogsOffset = 0
+            chatsCounter = 0
+            dialogsData = []
+            loadingIndicator.running = true
+            messagesList.footerItem.visible = false
 //            messagesList.model.clear()
-//            MessagesAPI.api_getDialogsList(dialogsOffset)
-//        }
+            MessagesAPI.api_getDialogsList(dialogsOffset)
+        }
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
         console.log(readState)
         message = message.replace(/<br>/g, " ")
-        messagesList.model.append({ isDialog:     true,
-                                    out:          io,
-                                    avatarSource: "image://theme/icon-cover-message",
-                                    nameOrTitle:  title,
-                                    previewText:  message,
-                                    itemId:       dialogId,
-                                    readState:    readState,
-                                    isOnline:     false,
-                                    isChat:       isChat })
+        dialogsData[dialogsData.length] = { isDialog:     true,
+                                            out:          io,
+                                            avatarSource: "image://theme/icon-cover-message",
+                                            nameOrTitle:  title,
+                                            previewText:  message,
+                                            itemId:       dialogId,
+                                            readState:    readState,
+                                            isOnline:     false,
+                                            isChat:       isChat }
+//        messagesList.model.append({ isDialog:     true,
+//                                    out:          io,
+//                                    avatarSource: "image://theme/icon-cover-message",
+//                                    nameOrTitle:  title,
+//                                    previewText:  message,
+//                                    itemId:       dialogId,
+//                                    readState:    readState,
+//                                    isOnline:     false,
+//                                    isChat:       isChat })
     }
 
     function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
         while (messagesList.model.get(parseInt(index, 10) + chatsCounter + dialogsOffset).isChat)
             chatsCounter += 1
-        messagesList.model.set(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                               { "avatarSource": avatarURL,
-                                 "nameOrTitle":  fullname,
-                                 "isOnline":     online })
+        var idx = parseInt(index, 10) + chatsCounter + dialogsOffset
+        var dialog = dialogsData[idx]
+        dialog.avatarSource = avatarURL
+        dialog.nameOrTitle = fullname
+        dialog.isOnline = online
+        dialogsData[idx] = dialog
+//        messagesList.model.set(parseInt(index, 10) + chatsCounter + dialogsOffset,
+//                               { "avatarSource": avatarURL,
+//                                 "nameOrTitle":  fullname,
+//                                 "isOnline":     online })
     }
 
     function stopBusyIndicator() {
+        messagesList.model.clear()
+        for (var item in dialogsData) messagesList.model.append(dialogsData[item])
         messagesList.footerItem.visible = true
         loadingIndicator.running = false
     }
@@ -139,6 +164,8 @@ Page {
         interval: 0
         running: Qt.application.active
 
-        onTriggered: if (visible) updateDialogs()
+        onTriggered: if (visible)
+                         if (messagesList.model.count === 0) formNewDialogsList()
+                         else updateDialogs()
     }
 }
