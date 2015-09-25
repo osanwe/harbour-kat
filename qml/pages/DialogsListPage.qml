@@ -34,6 +34,7 @@ Page {
     property int chatsCounter: 0
     property int dialogsOffset: 0
     property var dialogsData: []
+    property var usersAvatars: []
 
     function formNewDialogsList() {
         console.log('formNewDialogsList()')
@@ -48,9 +49,9 @@ Page {
             dialogsOffset = 0
             chatsCounter = 0
             dialogsData = []
+            usersAvatars = []
             loadingIndicator.running = true
             messagesList.footerItem.visible = false
-//            messagesList.model.clear()
             MessagesAPI.api_getDialogsList(dialogsOffset)
         }
     }
@@ -67,15 +68,6 @@ Page {
                                             readState:    readState,
                                             isOnline:     false,
                                             isChat:       isChat }
-//        messagesList.model.append({ isDialog:     true,
-//                                    out:          io,
-//                                    avatarSource: "image://theme/icon-cover-message",
-//                                    nameOrTitle:  title,
-//                                    previewText:  message,
-//                                    itemId:       dialogId,
-//                                    readState:    readState,
-//                                    isOnline:     false,
-//                                    isChat:       isChat })
     }
 
     function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
@@ -83,14 +75,11 @@ Page {
             chatsCounter += 1
         var idx = parseInt(index, 10) + chatsCounter + dialogsOffset
         var dialog = dialogsData[idx]
+        usersAvatars[usersAvatars.length] = avatarURL
         dialog.avatarSource = avatarURL
         dialog.nameOrTitle = fullname
         dialog.isOnline = online
         dialogsData[idx] = dialog
-//        messagesList.model.set(parseInt(index, 10) + chatsCounter + dialogsOffset,
-//                               { "avatarSource": avatarURL,
-//                                 "nameOrTitle":  fullname,
-//                                 "isOnline":     online })
     }
 
     function stopBusyIndicator() {
@@ -98,6 +87,15 @@ Page {
         for (var item in dialogsData) messagesList.model.append(dialogsData[item])
         messagesList.footerItem.visible = true
         loadingIndicator.running = false
+        if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
+    }
+
+    Connections {
+        target: fileDownloader
+        onDownloaded: {
+            usersAvatars = usersAvatars.slice(1)
+            if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
+        }
     }
 
     BusyIndicator {

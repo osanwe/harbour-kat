@@ -80,22 +80,22 @@
 <context>
     <name>DialogsListPage</name>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="119"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="117"/>
         <source>Новое сообщение</source>
         <translation>New message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="125"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="123"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="131"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="129"/>
         <source>Сообщения</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="150"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="148"/>
         <source>Загрузить больше</source>
         <translation>Load more</translation>
     </message>
