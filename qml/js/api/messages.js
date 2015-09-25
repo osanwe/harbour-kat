@@ -105,6 +105,18 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
+        StorageJS.saveMessage(jsonMessage.id,
+                              jsonMessage.chat_id,
+                              jsonMessage.user_id,
+                              jsonMessage.from_id,
+                              jsonMessage.date,
+                              jsonMessage.read_state,
+                              jsonMessage.out,
+                              jsonMessage.title,
+                              jsonMessage.body,
+                              jsonMessage.geo,
+                              jsonMessage.attachments,
+                              jsonMessage.fwd_messages)
 
         var dialogId = jsonMessage.user_id
         var messageBody = jsonMessage.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -139,7 +151,20 @@ function callback_getDialogsList(jsonObject) {
 function callback_getHistory(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
-        formMessageList(parseMessage(items[index]))
+        var messageJsonObject = items[index]
+        StorageJS.saveMessage(messageJsonObject.id,
+                              messageJsonObject.chat_id,
+                              messageJsonObject.user_id,
+                              messageJsonObject.from_id,
+                              messageJsonObject.date,
+                              messageJsonObject.read_state,
+                              messageJsonObject.out,
+                              messageJsonObject.title,
+                              messageJsonObject.body,
+                              messageJsonObject.geo,
+                              messageJsonObject.attachments,
+                              messageJsonObject.fwd_messages)
+        formMessageList(parseMessage(messageJsonObject))
     }
     stopLoadingMessagesIndicator()
     scrollMessagesToBottom()

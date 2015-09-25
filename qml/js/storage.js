@@ -37,15 +37,43 @@ function initDatabase() {
             console.log("... create tables")
             tx.executeSql("CREATE TABLE IF NOT EXISTS settings (key TEXT UNIQUE, value TEXT)")
             tx.executeSql("CREATE TABLE IF NOT EXISTS user_info (key TEXT UNIQUE, value TEXT)")
-            tx.executeSql('CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE, first_name TEXT, last_name TEXT, avatar TEXT)')
-            tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id INTEGER UNIQUE, user_id INTEGER, text TEXT, is_read INTEGER, is_out INTEGER, daetime INTEGER)')
+            tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id           INTEGER UNIQUE, ' +
+                                                               'chat_id      INTEGER, ' +
+                                                               'user_id      INTEGER, ' +
+                                                               'from_id      INTEGER, ' +
+                                                               'date         INTEGER, ' +
+                                                               'is_read      INTEGER, ' +
+                                                               'is_out       INTEGER, ' +
+                                                               'title        TEXT, ' +
+                                                               'body         TEXT, ' +
+                                                               'geo          TEXT, ' +
+                                                               'attachments  TEXT, ' +
+                                                               'fwd_messages TEXT)')
+            tx.executeSql('CREATE TABLE IF NOT EXISTS users (id         INTEGER UNIQUE, ' +
+                                                            'first_name TEXT, ' +
+                                                            'last_name  TEXT, ' +
+                                                            'avatar     TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
         if (db.version < '3') {
             db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
                 console.log("... create new tables")
-                tx.executeSql('CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE, first_name TEXT, last_name TEXT, avatar TEXT)')
-                tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id INTEGER UNIQUE, user_id INTEGER, text TEXT, is_read INTEGER, is_out INTEGER, daetime INTEGER)')
+                tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id           INTEGER UNIQUE, ' +
+                                                                   'chat_id      INTEGER, ' +
+                                                                   'user_id      INTEGER, ' +
+                                                                   'from_id      INTEGER, ' +
+                                                                   'date         INTEGER, ' +
+                                                                   'is_read      INTEGER, ' +
+                                                                   'is_out       INTEGER, ' +
+                                                                   'title        TEXT, ' +
+                                                                   'body         TEXT, ' +
+                                                                   'geo          TEXT, ' +
+                                                                   'attachments  TEXT, ' +
+                                                                   'fwd_messages TEXT)')
+                tx.executeSql('CREATE TABLE IF NOT EXISTS users (id         INTEGER UNIQUE, ' +
+                                                                'first_name TEXT, ' +
+                                                                'last_name  TEXT, ' +
+                                                                'avatar     TEXT)')
             })
         }
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
@@ -155,5 +183,40 @@ function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
         tx.executeSql('INSERT OR REPLACE INTO users (id, first_name, last_name, avatar) VALUES (' +
                       userId + ', \"' + firstName + '\", \"' + lastName + '\", \"' +
                       avatarName + '\"' + ')')
+    })
+}
+
+function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, body, geo, attachments,
+                     fwd_messages) {
+    var db = getDatabase()
+    if (!db) return
+
+    var values = [JSON.stringify(geo), JSON.stringify(attachments), JSON.stringify(fwd_messages)]
+
+    db.transaction( function (tx) {
+        tx.executeSql('INSERT OR REPLACE INTO messages (id, ' +
+                                             (chatId ? 'chat_id, ' : '' ) +
+                                             (userId ? 'user_id, ' : '' ) +
+                                             (fromId ? 'from_id, ' : '' ) +
+                                             (date ?   'date, '    : '' ) +
+                                             (isRead ? 'is_read, ' : '' ) +
+                                             (isOut ?  'is_out, '  : '' ) +
+                                                       'title, ' +
+                                                       'body, ' +
+                                                       'geo, ' +
+                                                       'attachments, ' +
+                                                       'fwd_messages) ' +
+                                           'VALUES (' + id           + ', ' +
+                                              (chatId ? chatId       + ', ' : '' ) +
+                                              (userId ? userId       + ', ' : '' ) +
+                                              (fromId ? fromId       + ', ' : '' ) +
+                                              (date ?   date         + ', ' : '' ) +
+                                              (isRead ? isRead       + ', ' : '' ) +
+                                              (isOut ?  isOut        + ', ' : '' ) +
+                                                 '\"' + title        + '\", ' +
+                                                 '\"' + body         + '\", ' +
+                                                 '?, ' +
+                                                 '?, ' +
+                                                 '?)', values)
     })
 }
