@@ -35,14 +35,16 @@ Page {
     property int dialogsOffset: 0
 
     function updateDialogs() {
-        if (StorageJS.readSettingsValue("user_id")) {
-            dialogsOffset = 0
-            chatsCounter = 0
-            loadingIndicator.running = true
-            messagesList.footerItem.visible = false
-            messagesList.model.clear()
-            MessagesAPI.api_getDialogsList(dialogsOffset)
-        }
+        var lastDialogs = StorageJS.getLastDialogs()
+        for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
+//        if (StorageJS.readSettingsValue("user_id")) {
+//            dialogsOffset = 0
+//            chatsCounter = 0
+//            loadingIndicator.running = true
+//            messagesList.footerItem.visible = false
+//            messagesList.model.clear()
+//            MessagesAPI.api_getDialogsList(dialogsOffset)
+//        }
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {

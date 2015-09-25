@@ -175,6 +175,55 @@ function readUserAvatar() {
 
 // -------------- Cache functions --------------
 
+function getLastDialogs() {
+    console.log('getLastDialogs()')
+    var db = getDatabase()
+    if (!db) return
+
+    var value = []
+
+    db.transaction( function (tx) {
+        console.log("... reading ...")
+        var result = tx.executeSql('SELECT users.id              AS user_id, ' +
+                                          'users.avatar          AS avatar, ' +
+                                          'users.first_name      AS first_name, ' +
+                                          'users.last_name       AS last_name, ' +
+                                          'messages.id           AS msg_id, ' +
+                                          'messages.chat_id      AS chat_id, ' +
+                                          'MAX(messages.date)    AS date, ' +
+                                          'messages.is_read      AS is_read, ' +
+                                          'messages.is_out       AS is_out, ' +
+                                          'messages.title        AS title, ' +
+                                          'messages.body         AS body, ' +
+                                          'messages.geo          AS geo, ' +
+                                          'messages.attachments  AS attachments, ' +
+                                          'messages.fwd_messages AS fwd_messages ' +
+                                   'FROM messages ' +
+                                   'LEFT OUTER JOIN users ON users.id = messages.user_id ' +
+                                   'GROUP BY messages.chat_id ' +
+                                   'ORDER BY date DESC ' +
+                                   'LIMIT 20')
+        for (var i = 0; i < result.rows.length; i++) {
+            var item = result.rows.item(i)
+            value[i] = {
+                isDialog:     true,
+                out:          item.is_out,
+                avatarSource: item.avatar ? cachePath + item.avatar :
+                                            "image://theme/icon-cover-message",
+                nameOrTitle:  item.chat_id !== item.user_id ? item.title :
+                                                              item.first_name + ' ' + item.last_name,
+                previewText:  item.body,
+                itemId:       item.chat_id,
+                readState:    item.is_read,
+                isOnline:     false,
+                isChat:       item.chat_id !== item.user_id,
+            }
+        }
+    })
+
+    return value
+}
+
 function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
     var db = getDatabase()
     if (!db) return
@@ -195,7 +244,7 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
 
     db.transaction( function (tx) {
         tx.executeSql('INSERT OR REPLACE INTO messages (id, ' +
-                                             (chatId ? 'chat_id, ' : '' ) +
+                                             /*(chatId ?*/ 'chat_id, ' /*: '' )*/ +
                                              (userId ? 'user_id, ' : '' ) +
                                              (fromId ? 'from_id, ' : '' ) +
                                              (date ?   'date, '    : '' ) +
@@ -207,7 +256,7 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
                                                        'attachments, ' +
                                                        'fwd_messages) ' +
                                            'VALUES (' + id           + ', ' +
-                                              (chatId ? chatId       + ', ' : '' ) +
+                                              (chatId ? chatId       + ', ' : userId + ', ' ) +
                                               (userId ? userId       + ', ' : '' ) +
                                               (fromId ? fromId       + ', ' : '' ) +
                                               (date ?   date         + ', ' : '' ) +
