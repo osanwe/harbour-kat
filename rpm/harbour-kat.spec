@@ -13,8 +13,8 @@ Name:       harbour-kat
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    The unofficial client for vk.com
-Version:    0.1.7
-Release:    18
+Version:    0.1.7_1443220410
+Release:    19
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://vk.com/kat_sailfishos

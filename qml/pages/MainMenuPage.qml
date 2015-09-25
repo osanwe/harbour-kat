@@ -32,19 +32,19 @@ Page {
     property string userFullName: qsTr("Имя Фамилия")
 
     property var model: [
-        { icon: "image://theme/icon-l-message", name: qsTr("Новости"), counter: "" },
-//        { icon: "image://theme/icon-l-redirect", name: "Ответы", counter: "0" },
-        { icon: "image://theme/icon-l-email", name: qsTr("Сообщения"), counter: "" },
-//        { icon: "image://theme/icon-l-people", name: "Друзья", counter: "0" },
-//        { icon: "image://theme/icon-l-people", name: "Группы", counter: "0" },
-//        { icon: "image://theme/icon-l-image", name: "Фотографии", counter: "0" },
-//        { icon: "image://theme/icon-l-video", name: "Видеозаписи", counter: "0" },
-//        { icon: "image://theme/icon-l-music", name: "Аудиозаписи", counter: "" },
-//        { icon: "image://theme/icon-l-favorite", name: "Закладки", counter: "" },
-//        { icon: "image://theme/icon-l-document", name: "Документы", counter: "" },
-//        { icon: "image://theme/icon-cover-search", name: "Поиск", counter: "" },
-        { icon: "", name: qsTr("Настройки"), counter: "" },
-        { icon: "", name: qsTr("О программе"), counter: "" }
+        { name: qsTr("Новости"), counter: "" },
+//        { name: "Ответы", counter: "0" },
+        { name: qsTr("Сообщения"), counter: "" },
+//        { name: "Друзья", counter: "0" },
+//        { name: "Группы", counter: "0" },
+//        { name: "Фотографии", counter: "0" },
+//        { name: "Видеозаписи", counter: "0" },
+//        { name: "Аудиозаписи", counter: "" },
+//        { name: "Закладки", counter: "" },
+//        { name: "Документы", counter: "" },
+//        { name: "Поиск", counter: "" },
+        { name: qsTr("Настройки"), counter: "" },
+        { name: qsTr("О программе"), counter: "" }
     ]
 
     function doStartUpdate() {
@@ -77,39 +77,8 @@ Page {
 
         model: mainMenuPage.model
 
-        header: BackgroundItem {
-            width: parent.width
-            height: Theme.itemSizeMedium
-
-            Image {
-                id: userAvatar
-                anchors.left: parent.left
-                anchors.leftMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                width: Theme.itemSizeMedium - 2 * Theme.paddingMedium
-                height: Theme.itemSizeMedium - 2 * Theme.paddingMedium
-                source: userAvatarUrl
-
-                Connections {
-                    target: fileDownloader
-                    onDownloaded: {
-                        userAvatarUrl = cachePath + StorageJS.readUserAvatar()
-                        userAvatar.source = userAvatarUrl
-                    }
-                }
-            }
-
-            Label {
-                id: userName
-                anchors.left: userAvatar.right
-                anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingMedium
-                height: Theme.itemSizeMedium
-                verticalAlignment: Text.AlignVCenter
-                color: Theme.highlightColor
-                wrapMode: Text.WordWrap
-                text: userFullName
-            }
+        header: PageHeader {
+            title: userFullName
         }
 
         delegate: BackgroundItem {
@@ -123,20 +92,9 @@ Page {
                 anchors.rightMargin: Theme.paddingLarge
                 anchors.leftMargin: Theme.paddingLarge
 
-                Image {
-                    id: menuItemIcon
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Theme.iconSizeMedium
-                    height: Theme.iconSizeMedium
-                    source: item.icon
-                }
-
                 Label {
-                    anchors.left: menuItemIcon.right
-                    anchors.right: menuItemCounter.left
-                    anchors.leftMargin: Theme.paddingMedium
-                    anchors.rightMargin: menuItemCounter.text.length > 0 ? Theme.paddingMedium : 0
+                    id: menuItemText
+                    anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                     maximumLineCount: 1
@@ -144,13 +102,23 @@ Page {
                     text: item.name
                 }
 
-                Label {
-                    id: menuItemCounter
-                    anchors.right: parent.right
+                Rectangle {
+                    anchors.left: menuItemText.right
+                    anchors.leftMargin: Theme.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
-                    font.bold: true
-                    color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                    text: item.counter
+                    width: childrenRect.width < childrenRect.height ? childrenRect.height : childrenRect.width + 2 * Theme.paddingSmall
+                    height: childrenRect.height
+                    radius: 10
+                    color: Theme.highlightColor
+                    visible: item.counter !== ''
+
+                    Label {
+                        id: menuItemCounter
+                        anchors.centerIn: parent
+                        font.bold: true
+                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: item.counter
+                    }
                 }
             }
 

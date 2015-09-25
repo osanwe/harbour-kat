@@ -136,6 +136,7 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
+        contentHeight: dialogPage.height
 
         Label {
             id: dialogTitle
