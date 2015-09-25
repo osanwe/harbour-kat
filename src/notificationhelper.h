@@ -12,7 +12,7 @@ public:
     explicit NotificationHelper(QObject *parent = 0);
 
     Q_INVOKABLE void sendNotification(const QString &body, const QString &summary);
-    Q_INVOKABLE void activateLed();
+    Q_INVOKABLE void activateLed(bool activate);
 
 signals:
 

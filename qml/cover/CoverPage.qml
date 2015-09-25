@@ -31,8 +31,8 @@ CoverBackground {
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
-        if (counter > unreadDialogs)
-            notificationHelper.activateLed()
+        if (counter !== unreadDialogs)
+            notificationHelper.activateLed(counter > unreadDialogs)
         unreadDialogs = counter
     }
 
