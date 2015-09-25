@@ -112,7 +112,8 @@ var LongPollWorker = {
             try {
                 LongPollWorker.getValue(o).apply(null, args)
             } catch (e) {
-                console.log("ERROR " + e.name + ": " + e.message)
+                console.log("Worker " + e.name + " with " + o + ": " + e.message)
+                console.log(e.stack)
             }
         })
     }
