@@ -102,7 +102,7 @@ function api_startLongPoll(mode) {
     RequestAPI.sendRequest("messages.getLongPollServer",
                            {use_ssl: 1,
                             need_pts: 0},
-                           callback_initStartLongPoll)
+                           callback_startLongPoll)
 }
 
 // -------------- Callbacks --------------
@@ -196,7 +196,7 @@ function callback_getChatUsers(jsonObject) {
     saveUsers(users)
 }
 
-function callback_initStartLongPoll(jsonObject) {
+function callback_startLongPoll(jsonObject) {
     var res = jsonObject.response
     if (res) {
         LONGPOLL_SERVER.key = res.key
@@ -208,11 +208,11 @@ function callback_initStartLongPoll(jsonObject) {
                                            ts: LONGPOLL_SERVER.ts,
                                            wait: TypesJS.UpdateInterval.getValue(),
                                            mode: LONGPOLL_SERVER.mode},
-                                       callback_startLongPoll)
+                                       callback_doLongPoll)
     }
 }
 
-function callback_startLongPoll(jsonObject) {
+function callback_doLongPoll(jsonObject) {
     if (jsonObject) {
         if (jsonObject.updates) {
             for (var i in jsonObject.updates) {
@@ -258,7 +258,7 @@ function callback_startLongPoll(jsonObject) {
                                            ts: jsonObject.ts,
                                            wait: TypesJS.UpdateInterval.getValue(),
                                            mode: LONGPOLL_SERVER.mode},
-                                       callback_startLongPoll)
+                                       callback_doLongPoll)
     }
 }
 
