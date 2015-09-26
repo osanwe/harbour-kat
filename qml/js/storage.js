@@ -176,7 +176,8 @@ function readUserAvatar() {
 // -------------- Cache functions --------------
 
 function prepareMessagePreview(body, attachments, fwd_messages) {
-    body = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    if (body) body = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    else body = ""
     if (fwd_messages) body = "[сообщения] " + body
     if (attachments) body = "[вложения] " + body
     return body
@@ -195,14 +196,14 @@ function getLastDialogs() {
                                           'users.avatar          AS avatar, ' +
                                           'users.first_name      AS first_name, ' +
                                           'users.last_name       AS last_name, ' +
-                                          'messages.id           AS msg_id, ' +
+//                                          'messages.id           AS msg_id, ' +
                                           'messages.chat_id      AS chat_id, ' +
-                                          'MAX(messages.date)    AS date, ' +
+//                                          'MAX(messages.date)    AS date, ' +
                                           'messages.is_read      AS is_read, ' +
                                           'messages.is_out       AS is_out, ' +
                                           'messages.title        AS title, ' +
                                           'messages.body         AS body, ' +
-                                          'messages.geo          AS geo, ' +
+//                                          'messages.geo          AS geo, ' +
                                           'messages.attachments  AS attachments, ' +
                                           'messages.fwd_messages AS fwd_messages ' +
                                    'FROM messages ' +
@@ -244,14 +245,16 @@ function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
 
 function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, body, geo, attachments,
                      fwd_messages) {
+    console.log('saveMessage()')
     var db = getDatabase()
     if (!db) return
 
-    var values = [JSON.stringify(geo), JSON.stringify(attachments), JSON.stringify(fwd_messages)]
+    var values = [body, JSON.stringify(geo), JSON.stringify(attachments), JSON.stringify(fwd_messages)]
 
     db.transaction( function (tx) {
+        console.log('... saving or updating ...')
         tx.executeSql('INSERT OR REPLACE INTO messages (id, ' +
-                                             /*(chatId ?*/ 'chat_id, ' /*: '' )*/ +
+                                                       'chat_id, ' +
                                              (userId ? 'user_id, ' : '' ) +
                                              (fromId ? 'from_id, ' : '' ) +
                                              (date ?   'date, '    : '' ) +
@@ -270,7 +273,7 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
                                               (isRead ? isRead       + ', ' : '' ) +
                                               (isOut ?  isOut        + ', ' : '' ) +
                                                  '\"' + title        + '\", ' +
-                                                 '\"' + body         + '\", ' +
+                                                 '?, ' +
                                                  '?, ' +
                                                  '?, ' +
                                                  '?)', values)

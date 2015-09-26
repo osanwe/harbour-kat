@@ -319,6 +319,7 @@ Page {
             if (unreadMessagesIds.length > 0)
                 MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
         }
+
     Component.onCompleted:
         if (isChat) {
             MessagesAPI.api_getChatUsers(dialogId)
