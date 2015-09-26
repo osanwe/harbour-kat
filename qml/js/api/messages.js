@@ -213,7 +213,7 @@ function callback_doLongPoll(jsonObject) {
                 case 3: // сброс флагов сообщения (FLAGS&=~$mask)
                     var msgId = update[1]
                     var flags = update[2]
-                    var userId = update.lenght > 3 ? update[3] : null
+                    var userId = update.length > 3 ? update[3] : null
                     var action = eventId === 1 ? TypesJS.Action.SET:
                                 (eventId === 2 ? TypesJS.Action.ADD :
                                                  TypesJS.Action.DEL)
@@ -365,11 +365,11 @@ function parseLongPollMessage(argsArray) {
     var media = []
     Object.keys(extra).forEach(function(key) {
         if (key === "from") {
-            jsonObject.chat_id = jsonObject.from_id
+            jsonObject.chat_id = jsonObject.from_id - 2000000000
             jsonObject.from_id = extra.from
         }
-        else if (key.startsWith("attach")) {
-            if (key.endsWith("_type")) {
+        else if (key.indexOf("attach") === 0) {
+            if (key.length - key.lastIndexOf("_type") === 5) {
                 var keyVal = key.substr(0, key.indexOf('_'))
                 var owner_item = extra[keyVal].split('_')
                 var ownerId = parseInt(owner_item[0], 10)
