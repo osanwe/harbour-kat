@@ -175,6 +175,13 @@ function readUserAvatar() {
 
 // -------------- Cache functions --------------
 
+function prepareMessagePreview(body, attachments, fwd_messages) {
+    body = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    if (fwd_messages) body = "[сообщения] " + body
+    if (attachments) body = "[вложения] " + body
+    return body
+}
+
 function getLastDialogs() {
     console.log('getLastDialogs()')
     var db = getDatabase()
@@ -212,7 +219,7 @@ function getLastDialogs() {
                                             "image://theme/icon-cover-message",
                 nameOrTitle:  item.chat_id !== item.user_id ? item.title :
                                                               item.first_name + ' ' + item.last_name,
-                previewText:  item.body,
+                previewText:  prepareMessagePreview(item.body, item.attachments, item.fwd_messages),
                 itemId:       item.chat_id,
                 readState:    item.is_read,
                 isOnline:     false,
