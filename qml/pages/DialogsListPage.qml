@@ -58,7 +58,7 @@ Page {
     }
 
     function updateDialogInfo(dialogId, avatarURL, fullname, online, lastSeen) {
-        var index = messagesList.lookupItem(dialogId)
+        var index = messagesList.lookupItem(dialogId, true)
         if (index !== -1) {
             messagesList.model.set(index,
                                    { "avatarSource": avatarURL,
@@ -129,8 +129,12 @@ Page {
 
         VerticalScrollDecorator {}
 
-        function lookupItem(itemId) {
-            for (var i = 0; i < messagesList.model.count; ++i) {
+        function lookupItem(itemId, fromEnd) {
+            fromEnd = fromEnd === true
+
+            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
+                         (fromEnd ? i >= 0 : i < messagesList.model.count);
+                         (fromEnd ? --i : ++i)) {
                 if (messagesList.model.get(i).itemId === itemId) {
                     return i
                 }
