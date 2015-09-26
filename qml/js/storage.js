@@ -232,6 +232,39 @@ function getLastDialogs() {
     return value
 }
 
+function getLastMessagesForDialog(chatId) {
+    console.log('getLastMessagesForDialog()')
+    var db = getDatabase()
+    if (!db) return
+
+    var value = []
+
+    db.transaction( function (tx) {
+        console.log('... reading ...')
+        var result = tx.executeSql('SELECT * ' +
+                                   'FROM messages ' +
+                                   'WHERE chat_id = ' + chatId + ' ' +
+                                   'ORDER BY date DESC ' +
+                                   'LIMIT 50;')
+        for (var i = 0; i < result.rows.length; i++) {
+            var item = result.rows.item(i)
+            value[i] = {
+                mid:             item.id,
+                readState:       item.is_read,
+                out:             item.is_out,
+                message:         item.body,
+                datetime:        item.date,
+//                avatarSource:    avatarSource,
+//                userAvatar:      userAvatar,
+                attachmentsData: item.attachments,
+                isNewsContent:   false
+            }
+        }
+    })
+
+    return value
+}
+
 function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
     var db = getDatabase()
     if (!db) return
