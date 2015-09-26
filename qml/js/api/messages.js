@@ -88,6 +88,13 @@ function api_markDialogAsRead(isChat, uid, mids) {
                            { message_ids: mids })
 }
 
+
+function api_getChat(dialogIds) {
+    RequestAPI.sendRequest("messages.getChat",
+                           { chat_ids: dialogIds },
+                           callback_getChat)
+}
+
 function api_getChatUsers(dialogId) {
     RequestAPI.sendRequest("messages.getChatUsers",
                            { chat_id: dialogId,
@@ -117,14 +124,14 @@ function callback_getUnreadMessagesCounter_cover(jsonObject) {
 
 function callback_getDialogsList(jsonObject) {
     var uids = ""
-    var chatsUids = ""
+    var chatsIds = ""
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
         formDialogsList(parseDialogListItem(jsonMessage))
 
         if (jsonMessage.chat_id) {
-            chatsUids += "," + jsonMessage.user_id
+            chatsIds += "," + jsonMessage.chat_id
         } else {
             uids += "," + jsonMessage.user_id
         }
@@ -133,8 +140,9 @@ function callback_getDialogsList(jsonObject) {
         stopBusyIndicator()
     } else {
         uids = uids.substring(1)
-        chatsUids = chatsUids.substring(1)
+        chatsIds = chatsIds.substring(1)
         UsersAPI.getUsersAvatarAndOnlineStatus(uids)
+        api_getChat(chatsIds)
     }
 }
 
@@ -163,6 +171,19 @@ function callback_searchDialogs(jsonObject) {
                                  name,
                                  jsonObject.response[index].photo_100,
                                  jsonObject.response[index].online)
+    }
+}
+
+function callback_getChat(jsonObject) {
+    for (var index in jsonObject.response) {
+        var chatInfo = jsonObject.response[index]
+        var photo = chatInfo.photo_100
+        if (photo) {
+            updateDialogInfo(chatInfo.id,
+                             chatInfo.photo_100,
+                             chatInfo.title,
+                             false)
+        }
     }
 }
 

@@ -167,7 +167,9 @@ Page {
                         messagesList.model.move(dialogIndex, 0, 1)
                     } else {
                         formDialogsList(itemData, true)
-                        if (!isChat)
+                        if (isChat)
+                            MessagesAPI.api_getChat(itemData[3])
+                        else
                             UsersAPI.getUsersAvatarAndOnlineStatus(uid)
                     }
                 }
