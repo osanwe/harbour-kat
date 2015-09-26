@@ -176,12 +176,9 @@ Page {
                 // TODO: обработать флаги сообщений
             },
             "dialoglist.friends": function(userId, status) {
-                for (var i = 0; i < messagesList.model.count; ++i) {
-                    if (messagesList.model.get(i).itemId === userId) {
-                        messagesList.model.setProperty(i, "isOnline", status)
-                        break
-                    }
-                }
+                var dialogIndex = messagesList.lookupItem(userId)
+                if (dialogIndex !== -1)
+                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
             }
         })
     }
