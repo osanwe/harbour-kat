@@ -233,6 +233,20 @@ Page {
             }
 
             VerticalScrollDecorator {}
+
+            function lookupItem(itemId, fromEnd) {
+                fromEnd = fromEnd === true
+
+                for (var i = (fromEnd ? messages.model.count - 1 : 0);
+                             (fromEnd ? i >= 0 : i < messages.model.count);
+                             (fromEnd ? --i : ++i)) {
+                    if (messages.model.get(i).mid === itemId) {
+                        return i
+                    }
+                }
+                console.log("Message with id '" + itemId + "' does not exist")
+                return -1
+            }
         }
 
         IconButton {
@@ -334,21 +348,17 @@ Page {
             },
             "dialog.message.flags": function(msgId, flags, action, userId) {
                 if (dialogId === userId) {
-                    for (var i = 0; messages.model.count; ++i) {
-                        if (messages.model.get(i).mid === msgId) {
-                            switch (action) {
-                            case TypesJS.Action.ADD:
-                                // TODO: добавить флаги
-                                break
-                            case TypesJS.Action.SET:
-                                // TODO: установить флаги
-                                break
-                            case TypesJS.Action.DEL:
-                                // TODO: удалить флаги
-                                break
-                            default:
-                                break
-                            }
+                    var msgIndex = messages.lookupItem(msgId)
+                    if (msgIndex !== -1) {
+                        switch (action) {
+                        case TypesJS.Action.ADD:
+                            // TODO: добавить флаги
+                            break
+                        case TypesJS.Action.SET:
+                            // TODO: установить флаги
+                            break
+                        case TypesJS.Action.DEL:
+                            // TODO: удалить флаги
                             break
                         }
                     }
