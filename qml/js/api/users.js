@@ -109,7 +109,7 @@ function getUsersAvatarAndOnlineStatus(uid) {
                                    ("0" + date.getFullYear()).slice(-2)
                 }
 
-                updateDialogInfo(index,
+                updateDialogInfo(jsonObject.response[index].uid,
                                  jsonObject.response[index].photo_100,
                                  fullname,
                                  (jsonObject.response[index].online === 1),

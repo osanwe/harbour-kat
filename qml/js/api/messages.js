@@ -121,27 +121,13 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
+        formDialogsList(parseDialogListItem(jsonMessage))
 
-        var dialogId = jsonMessage.user_id
-        var messageBody = jsonMessage.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        var isChat = false
-        if (jsonMessage.fwd_messages)
-            messageBody = "[сообщения] " + messageBody
-        if (jsonMessage.attachments)
-            messageBody = "[вложения] " + messageBody
         if (jsonMessage.chat_id) {
-            dialogId = jsonMessage.chat_id
             chatsUids += "," + jsonMessage.user_id
-            isChat = true
         } else {
             uids += "," + jsonMessage.user_id
         }
-        formDialogsList(jsonMessage.out,
-                        jsonMessage.title.replace(/&/g, '&amp;').replace(/</g, '&lt; ').replace(/>/g, ' &gt;'),
-                        messageBody,
-                        dialogId,
-                        jsonMessage.read_state,
-                        isChat)
     }
     if (uids.length === 0 && chatsUids.length === 0) {
         stopBusyIndicator()
@@ -314,14 +300,54 @@ function parseMessage(jsonObject) {
     return messageData
 }
 
+/**
+ * The function for parsing the json object of a dialog list item.
+ *
+ * [In]  + jsonObject - the json object of the dialog item.
+ *
+ * [Out] + The array of dialog item data, which contains info about the dialog.
+ */
+function parseDialogListItem(jsonObject) {
+    if (Object.keys(jsonObject).length === 0)
+        return null
+
+    var itemData = []
+
+    var body = jsonObject.body.replace(/<br>/g, " ")
+                              .replace(/&/g, '&amp;')
+                              .replace(/</g, '&lt;')
+                              .replace(/>/g, '&gt;')
+    var title = jsonObject.title.replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt; ')
+                                .replace(/>/g, ' &gt;')
+    var isChat = false
+    var dialogId = jsonObject.user_id
+
+    if (jsonObject.fwd_messages)
+        body = "[сообщения] " + body
+    if (jsonObject.attachments)
+        body = "[вложения] " + body
+    if (jsonObject.chat_id) {
+        dialogId = jsonObject.chat_id
+        isChat = true
+    }
+
+    itemData[0] = jsonObject.out
+    itemData[1] = title
+    itemData[2] = body
+    itemData[3] = dialogId
+    itemData[4] = jsonObject.read_state
+    itemData[5] = isChat
+
+    return itemData
+}
 
 /**
  * The function for parsing message from long polling.
  *
  * [In]  + argsArray - the array of message data.
  *
- * [Out] + The array of message data, which contains message and date.
- *         Also it can contain informaion about attachments and forwarded messages.
+ * [Out] + Standart json object of message data.
  */
 function parseLongPollMessage(argsArray) {
     var jsonObject = {}
@@ -333,12 +359,15 @@ function parseLongPollMessage(argsArray) {
     jsonObject.date = argsArray[3]
     jsonObject.read_state = +!((1 & flags) === 1)
     jsonObject.out = +((2 & flags) === 2)
+    jsonObject.title = argsArray[4]
     jsonObject.body = argsArray[5]
 
     var media = []
     Object.keys(extra).forEach(function(key) {
-        if (key === "from")
+        if (key === "from") {
+            jsonObject.chat_id = jsonObject.from_id
             jsonObject.from_id = extra.from
+        }
         else if (key.startsWith("attach")) {
             if (key.endsWith("_type")) {
                 var keyVal = key.substr(0, key.indexOf('_'))
@@ -377,5 +406,9 @@ function parseLongPollMessage(argsArray) {
     if (media.length > 0)
         jsonObject.attachments = media
 
-    return parseMessage(jsonObject)
+    if (!jsonObject.chat_id)
+        jsonObject.user_id = jsonObject.from_id
+
+    console.log(JSON.stringify(jsonObject))
+    return jsonObject
 }

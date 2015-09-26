@@ -326,7 +326,9 @@ Page {
                 var fromId = arguments[2]
 
                 if (dialogId === fromId) {
-                    formMessageList(MessagesAPI.parseLongPollMessage(arguments), true)
+                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
+                    var messageData = MessagesAPI.parseMessage(jsonMessage)
+                    formMessageList(messageData, true)
                     scrollMessagesToBottom()
                 }
             },

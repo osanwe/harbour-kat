@@ -31,13 +31,10 @@ import "../js/types.js" as TypesJS
 
 Page {
 
-    property int chatsCounter: 0
-    property int dialogsOffset: 0
+    property int dialogsOffset: messagesList.model.count
 
     function updateDialogs() {
         if (StorageJS.readSettingsValue("user_id")) {
-            dialogsOffset = 0
-            chatsCounter = 0
             loadingIndicator.running = true
             messagesList.footerItem.visible = false
             messagesList.model.clear()
@@ -45,27 +42,29 @@ Page {
         }
     }
 
-    function formDialogsList(io, title, message, dialogId, readState, isChat) {
-        console.log(readState)
-        message = message.replace(/<br>/g, " ")
-        messagesList.model.append({ isDialog:     true,
-                                    out:          io,
-                                    avatarSource: "image://theme/icon-cover-message",
-                                    nameOrTitle:  title,
-                                    previewText:  message,
-                                    itemId:       dialogId,
-                                    readState:    readState,
-                                    isOnline:     false,
-                                    isChat:       isChat })
+    function formDialogsList(listItemData, insertToBegin) {
+        if (listItemData !== null) {
+            var index = (insertToBegin === true) ? 0 : messagesList.model.count;
+            messagesList.model.insert(index, { isDialog:     true,
+                                        out:          listItemData[0],
+                                        avatarSource: "image://theme/icon-cover-message",
+                                        nameOrTitle:  listItemData[1],
+                                        previewText:  listItemData[2],
+                                        itemId:       listItemData[3],
+                                        readState:    listItemData[4],
+                                        isOnline:     false,
+                                        isChat:       listItemData[5] })
+        }
     }
 
-    function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
-        while (messagesList.model.get(parseInt(index, 10) + chatsCounter + dialogsOffset).isChat)
-            chatsCounter += 1
-        messagesList.model.set(parseInt(index, 10) + chatsCounter + dialogsOffset,
-                               { "avatarSource": avatarURL,
-                                 "nameOrTitle":  fullname,
-                                 "isOnline":     online })
+    function updateDialogInfo(dialogId, avatarURL, fullname, online, lastSeen) {
+        var index = messagesList.lookupItem(dialogId)
+        if (index !== -1) {
+            messagesList.model.set(index,
+                                   { "avatarSource": avatarURL,
+                                     "nameOrTitle":  fullname,
+                                     "isOnline":     online })
+        }
     }
 
     function stopBusyIndicator() {
@@ -124,13 +123,21 @@ Page {
 
             onClicked: {
                 loadingIndicator.running = true
-                dialogsOffset = dialogsOffset + 20
-                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
 
         VerticalScrollDecorator {}
+
+        function lookupItem(itemId) {
+            for (var i = 0; i < messagesList.model.count; ++i) {
+                if (messagesList.model.get(i).itemId === itemId) {
+                    return i
+                }
+            }
+            console.log("Dialog with id '" + itemId + "' does not exist")
+            return -1
+        }
     }
 
     Component.onCompleted: {
@@ -139,45 +146,25 @@ Page {
         TypesJS.LongPollWorker.addValues({
             "dialoglist.message.add": function() {
                 if (arguments.length === 7) {
-                    var flags = arguments[1]
-                    var fromId = arguments[2]
-                    var subject = arguments[4]
-                    var text = arguments[5]
-                    var extra = arguments[6]
+                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
+                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
 
-                    var hasAttach = Object.keys(extra).some(function(o) {
-                        return o.indexOf("attach") === 0
-                    })
-                    var readState = (1 & flags) === 1
-                    var isOut = (2 & flags) === 2
-                    var isChat = "from" in extra
+                    var uid = jsonMessage.from_id
+                    var isChat = itemData[5]
+                    var dialogIndex = messagesList.lookupItem(itemData[3])
+                    if (dialogIndex !== -1) {
+                        messagesList.model.set(dialogIndex, {"out": itemData[0],
+                                                     "previewText": itemData[2],
+                                                       "readState": itemData[4]})
+                        if (isChat)
+                            messagesList.model.setProperty(dialogIndex,
+                                                 "nameOrTitle", itemData[1])
 
-                    text = text.replace(/<br>/g, " ").replace(/&/g, '&amp;')
-                               .replace(/</g, '&lt; ').replace(/>/g, ' &gt;')
-                    subject = subject.replace(/&/g, '&amp;')
-                                     .replace(/</g, '&lt; ').replace(/>/g, ' &gt;')
-
-                    if (hasAttach)
-                        text = "[вложения] " + text
-
-                    var isNewDialog = true
-                    for (var i = 0; i < messagesList.model.count; ++i) {
-                        if (messagesList.model.get(i).itemId === fromId) {
-                            messagesList.model.set(i, {"previewText": text,
-                                                       "readState": +!readState,
-                                                       "out": +isOut})
-
-                            if (isChat)
-                                messagesList.model.setProperty(i, "nameOrTitle", subject)
-
-                            messagesList.model.move(i, 0, 1)
-                            isNewDialog = false
-                            break
-                        }
-                    }
-                    if (isNewDialog) {
-                        formDialogsList(+isOut, subject, text, fromId, +!readState, isChat)
-                        // TODO: если !isChat загрузить данные пользователя
+                        messagesList.model.move(dialogIndex, 0, 1)
+                    } else {
+                        formDialogsList(itemData, true)
+                        if (!isChat)
+                            UsersAPI.getUsersAvatarAndOnlineStatus(uid)
                     }
                 }
             },
