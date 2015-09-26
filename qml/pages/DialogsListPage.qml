@@ -71,7 +71,7 @@ Page {
     }
 
     function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
-        while (messagesList.model.get(parseInt(index, 10) + chatsCounter + dialogsOffset).isChat)
+        while (dialogsData[parseInt(index, 10) + chatsCounter + dialogsOffset].isChat)
             chatsCounter += 1
         var idx = parseInt(index, 10) + chatsCounter + dialogsOffset
         var dialog = dialogsData[idx]
