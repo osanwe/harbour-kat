@@ -57,22 +57,22 @@
         <translation>Copy text</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="271"/>
+        <location filename="../qml/pages/DialogPage.qml" line="285"/>
         <source>Сообщение:</source>
         <translation>Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="272"/>
+        <location filename="../qml/pages/DialogPage.qml" line="286"/>
         <source>Сообщение</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="282"/>
+        <location filename="../qml/pages/DialogPage.qml" line="296"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="293"/>
+        <location filename="../qml/pages/DialogPage.qml" line="307"/>
         <source>Прикрепить изображение</source>
         <translation>Attach image</translation>
     </message>

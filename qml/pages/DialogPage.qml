@@ -338,6 +338,8 @@ Page {
         TypesJS.LongPollWorker.addValues({
             "dialog.message.add": function() {
                 var fromId = arguments[2]
+                if (isChat)
+                    fromId -= 2000000000
 
                 if (dialogId === fromId) {
                     var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
@@ -347,25 +349,30 @@ Page {
                 }
             },
             "dialog.message.flags": function(msgId, flags, action, userId) {
+                if (isChat)
+                    userId -= 2000000000
+
                 if (dialogId === userId) {
                     var msgIndex = messages.lookupItem(msgId)
                     if (msgIndex !== -1) {
                         switch (action) {
                         case TypesJS.Action.ADD:
-                            // TODO: добавить флаги
-                            break
                         case TypesJS.Action.SET:
-                            // TODO: установить флаги
+                            if ((flags & 1) === 1) {
+                                messages.model.setProperty(msgIndex, "readState", 0)
+                            }
                             break
                         case TypesJS.Action.DEL:
-                            // TODO: удалить флаги
+                            if ((flags & 1) === 1) {
+                                messages.model.setProperty(msgIndex, "readState", 1)
+                            }
                             break
                         }
                     }
                 }
             },
             "dialog.friends": function(userId, status) {
-                if (dialogId === userId) {
+                if (!isChat && dialogId === userId) {
                     isOnline = status
                     dialogOnlineStatus.checked = status
                 }

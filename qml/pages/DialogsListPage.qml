@@ -173,7 +173,26 @@ Page {
                 }
             },
             "dialogList.message.flags": function(msgId, flags, action, userId) {
-                // TODO: обработать флаги сообщений
+                if (userId) {
+                    if (userId > 2000000000)
+                        userId -= 2000000000
+                    var dialogIndex = messagesList.lookupItem(userId)
+                    if (dialogIndex !== -1) {
+                        switch (action) {
+                        case TypesJS.Action.ADD:
+                        case TypesJS.Action.SET:
+                            if ((flags & 1) === 1) {
+                                messagesList.model.setProperty(dialogIndex, "readState", 0)
+                            }
+                            break
+                        case TypesJS.Action.DEL:
+                            if ((flags & 1) === 1) {
+                                messagesList.model.setProperty(dialogIndex, "readState", 1)
+                            }
+                            break
+                        }
+                    }
+                }
             },
             "dialoglist.friends": function(userId, status) {
                 var dialogIndex = messagesList.lookupItem(userId)
