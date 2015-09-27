@@ -262,7 +262,8 @@ function getLastMessagesForDialog(chatId) {
                 message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
                                              "",
                 datetime:        item.date,
-                attachmentsData: item.attachments,
+                attachmentsData: item.attachments ? JSON.parse(item.attachments) :
+                                                    [],
                 avatarSource:    item.avatar ? cachePath + item.avatar :
                                                "image://theme/icon-cover-people",
                 isNewsContent:   false
