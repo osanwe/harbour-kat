@@ -50,6 +50,16 @@ Page {
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
         for (var item in messagesArray) formMessageList(messagesArray[item])
         scrollMessagesToBottom()
+
+        if (isChat) MessagesAPI.api_getChatUsers(dialogId)
+        else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+    }
+
+    function saveUsers(users) {
+        chatUsers = users
+        pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
+                                   { "chatTitle": fullname, "users": users })
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
@@ -68,9 +78,15 @@ Page {
         attachmentsList = ""
     }
 
+    function formMessagesListFromServerData(messagesArray) {
+        if (messagesOffset === 0) messages.model.clear()
+        for (var item in messagesArray) formMessageList(messagesArray[item])
+        scrollMessagesToBottom()
+    }
+
     function formMessageList(messageData) {
         messageData.userAvatar = userAvatar
-        messages.model.insert(0, messageData)
+        messages.model.insert(messagesOffset, messageData)
     }
 
     function scrollMessagesToBottom() {
@@ -79,13 +95,6 @@ Page {
         } else {
             messages.positionViewAtIndex(49, ListView.Beginning)
         }
-    }
-
-    function saveUsers(users) {
-        chatUsers = users
-        pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
-                                   { "chatTitle": fullname, "users": users })
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function stopLoadingMessagesIndicator() {
@@ -301,9 +310,4 @@ Page {
         }
 
     Component.onCompleted: formNewDialogMessages()
-//        if (isChat) {
-//            MessagesAPI.api_getChatUsers(dialogId)
-//        } else {
-//            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
-//        }
 }

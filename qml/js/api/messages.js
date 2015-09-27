@@ -150,6 +150,7 @@ function callback_getDialogsList(jsonObject) {
 
 function callback_getHistory(jsonObject) {
     var items = jsonObject.response.items
+    var messages = []
     for (var index in items) {
         var messageJsonObject = items[index]
         StorageJS.saveMessage(messageJsonObject.id,
@@ -164,8 +165,9 @@ function callback_getHistory(jsonObject) {
                               messageJsonObject.geo,
                               messageJsonObject.attachments,
                               messageJsonObject.fwd_messages)
-        formMessageList(parseMessage(messageJsonObject))
+        messages[messages.length] = parseMessage(messageJsonObject)
     }
+    formMessagesListFromServerData(messages)
     stopLoadingMessagesIndicator()
     scrollMessagesToBottom()
 }
@@ -214,45 +216,37 @@ function callback_getChatUsers(jsonObject) {
  *
  * [In]  + jsonObject - the json object of the message.
  *
- * [Out] + The array of message data, which contains message and date.
+ * [Out] + The associative array of message data, which contains message and date.
  *         Also it can contain informaion about attachments, forwarded messages and location.
  */
 function parseMessage(jsonObject) {
-    var messageData = []
-
     var date = new Date()
     date.setTime(parseInt(jsonObject.date) * 1000)
 
-    messageData[0] = jsonObject.id
-    messageData[1] = jsonObject.from_id
-    messageData[2] = jsonObject.read_state
-    messageData[3] = jsonObject.out
-    messageData[4] = jsonObject.body.replace(/&/g, '&amp;')
-                                    .replace(/</g, '&lt;')
-                                    .replace(/>/g, '&gt;')
-                                    .replace(/\n/g, "<br>")
-                                    .replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-    messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
-                     ("0" + date.getMinutes()).slice(-2) + ", " +
-                     ("0" + date.getDate()).slice(-2) + "." +
-                     ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-                     ("0" + date.getFullYear()).slice(-2)
+    var messageAttachments = []
+    if (jsonObject.attachments) for (var index in jsonObject.attachments)
+            messageAttachments[messageAttachments.length] = jsonObject.attachments[index]
+    if (jsonObject.fwd_messages) for (var index in jsonObject.fwd_messages)
+            messageAttachments[messageAttachments.length] = jsonObject.fwd_messages[index]
+    if (jsonObject.geo) messageAttachments[messageAttachments.length] = jsonObject.geo
 
-    if (jsonObject.attachments) {
-        for (var index in jsonObject.attachments) {
-            messageData[messageData.length] = jsonObject.attachments[index]
-        }
-    }
-
-
-    if (jsonObject.fwd_messages) {
-        for (var index in jsonObject.fwd_messages) {
-            messageData[messageData.length] = jsonObject.fwd_messages[index]
-        }
-    }
-
-    if (jsonObject.geo) {
-        messageData[messageData.length] = jsonObject.geo
+    var messageData = {
+        mid:             jsonObject.id,
+        fromId:          jsonObject.from_id,
+        readState:       jsonObject.read_state,
+        out:             jsonObject.out,
+        message:         jsonObject.body.replace(/&/g, '&amp;')
+                                        .replace(/</g, '&lt;')
+                                        .replace(/>/g, '&gt;')
+                                        .replace(/\n/g, "<br>")
+                                        .replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>"),
+        datetime:        ("0" + date.getHours()).slice(-2) + ":" +
+                         ("0" + date.getMinutes()).slice(-2) + ", " +
+                         ("0" + date.getDate()).slice(-2) + "." +
+                         ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                         ("0" + date.getFullYear()).slice(-2),
+        attachmentsData: messageAttachments,
+        isNewsContent:   false
     }
 
     return messageData

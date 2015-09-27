@@ -253,15 +253,22 @@ function getLastMessagesForDialog(chatId) {
                                    'WHERE messages.chat_id = ' + chatId + ' ' +
                                    'ORDER BY date DESC ' +
                                    'LIMIT 50')
+        var date = new Date()
         for (var i = 0; i < result.rows.length; i++) {
             var item = result.rows.item(i)
+            date.setTime(parseInt(item.date) * 1000)
             value[i] = {
                 mid:             item.id,
                 readState:       item.is_read,
                 out:             item.is_out,
                 message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
                                              "",
-                datetime:        item.date,
+//                datetime:        item.date,
+                datetime:        ("0" + date.getHours()).slice(-2) + ":" +
+                                 ("0" + date.getMinutes()).slice(-2) + ", " +
+                                 ("0" + date.getDate()).slice(-2) + "." +
+                                 ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                                 ("0" + date.getFullYear()).slice(-2),
                 attachmentsData: item.attachments ? JSON.parse(item.attachments) :
                                                     [],
                 avatarSource:    item.avatar ? cachePath + item.avatar :
