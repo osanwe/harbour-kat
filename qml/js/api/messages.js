@@ -20,10 +20,17 @@
 */
 
 .import "../storage.js" as StorageJS
+.import "../types.js" as TypesJS
 .import "request.js" as RequestAPI
 .import "users.js" as UsersAPI
 
 var HISTORY_COUNT = 50;
+var LONGPOLL_SERVER = {
+    key: '',
+    server: '',
+    ts: -1,
+    mode: 2
+};
 
 // -------------- API functions --------------
 
@@ -81,6 +88,13 @@ function api_markDialogAsRead(isChat, uid, mids) {
                            { message_ids: mids })
 }
 
+
+function api_getChat(dialogIds) {
+    RequestAPI.sendRequest("messages.getChat",
+                           { chat_ids: dialogIds },
+                           callback_getChat)
+}
+
 function api_getChatUsers(dialogId) {
     RequestAPI.sendRequest("messages.getChatUsers",
                            { chat_id: dialogId,
@@ -88,6 +102,15 @@ function api_getChatUsers(dialogId) {
                            callback_getChatUsers)
 }
 
+function api_startLongPoll(mode) {
+    if (mode)
+        LONGPOLL_SERVER.mode = mode
+
+    RequestAPI.sendRequest("messages.getLongPollServer",
+                           {use_ssl: 1,
+                            need_pts: 0},
+                           callback_startLongPoll)
+}
 
 // -------------- Callbacks --------------
 
@@ -101,7 +124,7 @@ function callback_getUnreadMessagesCounter_cover(jsonObject) {
 
 function callback_getDialogsList(jsonObject) {
     var uids = ""
-    var chatsUids = ""
+    var chatsIds = ""
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
@@ -132,19 +155,21 @@ function callback_getDialogsList(jsonObject) {
         } else {
             uids += "," + jsonMessage.user_id
         }
-        formDialogsList(jsonMessage.out,
-                        jsonMessage.title.replace(/&/g, '&amp;').replace(/</g, '&lt; ').replace(/>/g, ' &gt;'),
-                        messageBody,
-                        dialogId,
-                        jsonMessage.read_state,
-                        isChat)
+
+//        formDialogsList(parseDialogListItem(jsonMessage))
+//        if (jsonMessage.chat_id) {
+//            chatsIds += "," + jsonMessage.chat_id
+//        } else {
+//            uids += "," + jsonMessage.user_id
+//        }
     }
     if (uids.length === 0 && chatsUids.length === 0) {
         stopBusyIndicator()
     } else {
         uids = uids.substring(1)
-        chatsUids = chatsUids.substring(1)
+        chatsIds = chatsIds.substring(1)
         UsersAPI.getUsersAvatarAndOnlineStatus(uids)
+        api_getChat(chatsIds)
     }
 }
 
@@ -168,12 +193,12 @@ function callback_getHistory(jsonObject) {
         messages[messages.length] = parseMessage(messageJsonObject)
     }
     formMessagesListFromServerData(messages)
-    stopLoadingMessagesIndicator()
+    stopBusyIndicator()
     scrollMessagesToBottom()
 }
 
 function callback_sendMessage(jsonObject, isNew) {
-    if (!isNew) api_getHistory(isChat, dialogId, messagesOffset)
+    scrollMessagesToBottom()
 }
 
 function callback_createChat(jsonObject) {
@@ -188,6 +213,19 @@ function callback_searchDialogs(jsonObject) {
                                  name,
                                  jsonObject.response[index].photo_100,
                                  jsonObject.response[index].online)
+    }
+}
+
+function callback_getChat(jsonObject) {
+    for (var index in jsonObject.response) {
+        var chatInfo = jsonObject.response[index]
+        var photo = chatInfo.photo_100
+        if (photo) {
+            updateDialogInfo(chatInfo.id,
+                             chatInfo.photo_100,
+                             chatInfo.title,
+                             false)
+        }
     }
 }
 
@@ -207,6 +245,71 @@ function callback_getChatUsers(jsonObject) {
     saveUsers(users)
 }
 
+function callback_startLongPoll(jsonObject) {
+    var res = jsonObject.response
+    if (res) {
+        LONGPOLL_SERVER.key = res.key
+        LONGPOLL_SERVER.server = res.server
+        LONGPOLL_SERVER.ts = res.ts
+
+        RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
+                                          {key: LONGPOLL_SERVER.key,
+                                           ts: LONGPOLL_SERVER.ts,
+                                           wait: TypesJS.UpdateInterval.getValue(),
+                                           mode: LONGPOLL_SERVER.mode},
+                                       callback_doLongPoll)
+    }
+}
+
+function callback_doLongPoll(jsonObject) {
+    if (jsonObject) {
+        if (jsonObject.updates) {
+            for (var i in jsonObject.updates) {
+                var update = jsonObject.updates[i]
+                var eventId = update[0]
+
+                switch (eventId) {
+                case 0: // удаление сообщения
+                    break;
+                case 1: // замена флагов сообщения (FLAGS:=$flags)
+                case 2: // установка флагов сообщения (FLAGS|=$mask)
+                case 3: // сброс флагов сообщения (FLAGS&=~$mask)
+                    var msgId = update[1]
+                    var flags = update[2]
+                    var userId = update.length > 3 ? update[3] : null
+                    var action = eventId === 1 ? TypesJS.Action.SET:
+                                (eventId === 2 ? TypesJS.Action.ADD :
+                                                 TypesJS.Action.DEL)
+                    TypesJS.LongPollWorker.applyValue('message.flags',
+                                                 [msgId, flags, action, userId])
+                    break;
+                case 4: // добавление нового сообщения
+                    TypesJS.LongPollWorker.applyValue('message.add', update.slice(1))
+                    break;
+                case 8: // друг стал онлайн/оффлайн
+                case 9:
+                    var isOnline = eventId === 8
+                    var userId = update[1]
+                    TypesJS.LongPollWorker.applyValue('friends', [-userId, isOnline])
+                    break;
+                case 80: // счетчик непрочитанных
+                    var count = update[1]
+                    TypesJS.LongPollWorker.applyValue('unread', [count])
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
+        RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
+                                          {key: LONGPOLL_SERVER.key,
+                                           ts: jsonObject.ts,
+                                           wait: TypesJS.UpdateInterval.getValue(),
+                                           mode: LONGPOLL_SERVER.mode},
+                                       callback_doLongPoll)
+    }
+}
 
 // -------------- Other functions --------------
 
@@ -251,4 +354,117 @@ function parseMessage(jsonObject) {
     }
 
     return messageData
+}
+
+/**
+ * The function for parsing the json object of a dialog list item.
+ *
+ * [In]  + jsonObject - the json object of the dialog item.
+ *
+ * [Out] + The array of dialog item data, which contains info about the dialog.
+ */
+function parseDialogListItem(jsonObject) {
+    if (Object.keys(jsonObject).length === 0)
+        return null
+
+    var itemData = []
+
+    var body = jsonObject.body.replace(/<br>/g, " ")
+                              .replace(/&/g, '&amp;')
+                              .replace(/</g, '&lt;')
+                              .replace(/>/g, '&gt;')
+    var title = jsonObject.title.replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt; ')
+                                .replace(/>/g, ' &gt;')
+    var isChat = false
+    var dialogId = jsonObject.user_id
+
+    if (jsonObject.fwd_messages)
+        body = "[сообщения] " + body
+    if (jsonObject.attachments)
+        body = "[вложения] " + body
+    if (jsonObject.chat_id) {
+        dialogId = jsonObject.chat_id
+        isChat = true
+    }
+
+    itemData[0] = jsonObject.out
+    itemData[1] = title
+    itemData[2] = body
+    itemData[3] = dialogId
+    itemData[4] = jsonObject.read_state
+    itemData[5] = isChat
+
+    return itemData
+}
+
+/**
+ * The function for parsing message from long polling.
+ *
+ * [In]  + argsArray - the array of message data.
+ *
+ * [Out] + Standart json object of message data.
+ */
+function parseLongPollMessage(argsArray) {
+    var jsonObject = {}
+    var flags = argsArray[1]
+    var extra = argsArray[6]
+
+    jsonObject.id = argsArray[0]
+    jsonObject.from_id = argsArray[2]
+    jsonObject.date = argsArray[3]
+    jsonObject.read_state = +!((1 & flags) === 1)
+    jsonObject.out = +((2 & flags) === 2)
+    jsonObject.title = argsArray[4]
+    jsonObject.body = argsArray[5]
+
+    var media = []
+    Object.keys(extra).forEach(function(key) {
+        if (key === "from") {
+            jsonObject.chat_id = jsonObject.from_id - 2000000000
+            jsonObject.from_id = extra.from
+        }
+        else if (key.indexOf("attach") === 0) {
+            if (key.length - key.lastIndexOf("_type") === 5) {
+                var keyVal = key.substr(0, key.indexOf('_'))
+                var owner_item = extra[keyVal].split('_')
+                var ownerId = parseInt(owner_item[0], 10)
+                var itemId = parseInt(owner_item[1], 10)
+                var item = {}
+
+                switch(extra[key]) {
+                case 'photo':
+                case 'video':
+                case 'audio':
+                case 'doc':
+                    item[key[0] + id] = itemId
+                    item.owner_id = ownerId
+                    break
+                case 'wall':
+                    item.id = itemId
+                    item.to_id = ownerId
+                    break
+                }
+                media.push(item)
+            }
+        }
+        else if (key === "fwd") {
+            jsonObject.fwd_messages = []
+            extra.fwd.forEach(function (o) {
+                var user_msg = o.split('_')
+                jsonObject.fwd_messages.push({
+                    "uid":user_msg[0],
+                    "mid":user_msg[1]
+                })
+            })
+        }
+    })
+    if (media.length > 0)
+        jsonObject.attachments = media
+
+    if (!jsonObject.chat_id)
+        jsonObject.user_id = jsonObject.from_id
+
+    console.log(JSON.stringify(jsonObject))
+    return jsonObject
 }

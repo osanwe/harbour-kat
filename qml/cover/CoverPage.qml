@@ -22,12 +22,18 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/api/messages.js" as MessagesAPI
+import "../js/api/account.js" as AccountAPI
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 
 CoverBackground {
+    property int unreadDialogs: 0
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
+        if (counter !== unreadDialogs)
+            notificationHelper.activateLed(counter > unreadDialogs)
+        unreadDialogs = counter
     }
 
     Row {
@@ -78,15 +84,23 @@ CoverBackground {
     }
 
     Timer {
-        id: updateTimer
         interval: 900000 // 15 minutes
         running: true
         repeat: true
 
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+        onTriggered: AccountAPI.api_setOnline()
     }
 
-    Component.onCompleted: MessagesAPI.api_getUnreadMessagesCounter(true)
+    Component.onCompleted: {
+        TypesJS.LongPollWorker.addValues({
+            "cover.unread": updateCoverCounters
+        })
+
+        AccountAPI.api_setOnline()
+        MessagesAPI.api_getUnreadMessagesCounter(true)
+        MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+    }
+    Component.onDestruction: AccountAPI.api_setOffline()
 }
 
 

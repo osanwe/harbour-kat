@@ -23,6 +23,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
@@ -72,8 +73,6 @@ Page {
     }
 
     function sendMessage() {
-        messages.model.clear()
-        messagesOffset = 0
         MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
@@ -102,7 +101,9 @@ Page {
 
     function formMessageList(messageData) {
         messageData.userAvatar = userAvatar
-        messages.model.insert(messagesOffset, messageData)
+        var index = (insertToEnd === true) ? messages.model.count : 0
+//        messages.model.insert(messagesOffset, messageData)
+        messages.model.insert(index, messageData)
     }
 
     function scrollMessagesToBottom() {
@@ -113,7 +114,7 @@ Page {
         }
     }
 
-    function stopLoadingMessagesIndicator() {
+    function stopBusyIndicator() {
         loadingMessagesIndicator.running = false
     }
 
@@ -130,6 +131,12 @@ Page {
         }
         console.log(messagesIdsList)
         return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
+    }
+
+    function markDialogAsRead() {
+        var unreadMessagesIds = getUnreadMessagesFromModel()
+        if (unreadMessagesIds.length > 0)
+            MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
     }
 
     BusyIndicator {
@@ -242,6 +249,20 @@ Page {
             }
 
             VerticalScrollDecorator {}
+
+            function lookupItem(itemId, fromEnd) {
+                fromEnd = fromEnd === true
+
+                for (var i = (fromEnd ? messages.model.count - 1 : 0);
+                             (fromEnd ? i >= 0 : i < messages.model.count);
+                             (fromEnd ? --i : ++i)) {
+                    if (messages.model.get(i).mid === itemId) {
+                        return i
+                    }
+                }
+                console.log("Message with id '" + itemId + "' does not exist")
+                return -1
+            }
         }
 
         IconButton {
@@ -290,6 +311,7 @@ Page {
             MenuItem {
                 text: qsTr("Обновить")
                 onClicked: {
+                    markDialogAsRead()
                     messages.model.clear()
                     messagesOffset = 0
                     loadingMessagesIndicator.running = true
@@ -320,10 +342,65 @@ Page {
 
     onStatusChanged:
         if (status === PageStatus.Inactive) {
-            var unreadMessagesIds = getUnreadMessagesFromModel()
-            if (unreadMessagesIds.length > 0)
-                MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
+            markDialogAsRead()
         }
 
-    Component.onCompleted: formNewDialogMessages()
+    Component.onCompleted: {
+//        if (isChat) {
+//            MessagesAPI.api_getChatUsers(dialogId)
+//        } else {
+//            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+//        }
+        formNewDialogMessages()
+
+        TypesJS.LongPollWorker.addValues({
+            "dialog.message.add": function() {
+                var fromId = arguments[2]
+                if (isChat)
+                    fromId -= 2000000000
+
+                if (dialogId === fromId) {
+                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
+                    var messageData = MessagesAPI.parseMessage(jsonMessage)
+                    formMessageList(messageData, true)
+                    scrollMessagesToBottom()
+                }
+            },
+            "dialog.message.flags": function(msgId, flags, action, userId) {
+                if (isChat)
+                    userId -= 2000000000
+
+                if (dialogId === userId) {
+                    var msgIndex = messages.lookupItem(msgId)
+                    if (msgIndex !== -1) {
+                        switch (action) {
+                        case TypesJS.Action.ADD:
+                        case TypesJS.Action.SET:
+                            if ((flags & 1) === 1) {
+                                messages.model.setProperty(msgIndex, "readState", 0)
+                            }
+                            break
+                        case TypesJS.Action.DEL:
+                            if ((flags & 1) === 1) {
+                                messages.model.setProperty(msgIndex, "readState", 1)
+                            }
+                            break
+                        }
+                    }
+                }
+            },
+            "dialog.friends": function(userId, status) {
+                if (!isChat && dialogId === userId) {
+                    isOnline = status
+                    dialogOnlineStatus.checked = status
+                }
+            }
+        })
+    }
+
+    Component.onDestruction: {
+        TypesJS.LongPollWorker.delValues(["dialog.message.add",
+                                          "dialog.message.flags",
+                                          "dialog.friends"])
+    }
 }

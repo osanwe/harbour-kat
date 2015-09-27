@@ -27,7 +27,7 @@ import "../js/auth.js" as AuthJS
 import "../js/storage.js" as StorageJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
-
+import "../js/types.js" as TypesJS
 
 Page {
 
@@ -35,6 +35,8 @@ Page {
     property int dialogsOffset: 0
     property var dialogsData: []
     property var usersAvatars: []
+
+    property int dialogsOffset: messagesList.model.count
 
     function formNewDialogsList() {
         console.log('formNewDialogsList()')
@@ -46,10 +48,10 @@ Page {
     function updateDialogs() {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
-            dialogsOffset = 0
-            chatsCounter = 0
-            dialogsData = []
-            usersAvatars = []
+//            dialogsOffset = 0
+//            chatsCounter = 0
+//            dialogsData = []
+//            usersAvatars = []
             loadingIndicator.running = true
             messagesList.footerItem.visible = false
             MessagesAPI.api_getDialogsList(dialogsOffset)
@@ -57,7 +59,6 @@ Page {
     }
 
     function formDialogsList(io, title, message, dialogId, readState, isChat) {
-        console.log(readState)
         message = message.replace(/<br>/g, " ")
         dialogsData[dialogsData.length] = { isDialog:     true,
                                             out:          io,
@@ -149,13 +150,25 @@ Page {
 
             onClicked: {
                 loadingIndicator.running = true
-                dialogsOffset = dialogsOffset + 20
-                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
 
         VerticalScrollDecorator {}
+
+        function lookupItem(itemId, fromEnd) {
+            fromEnd = fromEnd === true
+
+            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
+                         (fromEnd ? i >= 0 : i < messagesList.model.count);
+                         (fromEnd ? --i : ++i)) {
+                if (messagesList.model.get(i).itemId === itemId) {
+                    return i
+                }
+            }
+            console.log("Dialog with id '" + itemId + "' does not exist")
+            return -1
+        }
     }
 
     Timer {
@@ -165,5 +178,71 @@ Page {
         onTriggered: if (visible)
                          if (messagesList.model.count === 0) formNewDialogsList()
                          else updateDialogs()
+    }
+
+    Component.onCompleted: {
+        updateDialogs()
+
+        TypesJS.LongPollWorker.addValues({
+            "dialoglist.message.add": function() {
+                if (arguments.length === 7) {
+                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
+                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
+
+                    var uid = jsonMessage.from_id
+                    var isChat = itemData[5]
+                    var dialogIndex = messagesList.lookupItem(itemData[3])
+                    if (dialogIndex !== -1) {
+                        messagesList.model.set(dialogIndex, {"out": itemData[0],
+                                                     "previewText": itemData[2],
+                                                       "readState": itemData[4]})
+                        if (isChat)
+                            messagesList.model.setProperty(dialogIndex,
+                                                 "nameOrTitle", itemData[1])
+
+                        messagesList.model.move(dialogIndex, 0, 1)
+                    } else {
+                        formDialogsList(itemData, true)
+                        if (isChat)
+                            MessagesAPI.api_getChat(itemData[3])
+                        else
+                            UsersAPI.getUsersAvatarAndOnlineStatus(uid)
+                    }
+                }
+            },
+            "dialogList.message.flags": function(msgId, flags, action, userId) {
+                if (userId) {
+                    if (userId > 2000000000)
+                        userId -= 2000000000
+                    var dialogIndex = messagesList.lookupItem(userId)
+                    if (dialogIndex !== -1) {
+                        switch (action) {
+                        case TypesJS.Action.ADD:
+                        case TypesJS.Action.SET:
+                            if ((flags & 1) === 1) {
+                                messagesList.model.setProperty(dialogIndex, "readState", 0)
+                            }
+                            break
+                        case TypesJS.Action.DEL:
+                            if ((flags & 1) === 1) {
+                                messagesList.model.setProperty(dialogIndex, "readState", 1)
+                            }
+                            break
+                        }
+                    }
+                }
+            },
+            "dialoglist.friends": function(userId, status) {
+                var dialogIndex = messagesList.lookupItem(userId)
+                if (dialogIndex !== -1)
+                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
+            }
+        })
+    }
+
+    Component.onDestruction: {
+        TypesJS.LongPollWorker.delValues(["dialoglist.message.add",
+                                          "dialogList.message.flags",
+                                          "dialoglist.friends"])
     }
 }
