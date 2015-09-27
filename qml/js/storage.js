@@ -82,6 +82,7 @@ function initDatabase() {
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
             console.log("... recreate tables")
             tx.executeSql("DELETE FROM settings")
+            tx.executeSql("DELETE FROM user_info")
         })
     }
 }
