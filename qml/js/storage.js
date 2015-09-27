@@ -259,7 +259,8 @@ function getLastMessagesForDialog(chatId) {
                 mid:             item.id,
                 readState:       item.is_read,
                 out:             item.is_out,
-                message:         item.body,
+                message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
+                                             "",
                 datetime:        item.date,
                 attachmentsData: item.attachments,
                 avatarSource:    item.avatar ? cachePath + item.avatar :
