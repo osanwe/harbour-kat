@@ -33,10 +33,9 @@ Page {
 
     property int chatsCounter: 0
     property int dialogsOffset: 0
+//    property int dialogsOffset: messagesList.model.count
     property var dialogsData: []
     property var usersAvatars: []
-
-    property int dialogsOffset: messagesList.model.count
 
     function formNewDialogsList() {
         console.log('formNewDialogsList()')
@@ -48,10 +47,10 @@ Page {
     function updateDialogs() {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
-//            dialogsOffset = 0
-//            chatsCounter = 0
-//            dialogsData = []
-//            usersAvatars = []
+            dialogsOffset = 0
+            chatsCounter = 0
+            dialogsData = []
+            usersAvatars = []
             loadingIndicator.running = true
             messagesList.footerItem.visible = false
             MessagesAPI.api_getDialogsList(dialogsOffset)
@@ -72,6 +71,7 @@ Page {
     }
 
     function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
+        console.log(parseInt(index, 10) + chatsCounter + dialogsOffset + ' | ' + dialogsData.length)
         while (dialogsData[parseInt(index, 10) + chatsCounter + dialogsOffset].isChat)
             chatsCounter += 1
         var idx = parseInt(index, 10) + chatsCounter + dialogsOffset

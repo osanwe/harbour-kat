@@ -150,11 +150,17 @@ function callback_getDialogsList(jsonObject) {
             messageBody = "[вложения] " + messageBody
         if (jsonMessage.chat_id) {
             dialogId = jsonMessage.chat_id
-            chatsUids += "," + jsonMessage.user_id
+            chatsIds += "," + jsonMessage.user_id
             isChat = true
         } else {
             uids += "," + jsonMessage.user_id
         }
+        formDialogsList(jsonMessage.out,
+                        jsonMessage.title,
+                        messageBody,
+                        dialogId,
+                        jsonMessage.read_state,
+                        isChat)
 
 //        formDialogsList(parseDialogListItem(jsonMessage))
 //        if (jsonMessage.chat_id) {
