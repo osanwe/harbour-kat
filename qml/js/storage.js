@@ -241,11 +241,18 @@ function getLastMessagesForDialog(chatId) {
 
     db.transaction( function (tx) {
         console.log('... reading ...')
-        var result = tx.executeSql('SELECT * ' +
+        var result = tx.executeSql('SELECT messages.id          AS id, ' +
+                                          'messages.is_read     AS is_read, ' +
+                                          'messages.is_out      AS is_out, ' +
+                                          'messages.body        AS body, ' +
+                                          'messages.date        AS date, ' +
+                                          'messages.attachments AS attachments, ' +
+                                          'users.avatar         AS avatar ' +
                                    'FROM messages ' +
-                                   'WHERE chat_id = ' + chatId + ' ' +
+                                   'LEFT OUTER JOIN users ON users.id = messages.from_id ' +
+                                   'WHERE messages.chat_id = ' + chatId + ' ' +
                                    'ORDER BY date DESC ' +
-                                   'LIMIT 50;')
+                                   'LIMIT 50')
         for (var i = 0; i < result.rows.length; i++) {
             var item = result.rows.item(i)
             value[i] = {
@@ -254,11 +261,10 @@ function getLastMessagesForDialog(chatId) {
                 out:             item.is_out,
                 message:         item.body,
                 datetime:        item.date,
-//                avatarSource:    avatarSource,
-//                userAvatar:      userAvatar,
                 attachmentsData: item.attachments,
-                isNewsContent:   false,
-                fromId:          item.from_id
+                avatarSource:    item.avatar ? cachePath + item.avatar :
+                                               "image://theme/icon-cover-people",
+                isNewsContent:   false
             }
         }
     })
