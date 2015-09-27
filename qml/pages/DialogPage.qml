@@ -64,6 +64,7 @@ Page {
 
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
+        console.log(avatarSource)
         fullname = name
         isOnline = online
         lastSeenTime = lastSeen
@@ -80,7 +81,22 @@ Page {
 
     function formMessagesListFromServerData(messagesArray) {
         if (messagesOffset === 0) messages.model.clear()
-        for (var item in messagesArray) formMessageList(messagesArray[item])
+        for (var item in messagesArray) {
+            var messageData = messagesArray[item]
+            if (isChat) {
+                console.log("chat")
+                for (var index in chatUsers) if (chatUsers[index].id === messageData.fromId) {
+                        messageData.avatarSource = chatUsers[index].photo
+                        break
+                    }
+            }
+            else {
+                console.log('user')
+                messageData.avatarSource = avatarSource
+            }
+            console.log(messageData.avatarSource + ' | ' + avatarSource)
+            formMessageList(messageData)
+        }
         scrollMessagesToBottom()
     }
 

@@ -22,7 +22,7 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 
-var DATABASE_VERSION = "3"
+var DATABASE_VERSION = "4"
 
 function getDatabase() {
     return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
@@ -55,7 +55,10 @@ function initDatabase() {
                                                             'avatar     TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
-        if (db.version < '3') {
+        if (db.version === '3') db.transaction( function (tx) {
+            tx.executeSql('DROP TABLE messages');
+        })
+        if (db.version < '4') {
             db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
                 console.log("... create new tables")
                 tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id           INTEGER UNIQUE, ' +
@@ -65,7 +68,6 @@ function initDatabase() {
                                                                    'date         INTEGER, ' +
                                                                    'is_read      INTEGER, ' +
                                                                    'is_out       INTEGER, ' +
-                                                                   'title        TEXT, ' +
                                                                    'body         TEXT, ' +
                                                                    'geo          TEXT, ' +
                                                                    'attachments  TEXT, ' +
@@ -74,6 +76,7 @@ function initDatabase() {
                                                                 'first_name TEXT, ' +
                                                                 'last_name  TEXT, ' +
                                                                 'avatar     TEXT)')
+                tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
             })
         }
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
@@ -196,18 +199,20 @@ function getLastDialogs() {
                                           'users.avatar          AS avatar, ' +
                                           'users.first_name      AS first_name, ' +
                                           'users.last_name       AS last_name, ' +
+                                          'dialogs.title         AS title, ' +
 //                                          'messages.id           AS msg_id, ' +
                                           'messages.chat_id      AS chat_id, ' +
-//                                          'MAX(messages.date)    AS date, ' +
+                                          'MAX(messages.date)    AS date, ' +
                                           'messages.is_read      AS is_read, ' +
                                           'messages.is_out       AS is_out, ' +
-                                          'messages.title        AS title, ' +
+//                                          'messages.title        AS title, ' +
                                           'messages.body         AS body, ' +
 //                                          'messages.geo          AS geo, ' +
                                           'messages.attachments  AS attachments, ' +
                                           'messages.fwd_messages AS fwd_messages ' +
                                    'FROM messages ' +
                                    'LEFT OUTER JOIN users ON users.id = messages.user_id ' +
+                                   'LEFT OUTER JOIN dialogs ON dialogs.id = messages.chat_id ' +
                                    'GROUP BY messages.chat_id ' +
                                    'ORDER BY date DESC ' +
                                    'LIMIT 20')
@@ -302,29 +307,33 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
 
     db.transaction( function (tx) {
         console.log('... saving or updating ...')
+        if (typeof title !== 'undefined') {
+            tx.executeSql('INSERT OR REPLACE INTO dialogs (id, ' +
+                                                          'title) ' +
+                                             'VALUES (' + (chatId ? chatId : userId) + ', ' +
+                                                    '\"' + title + '\")')
+        }
         tx.executeSql('INSERT OR REPLACE INTO messages (id, ' +
                                                        'chat_id, ' +
-                                             (userId ? 'user_id, ' : '' ) +
-                                             (fromId ? 'from_id, ' : '' ) +
-                                             (date ?   'date, '    : '' ) +
-                                             (isRead ? 'is_read, ' : '' ) +
-                                             (isOut ?  'is_out, '  : '' ) +
-                                                       'title, ' +
+                                            ( userId ? 'user_id, ' : '' ) +
+                                            ( fromId ? 'from_id, ' : '' ) +
+                                            ( date   ? 'date, '    : '' ) +
+                                            ( isRead ? 'is_read, ' : '' ) +
+                                            ( isOut  ? 'is_out, '  : '' ) +
                                                        'body, ' +
                                                        'geo, ' +
                                                        'attachments, ' +
                                                        'fwd_messages) ' +
                                            'VALUES (' + id           + ', ' +
-                                              (chatId ? chatId       + ', ' : userId + ', ' ) +
-                                              (userId ? userId       + ', ' : '' ) +
-                                              (fromId ? fromId       + ', ' : '' ) +
-                                              (date ?   date         + ', ' : '' ) +
-                                              (isRead ? isRead       + ', ' : '' ) +
-                                              (isOut ?  isOut        + ', ' : '' ) +
-                                                 '\"' + title        + '\", ' +
-                                                 '?, ' +
-                                                 '?, ' +
-                                                 '?, ' +
-                                                 '?)', values)
+                                       (chatId ?        chatId       + ', '   : userId + ', ' ) +
+                                       (userId ?        userId       + ', '   : '' ) +
+                                       (fromId ?        fromId       + ', '   : '' ) +
+                                       (date   ?        date         + ', '   : '' ) +
+                                       (isRead ?        isRead       + ', '   : '' ) +
+                                       (isOut  ?        isOut        + ', '   : '' ) +
+                                                       '?, ' +
+                                                       '?, ' +
+                                                       '?, ' +
+                                                       '?)', values)
     })
 }

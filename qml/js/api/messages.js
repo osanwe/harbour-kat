@@ -246,6 +246,7 @@ function parseMessage(jsonObject) {
                          ("0" + (date.getMonth() + 1)).slice(-2) + "." +
                          ("0" + date.getFullYear()).slice(-2),
         attachmentsData: messageAttachments,
+        avatarSource:    "",
         isNewsContent:   false
     }
 
