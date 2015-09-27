@@ -45,6 +45,13 @@ Page {
 
     property string attachmentsList: ""
 
+    function formNewDialogMessages() {
+        console.log('formNewDialogMessages()')
+        var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
+        for (var item in messagesArray) formMessageList(messagesArray[item])
+        scrollMessagesToBottom()
+    }
+
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
         fullname = name
@@ -62,35 +69,35 @@ Page {
     }
 
     function formMessageList(messageData) {
-        var attachmentsData = messageData.slice(6)
-        console.log(attachmentsData)
-        if (isChat) {
-            for (var index in chatUsers) {
-                if (chatUsers[index].id === messageData[1]) {
-                    avatarSource = chatUsers[index].photo
-                }
-            }
+        messageData.userAvatar = userAvatar
+        messages.model.insert(0, messageData)
+//        if (isChat) {
+//            for (var index in chatUsers) {
+//                if (chatUsers[index].id === messageData[1]) {
+//                    avatarSource = chatUsers[index].photo
+//                }
+//            }
 
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
-        } else {
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
-        }
+//            messages.model.insert(0, { mid:             messageData[0],
+//                                       readState:       messageData[2],
+//                                       out:             messageData[3],
+//                                       message:         messageData[4],
+//                                       datetime:        messageData[5],
+//                                       avatarSource:    avatarSource,
+//                                       userAvatar:      userAvatar,
+//                                       attachmentsData: attachmentsData,
+//                                       isNewsContent:   false })
+//        } else {
+//            messages.model.insert(0, { mid:             messageData[0],
+//                                       readState:       messageData[2],
+//                                       out:             messageData[3],
+//                                       message:         messageData[4],
+//                                       datetime:        messageData[5],
+//                                       avatarSource:    avatarSource,
+//                                       userAvatar:      userAvatar,
+//                                       attachmentsData: attachmentsData,
+//                                       isNewsContent:   false })
+//        }
     }
 
     function scrollMessagesToBottom() {
@@ -131,7 +138,7 @@ Page {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: true
+        running: false //true
     }
 
     SilicaFlickable {
@@ -320,10 +327,10 @@ Page {
                 MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
         }
 
-    Component.onCompleted:
-        if (isChat) {
-            MessagesAPI.api_getChatUsers(dialogId)
-        } else {
-            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
-        }
+    Component.onCompleted: formNewDialogMessages()
+//        if (isChat) {
+//            MessagesAPI.api_getChatUsers(dialogId)
+//        } else {
+//            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+//        }
 }

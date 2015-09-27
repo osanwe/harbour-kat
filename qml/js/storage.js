@@ -257,7 +257,8 @@ function getLastMessagesForDialog(chatId) {
 //                avatarSource:    avatarSource,
 //                userAvatar:      userAvatar,
                 attachmentsData: item.attachments,
-                isNewsContent:   false
+                isNewsContent:   false,
+                fromId:          item.from_id
             }
         }
     })
