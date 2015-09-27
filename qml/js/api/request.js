@@ -22,7 +22,7 @@
 .import "../storage.js" as StorageJS
 
 var API_SERVER = "https://api.vk.com/method/";
-var API_VERSION = "v=5.35"
+var API_VERSION = "v=5.37"
 
 function sendRequest(method, data, callback, isNew) {
     var query = API_SERVER + method + "?" + API_VERSION +

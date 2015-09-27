@@ -45,8 +45,26 @@ Page {
 
     property string attachmentsList: ""
 
+    function formNewDialogMessages() {
+        console.log('formNewDialogMessages()')
+        var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
+        for (var item in messagesArray) formMessageList(messagesArray[item])
+        scrollMessagesToBottom()
+
+        if (isChat) MessagesAPI.api_getChatUsers(dialogId)
+        else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+    }
+
+    function saveUsers(users) {
+        chatUsers = users
+        pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
+                                   { "chatTitle": fullname, "users": users })
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    }
+
     function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
+        console.log(avatarSource)
         fullname = name
         isOnline = online
         lastSeenTime = lastSeen
@@ -61,36 +79,30 @@ Page {
         attachmentsList = ""
     }
 
-    function formMessageList(messageData) {
-        var attachmentsData = messageData.slice(6)
-        console.log(attachmentsData)
-        if (isChat) {
-            for (var index in chatUsers) {
-                if (chatUsers[index].id === messageData[1]) {
-                    avatarSource = chatUsers[index].photo
-                }
+    function formMessagesListFromServerData(messagesArray) {
+        if (messagesOffset === 0) messages.model.clear()
+        for (var item in messagesArray) {
+            var messageData = messagesArray[item]
+            if (isChat) {
+                console.log("chat")
+                for (var index in chatUsers) if (chatUsers[index].id === messageData.fromId) {
+                        messageData.avatarSource = chatUsers[index].photo
+                        break
+                    }
             }
-
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
-        } else {
-            messages.model.insert(0, { mid:             messageData[0],
-                                       readState:       messageData[2],
-                                       out:             messageData[3],
-                                       message:         messageData[4],
-                                       datetime:        messageData[5],
-                                       avatarSource:    avatarSource,
-                                       userAvatar:      userAvatar,
-                                       attachmentsData: attachmentsData,
-                                       isNewsContent:   false })
+            else {
+                console.log('user')
+                messageData.avatarSource = avatarSource
+            }
+            console.log(messageData.avatarSource + ' | ' + avatarSource)
+            formMessageList(messageData)
         }
+        scrollMessagesToBottom()
+    }
+
+    function formMessageList(messageData) {
+        messageData.userAvatar = userAvatar
+        messages.model.insert(messagesOffset, messageData)
     }
 
     function scrollMessagesToBottom() {
@@ -99,13 +111,6 @@ Page {
         } else {
             messages.positionViewAtIndex(49, ListView.Beginning)
         }
-    }
-
-    function saveUsers(users) {
-        chatUsers = users
-        pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
-                                   { "chatTitle": fullname, "users": users })
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function stopLoadingMessagesIndicator() {
@@ -131,7 +136,7 @@ Page {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: true
+        running: false //true
     }
 
     SilicaFlickable {
@@ -319,10 +324,6 @@ Page {
             if (unreadMessagesIds.length > 0)
                 MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
         }
-    Component.onCompleted:
-        if (isChat) {
-            MessagesAPI.api_getChatUsers(dialogId)
-        } else {
-            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
-        }
+
+    Component.onCompleted: formNewDialogMessages()
 }

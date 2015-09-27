@@ -22,7 +22,7 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 
-var DATABASE_VERSION = "3"
+var DATABASE_VERSION = "4"
 
 function getDatabase() {
     return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
@@ -55,7 +55,10 @@ function initDatabase() {
                                                             'avatar     TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
-        if (db.version < '3') {
+        if (db.version === '3') db.transaction( function (tx) {
+            tx.executeSql('DROP TABLE messages');
+        })
+        if (db.version < '4') {
             db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
                 console.log("... create new tables")
                 tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id           INTEGER UNIQUE, ' +
@@ -65,7 +68,6 @@ function initDatabase() {
                                                                    'date         INTEGER, ' +
                                                                    'is_read      INTEGER, ' +
                                                                    'is_out       INTEGER, ' +
-                                                                   'title        TEXT, ' +
                                                                    'body         TEXT, ' +
                                                                    'geo          TEXT, ' +
                                                                    'attachments  TEXT, ' +
@@ -74,11 +76,13 @@ function initDatabase() {
                                                                 'first_name TEXT, ' +
                                                                 'last_name  TEXT, ' +
                                                                 'avatar     TEXT)')
+                tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
             })
         }
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
             console.log("... recreate tables")
             tx.executeSql("DELETE FROM settings")
+            tx.executeSql("DELETE FROM user_info")
         })
     }
 }
@@ -175,6 +179,14 @@ function readUserAvatar() {
 
 // -------------- Cache functions --------------
 
+function prepareMessagePreview(body, attachments, fwd_messages) {
+    if (body) body = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    else body = ""
+    if (fwd_messages) body = "[сообщения] " + body
+    if (attachments) body = "[вложения] " + body
+    return body
+}
+
 function getLastDialogs() {
     console.log('getLastDialogs()')
     var db = getDatabase()
@@ -188,18 +200,20 @@ function getLastDialogs() {
                                           'users.avatar          AS avatar, ' +
                                           'users.first_name      AS first_name, ' +
                                           'users.last_name       AS last_name, ' +
-                                          'messages.id           AS msg_id, ' +
+                                          'dialogs.title         AS title, ' +
+//                                          'messages.id           AS msg_id, ' +
                                           'messages.chat_id      AS chat_id, ' +
                                           'MAX(messages.date)    AS date, ' +
                                           'messages.is_read      AS is_read, ' +
                                           'messages.is_out       AS is_out, ' +
-                                          'messages.title        AS title, ' +
+//                                          'messages.title        AS title, ' +
                                           'messages.body         AS body, ' +
-                                          'messages.geo          AS geo, ' +
+//                                          'messages.geo          AS geo, ' +
                                           'messages.attachments  AS attachments, ' +
                                           'messages.fwd_messages AS fwd_messages ' +
                                    'FROM messages ' +
                                    'LEFT OUTER JOIN users ON users.id = messages.user_id ' +
+                                   'LEFT OUTER JOIN dialogs ON dialogs.id = messages.chat_id ' +
                                    'GROUP BY messages.chat_id ' +
                                    'ORDER BY date DESC ' +
                                    'LIMIT 20')
@@ -212,11 +226,60 @@ function getLastDialogs() {
                                             "image://theme/icon-cover-message",
                 nameOrTitle:  item.chat_id !== item.user_id ? item.title :
                                                               item.first_name + ' ' + item.last_name,
-                previewText:  item.body,
+                previewText:  prepareMessagePreview(item.body, item.attachments, item.fwd_messages),
                 itemId:       item.chat_id,
                 readState:    item.is_read,
                 isOnline:     false,
                 isChat:       item.chat_id !== item.user_id,
+            }
+        }
+    })
+
+    return value
+}
+
+function getLastMessagesForDialog(chatId) {
+    console.log('getLastMessagesForDialog()')
+    var db = getDatabase()
+    if (!db) return
+
+    var value = []
+
+    db.transaction( function (tx) {
+        console.log('... reading ...')
+        var result = tx.executeSql('SELECT messages.id          AS id, ' +
+                                          'messages.is_read     AS is_read, ' +
+                                          'messages.is_out      AS is_out, ' +
+                                          'messages.body        AS body, ' +
+                                          'messages.date        AS date, ' +
+                                          'messages.attachments AS attachments, ' +
+                                          'users.avatar         AS avatar ' +
+                                   'FROM messages ' +
+                                   'LEFT OUTER JOIN users ON users.id = messages.from_id ' +
+                                   'WHERE messages.chat_id = ' + chatId + ' ' +
+                                   'ORDER BY date DESC ' +
+                                   'LIMIT 50')
+        var date = new Date()
+        for (var i = 0; i < result.rows.length; i++) {
+            var item = result.rows.item(i)
+            date.setTime(parseInt(item.date) * 1000)
+            value[i] = {
+                mid:             item.id,
+                readState:       item.is_read,
+                out:             item.is_out,
+                message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
+                                             "",
+//                datetime:        item.date,
+                datetime:        ("0" + date.getHours()).slice(-2) + ":" +
+                                 ("0" + date.getMinutes()).slice(-2) + ", " +
+                                 ("0" + date.getDate()).slice(-2) + "." +
+                                 ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                                 ("0" + date.getFullYear()).slice(-2),
+                attachmentsData: item.attachments ? JSON.parse(item.attachments) :
+                                                    [],
+                avatarSource:    item.avatar ? cachePath + item.avatar :
+                                               "image://theme/icon-cover-people",
+                isNewsContent:   false
             }
         }
     })
@@ -237,35 +300,41 @@ function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
 
 function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, body, geo, attachments,
                      fwd_messages) {
+    console.log('saveMessage()')
     var db = getDatabase()
     if (!db) return
 
-    var values = [JSON.stringify(geo), JSON.stringify(attachments), JSON.stringify(fwd_messages)]
+    var values = [body, JSON.stringify(geo), JSON.stringify(attachments), JSON.stringify(fwd_messages)]
 
     db.transaction( function (tx) {
+        console.log('... saving or updating ...')
+        if (typeof title !== 'undefined') {
+            tx.executeSql('INSERT OR REPLACE INTO dialogs (id, ' +
+                                                          'title) ' +
+                                             'VALUES (' + (chatId ? chatId : userId) + ', ' +
+                                                    '\"' + title + '\")')
+        }
         tx.executeSql('INSERT OR REPLACE INTO messages (id, ' +
-                                             /*(chatId ?*/ 'chat_id, ' /*: '' )*/ +
-                                             (userId ? 'user_id, ' : '' ) +
-                                             (fromId ? 'from_id, ' : '' ) +
-                                             (date ?   'date, '    : '' ) +
-                                             (isRead ? 'is_read, ' : '' ) +
-                                             (isOut ?  'is_out, '  : '' ) +
-                                                       'title, ' +
+                                                       'chat_id, ' +
+                                            ( userId ? 'user_id, ' : '' ) +
+                                            ( fromId ? 'from_id, ' : '' ) +
+                                            ( date   ? 'date, '    : '' ) +
+                                            ( isRead ? 'is_read, ' : '' ) +
+                                            ( isOut  ? 'is_out, '  : '' ) +
                                                        'body, ' +
                                                        'geo, ' +
                                                        'attachments, ' +
                                                        'fwd_messages) ' +
                                            'VALUES (' + id           + ', ' +
-                                              (chatId ? chatId       + ', ' : userId + ', ' ) +
-                                              (userId ? userId       + ', ' : '' ) +
-                                              (fromId ? fromId       + ', ' : '' ) +
-                                              (date ?   date         + ', ' : '' ) +
-                                              (isRead ? isRead       + ', ' : '' ) +
-                                              (isOut ?  isOut        + ', ' : '' ) +
-                                                 '\"' + title        + '\", ' +
-                                                 '\"' + body         + '\", ' +
-                                                 '?, ' +
-                                                 '?, ' +
-                                                 '?)', values)
+                                       (chatId ?        chatId       + ', '   : userId + ', ' ) +
+                                       (userId ?        userId       + ', '   : '' ) +
+                                       (fromId ?        fromId       + ', '   : '' ) +
+                                       (date   ?        date         + ', '   : '' ) +
+                                       (isRead ?        isRead       + ', '   : '' ) +
+                                       (isOut  ?        isOut        + ', '   : '' ) +
+                                                       '?, ' +
+                                                       '?, ' +
+                                                       '?, ' +
+                                                       '?)', values)
     })
 }
