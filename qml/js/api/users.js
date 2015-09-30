@@ -82,8 +82,8 @@ function getUserAvatar(uid) {
 
 function getUsersAvatarAndOnlineStatus(uid) {
     var url = "https://api.vk.com/method/"
-    url += "users.get?"
-    url += "user_ids=" + uid
+    url += "users.get?v=5.37"
+    url += "&user_ids=" + uid
     url += "&fields=photo_100,online,last_seen"
     url += "&access_token=" + StorageJS.readSettingsValue("access_token")
     console.log(url)
@@ -109,7 +109,11 @@ function getUsersAvatarAndOnlineStatus(uid) {
                                    ("0" + date.getFullYear()).slice(-2)
                 }
 
-                updateDialogInfo(jsonObject.response[index].uid,
+                StorageJS.saveAnotherUserInfo(jsonObject.response[index].id,
+                                              jsonObject.response[index].first_name,
+                                              jsonObject.response[index].last_name,
+                                              jsonObject.response[index].photo_100.split('/').slice(-1))
+                updateDialogInfo(index,
                                  jsonObject.response[index].photo_100,
                                  fullname,
                                  (jsonObject.response[index].online === 1),

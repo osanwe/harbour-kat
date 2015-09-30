@@ -128,15 +128,27 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
-        formDialogsList(parseDialogListItem(jsonMessage))
+        StorageJS.saveMessage(jsonMessage.id,
+                              jsonMessage.chat_id,
+                              jsonMessage.user_id,
+                              jsonMessage.from_id,
+                              jsonMessage.date,
+                              jsonMessage.read_state,
+                              jsonMessage.out,
+                              jsonMessage.title,
+                              jsonMessage.body,
+                              jsonMessage.geo,
+                              jsonMessage.attachments,
+                              jsonMessage.fwd_messages)
 
         if (jsonMessage.chat_id) {
             chatsIds += "," + jsonMessage.chat_id
         } else {
             uids += "," + jsonMessage.user_id
         }
+        formDialogsList(parseDialogListItem(jsonMessage))
     }
-    if (uids.length === 0 && chatsUids.length === 0) {
+    if (uids.length === 0 && chatsIds.length === 0) {
         stopBusyIndicator()
     } else {
         uids = uids.substring(1)
@@ -148,9 +160,24 @@ function callback_getDialogsList(jsonObject) {
 
 function callback_getHistory(jsonObject) {
     var items = jsonObject.response.items
+    var messages = []
     for (var index in items) {
-        formMessageList(parseMessage(items[index]))
+        var messageJsonObject = items[index]
+        StorageJS.saveMessage(messageJsonObject.id,
+                              messageJsonObject.chat_id,
+                              messageJsonObject.user_id,
+                              messageJsonObject.from_id,
+                              messageJsonObject.date,
+                              messageJsonObject.read_state,
+                              messageJsonObject.out,
+                              messageJsonObject.title,
+                              messageJsonObject.body,
+                              messageJsonObject.geo,
+                              messageJsonObject.attachments,
+                              messageJsonObject.fwd_messages)
+        messages[messages.length] = parseMessage(messageJsonObject)
     }
+    formMessagesListFromServerData(messages)
     stopBusyIndicator()
     scrollMessagesToBottom()
 }
@@ -179,7 +206,7 @@ function callback_getChat(jsonObject) {
         var chatInfo = jsonObject.response[index]
         var photo = chatInfo.photo_100
         if (photo) {
-            updateDialogInfo(chatInfo.id,
+            updateDialogInfo(index,
                              chatInfo.photo_100,
                              chatInfo.title,
                              false)
@@ -277,45 +304,38 @@ function callback_doLongPoll(jsonObject) {
  *
  * [In]  + jsonObject - the json object of the message.
  *
- * [Out] + The array of message data, which contains message and date.
+ * [Out] + The associative array of message data, which contains message and date.
  *         Also it can contain informaion about attachments, forwarded messages and location.
  */
 function parseMessage(jsonObject) {
-    var messageData = []
-
     var date = new Date()
     date.setTime(parseInt(jsonObject.date) * 1000)
 
-    messageData[0] = jsonObject.id
-    messageData[1] = jsonObject.from_id
-    messageData[2] = jsonObject.read_state
-    messageData[3] = jsonObject.out
-    messageData[4] = jsonObject.body.replace(/&/g, '&amp;')
-                                    .replace(/</g, '&lt;')
-                                    .replace(/>/g, '&gt;')
-                                    .replace(/\n/g, "<br>")
-                                    .replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>")
-    messageData[5] = ("0" + date.getHours()).slice(-2) + ":" +
-                     ("0" + date.getMinutes()).slice(-2) + ", " +
-                     ("0" + date.getDate()).slice(-2) + "." +
-                     ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-                     ("0" + date.getFullYear()).slice(-2)
+    var messageAttachments = []
+    if (jsonObject.attachments) for (var index in jsonObject.attachments)
+            messageAttachments[messageAttachments.length] = jsonObject.attachments[index]
+    if (jsonObject.fwd_messages) for (var index in jsonObject.fwd_messages)
+            messageAttachments[messageAttachments.length] = jsonObject.fwd_messages[index]
+    if (jsonObject.geo) messageAttachments[messageAttachments.length] = jsonObject.geo
 
-    if (jsonObject.attachments) {
-        for (var index in jsonObject.attachments) {
-            messageData[messageData.length] = jsonObject.attachments[index]
-        }
-    }
-
-
-    if (jsonObject.fwd_messages) {
-        for (var index in jsonObject.fwd_messages) {
-            messageData[messageData.length] = jsonObject.fwd_messages[index]
-        }
-    }
-
-    if (jsonObject.geo) {
-        messageData[messageData.length] = jsonObject.geo
+    var messageData = {
+        mid:             jsonObject.id,
+        fromId:          jsonObject.from_id,
+        readState:       jsonObject.read_state,
+        out:             jsonObject.out,
+        message:         jsonObject.body.replace(/&/g, '&amp;')
+                                        .replace(/</g, '&lt;')
+                                        .replace(/>/g, '&gt;')
+                                        .replace(/\n/g, "<br>")
+                                        .replace(/(https?:\/\/[^\s<]+)/g, "<a href=\"$1\">$1</a>"),
+        datetime:        ("0" + date.getHours()).slice(-2) + ":" +
+                         ("0" + date.getMinutes()).slice(-2) + ", " +
+                         ("0" + date.getDate()).slice(-2) + "." +
+                         ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                         ("0" + date.getFullYear()).slice(-2),
+        attachmentsData: messageAttachments,
+        avatarSource:    "",
+        isNewsContent:   false
     }
 
     return messageData
