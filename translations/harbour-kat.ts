@@ -247,6 +247,10 @@
         <source>Обновление сообщений</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Обновлять сообщения вручную</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>wall</name>

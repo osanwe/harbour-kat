@@ -300,6 +300,11 @@
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="105"/>
+        <source>Обновлять сообщения вручную</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="114"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>

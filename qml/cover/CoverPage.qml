@@ -84,6 +84,21 @@ CoverBackground {
     }
 
     Timer {
+        id: updateTimer
+        interval: TypesJS.UpdateInterval.getValue()
+        running: !Qt.application.active && StorageJS.readSettingsValue("update_manual") === 'true'
+        repeat: true
+        triggeredOnStart: true
+
+        onRunningChanged: {
+            if (running) // if cover-refresh triggered
+                interval = TypesJS.UpdateInterval.getValue()
+        }
+
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+    }
+
+    Timer {
         interval: 900000 // 15 minutes
         running: true
         repeat: true
@@ -98,7 +113,9 @@ CoverBackground {
 
         AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)
-        MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+        if (StorageJS.readSettingsValue("update_manual") === 'false') {
+            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+        }
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }

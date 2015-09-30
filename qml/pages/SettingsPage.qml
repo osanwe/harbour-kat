@@ -102,6 +102,15 @@ Page {
             }
 
             TextSwitch {
+                text: qsTr("Обновлять сообщения вручную")
+                checked: StorageJS.readSettingsValue("update_manual", false) === 'true'
+
+                onCheckedChanged: {
+                    StorageJS.storeSettingsValue("update_manual", checked)
+                }
+            }
+
+            TextSwitch {
                 text: qsTr("Отображать разделитель в сообщениях")
                 checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 

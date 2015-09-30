@@ -247,6 +247,9 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
+    if (StorageJS.readSettingsValue("update_manual") === 'true')
+        return
+
     if (jsonObject) {
         if (jsonObject.updates) {
             for (var i in jsonObject.updates) {
