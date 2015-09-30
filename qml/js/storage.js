@@ -53,6 +53,7 @@ function initDatabase() {
                                                             'first_name TEXT, ' +
                                                             'last_name  TEXT, ' +
                                                             'avatar     TEXT)')
+            tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
         if (db.version === '3') db.transaction( function (tx) {
