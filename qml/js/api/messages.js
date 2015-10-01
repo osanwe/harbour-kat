@@ -236,6 +236,7 @@ function callback_startLongPoll(jsonObject) {
         LONGPOLL_SERVER.key = res.key
         LONGPOLL_SERVER.server = res.server
         LONGPOLL_SERVER.ts = res.ts
+        TypesJS.LongPollWorker.isActive = true
 
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
@@ -247,8 +248,10 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (StorageJS.readSettingsValue("update_manual") === 'true')
+    if (StorageJS.readSettingsValue("update_manual") === 'true') {
+        TypesJS.LongPollWorker.isActive = false
         return
+    }
 
     if (jsonObject) {
         if (jsonObject.updates) {
@@ -288,7 +291,15 @@ function callback_doLongPoll(jsonObject) {
                     break;
                 }
             }
+
+        } else if (jsonObject.failed === 2) {
+            // история устарела - просто обновляем отпечаток времени
+        } else if ([1,3].indexOf(jsonObject.failed) !== -1) {
+            // проблемы с соединением - надо перезапустить
+            api_startLongPoll()
+            return
         }
+
 
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,

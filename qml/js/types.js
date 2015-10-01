@@ -75,6 +75,7 @@ var UpdateInterval = {
 
 var LongPollWorker = {
     items: {},
+    isActive: false,
 
     addValue: function(key, value) {
         var hasKey = key in this.items

@@ -36,6 +36,12 @@ CoverBackground {
         unreadDialogs = counter
     }
 
+    function startLongPoll() {
+        if (StorageJS.readSettingsValue("update_manual") === 'false') {
+            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+        }
+    }
+
     Row {
         anchors.centerIn: parent
         spacing: 20
@@ -102,7 +108,12 @@ CoverBackground {
         running: true
         repeat: true
 
-        onTriggered: AccountAPI.api_setOnline()
+        onTriggered: {
+            AccountAPI.api_setOnline()
+            if (TypesJS.LongPollWorker.isActive === false) {
+                startLongPoll()
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -112,9 +123,7 @@ CoverBackground {
 
         AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)
-        if (StorageJS.readSettingsValue("update_manual") === 'false') {
-            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
-        }
+        startLongPoll()
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }
