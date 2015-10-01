@@ -85,14 +85,13 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: TypesJS.UpdateInterval.getValue()
         running: !Qt.application.active && StorageJS.readSettingsValue("update_manual") === 'true'
         repeat: true
         triggeredOnStart: true
 
         onRunningChanged: {
-            if (running) // if cover-refresh triggered
-                interval = TypesJS.UpdateInterval.getValue()
+            if (running)
+                interval = TypesJS.UpdateInterval.getValue() * 1000
         }
 
         onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
