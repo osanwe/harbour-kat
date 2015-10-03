@@ -48,6 +48,7 @@ Page {
 
     function formNewDialogMessages() {
         console.log('formNewDialogMessages()')
+        loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
         for (var item in messagesArray) formMessageList(messagesArray[item])
         scrollMessagesToBottom()
