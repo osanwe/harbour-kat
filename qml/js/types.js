@@ -119,3 +119,9 @@ var LongPollWorker = {
         })
     }
 }
+
+var MessageUpdateMode = {
+    isManual: function() {
+        return StorageJS.readSettingsValue("update_manual", 'false') === 'true'
+    }
+}

@@ -37,7 +37,7 @@ CoverBackground {
     }
 
     function startLongPoll() {
-        if (StorageJS.readSettingsValue("update_manual") === 'false') {
+        if (!TypesJS.MessageUpdateMode.isManual()) {
             MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
         }
     }
@@ -91,7 +91,7 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        running: !Qt.application.active && StorageJS.readSettingsValue("update_manual") === 'true'
+        running: !Qt.application.active && TypesJS.MessageUpdateMode.isManual()
         repeat: true
         triggeredOnStart: true
 

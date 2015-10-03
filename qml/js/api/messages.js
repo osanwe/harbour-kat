@@ -248,7 +248,7 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (StorageJS.readSettingsValue("update_manual") === 'true') {
+    if (TypesJS.MessageUpdateMode.isManual()) {
         TypesJS.LongPollWorker.isActive = false
         return
     }
