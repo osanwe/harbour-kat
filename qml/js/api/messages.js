@@ -421,7 +421,7 @@ function parseLongPollMessage(argsArray) {
     Object.keys(extra).forEach(function(key) {
         if (key === "from") {
             jsonObject.chat_id = jsonObject.from_id - 2000000000
-            jsonObject.from_id = extra.from
+            jsonObject.from_id = parseInt(extra.from, 10)
         }
         else if (key.indexOf("attach") === 0) {
             if (key.length - key.lastIndexOf("_type") === 5) {
