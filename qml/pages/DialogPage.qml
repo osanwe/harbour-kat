@@ -342,10 +342,10 @@ Page {
     onStatusChanged:
         if (status === PageStatus.Inactive) {
             markDialogAsRead()
+        } else if (status === PageStatus.Active) {
+            formNewDialogMessages()
         }
     Component.onCompleted: {
-        formNewDialogMessages()
-
         TypesJS.LongPollWorker.addValues({
             "dialog.message.add": function() {
                 var fromId = arguments[2]
