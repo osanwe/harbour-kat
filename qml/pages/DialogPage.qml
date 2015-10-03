@@ -102,7 +102,7 @@ Page {
     function formMessageList(messageData, insertToEnd) {
         var index = (insertToEnd === true) ? messages.model.count : messagesOffset;
         messageData.userAvatar = userAvatar
-        messages.model.insert(messagesOffset, messageData)
+        messages.model.insert(index, messageData)
     }
 
     function scrollMessagesToBottom() {
