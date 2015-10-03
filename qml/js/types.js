@@ -75,7 +75,7 @@ var UpdateInterval = {
 
 var LongPollWorker = {
     items: {},
-    isActive: false,
+    lastActive: 0,
 
     addValue: function(key, value) {
         var hasKey = key in this.items
@@ -117,6 +117,15 @@ var LongPollWorker = {
                 console.log(e.stack)
             }
         })
+    },
+
+    setActive: function() {
+        this.lastActive = Date.now()
+    },
+
+    isActive: function() {
+        var diff = Date.now() - this.lastActive
+        return diff <= UpdateInterval.getValue() * 1000
     }
 }
 

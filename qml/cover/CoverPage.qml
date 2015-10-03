@@ -110,7 +110,7 @@ CoverBackground {
 
         onTriggered: {
             AccountAPI.api_setOnline()
-            if (TypesJS.LongPollWorker.isActive === false) {
+            if (!TypesJS.LongPollWorker.isActive()) {
                 startLongPoll()
             }
         }

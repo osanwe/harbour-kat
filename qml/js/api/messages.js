@@ -103,6 +103,8 @@ function api_getChatUsers(dialogId) {
 }
 
 function api_startLongPoll(mode) {
+    TypesJS.LongPollWorker.setActive()
+
     if (mode)
         LONGPOLL_SERVER.mode = mode
 
@@ -231,12 +233,13 @@ function callback_getChatUsers(jsonObject) {
 }
 
 function callback_startLongPoll(jsonObject) {
+    TypesJS.LongPollWorker.setActive()
+
     var res = jsonObject.response
     if (res) {
         LONGPOLL_SERVER.key = res.key
         LONGPOLL_SERVER.server = res.server
         LONGPOLL_SERVER.ts = res.ts
-        TypesJS.LongPollWorker.isActive = true
 
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
@@ -249,9 +252,10 @@ function callback_startLongPoll(jsonObject) {
 
 function callback_doLongPoll(jsonObject) {
     if (TypesJS.MessageUpdateMode.isManual()) {
-        TypesJS.LongPollWorker.isActive = false
         return
     }
+
+    TypesJS.LongPollWorker.setActive()
 
     if (jsonObject) {
         if (jsonObject.updates) {
