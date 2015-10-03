@@ -101,7 +101,7 @@ Page {
     }
 
     function formMessageList(messageData, insertToEnd) {
-        var index = (insertToEnd === true) ? messages.model.count : messagesOffset;
+        var index = (insertToEnd === true) ? messages.model.count : 0;
         messageData.userAvatar = userAvatar
         messages.model.insert(index, messageData)
     }
