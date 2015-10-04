@@ -19,9 +19,17 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+.pragma library
 .import "request.js" as RequestAPI
 .import "../storage.js" as StorageJS
 
+var signaller = Qt.createQmlObject("import QtQuick 2.0; \
+    QtObject { \
+        signal endLoading; \
+        signal gotDialogInfo(int index, string photo, string title, bool isOnline, string lastSeen); \
+        signal gotUserAvatar(string avatar); \
+        signal gotUserNameAndAvatar(string userName, string avatar); \
+    }", Qt.application, "UsersSignaller");
 
 // -------------- API functions --------------
 
@@ -46,7 +54,7 @@ function callback_getUserNameAndAvatar(jsonObject) {
     if (StorageJS.readFullUserName() !== fullName) {
         console.log("Replacing user name...")
         StorageJS.saveUserName(firstName, secondName)
-        updateUserNameAndAvatar(fullName, cachePath + oldAvatarName)
+        signaller.gotUserNameAndAvatar(fullName, cachePath + oldAvatarName)
     }
     if (oldAvatarName !== newAvatarName) {
         console.log("Replacing user avatar...")
@@ -72,7 +80,7 @@ function getUserAvatar(uid) {
             console.log(doc.responseText)
             var jsonObject = JSON.parse(doc.responseText)
             for (var index in jsonObject.response) {
-                setUserAvatar(jsonObject.response[index].photo_100)
+                signaller.gotUserAvatar(jsonObject.response[index].photo_100)
             }
         }
     }
@@ -113,13 +121,13 @@ function getUsersAvatarAndOnlineStatus(uid) {
                                               jsonObject.response[index].first_name,
                                               jsonObject.response[index].last_name,
                                               jsonObject.response[index].photo_100.split('/').slice(-1))
-                updateDialogInfo(index,
-                                 jsonObject.response[index].photo_100,
-                                 fullname,
-                                 (jsonObject.response[index].online === 1),
-                                 lastSeenTime)
+                signaller.gotDialogInfo(index,
+                                        jsonObject.response[index].photo_100,
+                                        fullname,
+                                        (jsonObject.response[index].online === 1),
+                                        lastSeenTime)
             }
-            stopBusyIndicator()
+            signaller.endLoading()
         }
     }
     doc.open("GET", url, true)

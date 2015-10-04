@@ -19,6 +19,7 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+.pragma library
 .import "../storage.js" as StorageJS
 .import "../types.js" as TypesJS
 .import "request.js" as RequestAPI
@@ -31,6 +32,21 @@ var LONGPOLL_SERVER = {
     ts: -1,
     mode: 2
 };
+
+var signaller = Qt.createQmlObject("import QtQuick 2.0; \
+    QtObject { \
+        signal changedMessageFlags(int msgId, int flags, int action, int userId); \
+        signal endLoading; \
+        signal friendChangeStatus(int userId, bool isOnline); \
+        signal gotChatUsers(var users); \
+        signal gotDialogInfo(int index, string photo, string title, bool isOnline, string lastSeen); \
+        signal gotDialogs(var dialogs); \
+        signal gotHistory(var messages); \
+        signal gotNewMessage(var message); \
+        signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
+        signal gotUnreadCount(int count); \
+        signal needScrollToBottom; \
+    }", Qt.application, "MessagesSignaller");
 
 // -------------- API functions --------------
 
@@ -117,11 +133,11 @@ function api_startLongPoll(mode) {
 // -------------- Callbacks --------------
 
 function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
-//    updateUnreadMessagesCounter(jsonObject.response.count)
+//    signaller.gotUnreadCount(jsonObject.response.count)
 }
 
 function callback_getUnreadMessagesCounter_cover(jsonObject) {
-    updateCoverCounters(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response.count)
 }
 
 function callback_getDialogsList(jsonObject) {
@@ -148,10 +164,10 @@ function callback_getDialogsList(jsonObject) {
         } else {
             uids += "," + jsonMessage.user_id
         }
-        formDialogsList(parseDialogListItem(jsonMessage))
+        signaller.gotDialogs(parseDialogListItem(jsonMessage))
     }
     if (uids.length === 0 && chatsIds.length === 0) {
-        stopBusyIndicator()
+        signaller.endLoading()
     } else {
         uids = uids.substring(1)
         chatsIds = chatsIds.substring(1)
@@ -180,13 +196,13 @@ function callback_getHistory(jsonObject) {
                               messageJsonObject.fwd_messages)
         messages[messages.length] = parseMessage(messageJsonObject)
     }
-    formMessagesListFromServerData(messages)
-    stopBusyIndicator()
-    scrollMessagesToBottom()
+    signaller.gotHistory(messages)
+    signaller.endLoading()
+    signaller.needScrollToBottom()
 }
 
 function callback_sendMessage(jsonObject, isNew) {
-    scrollMessagesToBottom()
+    signaller.needScrollToBottom()
 }
 
 function callback_createChat(jsonObject) {
@@ -197,10 +213,10 @@ function callback_searchDialogs(jsonObject) {
     for (var index in jsonObject.response) {
         var name = jsonObject.response[index].first_name
         name += " " + jsonObject.response[index].last_name
-        updateSearchContactsList(jsonObject.response[index].id,
-                                 name,
-                                 jsonObject.response[index].photo_100,
-                                 jsonObject.response[index].online)
+        signaller.gotSearchDialogs(jsonObject.response[index].id,
+                                   name,
+                                   jsonObject.response[index].photo_100,
+                                   jsonObject.response[index].online)
     }
 }
 
@@ -209,10 +225,11 @@ function callback_getChat(jsonObject) {
         var chatInfo = jsonObject.response[index]
         var photo = chatInfo.photo_100
         if (photo) {
-            updateDialogInfo(index,
-                             chatInfo.photo_100,
-                             chatInfo.title,
-                             false)
+            signaller.gotDialogInfo(index,
+                                  chatInfo.photo_100,
+                                  chatInfo.title,
+                                  false,
+                                  null)
         }
     }
 }
@@ -230,7 +247,7 @@ function callback_getChatUsers(jsonObject) {
             status: jsonObject.response[index].status
         }
     }
-    saveUsers(users)
+    signaller.gotChatUsers(users)
 }
 
 function callback_startLongPoll(jsonObject) {
@@ -276,21 +293,21 @@ function callback_doLongPoll(jsonObject) {
                     var action = eventId === 1 ? TypesJS.Action.SET:
                                 (eventId === 2 ? TypesJS.Action.ADD :
                                                  TypesJS.Action.DEL)
-                    TypesJS.LongPollWorker.applyValue('message.flags',
-                                                 [msgId, flags, action, userId])
+                    signaller.changedMessageFlags(msgId, flags, action, userId)
                     break;
                 case 4: // добавление нового сообщения
-                    TypesJS.LongPollWorker.applyValue('message.add', update.slice(1))
+                    var msg = parseLongPollMessage(update.slice(1))
+                    signaller.gotNewMessage(msg)
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:
                     var isOnline = eventId === 8
                     var userId = update[1]
-                    TypesJS.LongPollWorker.applyValue('friends', [-userId, isOnline])
+                    signaller.friendChangeStatus(-userId, isOnline)
                     break;
                 case 80: // счетчик непрочитанных
                     var count = update[1]
-                    TypesJS.LongPollWorker.applyValue('unread', [count])
+                    signaller.gotUnreadCount(count)
                     break;
                 default:
                     break;

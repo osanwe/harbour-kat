@@ -117,9 +117,7 @@ CoverBackground {
     }
 
     Component.onCompleted: {
-        TypesJS.LongPollWorker.addValues({
-            "cover.unread": updateCoverCounters
-        })
+        MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
 
         AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)

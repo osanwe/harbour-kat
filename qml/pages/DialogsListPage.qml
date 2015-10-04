@@ -172,70 +172,81 @@ Page {
         }
     }
 
+    function updateDialogPreview(jsonMessage) {
+        var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
+
+        var uid = jsonMessage.from_id
+        var isChat = itemData[5]
+        var dialogIndex = messagesList.lookupItem(itemData[3])
+        if (dialogIndex !== -1) {
+            messagesList.model.set(dialogIndex, {"out": itemData[0],
+                                         "previewText": itemData[2],
+                                           "readState": itemData[4]})
+            if (isChat)
+                messagesList.model.setProperty(dialogIndex,
+                                     "nameOrTitle", itemData[1])
+
+            messagesList.model.move(dialogIndex, 0, 1)
+        } else {
+            formDialogsList(itemData, true)
+            if (isChat)
+                MessagesAPI.api_getChat(itemData[3])
+            else
+                UsersAPI.getUsersAvatarAndOnlineStatus(uid)
+        }
+    }
+
+    function updateDialogPreviewFlags(msgId, flags, action, userId) {
+        if (userId) {
+            if (userId > 2000000000)
+                userId -= 2000000000
+            var dialogIndex = messagesList.lookupItem(userId)
+            if (dialogIndex !== -1) {
+                switch (action) {
+                case TypesJS.Action.ADD:
+                case TypesJS.Action.SET:
+                    if ((flags & 1) === 1) {
+                        messagesList.model.setProperty(dialogIndex, "readState", 0)
+                    }
+                    break
+                case TypesJS.Action.DEL:
+                    if ((flags & 1) === 1) {
+                        messagesList.model.setProperty(dialogIndex, "readState", 1)
+                    }
+                    break
+                }
+            }
+        }
+    }
+
+    function updateFriendStatus(userId, status) {
+        var dialogIndex = messagesList.lookupItem(userId)
+        if (dialogIndex !== -1)
+            messagesList.model.setProperty(dialogIndex, "isOnline", status)
+    }
+
     Component.onCompleted: {
+        MessagesAPI.signaller.changedMessageFlags.connect(updateDialogPreviewFlags)
+        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
+        MessagesAPI.signaller.friendChangeStatus.connect(updateFriendStatus)
+        MessagesAPI.signaller.gotNewMessage.connect(updateDialogPreview)
+        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+        MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
+        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+
         if (messagesList.model.count === 0) formNewDialogsList()
         else updateDialogs()
-
-        TypesJS.LongPollWorker.addValues({
-            "dialoglist.message.add": function() {
-                if (arguments.length === 7) {
-                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
-                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
-
-                    var uid = jsonMessage.from_id
-                    var isChat = itemData[5]
-                    var dialogIndex = messagesList.lookupItem(itemData[3])
-                    if (dialogIndex !== -1) {
-                        messagesList.model.set(dialogIndex, {"out": itemData[0],
-                                                     "previewText": itemData[2],
-                                                       "readState": itemData[4]})
-                        if (isChat)
-                            messagesList.model.setProperty(dialogIndex,
-                                                 "nameOrTitle", itemData[1])
-
-                        messagesList.model.move(dialogIndex, 0, 1)
-                    } else {
-                        formDialogsList(itemData, true)
-                        if (isChat)
-                            MessagesAPI.api_getChat(itemData[3])
-                        else
-                            UsersAPI.getUsersAvatarAndOnlineStatus(uid)
-                    }
-                }
-            },
-            "dialogList.message.flags": function(msgId, flags, action, userId) {
-                if (userId) {
-                    if (userId > 2000000000)
-                        userId -= 2000000000
-                    var dialogIndex = messagesList.lookupItem(userId)
-                    if (dialogIndex !== -1) {
-                        switch (action) {
-                        case TypesJS.Action.ADD:
-                        case TypesJS.Action.SET:
-                            if ((flags & 1) === 1) {
-                                messagesList.model.setProperty(dialogIndex, "readState", 0)
-                            }
-                            break
-                        case TypesJS.Action.DEL:
-                            if ((flags & 1) === 1) {
-                                messagesList.model.setProperty(dialogIndex, "readState", 1)
-                            }
-                            break
-                        }
-                    }
-                }
-            },
-            "dialoglist.friends": function(userId, status) {
-                var dialogIndex = messagesList.lookupItem(userId)
-                if (dialogIndex !== -1)
-                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
-            }
-        })
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues(["dialoglist.message.add",
-                                          "dialogList.message.flags",
-                                          "dialoglist.friends"])
+        MessagesAPI.signaller.changedMessageFlags.disconnect(updateDialogPreviewFlags)
+        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        MessagesAPI.signaller.friendChangeStatus.disconnect(updateFriendStatus)
+        MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogPreview)
+        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
+        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
     }
 }

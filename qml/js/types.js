@@ -74,50 +74,7 @@ var UpdateInterval = {
 }
 
 var LongPollWorker = {
-    items: {},
     lastActive: 0,
-
-    addValue: function(key, value) {
-        var hasKey = key in this.items
-        this.items[key] = value
-        return hasKey
-    },
-
-    addValues: function(values) {
-        for (var key in values)
-            this.addValue(key, values[key])
-    },
-
-    delValue: function(key) {
-        if (key in this.items)
-            return delete this.items[key]
-        return false
-    },
-
-    delValues: function(keys) {
-        for (var i in keys)
-            this.delValue(keys[i])
-    },
-
-    getValue: function(key) {
-        if (key in this.items)
-            return this.items[key]
-        return function() {}
-    },
-
-    applyValue: function(key, args) {
-        var keys = Object.keys(this.items).filter(function(o) {
-            return key === o || key === o.substr(o.indexOf('.') + 1);
-          })
-        keys.forEach(function(o) {
-            try {
-                LongPollWorker.getValue(o).apply(null, args)
-            } catch (e) {
-                console.log("Worker " + e.name + " with " + o + ": " + e.message)
-                console.log(e.stack)
-            }
-        })
-    },
 
     setActive: function() {
         this.lastActive = Date.now()

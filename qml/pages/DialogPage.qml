@@ -346,55 +346,71 @@ Page {
         } else if (status === PageStatus.Active) {
             formNewDialogMessages()
         }
-    Component.onCompleted: {
-        TypesJS.LongPollWorker.addValues({
-            "dialog.message.add": function() {
-                var fromId = arguments[2]
-                if (isChat)
-                    fromId -= 2000000000
 
-                if (dialogId === fromId) {
-                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
-                    var messageData = MessagesAPI.parseMessage(jsonMessage)
-                    formMessageList(messageData, true)
-                    scrollMessagesToBottom()
-                }
-            },
-            "dialog.message.flags": function(msgId, flags, action, userId) {
-                if (isChat)
-                    userId -= 2000000000
+    function addNewMessage(jsonMessage) {
+        var fromId = jsonMessage.fromId
+        if (isChat)
+            fromId -= 2000000000
 
-                if (dialogId === userId) {
-                    var msgIndex = messages.lookupItem(msgId)
-                    if (msgIndex !== -1) {
-                        switch (action) {
-                        case TypesJS.Action.ADD:
-                        case TypesJS.Action.SET:
-                            if ((flags & 1) === 1) {
-                                messages.model.setProperty(msgIndex, "readState", 0)
-                            }
-                            break
-                        case TypesJS.Action.DEL:
-                            if ((flags & 1) === 1) {
-                                messages.model.setProperty(msgIndex, "readState", 1)
-                            }
-                            break
-                        }
+        if (dialogId === fromId) {
+            var messageData = MessagesAPI.parseMessage(jsonMessage)
+            formMessageList(messageData, true)
+            scrollMessagesToBottom()
+        }
+    }
+
+    function updateMessageFlags(msgId, flags, action, userId) {
+        if (isChat)
+            userId -= 2000000000
+
+        if (dialogId === userId) {
+            var msgIndex = messages.lookupItem(msgId)
+            if (msgIndex !== -1) {
+                switch (action) {
+                case TypesJS.Action.ADD:
+                case TypesJS.Action.SET:
+                    if ((flags & 1) === 1) {
+                        messages.model.setProperty(msgIndex, "readState", 0)
                     }
-                }
-            },
-            "dialog.friends": function(userId, status) {
-                if (!isChat && dialogId === userId) {
-                    isOnline = status
-                    dialogOnlineStatus.checked = status
+                    break
+                case TypesJS.Action.DEL:
+                    if ((flags & 1) === 1) {
+                        messages.model.setProperty(msgIndex, "readState", 1)
+                    }
+                    break
                 }
             }
-        })
+        }
+    }
+
+    function updateFriendStatus(userId, status) {
+        if (!isChat && dialogId === userId) {
+            isOnline = status
+            dialogOnlineStatus.checked = status
+        }
+    }
+
+    Component.onCompleted: {
+        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
+        MessagesAPI.signaller.friendChangeStatus.connect(updateFriendStatus)
+        MessagesAPI.signaller.changedMessageFlags.connect(updateMessageFlags)
+        MessagesAPI.signaller.gotChatUsers.connect(saveUsers)
+        MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
+        MessagesAPI.signaller.needScrollToBottom.connect(scrollMessagesToBottom)
+        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues(["dialog.message.add",
-                                          "dialog.message.flags",
-                                          "dialog.friends"])
+        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        MessagesAPI.signaller.friendChangeStatus.disconnect(updateFriendStatus)
+        MessagesAPI.signaller.changedMessageFlags.disconnect(updateMessageFlags)
+        MessagesAPI.signaller.gotChatUsers.disconnect(saveUsers)
+        MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
+        MessagesAPI.signaller.needScrollToBottom.disconnect(scrollMessagesToBottom)
+        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
     }
 }
