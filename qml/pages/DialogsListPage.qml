@@ -36,13 +36,6 @@ Page {
     property var dialogsData: []
     property var usersAvatars: []
 
-    function formNewDialogsList() {
-        console.log('formNewDialogsList()')
-        var lastDialogs = StorageJS.getLastDialogs()
-        for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
-        updateDialogs()
-    }
-
     function updateDialogs() {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
@@ -57,7 +50,7 @@ Page {
     }
 
     function formDialogsList(listItemData) {
-        if (listItemData !== null) {
+        if (listItemData) {
             dialogsData[dialogsData.length] = { isDialog:     true,
                                                 out:          listItemData[0],
                                                 avatarSource: "image://theme/icon-cover-message",
@@ -67,6 +60,11 @@ Page {
                                                 readState:    listItemData[4],
                                                 isOnline:     false,
                                                 isChat:       listItemData[5] }
+        } else {
+            var lastDialogs = StorageJS.getLastDialogs()
+            for (var item in lastDialogs)
+                messagesList.model.append(lastDialogs[item])
+            updateDialogs()
         }
     }
 
@@ -239,7 +237,7 @@ Page {
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
 
-        if (messagesList.model.count === 0) formNewDialogsList()
+        if (messagesList.model.count === 0) formDialogsList()
         else updateDialogs()
     }
 
