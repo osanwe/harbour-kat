@@ -348,7 +348,7 @@ Page {
         }
 
     function addNewMessage(jsonMessage) {
-        var fromId = jsonMessage.fromId
+        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
         if (isChat)
             fromId -= 2000000000
 

@@ -74,6 +74,12 @@ function api_getHistory(isChat, dialogId, offset) {
                            callback_getHistory)
 }
 
+function api_getMessagesById(msgIds) {
+    RequestAPI.sendRequest("messages.getById",
+                           { message_ids: msgIds },
+                           callback_getMessages)
+}
+
 function api_sendMessage(isChat, dialogId, message, attachments, isNew) {
     var data = {
         message: message,
@@ -201,7 +207,20 @@ function callback_getHistory(jsonObject) {
     signaller.needScrollToBottom()
 }
 
+function callback_getMessages(jsonObject) {
+    var res = jsonObject.response
+    if (res) {
+        for (var index in res.items) {
+            var message = res.items[index]
+            signaller.gotNewMessage(message)
+        }
+    }
+}
+
 function callback_sendMessage(jsonObject, isNew) {
+    var msgId = jsonObject.response
+    if (TypesJS.MessageUpdateMode.isManual() && msgId)
+        api_getMessagesById(msgId)
     signaller.needScrollToBottom()
 }
 
