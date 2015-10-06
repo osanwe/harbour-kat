@@ -54,7 +54,7 @@ Page {
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
-        else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+        else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
     }
 
     function saveUsers(users) {

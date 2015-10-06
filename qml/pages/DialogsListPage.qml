@@ -71,15 +71,19 @@ Page {
     }
 
     function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
-        while (dialogsData[parseInt(index, 10) + chatsCounter + dialogsOffset].isChat)
-                    chatsCounter += 1
-        var idx = parseInt(index, 10) + chatsCounter + dialogsOffset
+        var idx = parseInt(index, 10) + dialogsOffset
+        while (dialogsData.length > (idx + chatsCounter) &&
+               dialogsData[idx + chatsCounter].isChat)
+            chatsCounter += 1
+        idx += chatsCounter
         var dialog = dialogsData[idx]
-        usersAvatars[usersAvatars.length] = avatarURL
-        dialog.avatarSource = avatarURL
-        dialog.nameOrTitle = fullname
-        dialog.isOnline = online
-        dialogsData[idx] = dialog
+        if (dialog) {
+            usersAvatars[usersAvatars.length] = avatarURL
+            dialog.avatarSource = avatarURL
+            dialog.nameOrTitle = fullname
+            dialog.isOnline = online
+            dialogsData[idx] = dialog
+        }
     }
 
     function stopBusyIndicator() {
@@ -192,7 +196,7 @@ Page {
             if (isChat)
                 MessagesAPI.api_getChat(itemData[3])
             else
-                UsersAPI.getUsersAvatarAndOnlineStatus(uid)
+                UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
         }
     }
 

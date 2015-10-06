@@ -171,7 +171,7 @@ function callback_getDialogsList(jsonObject) {
     } else {
         uids = uids.substring(1)
         chatsIds = chatsIds.substring(1)
-        UsersAPI.getUsersAvatarAndOnlineStatus(uids)
+        UsersAPI.api_getUsersAvatarAndOnlineStatus(uids)
         if (chatsIds.length > 0)
             api_getChat(chatsIds)
     }
