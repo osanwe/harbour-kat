@@ -31,7 +31,6 @@ import "../js/types.js" as TypesJS
 
 Page {
 
-    property int chatsCounter: 0
     property int dialogsOffset: 0
     property var dialogsData: []
     property var usersAvatars: []
@@ -40,7 +39,6 @@ Page {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
             dialogsOffset = 0
-            chatsCounter = 0
             dialogsData = []
             usersAvatars = []
             loadingIndicator.running = true
@@ -68,14 +66,13 @@ Page {
         }
     }
 
-    function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
-        var idx = parseInt(index, 10) + dialogsOffset
-        while (dialogsData.length > (idx + chatsCounter) &&
-               dialogsData[idx + chatsCounter].isChat)
-            chatsCounter += 1
-        idx += chatsCounter
-        var dialog = dialogsData[idx]
-        if (dialog) {
+    function updateDialogInfo(dialogId, avatarURL, fullname, online, lastSeen) {
+        var idx = dialogsData.map(function(x) {
+            return x.itemId
+        }).indexOf(dialogId)
+
+        if (idx !== -1) {
+            var dialog = dialogsData[idx]
             usersAvatars[usersAvatars.length] = avatarURL
             dialog.avatarSource = avatarURL
             dialog.nameOrTitle = fullname
@@ -152,7 +149,6 @@ Page {
             onClicked: {
                 loadingIndicator.running = true
                 dialogsOffset = dialogsOffset + 20
-                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
