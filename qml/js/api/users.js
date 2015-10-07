@@ -26,7 +26,7 @@
 var signaller = Qt.createQmlObject("import QtQuick 2.0; \
     QtObject { \
         signal endLoading; \
-        signal gotDialogInfo(int dialogId, string photo, string title, bool isOnline, string lastSeen); \
+        signal gotDialogInfo(int dialogId, var info); \
         signal gotUserAvatar(string avatar); \
         signal gotUserNameAndAvatar(string userName, string avatar); \
     }", Qt.application, "UsersSignaller");
@@ -103,10 +103,10 @@ function callback_getUsersAvatarAndOnlineStatus(jsonObject) {
                                       res.last_name,
                                       res.photo_100.split('/').slice(-1))
         signaller.gotDialogInfo(res.id,
-                                res.photo_100,
-                                fullname,
-                                (res.online === 1),
-                                lastSeenTime)
+                                {"avatarSource": res.photo_100,
+                                 "nameOrTitle": fullname,
+                                 "isOnline": (res.online === 1),
+                                 "lastSeen": lastSeenTime})
     }
     signaller.endLoading()
 }

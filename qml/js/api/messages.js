@@ -39,7 +39,7 @@ var signaller = Qt.createQmlObject("import QtQuick 2.0; \
         signal endLoading; \
         signal friendChangeStatus(int userId, bool isOnline); \
         signal gotChatUsers(var users); \
-        signal gotDialogInfo(int dialogId, string photo, string title, bool isOnline, string lastSeen); \
+        signal gotDialogInfo(int dialogId, var info); \
         signal gotDialogs(var dialogs); \
         signal gotHistory(var messages); \
         signal gotNewMessage(var message); \
@@ -245,10 +245,9 @@ function callback_getChat(jsonObject) {
         var photo = chatInfo.photo_100
         if (photo) {
             signaller.gotDialogInfo(chatInfo.id,
-                                  chatInfo.photo_100,
-                                  chatInfo.title,
-                                  false,
-                                  null)
+                                      {"avatarSource": chatInfo.photo_100,
+                                       "nameOrTitle": chatInfo.title,
+                                       "isOnline": false})
         }
     }
 }

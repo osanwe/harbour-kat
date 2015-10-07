@@ -66,25 +66,32 @@ Page {
         }
     }
 
-    function updateDialogInfo(dialogId, avatarURL, fullname, online, lastSeen) {
+    function updateDialogInfo(dialogId, data) {
         var idx = dialogsData.map(function(x) {
             return x.itemId
         }).indexOf(dialogId)
 
         if (idx !== -1) {
-            var dialog = dialogsData[idx]
-            usersAvatars[usersAvatars.length] = avatarURL
-            dialog.avatarSource = avatarURL
-            dialog.nameOrTitle = fullname
-            dialog.isOnline = online
-            dialogsData[idx] = dialog
+            var infoKeys = Object.keys(data)
+            for (var i in infoKeys) {
+                var key = infoKeys[i]
+                dialogsData[idx][key] = data[key]
+
+                if (key === 'avatarSource')
+                    usersAvatars.push(data[key])
+            }
         }
     }
 
-    function stopBusyIndicator() {
+    function flushDialogsData() {
         messagesList.model.clear()
-        for (var item in dialogsData) messagesList.model.append(dialogsData[item])
+        for (var item in dialogsData)
+            messagesList.model.append(dialogsData[item])
         messagesList.footerItem.visible = true
+    }
+
+    function stopBusyIndicator() {
+        flushDialogsData()
         loadingIndicator.running = false
         if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
     }
@@ -154,20 +161,6 @@ Page {
         }
 
         VerticalScrollDecorator {}
-
-        function lookupItem(itemId, fromEnd) {
-            fromEnd = fromEnd === true
-
-            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
-                         (fromEnd ? i >= 0 : i < messagesList.model.count);
-                         (fromEnd ? --i : ++i)) {
-                if (messagesList.model.get(i).itemId === itemId) {
-                    return i
-                }
-            }
-            console.log("Dialog with id '" + itemId + "' does not exist")
-            return -1
-        }
     }
 
     function updateDialogPreview(jsonMessage) {
@@ -175,16 +168,23 @@ Page {
 
         var uid = jsonMessage.from_id
         var isChat = itemData[5]
-        var dialogIndex = messagesList.lookupItem(itemData[3])
-        if (dialogIndex !== -1) {
-            messagesList.model.set(dialogIndex, {"out": itemData[0],
-                                         "previewText": itemData[2],
-                                           "readState": itemData[4]})
-            if (isChat)
-                messagesList.model.setProperty(dialogIndex,
-                                     "nameOrTitle", itemData[1])
+        var dialogIndex = dialogsData.map(function(x) {
+            return x.itemId
+        }).indexOf(itemData[3])
 
-            messagesList.model.move(dialogIndex, 0, 1)
+        if (dialogIndex !== -1) {
+            var data = {"out": itemData[0],
+                        "previewText": itemData[2],
+                        "readState": itemData[4]}
+            if (isChat)
+                data["nameOrTitle"] = itemData[1]
+
+            updateDialogInfo(itemData[3], data)
+
+            data = dialogsData.splice(dialogIndex, 1)
+            dialogsData.unshift(data)
+
+            flushDialogsData()
         } else {
             formDialogsList(itemData, true)
             if (isChat)
@@ -198,29 +198,27 @@ Page {
         if (userId) {
             if (userId > 2000000000)
                 userId -= 2000000000
-            var dialogIndex = messagesList.lookupItem(userId)
-            if (dialogIndex !== -1) {
-                switch (action) {
-                case TypesJS.Action.ADD:
-                case TypesJS.Action.SET:
-                    if ((flags & 1) === 1) {
-                        messagesList.model.setProperty(dialogIndex, "readState", 0)
-                    }
-                    break
-                case TypesJS.Action.DEL:
-                    if ((flags & 1) === 1) {
-                        messagesList.model.setProperty(dialogIndex, "readState", 1)
-                    }
-                    break
+            switch (action) {
+            case TypesJS.Action.ADD:
+            case TypesJS.Action.SET:
+                if ((flags & 1) === 1) {
+                    updateDialogInfo(userId, {"readState": 0})
                 }
+                break
+            case TypesJS.Action.DEL:
+                if ((flags & 1) === 1) {
+                    updateDialogInfo(userId, {"readState": 1})
+                }
+                break
             }
+
+            flushDialogsData()
         }
     }
 
     function updateFriendStatus(userId, status) {
-        var dialogIndex = messagesList.lookupItem(userId)
-        if (dialogIndex !== -1)
-            messagesList.model.setProperty(dialogIndex, "isOnline", status)
+        updateDialogInfo(userId, {"isOnline": status})
+        flushDialogsData()
     }
 
     Component.onCompleted: {

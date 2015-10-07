@@ -64,12 +64,12 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
-    function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
-        avatarSource = avatarURL
+    function updateDialogInfo(index, data) {
+        avatarSource = data.avatarSource
         console.log(avatarSource)
-        fullname = name
-        isOnline = online
-        lastSeenTime = lastSeen
+        fullname = data.nameOrTitle
+        isOnline = data.isOnline
+        lastSeenTime = data.lastSeen
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
@@ -350,7 +350,7 @@ Page {
     function addNewMessage(jsonMessage) {
         var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
         if (isChat)
-            fromId -= 2000000000
+            fromId = jsonMessage.chat_id
 
         if (dialogId === fromId) {
             var messageData = MessagesAPI.parseMessage(jsonMessage)
