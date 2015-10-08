@@ -226,6 +226,15 @@ Page {
         flushDialogsData()
     }
 
+    Timer {
+        interval: 0
+        running: Qt.application.active && TypesJS.MessageUpdateMode.isManual()
+
+        onTriggered: if (visible)
+                         if (messagesList.model.count === 0) formDialogsList()
+                         else updateDialogs()
+    }
+
     Component.onCompleted: {
         MessagesAPI.signaller.changedMessageFlags.connect(updateDialogPreviewFlags)
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
@@ -236,8 +245,10 @@ Page {
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
 
-        if (messagesList.model.count === 0) formDialogsList()
-        else updateDialogs()
+        if (!TypesJS.MessageUpdateMode.isManual()) {
+            if (messagesList.model.count === 0) formDialogsList()
+            else updateDialogs()
+        }
     }
 
     Component.onDestruction: {
