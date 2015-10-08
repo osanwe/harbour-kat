@@ -359,25 +359,22 @@ Page {
         }
     }
 
-    function updateMessageFlags(msgId, flags, action, userId) {
-        if (isChat)
-            userId -= 2000000000
-
+    function updateMessageInfo(userId, data) {
         if (dialogId === userId) {
-            var msgIndex = messages.lookupItem(msgId)
+            var msgIndex = messages.lookupItem(data.msgId)
             if (msgIndex !== -1) {
-                switch (action) {
-                case TypesJS.Action.ADD:
-                case TypesJS.Action.SET:
-                    if ((flags & 1) === 1) {
-                        messages.model.setProperty(msgIndex, "readState", 0)
+                if ("peerOut" in data) {
+                    for (; 0 <= msgIndex; --msgIndex) {
+                        var msg = messages.model.get(msgIndex)
+                        if (msg.out === data.peerOut &&
+                                            msg.readState !== data.readState) {
+                            messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
+                        }
                     }
-                    break
-                case TypesJS.Action.DEL:
-                    if ((flags & 1) === 1) {
-                        messages.model.setProperty(msgIndex, "readState", 1)
-                    }
-                    break
+                } else {
+                    messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
                 }
             }
         }
@@ -393,9 +390,9 @@ Page {
     Component.onCompleted: {
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
         MessagesAPI.signaller.friendChangeStatus.connect(updateFriendStatus)
-        MessagesAPI.signaller.changedMessageFlags.connect(updateMessageFlags)
         MessagesAPI.signaller.gotChatUsers.connect(saveUsers)
         MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
         MessagesAPI.signaller.needScrollToBottom.connect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
@@ -405,9 +402,9 @@ Page {
     Component.onDestruction: {
         MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         MessagesAPI.signaller.friendChangeStatus.disconnect(updateFriendStatus)
-        MessagesAPI.signaller.changedMessageFlags.disconnect(updateMessageFlags)
         MessagesAPI.signaller.gotChatUsers.disconnect(saveUsers)
         MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
         MessagesAPI.signaller.needScrollToBottom.disconnect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)

@@ -35,13 +35,13 @@ var LONGPOLL_SERVER = {
 
 var signaller = Qt.createQmlObject("import QtQuick 2.0; \
     QtObject { \
-        signal changedMessageFlags(int msgId, int flags, int action, int userId); \
         signal endLoading; \
         signal friendChangeStatus(int userId, bool isOnline); \
         signal gotChatUsers(var users); \
         signal gotDialogInfo(int dialogId, var info); \
         signal gotDialogs(var dialogs); \
         signal gotHistory(var messages); \
+        signal gotMessageInfo(int userId, var info); \
         signal gotNewMessage(var message); \
         signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
         signal gotUnreadCount(int count); \
@@ -306,17 +306,30 @@ function callback_doLongPoll(jsonObject) {
                 case 1: // замена флагов сообщения (FLAGS:=$flags)
                 case 2: // установка флагов сообщения (FLAGS|=$mask)
                 case 3: // сброс флагов сообщения (FLAGS&=~$mask)
-                    var msgId = update[1]
                     var flags = update[2]
-                    var userId = update.length > 3 ? update[3] : null
-                    var action = eventId === 1 ? TypesJS.Action.SET:
-                                (eventId === 2 ? TypesJS.Action.ADD :
-                                                 TypesJS.Action.DEL)
-                    signaller.changedMessageFlags(msgId, flags, action, userId)
+                    if ((flags & 1) === 1) {
+                        var msgId = update[1]
+                        var userId = update.length > 3 ? update[3] : -1
+                        if (userId > 2000000000)
+                            userId -= 2000000000
+                        var readState = eventId === 3 ? 1 : 0
+                        signaller.gotMessageInfo(userId, {"msgId": msgId,
+                                                          "readState": readState})
+                    }
                     break;
                 case 4: // добавление нового сообщения
                     var msg = parseLongPollMessage(update.slice(1))
                     signaller.gotNewMessage(msg)
+                    break;
+                case 6: // прочтение всех сообщений с $peer_id вплоть до $local_id включительно
+                case 7:
+                    var peerId = update[1]
+                    if (peerId > 2000000000)
+                        peerId -= 2000000000
+                    var localId = update[2]
+                    signaller.gotMessageInfo(peerId, {"msgId": localId,
+                                                     "peerOut": +(eventId === 7),
+                                                     "readState": 1})
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:

@@ -36,6 +36,9 @@ Page {
     property var usersAvatars: []
 
     function lookupItem(itemId) {
+        if (itemId < 0)
+            return -1
+
         for (var i = 0; i < dialogsData.length; ++i) {
             if (dialogsData[i].itemId === itemId) {
                 return i
@@ -82,7 +85,8 @@ Page {
             var infoKeys = Object.keys(data)
             for (var i in infoKeys) {
                 var key = infoKeys[i]
-                dialogsData[idx][key] = data[key]
+                if (key in dialogsData[idx])
+                    dialogsData[idx][key] = data[key]
 
                 if (key === 'avatarSource')
                     usersAvatars.push(data[key])
@@ -236,9 +240,9 @@ Page {
     }
 
     Component.onCompleted: {
-        MessagesAPI.signaller.changedMessageFlags.connect(updateDialogPreviewFlags)
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
         MessagesAPI.signaller.friendChangeStatus.connect(updateFriendStatus)
+        MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotNewMessage.connect(updateDialogPreview)
         MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
@@ -252,9 +256,9 @@ Page {
     }
 
     Component.onDestruction: {
-        MessagesAPI.signaller.changedMessageFlags.disconnect(updateDialogPreviewFlags)
         MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         MessagesAPI.signaller.friendChangeStatus.disconnect(updateFriendStatus)
+        MessagesAPI.signaller.gotMessageInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogPreview)
         MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
