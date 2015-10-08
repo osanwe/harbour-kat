@@ -35,6 +35,15 @@ Page {
     property var dialogsData: []
     property var usersAvatars: []
 
+    function lookupItem(itemId) {
+        for (var i = 0; i < dialogsData.length; ++i) {
+            if (dialogsData[i].itemId === itemId) {
+                return i
+            }
+        }
+        return -1
+    }
+
     function updateDialogs() {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
@@ -67,9 +76,7 @@ Page {
     }
 
     function updateDialogInfo(dialogId, data) {
-        var idx = dialogsData.map(function(x) {
-            return x.itemId
-        }).indexOf(dialogId)
+        var idx = lookupItem(dialogId)
 
         if (idx !== -1) {
             var infoKeys = Object.keys(data)
@@ -168,9 +175,7 @@ Page {
 
         var uid = jsonMessage.from_id
         var isChat = itemData[5]
-        var dialogIndex = dialogsData.map(function(x) {
-            return x.itemId
-        }).indexOf(itemData[3])
+        var dialogIndex = lookupItem(itemData[3])
 
         if (dialogIndex !== -1) {
             var data = {"out": itemData[0],
@@ -181,7 +186,7 @@ Page {
 
             updateDialogInfo(itemData[3], data)
 
-            data = dialogsData.splice(dialogIndex, 1)
+            data = dialogsData.splice(dialogIndex, 1)[0]
             dialogsData.unshift(data)
 
             flushDialogsData()
