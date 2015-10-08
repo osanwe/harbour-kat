@@ -248,6 +248,7 @@ function callback_getChat(jsonObject) {
                                       {"avatarSource": chatInfo.photo_100,
                                        "nameOrTitle": chatInfo.title,
                                        "isOnline": false})
+            signaller.endLoading()
         }
     }
 }
