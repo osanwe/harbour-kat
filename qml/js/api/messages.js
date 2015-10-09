@@ -36,7 +36,6 @@ var LONGPOLL_SERVER = {
 var signaller = Qt.createQmlObject("import QtQuick 2.0; \
     QtObject { \
         signal endLoading; \
-        signal friendChangeStatus(int userId, bool isOnline); \
         signal gotChatUsers(var users); \
         signal gotDialogInfo(int dialogId, var info); \
         signal gotDialogs(var dialogs); \
@@ -45,6 +44,7 @@ var signaller = Qt.createQmlObject("import QtQuick 2.0; \
         signal gotNewMessage(var message); \
         signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
         signal gotUnreadCount(int count); \
+        signal gotUserInfo(int userId, var info); \
         signal needScrollToBottom; \
     }", Qt.application, "MessagesSignaller");
 
@@ -320,6 +320,8 @@ function callback_doLongPoll(jsonObject) {
                 case 4: // добавление нового сообщения
                     var msg = parseLongPollMessage(update.slice(1))
                     signaller.gotNewMessage(msg)
+                    if (msg.update_title === true)
+                        signaller.gotUserInfo(msg.chat_id, {"fullname": msg.title})
                     break;
                 case 6: // прочтение всех сообщений с $peer_id вплоть до $local_id включительно
                 case 7:
@@ -335,7 +337,7 @@ function callback_doLongPoll(jsonObject) {
                 case 9:
                     var isOnline = eventId === 8
                     var userId = update[1]
-                    signaller.friendChangeStatus(-userId, isOnline)
+                    signaller.gotUserInfo(-userId, {"isOnline": isOnline})
                     break;
                 case 80: // счетчик непрочитанных
                     var count = update[1]
@@ -385,6 +387,11 @@ function parseMessage(jsonObject) {
     if (jsonObject.fwd_messages) for (var index in jsonObject.fwd_messages)
             messageAttachments[messageAttachments.length] = jsonObject.fwd_messages[index]
     if (jsonObject.geo) messageAttachments[messageAttachments.length] = jsonObject.geo
+
+
+    if (jsonObject.action === "chat_title_update" && "action_text" in jsonObject) {
+        jsonObject.body += "[" + jsonObject.action_text + "]"
+    }
 
     var messageData = {
         mid:             jsonObject.id,
@@ -439,6 +446,9 @@ function parseDialogListItem(jsonObject) {
     if (jsonObject.chat_id) {
         dialogId = jsonObject.chat_id
         isChat = true
+
+        if (body === "" && jsonObject.action === "chat_title_update")
+            body = "[" + title + "]"
     }
 
     itemData[0] = jsonObject.out
@@ -510,6 +520,12 @@ function parseLongPollMessage(argsArray) {
                     "mid":user_msg[1]
                 })
             })
+        }
+        else if (key === "source_act") {
+            if (extra.source_act === "chat_title_update" && "source_text" in extra) {
+                jsonObject.body += "[" + extra.source_text + "]"
+                jsonObject.update_title = true
+            }
         }
     })
     if (media.length > 0)

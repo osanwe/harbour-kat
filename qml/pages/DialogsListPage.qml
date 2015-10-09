@@ -78,6 +78,35 @@ Page {
         }
     }
 
+    function updateDialogsList(jsonMessage) {
+        var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
+
+        var uid = jsonMessage.from_id
+        var isChat = itemData[5]
+        var dialogIndex = lookupItem(itemData[3])
+
+        if (dialogIndex !== -1) {
+            var data = {"out": itemData[0],
+                        "previewText": itemData[2],
+                        "readState": itemData[4]}
+            if (isChat)
+                data["nameOrTitle"] = itemData[1]
+
+            updateDialogInfo(itemData[3], data)
+
+            data = dialogsData.splice(dialogIndex, 1)[0]
+            dialogsData.unshift(data)
+
+            flushDialogsData()
+        } else {
+            formDialogsList(itemData, true)
+            if (isChat)
+                MessagesAPI.api_getChat(itemData[3])
+            else
+                UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
+        }
+    }
+
     function updateDialogInfo(dialogId, data) {
         var idx = lookupItem(dialogId)
 
@@ -174,62 +203,6 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    function updateDialogPreview(jsonMessage) {
-        var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
-
-        var uid = jsonMessage.from_id
-        var isChat = itemData[5]
-        var dialogIndex = lookupItem(itemData[3])
-
-        if (dialogIndex !== -1) {
-            var data = {"out": itemData[0],
-                        "previewText": itemData[2],
-                        "readState": itemData[4]}
-            if (isChat)
-                data["nameOrTitle"] = itemData[1]
-
-            updateDialogInfo(itemData[3], data)
-
-            data = dialogsData.splice(dialogIndex, 1)[0]
-            dialogsData.unshift(data)
-
-            flushDialogsData()
-        } else {
-            formDialogsList(itemData, true)
-            if (isChat)
-                MessagesAPI.api_getChat(itemData[3])
-            else
-                UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
-        }
-    }
-
-    function updateDialogPreviewFlags(msgId, flags, action, userId) {
-        if (userId) {
-            if (userId > 2000000000)
-                userId -= 2000000000
-            switch (action) {
-            case TypesJS.Action.ADD:
-            case TypesJS.Action.SET:
-                if ((flags & 1) === 1) {
-                    updateDialogInfo(userId, {"readState": 0})
-                }
-                break
-            case TypesJS.Action.DEL:
-                if ((flags & 1) === 1) {
-                    updateDialogInfo(userId, {"readState": 1})
-                }
-                break
-            }
-
-            flushDialogsData()
-        }
-    }
-
-    function updateFriendStatus(userId, status) {
-        updateDialogInfo(userId, {"isOnline": status})
-        flushDialogsData()
-    }
-
     Timer {
         interval: 0
         running: Qt.application.active && TypesJS.MessageUpdateMode.isManual()
@@ -241,9 +214,9 @@ Page {
 
     Component.onCompleted: {
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
-        MessagesAPI.signaller.friendChangeStatus.connect(updateFriendStatus)
+        MessagesAPI.signaller.gotUserInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
-        MessagesAPI.signaller.gotNewMessage.connect(updateDialogPreview)
+        MessagesAPI.signaller.gotNewMessage.connect(updateDialogsList)
         MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
@@ -257,9 +230,9 @@ Page {
 
     Component.onDestruction: {
         MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        MessagesAPI.signaller.friendChangeStatus.disconnect(updateFriendStatus)
+        MessagesAPI.signaller.gotUserInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotMessageInfo.disconnect(updateDialogInfo)
-        MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogPreview)
+        MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogsList)
         MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
