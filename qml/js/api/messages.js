@@ -44,7 +44,6 @@ var signaller = Qt.createQmlObject("import QtQuick 2.0; \
         signal gotNewMessage(var message); \
         signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
         signal gotUnreadCount(int count); \
-        signal gotUserInfo(int userId, var info); \
         signal needScrollToBottom; \
     }", Qt.application, "MessagesSignaller");
 
@@ -321,7 +320,7 @@ function callback_doLongPoll(jsonObject) {
                     var msg = parseLongPollMessage(update.slice(1))
                     signaller.gotNewMessage(msg)
                     if (msg.update_title === true)
-                        signaller.gotUserInfo(msg.chat_id, {"fullname": msg.title})
+                        signaller.gotDialogInfo(msg.chat_id, {"fullname": msg.title})
                     break;
                 case 6: // прочтение всех сообщений с $peer_id вплоть до $local_id включительно
                 case 7:
@@ -337,7 +336,7 @@ function callback_doLongPoll(jsonObject) {
                 case 9:
                     var isOnline = eventId === 8
                     var userId = update[1]
-                    signaller.gotUserInfo(-userId, {"isOnline": isOnline})
+                    signaller.gotDialogInfo(-userId, {"isOnline": isOnline})
                     break;
                 case 80: // счетчик непрочитанных
                     var count = update[1]

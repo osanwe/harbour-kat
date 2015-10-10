@@ -64,13 +64,21 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
-    function updateDialogInfo(index, data) {
-        avatarSource = data.avatarSource
-        console.log(avatarSource)
-        fullname = data.nameOrTitle
-        isOnline = data.isOnline
-        lastSeenTime = data.lastSeen
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    function updateDialogInfo(userId, data) {
+        if (dialogId === userId) {
+            if (isChat) {
+                if ("fullname" in data)
+                    fullname = data.fullname
+            } else {
+                if ("isOnline" in data)
+                    isOnline = data.isOnline
+            }
+
+            if ("avatarSource" in data)
+                avatarSource = data.avatarSource
+            if ("lastSeen" in data)
+                lastSeenTime = data.lastSeen
+        }
     }
 
     function sendMessage() {
@@ -380,21 +388,9 @@ Page {
         }
     }
 
-    function updateUserInfo(userId, data) {
-        if (dialogId === userId) {
-            if (isChat) {
-                if ("fullname" in data)
-                    fullname = data.fullname
-            } else {
-                if ("isOnline" in data)
-                    isOnline = data.isOnline
-            }
-        }
-    }
-
     Component.onCompleted: {
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
-        MessagesAPI.signaller.gotUserInfo.connect(updateUserInfo)
+        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotChatUsers.connect(saveUsers)
         MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
@@ -406,7 +402,7 @@ Page {
 
     Component.onDestruction: {
         MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        MessagesAPI.signaller.gotUserInfo.disconnect(updateUserInfo)
+        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotChatUsers.disconnect(saveUsers)
         MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)

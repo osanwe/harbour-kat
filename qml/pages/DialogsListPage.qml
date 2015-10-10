@@ -214,7 +214,6 @@ Page {
 
     Component.onCompleted: {
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
-        MessagesAPI.signaller.gotUserInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotNewMessage.connect(updateDialogsList)
         MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
@@ -230,7 +229,6 @@ Page {
 
     Component.onDestruction: {
         MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        MessagesAPI.signaller.gotUserInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotMessageInfo.disconnect(updateDialogInfo)
         MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogsList)
         MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
