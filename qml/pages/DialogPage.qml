@@ -62,7 +62,6 @@ Page {
         chatUsers = users
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function updateDialogInfo(userId, data) {
@@ -89,7 +88,8 @@ Page {
     }
 
     function formMessagesListFromServerData(messagesArray) {
-        if (messagesOffset === 0) messages.model.clear()
+        var toBottom = messages.model.count > 0 ?
+                            messages.getMessageId(true) < messagesArray[0].mid : false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
             if (isChat) {
@@ -104,13 +104,16 @@ Page {
                 messageData.avatarSource = avatarSource
             }
             console.log(messageData.avatarSource + ' | ' + avatarSource)
-            formMessageList(messageData)
+            formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom()
     }
 
     function formMessageList(messageData, insertToEnd) {
         var index = (insertToEnd === true) ? messages.model.count : 0;
+        if (messages.count > 0 && messages.model.get(index).mid === messageData.mid)
+            return
+
         messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
         messages.model.insert(index, messageData)
@@ -189,8 +192,8 @@ Page {
                 text: qsTr("Загрузить больше")
                 onClicked: {
                     loadingMessagesIndicator.running = true
-                    messagesOffset = messagesOffset + 50;
-                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+                    var topMsgId = messages.getMessageId(false)
+                    MessagesAPI.api_getHistory(isChat, dialogId, 0, topMsgId)
                 }
             }
 
@@ -264,6 +267,15 @@ Page {
                 console.log("Message with id '" + itemId + "' does not exist")
                 return -1
             }
+
+            function getMessageId(isLast) {
+                isLast = isLast === true
+                var msgId = -1
+                if (messages.model.count > 0)
+                    msgId = messages.model.get(isLast ? messages.model.count - 1 : 0).mid
+
+                return msgId
+            }
         }
 
         IconButton {
@@ -313,10 +325,10 @@ Page {
                 text: qsTr("Обновить")
                 onClicked: {
                     markDialogAsRead()
-                    messages.model.clear()
-                    messagesOffset = 0
                     loadingMessagesIndicator.running = true
-                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+                    var offset = -MessagesAPI.HISTORY_COUNT
+                    var lastMsgId = messages.getMessageId(true)
+                    MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
                 }
             }
 

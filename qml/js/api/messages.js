@@ -62,12 +62,15 @@ function api_getDialogsList(offset) {
                            callback_getDialogsList)
 }
 
-function api_getHistory(isChat, dialogId, offset) {
+function api_getHistory(isChat, dialogId, offset, startMsgId) {
     var data = {
         offset: offset,
         count: HISTORY_COUNT
     };
     data[isChat ? "chat_id" : "user_id"] = dialogId;
+    if (startMsgId) {
+        data["start_message_id"] = startMsgId
+    }
     RequestAPI.sendRequest("messages.getHistory",
                            data,
                            callback_getHistory)
@@ -76,7 +79,7 @@ function api_getHistory(isChat, dialogId, offset) {
 function api_getMessagesById(msgIds) {
     RequestAPI.sendRequest("messages.getById",
                            { message_ids: msgIds },
-                           callback_getMessages)
+                           callback_getHistory)
 }
 
 function api_sendMessage(isChat, dialogId, message, attachments, isNew) {
@@ -201,19 +204,10 @@ function callback_getHistory(jsonObject) {
                               messageJsonObject.fwd_messages)
         messages[messages.length] = parseMessage(messageJsonObject)
     }
-    signaller.gotHistory(messages)
+    if (messages.length > 0)
+        signaller.gotHistory(messages)
     signaller.endLoading()
     signaller.needScrollToBottom()
-}
-
-function callback_getMessages(jsonObject) {
-    var res = jsonObject.response
-    if (res) {
-        for (var index in res.items) {
-            var message = res.items[index]
-            signaller.gotNewMessage(message)
-        }
-    }
 }
 
 function callback_sendMessage(jsonObject, isNew) {
@@ -266,6 +260,7 @@ function callback_getChatUsers(jsonObject) {
         }
     }
     signaller.gotChatUsers(users)
+    signaller.endLoading()
 }
 
 function callback_startLongPoll(jsonObject) {
@@ -318,6 +313,13 @@ function callback_doLongPoll(jsonObject) {
                     break;
                 case 4: // добавление нового сообщения
                     var msg = parseLongPollMessage(update.slice(1))
+                    StorageJS.saveMessage(msg.id, msg.chat_id,
+                                          msg.user_id, msg.from_id,
+                                          msg.date,
+                                          msg.read_state, msg.out,
+                                          msg.title, msg.body,
+                                          msg.geo,
+                                          msg.attachments, msg.fwd_messages)
                     signaller.gotNewMessage(msg)
                     if (msg.update_title === true)
                         signaller.gotDialogInfo(msg.chat_id, {"fullname": msg.title})
