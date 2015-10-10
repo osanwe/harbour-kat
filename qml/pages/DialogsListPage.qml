@@ -70,11 +70,32 @@ Page {
                                             isChat:       isChat }
     }
 
-    function updateDialogInfo(index, avatarURL, fullname, online, lastSeen) {
-        console.log(parseInt(index, 10) + chatsCounter + dialogsOffset + ' | ' + dialogsData.length)
-        while (dialogsData[parseInt(index, 10) + chatsCounter + dialogsOffset].isChat)
+    function getChatIndex(index) {
+        var usersCounter = 0
+        var chats = 0
+
+        while (true) {
+            console.log(index + ' | ' + chats + ' | ' + usersCounter)
+            console.log(dialogsData[chats + usersCounter].nameOrTitle)
+            if (dialogsData[chats + usersCounter].isChat) {
+                chats += 1
+                if (chats > index) break
+            } else {
+                usersCounter += 1
+            }
+        }
+
+        return index + usersCounter
+    }
+
+    function getUserIndex(index) {
+        while (dialogsData[index + chatsCounter + dialogsOffset].isChat)
             chatsCounter += 1
-        var idx = parseInt(index, 10) + chatsCounter + dialogsOffset
+        return index + chatsCounter + dialogsOffset
+    }
+
+    function updateDialogInfo(chatFlag, index, avatarURL, fullname, online, lastSeen) {
+        var idx = chatFlag ? getChatIndex(parseInt(index, 10)) : getUserIndex(parseInt(index, 10))
         var dialog = dialogsData[idx]
         usersAvatars[usersAvatars.length] = avatarURL
         dialog.avatarSource = avatarURL
@@ -181,8 +202,6 @@ Page {
     }
 
     Component.onCompleted: {
-        updateDialogs()
-
         TypesJS.LongPollWorker.addValues({
             "dialoglist.message.add": function() {
                 if (arguments.length === 7) {

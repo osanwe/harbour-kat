@@ -150,7 +150,7 @@ function callback_getDialogsList(jsonObject) {
             messageBody = "[вложения] " + messageBody
         if (jsonMessage.chat_id) {
             dialogId = jsonMessage.chat_id
-            chatsIds += "," + jsonMessage.user_id
+            chatsIds += "," + jsonMessage.chat_id
             isChat = true
         } else {
             uids += "," + jsonMessage.user_id
@@ -227,10 +227,12 @@ function callback_getChat(jsonObject) {
         var chatInfo = jsonObject.response[index]
         var photo = chatInfo.photo_100
         if (photo) {
-            updateDialogInfo(chatInfo.id,
+            updateDialogInfo(true,
+                             index,
                              chatInfo.photo_100,
                              chatInfo.title,
                              false)
+            stopBusyIndicator()
         }
     }
 }

@@ -113,8 +113,8 @@ function getUsersAvatarAndOnlineStatus(uid) {
                                               jsonObject.response[index].first_name,
                                               jsonObject.response[index].last_name,
                                               jsonObject.response[index].photo_100.split('/').slice(-1))
-                updateDialogInfo(index,
-//                updateDialogInfo(jsonObject.response[index].uid,
+                updateDialogInfo(false,
+                                 index,
                                  jsonObject.response[index].photo_100,
                                  fullname,
                                  (jsonObject.response[index].online === 1),
