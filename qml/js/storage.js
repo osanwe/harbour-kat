@@ -91,7 +91,7 @@ function initDatabase() {
 // -------------- Functions for saving and reading settings parameters --------------
 
 function storeSettingsValue(key, value) {
-    console.log("storeSettingsData()")
+    console.log("storeSettingsData(" + key + "," + value + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -101,7 +101,7 @@ function storeSettingsValue(key, value) {
 }
 
 function readSettingsValue(key, default_value) {
-    console.log("readData()")
+    console.log("readData(" + key + ")")
     var db = getDatabase()
     if (!db) { return }
     var value = ""
@@ -122,7 +122,7 @@ function readSettingsValue(key, default_value) {
 // -------------- Functions for saving user data --------------
 
 function saveUserName(first_name, last_name) {
-    console.log("saveUserName()")
+    console.log("saveUserName(" + first_name + "," + last_name + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -133,7 +133,7 @@ function saveUserName(first_name, last_name) {
 }
 
 function saveUserAvatar(fileName) {
-    console.log("saveUserAvatar()")
+    console.log("saveUserAvatar(" + fileName + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -241,7 +241,7 @@ function getLastDialogs() {
 }
 
 function getLastMessagesForDialog(chatId) {
-    console.log('getLastMessagesForDialog()')
+    console.log("getLastMessagesForDialog(" + chatId + ")")
     var db = getDatabase()
     if (!db) return
 
@@ -302,7 +302,7 @@ function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
 
 function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, body, geo, attachments,
                      fwd_messages) {
-    console.log('saveMessage()')
+    console.log("saveMessage(" + id + ")")
     var db = getDatabase()
     if (!db) return
 
