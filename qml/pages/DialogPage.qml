@@ -101,9 +101,7 @@ Page {
 
     function formMessageList(messageData) {
         messageData.userAvatar = userAvatar
-        var index = (insertToEnd === true) ? messages.model.count : 0
-//        messages.model.insert(messagesOffset, messageData)
-        messages.model.insert(index, messageData)
+        messages.model.insert(messagesOffset, messageData)
     }
 
     function scrollMessagesToBottom() {
@@ -340,19 +338,20 @@ Page {
         }
     }
 
-    onStatusChanged:
-        if (status === PageStatus.Inactive) {
-            markDialogAsRead()
-        }
+    onStatusChanged: if (status === PageStatus.Inactive) markDialogAsRead()
+
+    Timer {
+        interval: 0
+        running: Qt.application.active
+
+        onTriggered: if (visible)
+                         if (messages.model.count === 0) formNewDialogMessages()
+                         else
+                             if (isChat) MessagesAPI.api_getChatUsers(dialogId)
+                             else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+    }
 
     Component.onCompleted: {
-//        if (isChat) {
-//            MessagesAPI.api_getChatUsers(dialogId)
-//        } else {
-//            UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
-//        }
-        formNewDialogMessages()
-
         TypesJS.LongPollWorker.addValues({
             "dialog.message.add": function() {
                 var fromId = arguments[2]

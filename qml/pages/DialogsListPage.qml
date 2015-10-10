@@ -231,8 +231,7 @@ Page {
             },
             "dialogList.message.flags": function(msgId, flags, action, userId) {
                 if (userId) {
-                    if (userId > 2000000000)
-                        userId -= 2000000000
+                    if (userId > 2000000000) userId -= 2000000000
                     var dialogIndex = messagesList.lookupItem(userId)
                     if (dialogIndex !== -1) {
                         switch (action) {
