@@ -126,25 +126,16 @@ Page {
         loadingMessagesIndicator.running = false
     }
 
-    function getUnreadMessagesFromModel() {
-        var messagesIdsList = ""
-        var index = 0
-        while (index < messages.model.count) {
-            console.log(index)
-            if (messages.model.get(index).readState === 0) {
-                console.log(messages.model.get(index).mid)
-                messagesIdsList += "," + messages.model.get(index).mid
-            }
-            index += 1
-        }
-        console.log(messagesIdsList)
-        return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
-    }
-
     function markDialogAsRead() {
-        var unreadMessagesIds = getUnreadMessagesFromModel()
-        if (unreadMessagesIds.length > 0)
-            MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
+        MessagesAPI.api_markDialogAsRead(dialogId)
+
+        for (var i = 0; i < messages.model.count; ++i) {
+            var msg = messages.model.get(i)
+            if (msg.readState === 0 && msg.out === 0) {
+                messages.model.setProperty(i, "readState", 1)
+                // TODO: save new readState to db
+            }
+        }
     }
 
     BusyIndicator {

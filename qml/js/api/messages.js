@@ -104,9 +104,9 @@ function api_searchDialogs(substring) {
                            callback_searchDialogs)
 }
 
-function api_markDialogAsRead(isChat, uid, mids) {
+function api_markDialogAsRead(dialogId) {
     RequestAPI.sendRequest("messages.markAsRead",
-                           { message_ids: mids })
+                           { peer_id: dialogId })
 }
 
 
