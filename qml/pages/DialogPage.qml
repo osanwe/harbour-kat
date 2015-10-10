@@ -37,6 +37,7 @@ Page {
     property string lastSeenTime
     property string avatarSource
     property string userAvatar
+    property bool useSeparators: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
     property Item contextMenu
 
@@ -111,6 +112,7 @@ Page {
     function formMessageList(messageData, insertToEnd) {
         var index = (insertToEnd === true) ? messages.model.count : 0;
         messageData.userAvatar = userAvatar
+        messageData.useSeparator = useSeparators
         messages.model.insert(index, messageData)
     }
 
