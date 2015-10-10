@@ -99,7 +99,7 @@ BackgroundItem {
     anchors.left: parent.left
     anchors.right: parent.right
     height: calculateMessageItemHeight()
-    highlighted: out === 0 & readState === 0
+    highlighted: typeof out !== 'undefined' && out === 0 && readState === 0
 
     Separator {
         anchors.top: parent.top
@@ -119,20 +119,20 @@ BackgroundItem {
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         spacing: Theme.paddingMedium
-        layoutDirection: out === 0 ? Qt.LeftToRight : Qt.RightToLeft
+        layoutDirection: typeof out !== 'undefined' && out === 0 ? Qt.LeftToRight : Qt.RightToLeft
 
         Image {
             id: messageAvatar
             width: height
             height: Theme.itemSizeSmall - 2 * Theme.paddingSmall
-            source: out === 0 ? avatarSource : userAvatar
+            source: typeof out !== 'undefined' && out === 0 ? avatarSource : userAvatar
         }
 
         ContentItem {
             id: mainContent
             width: parent.width - messageAvatar.width - Theme.paddingMedium
             attachments: attachmentsData
-            isOut: out === 1
+            isOut: typeof out !== 'undefined' && out === 1
             isRead: readState === 1
             content: message
             dateTime: datetime

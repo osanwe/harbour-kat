@@ -22,7 +22,7 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 
-var DATABASE_VERSION = "4"
+var DATABASE_VERSION = "5"
 
 function getDatabase() {
     return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
@@ -53,12 +53,13 @@ function initDatabase() {
                                                             'first_name TEXT, ' +
                                                             'last_name  TEXT, ' +
                                                             'avatar     TEXT)')
+            tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
         if (db.version === '3') db.transaction( function (tx) {
             tx.executeSql('DROP TABLE messages');
         })
-        if (db.version < '4') {
+        if (db.version < '5') {
             db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
                 console.log("... create new tables")
                 tx.executeSql('CREATE TABLE IF NOT EXISTS messages (id           INTEGER UNIQUE, ' +

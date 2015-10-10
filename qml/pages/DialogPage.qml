@@ -63,7 +63,7 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
-    function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
+    function updateDialogInfo(chatFlag, index, avatarURL, name, online, lastSeen) {
         avatarSource = avatarURL
         console.log(avatarSource)
         fullname = name
