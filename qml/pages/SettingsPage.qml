@@ -45,10 +45,7 @@ Page {
                     MenuItem { text: qsTr("Новости") }
                     MenuItem { text: qsTr("Сообщения") }
 
-                    onActivated: {
-                        console.log(index)
-                        StorageJS.storeSettingsValue("start_page", index)
-                    }
+                    onActivated: StorageJS.storeSettingsValue("start_page", index)
                 }
             }
 
@@ -60,10 +57,7 @@ Page {
                     MenuItem { text: qsTr("Сообщение") }
                     MenuItem { text: qsTr("Запись на стене") }
 
-                    onActivated: {
-                        console.log(index)
-                        StorageJS.storeSettingsValue("create_from_cover", index)
-                    }
+                    onActivated: StorageJS.storeSettingsValue("create_from_cover", index)
                 }
             }
 
@@ -77,10 +71,7 @@ Page {
                     MenuItem { text: "360p" }
                     MenuItem { text: "240p" }
 
-                    onActivated: {
-                        console.log(index)
-                        StorageJS.storeSettingsValue("video_quality", index)
-                    }
+                    onActivated: StorageJS.storeSettingsValue("video_quality", index)
                 }
             }
 
@@ -94,10 +85,7 @@ Page {
                     MenuItem { text: TypesJS.UpdateInterval.items[2].name }
                     MenuItem { text: TypesJS.UpdateInterval.items[3].name }
 
-                    onActivated: {
-                        console.log(index)
-                        StorageJS.storeSettingsValue("update_interval", index)
-                    }
+                    onActivated: StorageJS.storeSettingsValue("update_interval", index)
                 }
             }
 
@@ -105,9 +93,7 @@ Page {
                 text: qsTr("Отображать разделитель в сообщениях")
                 checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
-                onCheckedChanged: {
-                    StorageJS.storeSettingsValue("is_separated_messages", checked)
-                }
+                onCheckedChanged: StorageJS.storeSettingsValue("is_separated_messages", checked)
             }
         }
     }

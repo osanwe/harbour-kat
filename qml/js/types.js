@@ -18,6 +18,7 @@
   You should have received a copy of the GNU General Public License
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 .pragma library
 .import "storage.js" as StorageJS
 
@@ -58,8 +59,8 @@ var UpdateInterval = {
         name: "1 min",
         value: 60
     }, {
-        name: "25 sec",
-        value: 25
+        name: "30 sec",
+        value: 30
     }],
     index: 0,
 

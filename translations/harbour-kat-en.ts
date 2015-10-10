@@ -274,32 +274,32 @@
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="56"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="53"/>
         <source>Создать с обложки</source>
         <translation>Create from cover</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="57"/>
         <source>Сообщение</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="61"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="58"/>
         <source>Запись на стене</source>
         <translation>Wall post</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="71"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="65"/>
         <source>Предпочитаемое качество видео</source>
         <translation>Preferred video quality</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="88"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="79"/>
         <source>Обновление сообщений</source>
-        <translation type="unfinished"></translation>
+        <translation>Update messages per</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="105"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>

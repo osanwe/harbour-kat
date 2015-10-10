@@ -88,7 +88,8 @@ CoverBackground {
         running: true
         repeat: true
 
-        onTriggered: AccountAPI.api_setOnline()
+//        onTriggered: AccountAPI.api_setOnline()
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
 
     Component.onCompleted: {
