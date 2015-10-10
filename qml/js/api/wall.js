@@ -55,7 +55,7 @@ function callback_getPostById(jsonObject) {
 }
 
 function callback_post(jsonObject) {
-    notificationHelper.sendNotification("", qsTr("Опубликовано"));
+    notificationHelper.sendNotification("", qsTr("Опубликовано"), true);
 }
 
 

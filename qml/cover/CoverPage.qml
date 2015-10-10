@@ -52,6 +52,8 @@ CoverBackground {
             text: "0"
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
+
+            onTextChanged: if (text != null) notificationHelper.activateLed(true)
         }
     }
 
@@ -78,7 +80,7 @@ CoverBackground {
 
             onTriggered: {
                 MessagesAPI.api_getUnreadMessagesCounter(true)
-                updateTimer.restart()
+//                updateTimer.restart()
             }
         }
     }

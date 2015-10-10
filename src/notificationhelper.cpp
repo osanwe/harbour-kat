@@ -6,17 +6,17 @@ NotificationHelper::NotificationHelper(QObject *parent) :
 {
 }
 
-void NotificationHelper::sendNotification(const QString &body, const QString &summary)
-{
+void NotificationHelper::sendNotification(const QString &body, const QString &summary, const bool close) {
     notification.setBody(body);
     notification.setSummary(summary);
 
     notification.publish();
-    startTimer(3000);
+    if (close) startTimer(3000);
 }
 
-void NotificationHelper::activateLed(bool activate)
-{
+void NotificationHelper::activateLed(bool activate) {
+    sendNotification("", "Новые сообщения", false);
+
     QDBusMessage message = QDBusMessage::createMethodCall(
                 "com.nokia.mce",
                 "/com/nokia/mce/request",
@@ -28,7 +28,6 @@ void NotificationHelper::activateLed(bool activate)
     connection.send(message);
 }
 
-void NotificationHelper::timerEvent(QTimerEvent *event)
-{
+void NotificationHelper::timerEvent(QTimerEvent *event) {
     notification.remove();
 }

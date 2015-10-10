@@ -67,7 +67,7 @@ Page {
     }
 
     function shownotification(text) {
-        notificationHelper.sendNotification("", text)
+        notificationHelper.sendNotification("", text, true)
     }
 
     BusyIndicator {
