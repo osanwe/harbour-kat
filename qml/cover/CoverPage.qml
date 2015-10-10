@@ -52,8 +52,6 @@ CoverBackground {
             text: "0"
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
-
-            onTextChanged: if (text != null) notificationHelper.activateLed(true)
         }
     }
 
@@ -80,18 +78,23 @@ CoverBackground {
 
             onTriggered: {
                 MessagesAPI.api_getUnreadMessagesCounter(true)
-//                updateTimer.restart()
+                updateTimer.restart()
             }
         }
     }
 
     Timer {
+        id: updateTimer
         interval: 900000 // 15 minutes
         running: true
         repeat: true
 
-//        onTriggered: AccountAPI.api_setOnline()
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+        onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue()
+
+        onTriggered: {
+            if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
+            MessagesAPI.api_getUnreadMessagesCounter(true)
+        }
     }
 
     Component.onCompleted: {
@@ -99,7 +102,7 @@ CoverBackground {
             "cover.unread": updateCoverCounters
         })
 
-        AccountAPI.api_setOnline()
+        if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
         MessagesAPI.api_getUnreadMessagesCounter(true)
         MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
     }

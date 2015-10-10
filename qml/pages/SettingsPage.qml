@@ -90,6 +90,13 @@ Page {
             }
 
             TextSwitch {
+                text: qsTr("По возможности быть offline")
+                checked: StorageJS.readSettingsValue("is_offline_mode") === 'true'
+
+                onCheckedChanged: StorageJS.storeSettingsValue("is_offline_mode", checked)
+            }
+
+            TextSwitch {
                 text: qsTr("Отображать разделитель в сообщениях")
                 checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 

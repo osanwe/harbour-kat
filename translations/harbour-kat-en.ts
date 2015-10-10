@@ -300,6 +300,11 @@
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="93"/>
+        <source>По возможности быть offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="100"/>
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>
