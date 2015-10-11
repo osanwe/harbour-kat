@@ -55,14 +55,29 @@ Page {
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
-        else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
+        else {
+            UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
+            MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+        }
+    }
+
+    function formMessageList(messageData, insertToEnd) {
+        console.log(JSON.stringify(messageData))
+        var index = (insertToEnd) ? messages.model.count : 0;
+
+        for (var modelIndex in messages.model.count)
+            if (messages.model.get(modelIndex).mid === messageData.mid) return
+
+        messageData.userAvatar = userAvatar
+        messageData.useSeparator = useSeparators
+        messages.model.insert(index, messageData)
     }
 
     function saveUsers(users) {
         chatUsers = users
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset) // ???
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
     function updateDialogInfo(userId, data) {
@@ -78,25 +93,21 @@ Page {
         }
     }
 
-    function sendMessage() {
-        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
-        messageInput.text = ""
-        attachmentsList = ""
-    }
-
     function formMessagesListFromServerData(messagesArray) {
         var toBottom = messages.model.count > 0 ?
-                            messages.getMessageId(true) < messagesArray[0].mid : false
+                    messages.getMessageId(true) < messagesArray[0].mid :
+                    false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
+            console.log(JSON.stringify(messageData))
             if (isChat) {
                 console.log("chat")
-                for (var index in chatUsers) if (chatUsers[index].id === messageData.fromId) {
+                for (var index in chatUsers)
+                    if (chatUsers[index].id === messageData.fromId) {
                         messageData.avatarSource = chatUsers[index].photo
                         break
                     }
-            }
-            else {
+            } else {
                 console.log('user')
                 messageData.avatarSource = avatarSource
             }
@@ -106,13 +117,10 @@ Page {
         scrollMessagesToBottom()
     }
 
-    function formMessageList(messageData, insertToEnd) {
-        var index = (insertToEnd) ? messages.model.count : 0;
-        if (messages.count > 0 && messages.model.get(index).mid === messageData.mid) return
-
-        messageData.userAvatar = userAvatar
-        messageData.useSeparator = useSeparators
-        messages.model.insert(index, messageData)
+    function sendMessage() {
+        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
+        messageInput.text = ""
+        attachmentsList = ""
     }
 
     function scrollMessagesToBottom() {
