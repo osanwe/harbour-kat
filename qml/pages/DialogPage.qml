@@ -55,18 +55,14 @@ Page {
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
-        else {
-            UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
-            MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
-        }
+        else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
     }
 
     function formMessageList(messageData, insertToEnd) {
+        console.log('formMessageList()')
         console.log(JSON.stringify(messageData))
         var index = (insertToEnd) ? messages.model.count : 0;
-
-        for (var modelIndex in messages.model.count)
-            if (messages.model.get(modelIndex).mid === messageData.mid) return
+        if (messages.model.count > 0 && messages.model.get(index).mid === messageData.mid) return
 
         messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
@@ -270,7 +266,6 @@ Page {
             }
 
             function getMessageId(isLast) {
-                isLast = isLast === true
                 var msgId = -1
                 if (messages.model.count > 0)
                     msgId = messages.model.get(isLast ? messages.model.count - 1 : 0).mid
