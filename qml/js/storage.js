@@ -114,8 +114,7 @@ function readSettingsValue(key, default_value) {
         }
     })
     console.log(value)
-    if (value === "")
-        value = default_value
+    if (value === "") value = default_value
     return value
 }
 

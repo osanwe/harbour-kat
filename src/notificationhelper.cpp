@@ -15,7 +15,7 @@ void NotificationHelper::sendNotification(const QString &body, const QString &su
 }
 
 void NotificationHelper::activateLed(bool activate) {
-    sendNotification("", "Новые сообщения", false);
+    if (activate) sendNotification("", "Новые сообщения", false);
 
     QDBusMessage message = QDBusMessage::createMethodCall(
                 "com.nokia.mce",
