@@ -139,26 +139,7 @@ function callback_getDialogsList(jsonObject) {
                               jsonMessage.attachments,
                               jsonMessage.fwd_messages)
 
-        var dialogId = jsonMessage.user_id
-        var messageBody = jsonMessage.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        var isChat = false
-        if (jsonMessage.fwd_messages)
-            messageBody = "[сообщения] " + messageBody
-        if (jsonMessage.attachments)
-            messageBody = "[вложения] " + messageBody
-        if (jsonMessage.chat_id) {
-            dialogId = jsonMessage.chat_id
-            chatsIds += "," + jsonMessage.chat_id
-            isChat = true
-        } else {
-            uids += "," + jsonMessage.user_id
-        }
-        formDialogsList(jsonMessage.out,
-                        jsonMessage.title,
-                        messageBody,
-                        dialogId,
-                        jsonMessage.read_state,
-                        isChat)
+        formDialogsList(parseDialogListItem(jsonMessage))
     }
     if (uids.length === 0 && chatsUids.length === 0) {
         stopBusyIndicator()
@@ -458,11 +439,9 @@ function parseLongPollMessage(argsArray) {
             })
         }
     })
-    if (media.length > 0)
-        jsonObject.attachments = media
+    if (media.length > 0) jsonObject.attachments = media
 
-    if (!jsonObject.chat_id)
-        jsonObject.user_id = jsonObject.from_id
+    if (!jsonObject.chat_id) jsonObject.user_id = jsonObject.from_id
 
     console.log(JSON.stringify(jsonObject))
     return jsonObject
