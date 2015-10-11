@@ -19,9 +19,17 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+.pragma library
 .import "request.js" as RequestAPI
 .import "../storage.js" as StorageJS
 
+var signaller = Qt.createQmlObject("import QtQuick 2.0; \
+    QtObject { \
+        signal endLoading; \
+        signal gotDialogInfo(int dialogId, var info); \
+        signal gotUserAvatar(string avatar); \
+        signal gotUserNameAndAvatar(string userName, string avatar); \
+    }", Qt.application, "UsersSignaller");
 
 // -------------- API functions --------------
 
@@ -32,6 +40,19 @@ function api_getUserNameAndAvatar(uid) {
                            callback_getUserNameAndAvatar)
 }
 
+function api_getUserAvatar(uid) {
+    RequestAPI.sendRequest("users.get",
+                           { user_ids: uid,
+                             fields: "photo_100" },
+                           callback_getUserAvatar)
+}
+
+function api_getUsersAvatarAndOnlineStatus(uid) {
+    RequestAPI.sendRequest("users.get",
+                           { user_ids: uid,
+                             fields: "photo_100,online,last_seen" },
+                           callback_getUsersAvatarAndOnlineStatus)
+}
 
 // -------------- Callbacks --------------
 
@@ -46,7 +67,7 @@ function callback_getUserNameAndAvatar(jsonObject) {
     if (StorageJS.readFullUserName() !== fullName) {
         console.log("Replacing user name...")
         StorageJS.saveUserName(firstName, secondName)
-        updateUserNameAndAvatar(fullName, cachePath + oldAvatarName)
+        signaller.gotUserNameAndAvatar(fullName, cachePath + oldAvatarName)
     }
     if (oldAvatarName !== newAvatarName) {
         console.log("Replacing user avatar...")
@@ -55,74 +76,81 @@ function callback_getUserNameAndAvatar(jsonObject) {
     }
 }
 
+function callback_getUserAvatar(jsonObject) {
+    for (var index in jsonObject.response)
+        signaller.gotUserAvatar(jsonObject.response[index].photo_100)
+}
+
+//function getUsersAvatarAndOnlineStatus(uid) {
+//    var url = "https://api.vk.com/method/"
+//    url += "users.get?v=5.37"
+//    url += "&user_ids=" + uid
+//    url += "&fields=photo_100,online,last_seen"
+//    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
+//    console.log(url)
+
+//    var doc = new XMLHttpRequest()
+//    doc.onreadystatechange = function() {
+//        if (doc.readyState === XMLHttpRequest.DONE) {
+//            console.log(doc.responseText)
+//            var jsonObject = JSON.parse(doc.responseText)
+//            for (var index in jsonObject.response) {
+//                var fullname = jsonObject.response[index].first_name + " " +
+//                        jsonObject.response[index].last_name
+
+//                var lastSeenTime = "";
+//                var lastSeen = jsonObject.response[index].last_seen
+//                if (typeof lastSeen !== 'undefined') {
+//                    var date = new Date()
+//                    date.setTime(parseInt(lastSeen.time) * 1000)
+//                    lastSeenTime = ("0" + date.getHours()).slice(-2) + ":" +
+//                                   ("0" + date.getMinutes()).slice(-2) + ", " +
+//                                   ("0" + date.getDate()).slice(-2) + "." +
+//                                   ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+//                                   ("0" + date.getFullYear()).slice(-2)
+//                }
+
+//                StorageJS.saveAnotherUserInfo(jsonObject.response[index].id,
+//                                              jsonObject.response[index].first_name,
+//                                              jsonObject.response[index].last_name,
+//                                              jsonObject.response[index].photo_100.split('/').slice(-1))
+//                updateDialogInfo(false,
+//                                 index,
+//                                 jsonObject.response[index].photo_100,
+//                                 fullname,
+//                                 (jsonObject.response[index].online === 1),
+//                                 lastSeenTime)
+//            }
+//            stopBusyIndicator()
+function callback_getUsersAvatarAndOnlineStatus(jsonObject) {
+    for (var index in jsonObject.response) {
+        var res = jsonObject.response[index]
+        var fullname = res.first_name + " " + res.last_name
+
+        var lastSeenTime = "";
+        var lastSeen = res.last_seen
+        if (typeof lastSeen !== 'undefined') {
+            var date = new Date()
+            date.setTime(parseInt(lastSeen.time) * 1000)
+            lastSeenTime = ("0" + date.getHours()).slice(-2) + ":" +
+                           ("0" + date.getMinutes()).slice(-2) + ", " +
+                           ("0" + date.getDate()).slice(-2) + "." +
+                           ("0" + (date.getMonth() + 1)).slice(-2) + "." +
+                           ("0" + date.getFullYear()).slice(-2)
+        }
+
+        StorageJS.saveAnotherUserInfo(res.id,
+                                      res.first_name,
+                                      res.last_name,
+                                      res.photo_100.split('/').slice(-1))
+        signaller.gotDialogInfo(res.id,
+                                {"avatarSource": res.photo_100,
+                                 "nameOrTitle": fullname,
+                                 "isOnline": (res.online === 1),
+                                 "lastSeen": lastSeenTime})
+    }
+    signaller.endLoading()
+}
 
 // -------------- Other functions --------------
 
-function getUserAvatar(uid) {
-    var url = "https://api.vk.com/method/"
-    url += "users.get?"
-    url += "user_ids=" + uid
-    url += "&fields=photo_100"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            console.log(doc.responseText)
-            var jsonObject = JSON.parse(doc.responseText)
-            for (var index in jsonObject.response) {
-                setUserAvatar(jsonObject.response[index].photo_100)
-            }
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}
-
-function getUsersAvatarAndOnlineStatus(uid) {
-    var url = "https://api.vk.com/method/"
-    url += "users.get?v=5.37"
-    url += "&user_ids=" + uid
-    url += "&fields=photo_100,online,last_seen"
-    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-    console.log(url)
-
-    var doc = new XMLHttpRequest()
-    doc.onreadystatechange = function() {
-        if (doc.readyState === XMLHttpRequest.DONE) {
-            console.log(doc.responseText)
-            var jsonObject = JSON.parse(doc.responseText)
-            for (var index in jsonObject.response) {
-                var fullname = jsonObject.response[index].first_name + " " +
-                        jsonObject.response[index].last_name
-
-                var lastSeenTime = "";
-                var lastSeen = jsonObject.response[index].last_seen
-                if (typeof lastSeen !== 'undefined') {
-                    var date = new Date()
-                    date.setTime(parseInt(lastSeen.time) * 1000)
-                    lastSeenTime = ("0" + date.getHours()).slice(-2) + ":" +
-                                   ("0" + date.getMinutes()).slice(-2) + ", " +
-                                   ("0" + date.getDate()).slice(-2) + "." +
-                                   ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-                                   ("0" + date.getFullYear()).slice(-2)
-                }
-
-                StorageJS.saveAnotherUserInfo(jsonObject.response[index].id,
-                                              jsonObject.response[index].first_name,
-                                              jsonObject.response[index].last_name,
-                                              jsonObject.response[index].photo_100.split('/').slice(-1))
-                updateDialogInfo(false,
-                                 index,
-                                 jsonObject.response[index].photo_100,
-                                 fullname,
-                                 (jsonObject.response[index].online === 1),
-                                 lastSeenTime)
-            }
-            stopBusyIndicator()
-        }
-    }
-    doc.open("GET", url, true)
-    doc.send()
-}

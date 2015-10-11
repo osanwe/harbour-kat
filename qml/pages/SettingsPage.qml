@@ -90,6 +90,13 @@ Page {
             }
 
             TextSwitch {
+                text: qsTr("Обновлять сообщения вручную")
+                checked: StorageJS.readSettingsValue("update_manual", false) === 'true'
+
+                onCheckedChanged: StorageJS.storeSettingsValue("update_manual", checked)
+            }
+
+            TextSwitch {
                 text: qsTr("По возможности быть offline")
                 checked: StorageJS.readSettingsValue("is_offline_mode") === 'true'
 

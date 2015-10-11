@@ -287,4 +287,12 @@ Dialog {
     }
 
     onAccepted: sendNewMessage()
+
+    Component.onCompleted: {
+        MessagesAPI.signaller.gotSearchDialogs.connect(updateSearchContactsList)
+    }
+
+    Component.onDestruction: {
+        MessagesAPI.signaller.gotSearchDialogs.disconnect(updateSearchContactsList)
+    }
 }

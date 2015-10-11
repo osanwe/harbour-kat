@@ -37,18 +37,22 @@ Page {
     property var dialogsData: []
     property var usersAvatars: []
 
-    function formNewDialogsList() {
-        console.log('formNewDialogsList()')
-        var lastDialogs = StorageJS.getLastDialogs()
-        for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
-        updateDialogs()
+    function lookupItem(itemId) {
+        if (itemId < 0)
+            return -1
+
+        for (var i = 0; i < dialogsData.length; ++i) {
+            if (dialogsData[i].itemId === itemId) {
+                return i
+            }
+        }
+        return -1
     }
 
     function updateDialogs() {
         console.log('updateDialogs()')
         if (StorageJS.readSettingsValue("user_id")) {
             dialogsOffset = 0
-            chatsCounter = 0
             dialogsData = []
             usersAvatars = []
             loadingIndicator.running = true
@@ -57,57 +61,127 @@ Page {
         }
     }
 
-    function formDialogsList(io, title, message, dialogId, readState, isChat) {
-        message = message.replace(/<br>/g, " ")
-        dialogsData[dialogsData.length] = { isDialog:     true,
-                                            out:          io,
-                                            avatarSource: "image://theme/icon-cover-message",
-                                            nameOrTitle:  title,
-                                            previewText:  message,
-                                            itemId:       dialogId,
-                                            readState:    readState,
-                                            isOnline:     false,
-                                            isChat:       isChat }
+//<<<<<<< HEAD
+//    function formDialogsList(io, title, message, dialogId, readState, isChat) {
+//        message = message.replace(/<br>/g, " ")
+//        dialogsData[dialogsData.length] = { isDialog:     true,
+//                                            out:          io,
+//                                            avatarSource: "image://theme/icon-cover-message",
+//                                            nameOrTitle:  title,
+//                                            previewText:  message,
+//                                            itemId:       dialogId,
+//                                            readState:    readState,
+//                                            isOnline:     false,
+//                                            isChat:       isChat }
+//    }
+
+//    function getChatIndex(index) {
+//        var usersCounter = 0
+//        var chats = 0
+
+//        while (true) {
+//            console.log(index + ' | ' + chats + ' | ' + usersCounter)
+//            console.log(dialogsData[chats + usersCounter].nameOrTitle)
+//            if (dialogsData[chats + usersCounter].isChat) {
+//                chats += 1
+//                if (chats > index) break
+//            } else {
+//                usersCounter += 1
+//            }
+//        }
+
+//        return index + usersCounter
+//    }
+
+//    function getUserIndex(index) {
+//        while (dialogsData[index + chatsCounter + dialogsOffset].isChat)
+//            chatsCounter += 1
+//        return index + chatsCounter + dialogsOffset
+//    }
+
+//    function updateDialogInfo(chatFlag, index, avatarURL, fullname, online, lastSeen) {
+//        var idx = chatFlag ? getChatIndex(parseInt(index, 10)) : getUserIndex(parseInt(index, 10))
+//        var dialog = dialogsData[idx]
+//        usersAvatars[usersAvatars.length] = avatarURL
+//        dialog.avatarSource = avatarURL
+//        dialog.nameOrTitle = fullname
+//        dialog.isOnline = online
+//        dialogsData[idx] = dialog
+//=======
+    function formDialogsList(listItemData) {
+        if (listItemData) {
+            dialogsData[dialogsData.length] = { isDialog:     true,
+                                                out:          listItemData[0],
+                                                avatarSource: "image://theme/icon-cover-message",
+                                                nameOrTitle:  listItemData[1],
+                                                previewText:  listItemData[2],
+                                                itemId:       listItemData[3],
+                                                readState:    listItemData[4],
+                                                isOnline:     false,
+                                                isChat:       listItemData[5] }
+        } else {
+            var lastDialogs = StorageJS.getLastDialogs()
+            for (var item in lastDialogs)
+                messagesList.model.append(lastDialogs[item])
+            updateDialogs()
+        }
     }
 
-    function getChatIndex(index) {
-        var usersCounter = 0
-        var chats = 0
+    function updateDialogsList(jsonMessage) {
+        var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
 
-        while (true) {
-            console.log(index + ' | ' + chats + ' | ' + usersCounter)
-            console.log(dialogsData[chats + usersCounter].nameOrTitle)
-            if (dialogsData[chats + usersCounter].isChat) {
-                chats += 1
-                if (chats > index) break
-            } else {
-                usersCounter += 1
+        var uid = jsonMessage.from_id
+        var isChat = itemData[5]
+        var dialogIndex = lookupItem(itemData[3])
+
+        if (dialogIndex !== -1) {
+            var data = {"out": itemData[0],
+                        "previewText": itemData[2],
+                        "readState": itemData[4]}
+            if (isChat)
+                data["nameOrTitle"] = itemData[1]
+
+            updateDialogInfo(itemData[3], data)
+
+            data = dialogsData.splice(dialogIndex, 1)[0]
+            dialogsData.unshift(data)
+
+            flushDialogsData()
+        } else {
+            formDialogsList(itemData, true)
+            if (isChat)
+                MessagesAPI.api_getChat(itemData[3])
+            else
+                UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
+        }
+    }
+
+    function updateDialogInfo(dialogId, data) {
+        var idx = lookupItem(dialogId)
+
+        if (idx !== -1) {
+            var infoKeys = Object.keys(data)
+            for (var i in infoKeys) {
+                var key = infoKeys[i]
+                if (key in dialogsData[idx])
+                    dialogsData[idx][key] = data[key]
+
+                if (key === 'avatarSource')
+                    usersAvatars.push(data[key])
             }
         }
-
-        return index + usersCounter
+//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
     }
 
-    function getUserIndex(index) {
-        while (dialogsData[index + chatsCounter + dialogsOffset].isChat)
-            chatsCounter += 1
-        return index + chatsCounter + dialogsOffset
-    }
-
-    function updateDialogInfo(chatFlag, index, avatarURL, fullname, online, lastSeen) {
-        var idx = chatFlag ? getChatIndex(parseInt(index, 10)) : getUserIndex(parseInt(index, 10))
-        var dialog = dialogsData[idx]
-        usersAvatars[usersAvatars.length] = avatarURL
-        dialog.avatarSource = avatarURL
-        dialog.nameOrTitle = fullname
-        dialog.isOnline = online
-        dialogsData[idx] = dialog
+    function flushDialogsData() {
+        messagesList.model.clear()
+        for (var item in dialogsData)
+            messagesList.model.append(dialogsData[item])
+        messagesList.footerItem.visible = true
     }
 
     function stopBusyIndicator() {
-        messagesList.model.clear()
-        for (var item in dialogsData) messagesList.model.append(dialogsData[item])
-        messagesList.footerItem.visible = true
+        flushDialogsData()
         loadingIndicator.running = false
         if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
     }
@@ -171,93 +245,124 @@ Page {
 
             onClicked: {
                 loadingIndicator.running = true
+                dialogsOffset = dialogsOffset + 20
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
 
         VerticalScrollDecorator {}
-
-        function lookupItem(itemId, fromEnd) {
-            fromEnd = fromEnd === true
-
-            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
-                         (fromEnd ? i >= 0 : i < messagesList.model.count);
-                         (fromEnd ? --i : ++i)) {
-                if (messagesList.model.get(i).itemId === itemId) {
-                    return i
-                }
-            }
-            console.log("Dialog with id '" + itemId + "' does not exist")
-            return -1
-        }
     }
 
     Timer {
         interval: 0
-        running: Qt.application.active
+        running: Qt.application.active && TypesJS.MessageUpdateMode.isManual()
 
+//<<<<<<< HEAD
+//            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
+//                         (fromEnd ? i >= 0 : i < messagesList.model.count);
+//                         (fromEnd ? --i : ++i)) {
+//                if (messagesList.model.get(i).itemId === itemId) {
+//                    return i
+//                }
+//            }
+//            console.log("Dialog with id '" + itemId + "' does not exist")
+//            return -1
+//        }
+//    }
+
+//    Timer {
+//        interval: 0
+//        running: Qt.application.active
+
+//=======
+//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
         onTriggered: if (visible)
-                         if (messagesList.model.count === 0) formNewDialogsList()
+                         if (messagesList.model.count === 0) formDialogsList()
                          else updateDialogs()
     }
 
     Component.onCompleted: {
-        TypesJS.LongPollWorker.addValues({
-            "dialoglist.message.add": function() {
-                if (arguments.length === 7) {
-                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
-                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
+//<<<<<<< HEAD
+//        TypesJS.LongPollWorker.addValues({
+//            "dialoglist.message.add": function() {
+//                if (arguments.length === 7) {
+//                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
+//                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
 
-                    var uid = jsonMessage.from_id
-                    var isChat = itemData[5]
-                    var dialogIndex = messagesList.lookupItem(itemData[3])
-                    if (dialogIndex !== -1) {
-                        messagesList.model.set(dialogIndex, { "out":         itemData[0],
-                                                              "previewText": itemData[2],
-                                                              "readState":   itemData[4] })
-                        if (isChat)
-                            messagesList.model.setProperty(dialogIndex, "nameOrTitle", itemData[1])
+//                    var uid = jsonMessage.from_id
+//                    var isChat = itemData[5]
+//                    var dialogIndex = messagesList.lookupItem(itemData[3])
+//                    if (dialogIndex !== -1) {
+//                        messagesList.model.set(dialogIndex, { "out":         itemData[0],
+//                                                              "previewText": itemData[2],
+//                                                              "readState":   itemData[4] })
+//                        if (isChat)
+//                            messagesList.model.setProperty(dialogIndex, "nameOrTitle", itemData[1])
 
-                        messagesList.model.move(dialogIndex, 0, 1)
-                    } else {
-                        formDialogsList(itemData, true)
-                        if (isChat) MessagesAPI.api_getChat(itemData[3])
-                        else UsersAPI.getUsersAvatarAndOnlineStatus(uid)
-                    }
-                }
-            },
-            "dialogList.message.flags": function(msgId, flags, action, userId) {
-                if (userId) {
-                    if (userId > 2000000000) userId -= 2000000000
-                    var dialogIndex = messagesList.lookupItem(userId)
-                    if (dialogIndex !== -1) {
-                        switch (action) {
-                        case TypesJS.Action.ADD:
-                        case TypesJS.Action.SET:
-                            if ((flags & 1) === 1) {
-                                messagesList.model.setProperty(dialogIndex, "readState", 0)
-                            }
-                            break
-                        case TypesJS.Action.DEL:
-                            if ((flags & 1) === 1) {
-                                messagesList.model.setProperty(dialogIndex, "readState", 1)
-                            }
-                            break
-                        }
-                    }
-                }
-            },
-            "dialoglist.friends": function(userId, status) {
-                var dialogIndex = messagesList.lookupItem(userId)
-                if (dialogIndex !== -1)
-                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
-            }
-        })
+//                        messagesList.model.move(dialogIndex, 0, 1)
+//                    } else {
+//                        formDialogsList(itemData, true)
+//                        if (isChat) MessagesAPI.api_getChat(itemData[3])
+//                        else UsersAPI.getUsersAvatarAndOnlineStatus(uid)
+//                    }
+//                }
+//            },
+//            "dialogList.message.flags": function(msgId, flags, action, userId) {
+//                if (userId) {
+//                    if (userId > 2000000000) userId -= 2000000000
+//                    var dialogIndex = messagesList.lookupItem(userId)
+//                    if (dialogIndex !== -1) {
+//                        switch (action) {
+//                        case TypesJS.Action.ADD:
+//                        case TypesJS.Action.SET:
+//                            if ((flags & 1) === 1) {
+//                                messagesList.model.setProperty(dialogIndex, "readState", 0)
+//                            }
+//                            break
+//                        case TypesJS.Action.DEL:
+//                            if ((flags & 1) === 1) {
+//                                messagesList.model.setProperty(dialogIndex, "readState", 1)
+//                            }
+//                            break
+//                        }
+//                    }
+//                }
+//            },
+//            "dialoglist.friends": function(userId, status) {
+//                var dialogIndex = messagesList.lookupItem(userId)
+//                if (dialogIndex !== -1)
+//                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
+//            }
+//        })
+//    }
+
+//    Component.onDestruction: {
+//        TypesJS.LongPollWorker.delValues([ "dialoglist.message.add",
+//                                           "dialogList.message.flags",
+//                                           "dialoglist.friends" ])
+//=======
+        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
+        MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
+        MessagesAPI.signaller.gotNewMessage.connect(updateDialogsList)
+        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+        MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
+        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+
+        if (!TypesJS.MessageUpdateMode.isManual()) {
+            if (messagesList.model.count === 0) formDialogsList()
+            else updateDialogs()
+        }
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues([ "dialoglist.message.add",
-                                           "dialogList.message.flags",
-                                           "dialoglist.friends" ])
+        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        MessagesAPI.signaller.gotMessageInfo.disconnect(updateDialogInfo)
+        MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogsList)
+        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
+        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
     }
 }

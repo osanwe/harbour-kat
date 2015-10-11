@@ -178,5 +178,13 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: doStartUpdate()
+    Component.onCompleted: {
+        UsersAPI.signaller.gotUserNameAndAvatar.connect(updateUserNameAndAvatar)
+
+        doStartUpdate()
+    }
+
+    Component.onDestruction: {
+        UsersAPI.signaller.gotUserNameAndAvatar.disconnect(updateUserNameAndAvatar)
+    }
 }

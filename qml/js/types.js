@@ -74,12 +74,10 @@ var UpdateInterval = {
 }
 
 var LongPollWorker = {
-    items: {},
+    lastActive: 0,
 
-    addValue: function(key, value) {
-        var hasKey = key in this.items
-        this.items[key] = value
-        return hasKey
+    setActive: function() {
+        this.lastActive = Date.now()
     },
 
     addValues: function(values) {
@@ -100,17 +98,15 @@ var LongPollWorker = {
         return function() {}
     },
 
-    applyValue: function(key, args) {
-        var keys = Object.keys(this.items).filter(function(o) {
-            return key === o || key === o.substr(o.indexOf('.') + 1);
-          })
-        keys.forEach(function(o) {
-            try {
-                LongPollWorker.getValue(o).apply(null, args)
-            } catch (e) {
-                console.log("Worker " + e.name + " with " + o + ": " + e.message)
-                console.log(e.stack)
-            }
-        })
+    isActive: function() {
+        var diff = Date.now() - this.lastActive
+        return diff <= UpdateInterval.getValue() * 1000
+    }
+}
+
+
+var MessageUpdateMode = {
+    isManual: function() {
+        return StorageJS.readSettingsValue("update_manual", 'false') === 'true'
     }
 }
