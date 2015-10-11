@@ -106,7 +106,10 @@ Page {
                     anchors.left: menuItemText.right
                     anchors.leftMargin: Theme.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
-                    width: menuItemCounter.width < menuItemCounter.height ? menuItemCounter.height : menuItemCounter.width + 2 * Theme.paddingSmall
+                    width:
+                        menuItemCounter.width < menuItemCounter.height ?
+                            menuItemCounter.height :
+                            menuItemCounter.width + 2 * Theme.paddingSmall
                     height: menuItemCounter.height
                     radius: 10
                     color: Theme.highlightColor

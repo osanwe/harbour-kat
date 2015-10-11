@@ -49,7 +49,7 @@ Page {
     function formNewDialogMessages() {
         console.log('formNewDialogMessages()')
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
-        for (var item in messagesArray) formMessageList(messagesArray[item])
+        for (var item in messagesArray) formMessageList(messagesArray[item], false)
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
@@ -94,22 +94,20 @@ Page {
                 messageData.avatarSource = avatarSource
             }
             console.log(messageData.avatarSource + ' | ' + avatarSource)
-            formMessageList(messageData)
+            formMessageList(messageData, false)
         }
         scrollMessagesToBottom()
     }
 
-    function formMessageList(messageData) {
+    function formMessageList(messageData, needAppend) {
         messageData.userAvatar = userAvatar
-        messages.model.insert(messagesOffset, messageData)
+        if (needAppend) messages.model.append(messageData)
+        else messages.model.insert(messagesOffset, messageData)
     }
 
     function scrollMessagesToBottom() {
-        if (messagesOffset === 0) {
-            messages.positionViewAtEnd()
-        } else {
-            messages.positionViewAtIndex(49, ListView.Beginning)
-        }
+        if (messagesOffset === 0) messages.positionViewAtEnd()
+        else messages.positionViewAtIndex(49, ListView.Beginning)
     }
 
     function stopBusyIndicator() {
@@ -398,8 +396,8 @@ Page {
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues(["dialog.message.add",
-                                          "dialog.message.flags",
-                                          "dialog.friends"])
+        TypesJS.LongPollWorker.delValues([ "dialog.message.add",
+                                           "dialog.message.flags",
+                                           "dialog.friends" ])
     }
 }

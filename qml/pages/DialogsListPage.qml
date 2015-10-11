@@ -212,20 +212,17 @@ Page {
                     var isChat = itemData[5]
                     var dialogIndex = messagesList.lookupItem(itemData[3])
                     if (dialogIndex !== -1) {
-                        messagesList.model.set(dialogIndex, {"out": itemData[0],
-                                                     "previewText": itemData[2],
-                                                       "readState": itemData[4]})
+                        messagesList.model.set(dialogIndex, { "out":         itemData[0],
+                                                              "previewText": itemData[2],
+                                                              "readState":   itemData[4] })
                         if (isChat)
-                            messagesList.model.setProperty(dialogIndex,
-                                                 "nameOrTitle", itemData[1])
+                            messagesList.model.setProperty(dialogIndex, "nameOrTitle", itemData[1])
 
                         messagesList.model.move(dialogIndex, 0, 1)
                     } else {
                         formDialogsList(itemData, true)
-                        if (isChat)
-                            MessagesAPI.api_getChat(itemData[3])
-                        else
-                            UsersAPI.getUsersAvatarAndOnlineStatus(uid)
+                        if (isChat) MessagesAPI.api_getChat(itemData[3])
+                        else UsersAPI.getUsersAvatarAndOnlineStatus(uid)
                     }
                 }
             },
@@ -259,8 +256,8 @@ Page {
     }
 
     Component.onDestruction: {
-        TypesJS.LongPollWorker.delValues(["dialoglist.message.add",
-                                          "dialogList.message.flags",
-                                          "dialoglist.friends"])
+        TypesJS.LongPollWorker.delValues([ "dialoglist.message.add",
+                                           "dialogList.message.flags",
+                                           "dialoglist.friends" ])
     }
 }
