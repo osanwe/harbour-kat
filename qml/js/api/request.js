@@ -24,25 +24,40 @@
 var API_SERVER = "https://api.vk.com/method/";
 var API_VERSION = "v=5.37"
 
-function sendRequest(method, data, callback, isNew) {
-    var query = API_SERVER + method + "?" + API_VERSION +
-            "&access_token=" + StorageJS.readSettingsValue("access_token");
-    for (var arg in data) if (data[arg] !== "") query += "&" + arg + "=" + data[arg];
+function sendRequestTo(query, callback) {
     console.log(query)
 
     var request = new XMLHttpRequest()
     request.onreadystatechange = function() {
         if (request.readyState === XMLHttpRequest.DONE) {
-            console.log(request.responseText)
-            if (typeof callback !== 'undefined') {
-                if (typeof isNew === 'undefined') {
-                    callback(JSON.parse(request.responseText))
-                } else {
-                    callback(JSON.parse(request.responseText), isNew)
+            if (request.status === 200) {
+                console.log(request.responseText)
+                if (typeof callback !== 'undefined' && request.responseText) {
+                    var callback_args = [JSON.parse(request.responseText)]
+                    for (var i = 2; i < arguments.length; ++i) callback_args.push(arguments[i])
+
+                    callback.apply(null, callback_args)
                 }
+            } else {
+                console.log("ERROR " + request.status + ": " + request.statusText)
             }
         }
     }
     request.open("GET", query, true)
     request.send()
+}
+
+function sendRequest(method, data, callback, isNew) {
+    var query = API_SERVER + method + "?" + API_VERSION +
+            "&access_token=" + StorageJS.readSettingsValue("access_token");
+    for (var arg in data) if (data[arg] !== "") query += "&" + arg + "=" + data[arg];
+
+    sendRequestTo(query, callback, isNew)
+}
+
+function sendLongPollRequest(server, data, callback) {
+    var query = "https://" + server + "?act=a_check";
+    for (var arg in data) if (data[arg] !== "") query += "&" + arg + "=" + data[arg];
+
+    sendRequestTo(query, callback)
 }

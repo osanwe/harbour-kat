@@ -23,6 +23,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
 
@@ -36,6 +37,7 @@ Page {
     property string lastSeenTime
     property string avatarSource
     property string userAvatar
+    property bool useSeparators: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
     property Item contextMenu
 
@@ -47,12 +49,24 @@ Page {
 
     function formNewDialogMessages() {
         console.log('formNewDialogMessages()')
+        loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
-        for (var item in messagesArray) formMessageList(messagesArray[item])
+        for (var item in messagesArray) formMessageList(messagesArray[item], false)
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
-        else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
+        else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
+    }
+
+    function formMessageList(messageData, insertToEnd) {
+        console.log('formMessageList()')
+        console.log(JSON.stringify(messageData))
+        var index = (insertToEnd) ? messages.model.count : 0;
+        if (messages.model.count > 0 && messages.model.get(index).mid === messageData.mid) return
+
+        messageData.userAvatar = userAvatar
+        messageData.useSeparator = useSeparators
+        messages.model.insert(index, messageData)
     }
 
     function saveUsers(users) {
@@ -62,81 +76,75 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
     }
 
-    function updateDialogInfo(index, avatarURL, name, online, lastSeen) {
-        avatarSource = avatarURL
-        console.log(avatarSource)
-        fullname = name
-        isOnline = online
-        lastSeenTime = lastSeen
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+    function updateDialogInfo(userId, data) {
+        if (dialogId === userId) {
+            if (isChat) {
+                if ("fullname" in data) fullname = data.fullname
+            } else {
+                if ("isOnline" in data) isOnline = data.isOnline
+            }
+
+            if ("avatarSource" in data) avatarSource = data.avatarSource
+            if ("lastSeen" in data) lastSeenTime = data.lastSeen
+        }
+    }
+
+    function formMessagesListFromServerData(messagesArray) {
+        var toBottom = messages.model.count > 0 ?
+                    messages.getMessageId(true) < messagesArray[0].mid :
+                    false
+        for (var item in messagesArray) {
+            var messageData = messagesArray[item]
+            console.log(JSON.stringify(messageData))
+            if (isChat) {
+                console.log("chat")
+                for (var index in chatUsers)
+                    if (chatUsers[index].id === messageData.fromId) {
+                        messageData.avatarSource = chatUsers[index].photo
+                        break
+                    }
+            } else {
+                console.log('user')
+                messageData.avatarSource = avatarSource
+            }
+            console.log(messageData.avatarSource + ' | ' + avatarSource)
+            formMessageList(messageData, toBottom)
+        }
+        scrollMessagesToBottom()
     }
 
     function sendMessage() {
-        messages.model.clear()
-        messagesOffset = 0
         MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
     }
 
-    function formMessagesListFromServerData(messagesArray) {
-        if (messagesOffset === 0) messages.model.clear()
-        for (var item in messagesArray) {
-            var messageData = messagesArray[item]
-            if (isChat) {
-                console.log("chat")
-                for (var index in chatUsers) if (chatUsers[index].id === messageData.fromId) {
-                        messageData.avatarSource = chatUsers[index].photo
-                        break
-                    }
-            }
-            else {
-                console.log('user')
-                messageData.avatarSource = avatarSource
-            }
-            console.log(messageData.avatarSource + ' | ' + avatarSource)
-            formMessageList(messageData)
-        }
-        scrollMessagesToBottom()
-    }
-
-    function formMessageList(messageData) {
-        messageData.userAvatar = userAvatar
-        messages.model.insert(messagesOffset, messageData)
-    }
-
     function scrollMessagesToBottom() {
-        if (messagesOffset === 0) {
-            messages.positionViewAtEnd()
-        } else {
-            messages.positionViewAtIndex(49, ListView.Beginning)
-        }
+        if (messagesOffset === 0) messages.positionViewAtEnd()
+        else messages.positionViewAtIndex(49, ListView.Beginning)
     }
 
-    function stopLoadingMessagesIndicator() {
+    function stopBusyIndicator() {
         loadingMessagesIndicator.running = false
     }
 
-    function getUnreadMessagesFromModel() {
-        var messagesIdsList = ""
-        var index = 0
-        while (index < messages.model.count) {
-            console.log(index)
-            if (messages.model.get(index).readState === 0) {
-                console.log(messages.model.get(index).mid)
-                messagesIdsList += "," + messages.model.get(index).mid
+    function markDialogAsRead() {
+        MessagesAPI.api_markDialogAsRead(dialogId)
+
+        for (var i = 0; i < messages.model.count; ++i) {
+            var msg = messages.model.get(i)
+            if (msg.readState === 0 && msg.out === 0) {
+                messages.model.setProperty(i, "readState", 1)
+                // TODO: save new readState to db
             }
-            index += 1
         }
-        console.log(messagesIdsList)
-        return messagesIdsList.length !== 0 ? messagesIdsList.substring(1) : messagesIdsList
     }
 
     BusyIndicator {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: false //true
+        running: true
     }
 
     SilicaFlickable {
@@ -181,8 +189,8 @@ Page {
                 text: qsTr("Загрузить больше")
                 onClicked: {
                     loadingMessagesIndicator.running = true
-                    messagesOffset = messagesOffset + 50;
-                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+                    var topMsgId = messages.getMessageId(false)
+                    MessagesAPI.api_getHistory(isChat, dialogId, 0, topMsgId)
                 }
             }
 
@@ -242,6 +250,28 @@ Page {
             }
 
             VerticalScrollDecorator {}
+
+            function lookupItem(itemId, fromEnd) {
+                fromEnd = fromEnd === true
+
+                for (var i = (fromEnd ? messages.model.count - 1 : 0);
+                             (fromEnd ? i >= 0 : i < messages.model.count);
+                             (fromEnd ? --i : ++i)) {
+                    if (messages.model.get(i).mid === itemId) {
+                        return i
+                    }
+                }
+                console.log("Message with id '" + itemId + "' does not exist")
+                return -1
+            }
+
+            function getMessageId(isLast) {
+                var msgId = -1
+                if (messages.model.count > 0)
+                    msgId = messages.model.get(isLast ? messages.model.count - 1 : 0).mid
+
+                return msgId
+            }
         }
 
         IconButton {
@@ -290,10 +320,11 @@ Page {
             MenuItem {
                 text: qsTr("Обновить")
                 onClicked: {
-                    messages.model.clear()
-                    messagesOffset = 0
+                    markDialogAsRead()
                     loadingMessagesIndicator.running = true
-                    MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+                    var offset = -MessagesAPI.HISTORY_COUNT
+                    var lastMsgId = messages.getMessageId(true)
+                    MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
                 }
             }
 
@@ -319,11 +350,59 @@ Page {
     }
 
     onStatusChanged:
-        if (status === PageStatus.Inactive) {
-            var unreadMessagesIds = getUnreadMessagesFromModel()
-            if (unreadMessagesIds.length > 0)
-                MessagesAPI.api_markDialogAsRead(isChat, dialogId, unreadMessagesIds)
-        }
+        if (status === PageStatus.Inactive) markDialogAsRead()
+        else if (status === PageStatus.Active) formNewDialogMessages()
 
-    Component.onCompleted: formNewDialogMessages()
+    function addNewMessage(jsonMessage) {
+        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
+        if (isChat) fromId = jsonMessage.chat_id
+
+        if (dialogId === fromId) {
+            var messageData = MessagesAPI.parseMessage(jsonMessage)
+            formMessageList(messageData, true)
+            scrollMessagesToBottom()
+        }
+    }
+
+    function updateMessageInfo(userId, data) {
+        if (dialogId === userId) {
+            var msgIndex = messages.lookupItem(data.msgId)
+            if (msgIndex !== -1) {
+                if ("peerOut" in data) {
+                    for (; 0 <= msgIndex; --msgIndex) {
+                        var msg = messages.model.get(msgIndex)
+                        if (msg.out === data.peerOut && msg.readState !== data.readState) {
+                            messages.model.setProperty(msgIndex, "readState", data.readState)
+                        }
+                    }
+                } else {
+                    messages.model.setProperty(msgIndex, "readState", data.readState)
+                }
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
+        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+        MessagesAPI.signaller.gotChatUsers.connect(saveUsers)
+        MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
+        MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
+        MessagesAPI.signaller.needScrollToBottom.connect(scrollMessagesToBottom)
+        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+    }
+
+    Component.onDestruction: {
+        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        MessagesAPI.signaller.gotChatUsers.disconnect(saveUsers)
+        MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
+        MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)
+        MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
+        MessagesAPI.signaller.needScrollToBottom.disconnect(scrollMessagesToBottom)
+        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
+        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+    }
 }

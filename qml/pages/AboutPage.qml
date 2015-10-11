@@ -33,7 +33,8 @@ Page {
         { aboutItemText: "<a href=\"https://github.com/osanwe/Kat\">" + qsTr("GitHub") + "</a>" },
         { aboutItemText: "<a href=\"https://flattr.com/submit/auto?user_id=osanwe&url=https://vk.com/kat_sailfishos&title=Kat\">" + qsTr("Поддержать проект") + "</a>" },
         { aboutItemText: "<a href=\"https://twitter.com/Osanwe\">" + qsTr("Ósanwe") + "</a>" },
-        { aboutItemText: "<a href=\"https://m.vk.com/nostariel\">" + qsTr("Nostariel") + "</a>" }
+        { aboutItemText: "<a href=\"https://m.vk.com/nostariel\">" + qsTr("Nostariel") + "</a>" },
+        { aboutItemText: "<a href=\"https://github.com/ckazzku\">" + qsTr("Ckazzku") + "</a>" }
     ]
 
     SilicaListView {
@@ -42,7 +43,7 @@ Page {
         model: aboutPage.model
 
         header: PageHeader {
-            title: "Kat 0.1.7_1443220410"
+            title: "Kat 0.1.7_1444590488"
         }
 
         delegate: Item {

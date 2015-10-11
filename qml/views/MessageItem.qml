@@ -34,6 +34,7 @@ BackgroundItem {
     /*
      out
      readState
+     useSeparator
     */
 
     function calculateMessageItemHeight() {
@@ -99,7 +100,7 @@ BackgroundItem {
     anchors.left: parent.left
     anchors.right: parent.right
     height: calculateMessageItemHeight()
-    highlighted: out === 0 & readState === 0
+    highlighted: out === 0 && readState === 0
 
     Separator {
         anchors.top: parent.top
@@ -108,7 +109,7 @@ BackgroundItem {
         anchors.leftMargin: Theme.paddingMedium
         anchors.rightMargin: Theme.paddingMedium
         color: Theme.secondaryHighlightColor
-        visible: StorageJS.readSettingsValue("is_separated_messages") === 'true'
+        visible: useSeparator
     }
 
     Row {

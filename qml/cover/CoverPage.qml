@@ -22,12 +22,24 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../js/api/messages.js" as MessagesAPI
+import "../js/api/account.js" as AccountAPI
 import "../js/storage.js" as StorageJS
+import "../js/types.js" as TypesJS
 
 CoverBackground {
+    property int unreadDialogs: 0
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
+        if (counter !== unreadDialogs)
+            notificationHelper.activateLed(counter > unreadDialogs)
+        unreadDialogs = counter
+    }
+
+    function startLongPoll() {
+        if (!TypesJS.MessageUpdateMode.isManual()) {
+            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+        }
     }
 
     Row {
@@ -79,14 +91,26 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: 900000 // 15 minutes
-        running: true
+        running: !Qt.application.active && TypesJS.MessageUpdateMode.isManual()
         repeat: true
+        triggeredOnStart: true
 
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+        onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
+
+        onTriggered: {
+            if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
+            if (!TypesJS.LongPollWorker.isActive()) startLongPoll()
+        }
     }
 
-    Component.onCompleted: MessagesAPI.api_getUnreadMessagesCounter(true)
+    Component.onCompleted: {
+        MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
+
+        if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
+        MessagesAPI.api_getUnreadMessagesCounter(true)
+        startLongPoll()
+    }
+    Component.onDestruction: AccountAPI.api_setOffline()
 }
 
 

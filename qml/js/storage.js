@@ -22,7 +22,7 @@
 .import QtQuick.LocalStorage 2.0 as LS
 
 
-var DATABASE_VERSION = "4"
+var DATABASE_VERSION = "6"
 
 function getDatabase() {
     return LS.LocalStorage.openDatabaseSync("harbour-kat-db", "", "Properties and data", 100000)
@@ -53,6 +53,7 @@ function initDatabase() {
                                                             'first_name TEXT, ' +
                                                             'last_name  TEXT, ' +
                                                             'avatar     TEXT)')
+            tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
         })
     } else if (db.version !== DATABASE_VERSION) {
         if (db.version === '3') db.transaction( function (tx) {
@@ -78,6 +79,12 @@ function initDatabase() {
                                                                 'avatar     TEXT)')
                 tx.executeSql('CREATE TABLE IF NOT EXISTS dialogs (id INTEGER UNIQUE, title TEXT)')
             })
+        } else if (db.version < '6') {
+            db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
+                tx.executeSql("DELETE FROM messages")
+                tx.executeSql("DELETE FROM users")
+                tx.executeSql("DELETE FROM dialogs")
+            })
         }
         db.changeVersion(db.version, DATABASE_VERSION, function(tx) {
             console.log("... recreate tables")
@@ -91,7 +98,7 @@ function initDatabase() {
 // -------------- Functions for saving and reading settings parameters --------------
 
 function storeSettingsValue(key, value) {
-    console.log("storeSettingsData()")
+    console.log("storeSettingsData(" + key + ", " + value + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -100,8 +107,8 @@ function storeSettingsValue(key, value) {
     })
 }
 
-function readSettingsValue(key) {
-    console.log("readData()")
+function readSettingsValue(key, default_value) {
+    console.log("readData(" + key + ")")
     var db = getDatabase()
     if (!db) { return }
     var value = ""
@@ -113,6 +120,7 @@ function readSettingsValue(key) {
         }
     })
     console.log(value)
+    if (value === "") value = default_value
     return value
 }
 
@@ -120,7 +128,7 @@ function readSettingsValue(key) {
 // -------------- Functions for saving user data --------------
 
 function saveUserName(first_name, last_name) {
-    console.log("saveUserName()")
+    console.log("saveUserName(" + first_name + ", " + last_name + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -131,7 +139,7 @@ function saveUserName(first_name, last_name) {
 }
 
 function saveUserAvatar(fileName) {
-    console.log("saveUserAvatar()")
+    console.log("saveUserAvatar(" + fileName + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -239,7 +247,7 @@ function getLastDialogs() {
 }
 
 function getLastMessagesForDialog(chatId) {
-    console.log('getLastMessagesForDialog()')
+    console.log("getLastMessagesForDialog(" + chatId + ")")
     var db = getDatabase()
     if (!db) return
 
@@ -300,7 +308,7 @@ function saveAnotherUserInfo(userId, firstName, lastName, avatarName) {
 
 function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, body, geo, attachments,
                      fwd_messages) {
-    console.log('saveMessage()')
+    console.log("saveMessage(" + id + ")")
     var db = getDatabase()
     if (!db) return
 

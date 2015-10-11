@@ -106,8 +106,11 @@ Page {
                     anchors.left: menuItemText.right
                     anchors.leftMargin: Theme.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
-                    width: childrenRect.width < childrenRect.height ? childrenRect.height : childrenRect.width + 2 * Theme.paddingSmall
-                    height: childrenRect.height
+                    width:
+                        menuItemCounter.width < menuItemCounter.height ?
+                            menuItemCounter.height :
+                            menuItemCounter.width + 2 * Theme.paddingSmall
+                    height: menuItemCounter.height
                     radius: 10
                     color: Theme.highlightColor
                     visible: item.counter !== ''
@@ -175,5 +178,13 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: doStartUpdate()
+    Component.onCompleted: {
+        UsersAPI.signaller.gotUserNameAndAvatar.connect(updateUserNameAndAvatar)
+
+        doStartUpdate()
+    }
+
+    Component.onDestruction: {
+        UsersAPI.signaller.gotUserNameAndAvatar.disconnect(updateUserNameAndAvatar)
+    }
 }
