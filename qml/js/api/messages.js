@@ -163,13 +163,9 @@ function callback_getDialogsList(jsonObject) {
                               jsonMessage.geo,
                               jsonMessage.attachments,
                               jsonMessage.fwd_messages)
-
         formDialogsList(parseDialogListItem(jsonMessage))
-        if (jsonMessage.chat_id) {
-            chatsIds += "," + jsonMessage.chat_id
-        } else {
-            uids += "," + jsonMessage.user_id
-        }
+        if (jsonMessage.chat_id) chatsIds += "," + jsonMessage.chat_id
+        else uids += "," + jsonMessage.user_id
         signaller.gotDialogs(parseDialogListItem(jsonMessage))
     }
     if (uids.length === 0 && chatsIds.length === 0) {

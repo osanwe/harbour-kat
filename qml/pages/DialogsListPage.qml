@@ -108,6 +108,7 @@ Page {
 //        dialog.isOnline = online
 //        dialogsData[idx] = dialog
 //=======
+
     function formDialogsList(listItemData) {
         if (listItemData) {
             dialogsData[dialogsData.length] = { isDialog:     true,
@@ -246,6 +247,7 @@ Page {
             onClicked: {
                 loadingIndicator.running = true
                 dialogsOffset = dialogsOffset + 20
+                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }

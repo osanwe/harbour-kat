@@ -62,6 +62,7 @@ Page {
         chatUsers = users
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
+        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset) // ???
     }
 
 
@@ -152,7 +153,7 @@ Page {
         id: loadingMessagesIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: false //true
+        running: true
     }
 
     SilicaFlickable {

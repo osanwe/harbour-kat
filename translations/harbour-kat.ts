@@ -251,6 +251,10 @@
         <source>Обновлять сообщения вручную</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>По возможности быть offline</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>wall</name>
