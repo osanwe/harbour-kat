@@ -353,8 +353,7 @@ Page {
         TypesJS.LongPollWorker.addValues({
             "dialog.message.add": function() {
                 var fromId = arguments[2]
-                if (isChat)
-                    fromId -= 2000000000
+                if (isChat) fromId -= 2000000000
 
                 if (dialogId === fromId) {
                     var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
@@ -364,8 +363,7 @@ Page {
                 }
             },
             "dialog.message.flags": function(msgId, flags, action, userId) {
-                if (isChat)
-                    userId -= 2000000000
+                if (isChat) userId -= 2000000000
 
                 if (dialogId === userId) {
                     var msgIndex = messages.lookupItem(msgId)
