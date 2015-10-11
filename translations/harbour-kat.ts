@@ -31,6 +31,10 @@
         <source>Nostariel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Ckazzku</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogPage</name>

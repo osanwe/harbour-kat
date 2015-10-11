@@ -38,41 +38,46 @@
         <source>Nostariel</source>
         <translation>Nostariel</translation>
     </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="37"/>
+        <source>Ckazzku</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="197"/>
+        <location filename="../qml/pages/DialogPage.qml" line="185"/>
         <source>Загрузить больше</source>
         <translation type="unfinished">Load more</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="213"/>
+        <location filename="../qml/pages/DialogPage.qml" line="201"/>
         <source>Был(a) в сети: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="251"/>
+        <location filename="../qml/pages/DialogPage.qml" line="239"/>
         <source>Копировать текст</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="319"/>
+        <location filename="../qml/pages/DialogPage.qml" line="307"/>
         <source>Сообщение:</source>
         <translation type="unfinished">Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="320"/>
+        <location filename="../qml/pages/DialogPage.qml" line="308"/>
         <source>Сообщение</source>
         <translation type="unfinished">Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="330"/>
+        <location filename="../qml/pages/DialogPage.qml" line="318"/>
         <source>Обновить</source>
         <translation type="unfinished">Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="341"/>
+        <location filename="../qml/pages/DialogPage.qml" line="329"/>
         <source>Прикрепить изображение</source>
         <translation type="unfinished">Attach image</translation>
     </message>
@@ -80,22 +85,22 @@
 <context>
     <name>DialogsListPage</name>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="213"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="151"/>
         <source>Новое сообщение</source>
         <translation>New message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="219"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="157"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="225"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="163"/>
         <source>Сообщения</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="244"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="182"/>
         <source>Загрузить больше</source>
         <translation>Load more</translation>
     </message>
