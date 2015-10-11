@@ -31,20 +31,14 @@ import "../js/types.js" as TypesJS
 
 Page {
 
-    property int chatsCounter: 0
     property int dialogsOffset: 0
-//    property int dialogsOffset: messagesList.model.count
     property var dialogsData: []
     property var usersAvatars: []
 
     function lookupItem(itemId) {
-        if (itemId < 0)
-            return -1
-
+        if (itemId < 0) return -1
         for (var i = 0; i < dialogsData.length; ++i) {
-            if (dialogsData[i].itemId === itemId) {
-                return i
-            }
+            if (dialogsData[i].itemId === itemId) return i
         }
         return -1
     }
@@ -61,54 +55,6 @@ Page {
         }
     }
 
-//<<<<<<< HEAD
-//    function formDialogsList(io, title, message, dialogId, readState, isChat) {
-//        message = message.replace(/<br>/g, " ")
-//        dialogsData[dialogsData.length] = { isDialog:     true,
-//                                            out:          io,
-//                                            avatarSource: "image://theme/icon-cover-message",
-//                                            nameOrTitle:  title,
-//                                            previewText:  message,
-//                                            itemId:       dialogId,
-//                                            readState:    readState,
-//                                            isOnline:     false,
-//                                            isChat:       isChat }
-//    }
-
-//    function getChatIndex(index) {
-//        var usersCounter = 0
-//        var chats = 0
-
-//        while (true) {
-//            console.log(index + ' | ' + chats + ' | ' + usersCounter)
-//            console.log(dialogsData[chats + usersCounter].nameOrTitle)
-//            if (dialogsData[chats + usersCounter].isChat) {
-//                chats += 1
-//                if (chats > index) break
-//            } else {
-//                usersCounter += 1
-//            }
-//        }
-
-//        return index + usersCounter
-//    }
-
-//    function getUserIndex(index) {
-//        while (dialogsData[index + chatsCounter + dialogsOffset].isChat)
-//            chatsCounter += 1
-//        return index + chatsCounter + dialogsOffset
-//    }
-
-//    function updateDialogInfo(chatFlag, index, avatarURL, fullname, online, lastSeen) {
-//        var idx = chatFlag ? getChatIndex(parseInt(index, 10)) : getUserIndex(parseInt(index, 10))
-//        var dialog = dialogsData[idx]
-//        usersAvatars[usersAvatars.length] = avatarURL
-//        dialog.avatarSource = avatarURL
-//        dialog.nameOrTitle = fullname
-//        dialog.isOnline = online
-//        dialogsData[idx] = dialog
-//=======
-
     function formDialogsList(listItemData) {
         if (listItemData) {
             dialogsData[dialogsData.length] = { isDialog:     true,
@@ -122,8 +68,7 @@ Page {
                                                 isChat:       listItemData[5] }
         } else {
             var lastDialogs = StorageJS.getLastDialogs()
-            for (var item in lastDialogs)
-                messagesList.model.append(lastDialogs[item])
+            for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
             updateDialogs()
         }
     }
@@ -136,11 +81,10 @@ Page {
         var dialogIndex = lookupItem(itemData[3])
 
         if (dialogIndex !== -1) {
-            var data = {"out": itemData[0],
-                        "previewText": itemData[2],
-                        "readState": itemData[4]}
-            if (isChat)
-                data["nameOrTitle"] = itemData[1]
+            var data = { "out":         itemData[0],
+                         "previewText": itemData[2],
+                         "readState":   itemData[4] }
+            if (isChat) data["nameOrTitle"] = itemData[1]
 
             updateDialogInfo(itemData[3], data)
 
@@ -150,10 +94,8 @@ Page {
             flushDialogsData()
         } else {
             formDialogsList(itemData, true)
-            if (isChat)
-                MessagesAPI.api_getChat(itemData[3])
-            else
-                UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
+            if (isChat) MessagesAPI.api_getChat(itemData[3])
+            else UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
         }
     }
 
@@ -164,20 +106,15 @@ Page {
             var infoKeys = Object.keys(data)
             for (var i in infoKeys) {
                 var key = infoKeys[i]
-                if (key in dialogsData[idx])
-                    dialogsData[idx][key] = data[key]
-
-                if (key === 'avatarSource')
-                    usersAvatars.push(data[key])
+                if (key in dialogsData[idx]) dialogsData[idx][key] = data[key]
+                if (key === 'avatarSource') usersAvatars.push(data[key])
             }
         }
-//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
     }
 
     function flushDialogsData() {
         messagesList.model.clear()
-        for (var item in dialogsData)
-            messagesList.model.append(dialogsData[item])
+        for (var item in dialogsData) messagesList.model.append(dialogsData[item])
         messagesList.footerItem.visible = true
     }
 
@@ -259,90 +196,12 @@ Page {
         interval: 0
         running: Qt.application.active && TypesJS.MessageUpdateMode.isManual()
 
-//<<<<<<< HEAD
-//            for (var i = (fromEnd ? messagesList.model.count - 1 : 0);
-//                         (fromEnd ? i >= 0 : i < messagesList.model.count);
-//                         (fromEnd ? --i : ++i)) {
-//                if (messagesList.model.get(i).itemId === itemId) {
-//                    return i
-//                }
-//            }
-//            console.log("Dialog with id '" + itemId + "' does not exist")
-//            return -1
-//        }
-//    }
-
-//    Timer {
-//        interval: 0
-//        running: Qt.application.active
-
-//=======
-//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
         onTriggered: if (visible)
                          if (messagesList.model.count === 0) formDialogsList()
                          else updateDialogs()
     }
 
     Component.onCompleted: {
-//<<<<<<< HEAD
-//        TypesJS.LongPollWorker.addValues({
-//            "dialoglist.message.add": function() {
-//                if (arguments.length === 7) {
-//                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
-//                    var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
-
-//                    var uid = jsonMessage.from_id
-//                    var isChat = itemData[5]
-//                    var dialogIndex = messagesList.lookupItem(itemData[3])
-//                    if (dialogIndex !== -1) {
-//                        messagesList.model.set(dialogIndex, { "out":         itemData[0],
-//                                                              "previewText": itemData[2],
-//                                                              "readState":   itemData[4] })
-//                        if (isChat)
-//                            messagesList.model.setProperty(dialogIndex, "nameOrTitle", itemData[1])
-
-//                        messagesList.model.move(dialogIndex, 0, 1)
-//                    } else {
-//                        formDialogsList(itemData, true)
-//                        if (isChat) MessagesAPI.api_getChat(itemData[3])
-//                        else UsersAPI.getUsersAvatarAndOnlineStatus(uid)
-//                    }
-//                }
-//            },
-//            "dialogList.message.flags": function(msgId, flags, action, userId) {
-//                if (userId) {
-//                    if (userId > 2000000000) userId -= 2000000000
-//                    var dialogIndex = messagesList.lookupItem(userId)
-//                    if (dialogIndex !== -1) {
-//                        switch (action) {
-//                        case TypesJS.Action.ADD:
-//                        case TypesJS.Action.SET:
-//                            if ((flags & 1) === 1) {
-//                                messagesList.model.setProperty(dialogIndex, "readState", 0)
-//                            }
-//                            break
-//                        case TypesJS.Action.DEL:
-//                            if ((flags & 1) === 1) {
-//                                messagesList.model.setProperty(dialogIndex, "readState", 1)
-//                            }
-//                            break
-//                        }
-//                    }
-//                }
-//            },
-//            "dialoglist.friends": function(userId, status) {
-//                var dialogIndex = messagesList.lookupItem(userId)
-//                if (dialogIndex !== -1)
-//                    messagesList.model.setProperty(dialogIndex, "isOnline", status)
-//            }
-//        })
-//    }
-
-//    Component.onDestruction: {
-//        TypesJS.LongPollWorker.delValues([ "dialoglist.message.add",
-//                                           "dialogList.message.flags",
-//                                           "dialoglist.friends" ])
-//=======
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
         MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
         MessagesAPI.signaller.gotNewMessage.connect(updateDialogsList)
@@ -365,6 +224,5 @@ Page {
         MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
-//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
     }
 }

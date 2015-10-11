@@ -76,26 +76,26 @@ var UpdateInterval = {
 var LongPollWorker = {
     lastActive: 0,
 
+//    addValues: function(values) {
+//        for (var key in values) this.addValue(key, values[key])
+//    },
+
+//    delValue: function(key) {
+//        if (key in this.items) return delete this.items[key]
+//        return false
+//    },
+
+//    delValues: function(keys) {
+//        for (var i in keys) this.delValue(keys[i])
+//    },
+
+//    getValue: function(key) {
+//        if (key in this.items) return this.items[key]
+//        return function() {}
+//    },
+
     setActive: function() {
         this.lastActive = Date.now()
-    },
-
-    addValues: function(values) {
-        for (var key in values) this.addValue(key, values[key])
-    },
-
-    delValue: function(key) {
-        if (key in this.items) return delete this.items[key]
-        return false
-    },
-
-    delValues: function(keys) {
-        for (var i in keys) this.delValue(keys[i])
-    },
-
-    getValue: function(key) {
-        if (key in this.items) return this.items[key]
-        return function() {}
     },
 
     isActive: function() {

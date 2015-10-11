@@ -92,7 +92,7 @@ function initDatabase() {
 // -------------- Functions for saving and reading settings parameters --------------
 
 function storeSettingsValue(key, value) {
-    console.log("storeSettingsData(" + key + "," + value + ")")
+    console.log("storeSettingsData(" + key + ", " + value + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {
@@ -122,7 +122,7 @@ function readSettingsValue(key, default_value) {
 // -------------- Functions for saving user data --------------
 
 function saveUserName(first_name, last_name) {
-    console.log("saveUserName(" + first_name + "," + last_name + ")")
+    console.log("saveUserName(" + first_name + ", " + last_name + ")")
     var db = getDatabase()
     if (!db) { return }
     db.transaction( function(tx) {

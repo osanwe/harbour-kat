@@ -91,7 +91,6 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: TypesJS.UpdateInterval.getValue()
         running: !Qt.application.active && TypesJS.MessageUpdateMode.isManual()
         repeat: true
         triggeredOnStart: true

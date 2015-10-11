@@ -65,29 +65,16 @@ Page {
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset) // ???
     }
 
-
-//    function updateDialogInfo(chatFlag, index, avatarURL, name, online, lastSeen) {
-//        avatarSource = avatarURL
-//        console.log(avatarSource)
-//        fullname = name
-//        isOnline = online
-//        lastSeenTime = lastSeen
-//        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
-
     function updateDialogInfo(userId, data) {
         if (dialogId === userId) {
             if (isChat) {
-                if ("fullname" in data)
-                    fullname = data.fullname
+                if ("fullname" in data) fullname = data.fullname
             } else {
-                if ("isOnline" in data)
-                    isOnline = data.isOnline
+                if ("isOnline" in data) isOnline = data.isOnline
             }
 
-            if ("avatarSource" in data)
-                avatarSource = data.avatarSource
-            if ("lastSeen" in data)
-                lastSeenTime = data.lastSeen
+            if ("avatarSource" in data) avatarSource = data.avatarSource
+            if ("lastSeen" in data) lastSeenTime = data.lastSeen
         }
     }
 
@@ -359,63 +346,13 @@ Page {
         }
     }
 
-//<<<<<<< HEAD
-//    onStatusChanged: if (status === PageStatus.Inactive) markDialogAsRead()
-
-//    Timer {
-//        interval: 0
-//        running: Qt.application.active
-
-//        onTriggered: if (visible)
-//                         if (messages.model.count === 0) formNewDialogMessages()
-//                         else
-//                             if (isChat) MessagesAPI.api_getChatUsers(dialogId)
-//                             else UsersAPI.getUsersAvatarAndOnlineStatus(dialogId)
-//    }
-
-//    Component.onCompleted: {
-//        TypesJS.LongPollWorker.addValues({
-//            "dialog.message.add": function() {
-//                var fromId = arguments[2]
-//                if (isChat) fromId -= 2000000000
-
-//                if (dialogId === fromId) {
-//                    var jsonMessage = MessagesAPI.parseLongPollMessage(arguments)
-//                    var messageData = MessagesAPI.parseMessage(jsonMessage)
-//                    formMessageList(messageData, true)
-//                    scrollMessagesToBottom()
-//                }
-//            },
-//            "dialog.message.flags": function(msgId, flags, action, userId) {
-//                if (isChat) userId -= 2000000000
-
-//                if (dialogId === userId) {
-//                    var msgIndex = messages.lookupItem(msgId)
-//                    if (msgIndex !== -1) {
-//                        switch (action) {
-//                        case TypesJS.Action.ADD:
-//                        case TypesJS.Action.SET:
-//                            if ((flags & 1) === 1) {
-//                                messages.model.setProperty(msgIndex, "readState", 0)
-//                            }
-//                            break
-//                        case TypesJS.Action.DEL:
-//                            if ((flags & 1) === 1) {
-//                                messages.model.setProperty(msgIndex, "readState", 1)
-//                            }
-//                            break
-//=======
     onStatusChanged:
-        if (status === PageStatus.Inactive) {
-            markDialogAsRead()
-        } else if (status === PageStatus.Active) {
-            formNewDialogMessages()
-        }
+        if (status === PageStatus.Inactive) markDialogAsRead()
+        else if (status === PageStatus.Active) formNewDialogMessages()
 
     function addNewMessage(jsonMessage) {
         var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
-        if (isChat)
-            fromId = jsonMessage.chat_id
+        if (isChat) fromId = jsonMessage.chat_id
 
         if (dialogId === fromId) {
             var messageData = MessagesAPI.parseMessage(jsonMessage)
@@ -431,28 +368,17 @@ Page {
                 if ("peerOut" in data) {
                     for (; 0 <= msgIndex; --msgIndex) {
                         var msg = messages.model.get(msgIndex)
-                        if (msg.out === data.peerOut &&
-                                            msg.readState !== data.readState) {
-                            messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
-//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
+                        if (msg.out === data.peerOut && msg.readState !== data.readState) {
+                            messages.model.setProperty(msgIndex, "readState", data.readState)
                         }
                     }
                 } else {
-                    messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
+                    messages.model.setProperty(msgIndex, "readState", data.readState)
                 }
             }
         }
     }
 
-//<<<<<<< HEAD
-//    Component.onDestruction: {
-//        TypesJS.LongPollWorker.delValues([ "dialog.message.add",
-//                                           "dialog.message.flags",
-//                                           "dialog.friends" ])
-//    }
-//=======
     Component.onCompleted: {
         MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
         MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
@@ -476,5 +402,4 @@ Page {
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
     }
-//>>>>>>> 0d4c4e62b0ce0c0be23ad6774003b0553b783cc0
 }

@@ -34,8 +34,7 @@ function sendRequestTo(query, callback) {
                 console.log(request.responseText)
                 if (typeof callback !== 'undefined' && request.responseText) {
                     var callback_args = [JSON.parse(request.responseText)]
-                    for (var i = 2; i < arguments.length; ++i)
-                        callback_args.push(arguments[i])
+                    for (var i = 2; i < arguments.length; ++i) callback_args.push(arguments[i])
 
                     callback.apply(null, callback_args)
                 }

@@ -36,21 +36,21 @@ var signaller = Qt.createQmlObject("import QtQuick 2.0; \
 function api_getUserNameAndAvatar(uid) {
     RequestAPI.sendRequest("users.get",
                            { user_ids: uid,
-                             fields: "photo_100" },
+                             fields:   "photo_100" },
                            callback_getUserNameAndAvatar)
 }
 
 function api_getUserAvatar(uid) {
     RequestAPI.sendRequest("users.get",
                            { user_ids: uid,
-                             fields: "photo_100" },
+                             fields:   "photo_100" },
                            callback_getUserAvatar)
 }
 
 function api_getUsersAvatarAndOnlineStatus(uid) {
     RequestAPI.sendRequest("users.get",
                            { user_ids: uid,
-                             fields: "photo_100,online,last_seen" },
+                             fields:   "photo_100,online,last_seen" },
                            callback_getUsersAvatarAndOnlineStatus)
 }
 
@@ -81,47 +81,6 @@ function callback_getUserAvatar(jsonObject) {
         signaller.gotUserAvatar(jsonObject.response[index].photo_100)
 }
 
-//function getUsersAvatarAndOnlineStatus(uid) {
-//    var url = "https://api.vk.com/method/"
-//    url += "users.get?v=5.37"
-//    url += "&user_ids=" + uid
-//    url += "&fields=photo_100,online,last_seen"
-//    url += "&access_token=" + StorageJS.readSettingsValue("access_token")
-//    console.log(url)
-
-//    var doc = new XMLHttpRequest()
-//    doc.onreadystatechange = function() {
-//        if (doc.readyState === XMLHttpRequest.DONE) {
-//            console.log(doc.responseText)
-//            var jsonObject = JSON.parse(doc.responseText)
-//            for (var index in jsonObject.response) {
-//                var fullname = jsonObject.response[index].first_name + " " +
-//                        jsonObject.response[index].last_name
-
-//                var lastSeenTime = "";
-//                var lastSeen = jsonObject.response[index].last_seen
-//                if (typeof lastSeen !== 'undefined') {
-//                    var date = new Date()
-//                    date.setTime(parseInt(lastSeen.time) * 1000)
-//                    lastSeenTime = ("0" + date.getHours()).slice(-2) + ":" +
-//                                   ("0" + date.getMinutes()).slice(-2) + ", " +
-//                                   ("0" + date.getDate()).slice(-2) + "." +
-//                                   ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-//                                   ("0" + date.getFullYear()).slice(-2)
-//                }
-
-//                StorageJS.saveAnotherUserInfo(jsonObject.response[index].id,
-//                                              jsonObject.response[index].first_name,
-//                                              jsonObject.response[index].last_name,
-//                                              jsonObject.response[index].photo_100.split('/').slice(-1))
-//                updateDialogInfo(false,
-//                                 index,
-//                                 jsonObject.response[index].photo_100,
-//                                 fullname,
-//                                 (jsonObject.response[index].online === 1),
-//                                 lastSeenTime)
-//            }
-//            stopBusyIndicator()
 function callback_getUsersAvatarAndOnlineStatus(jsonObject) {
     for (var index in jsonObject.response) {
         var res = jsonObject.response[index]
@@ -144,10 +103,10 @@ function callback_getUsersAvatarAndOnlineStatus(jsonObject) {
                                       res.last_name,
                                       res.photo_100.split('/').slice(-1))
         signaller.gotDialogInfo(res.id,
-                                {"avatarSource": res.photo_100,
-                                 "nameOrTitle": fullname,
-                                 "isOnline": (res.online === 1),
-                                 "lastSeen": lastSeenTime})
+                                { "avatarSource": res.photo_100,
+                                  "nameOrTitle":  fullname,
+                                  "isOnline":    (res.online === 1),
+                                  "lastSeen":     lastSeenTime })
     }
     signaller.endLoading()
 }

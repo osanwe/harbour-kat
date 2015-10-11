@@ -68,9 +68,7 @@ function api_getHistory(isChat, dialogId, offset, startMsgId) {
         count: HISTORY_COUNT
     };
     data[isChat ? "chat_id" : "user_id"] = dialogId;
-    if (startMsgId) {
-        data["start_message_id"] = startMsgId
-    }
+    if (startMsgId) data["start_message_id"] = startMsgId
     RequestAPI.sendRequest("messages.getHistory",
                            data,
                            callback_getHistory)
@@ -163,7 +161,6 @@ function callback_getDialogsList(jsonObject) {
                               jsonMessage.geo,
                               jsonMessage.attachments,
                               jsonMessage.fwd_messages)
-        formDialogsList(parseDialogListItem(jsonMessage))
         if (jsonMessage.chat_id) chatsIds += "," + jsonMessage.chat_id
         else uids += "," + jsonMessage.user_id
         signaller.gotDialogs(parseDialogListItem(jsonMessage))
@@ -174,8 +171,7 @@ function callback_getDialogsList(jsonObject) {
         uids = uids.substring(1)
         chatsIds = chatsIds.substring(1)
         UsersAPI.api_getUsersAvatarAndOnlineStatus(uids)
-        if (chatsIds.length > 0)
-            api_getChat(chatsIds)
+        if (chatsIds.length > 0) api_getChat(chatsIds)
     }
 }
 
@@ -198,18 +194,24 @@ function callback_getHistory(jsonObject) {
                               messageJsonObject.fwd_messages)
         messages[messages.length] = parseMessage(messageJsonObject)
     }
-    formMessagesListFromServerData(messages)
-    stopBusyIndicator()
-    scrollMessagesToBottom()
     if (messages.length > 0) signaller.gotHistory(messages)
     signaller.endLoading()
     signaller.needScrollToBottom()
 }
 
+function callback_getMessages(jsonObject) {
+    var res = jsonObject.response
+    if (res) {
+        for (var index in res.items) {
+            var message = res.items[index]
+            signaller.gotNewMessage(message)
+        }
+    }
+}
+
 function callback_sendMessage(jsonObject, isNew) {
     var msgId = jsonObject.response
-    if (TypesJS.MessageUpdateMode.isManual() && msgId)
-        api_getMessagesById(msgId)
+    if (TypesJS.MessageUpdateMode.isManual() && msgId) api_getMessagesById(msgId)
     signaller.needScrollToBottom()
 }
 
@@ -233,16 +235,10 @@ function callback_getChat(jsonObject) {
         var chatInfo = jsonObject.response[index]
         var photo = chatInfo.photo_100
         if (photo) {
-            updateDialogInfo(true,
-                             index,
-                             chatInfo.photo_100,
-                             chatInfo.title,
-                             false)
-            stopBusyIndicator()
             signaller.gotDialogInfo(chatInfo.id,
-                                      {"avatarSource": chatInfo.photo_100,
-                                       "nameOrTitle": chatInfo.title,
-                                       "isOnline": false})
+                                    { "avatarSource": chatInfo.photo_100,
+                                      "nameOrTitle":  chatInfo.title,
+                                      "isOnline":     false })
             signaller.endLoading()
         }
     }
@@ -284,10 +280,7 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (TypesJS.MessageUpdateMode.isManual()) {
-        return
-    }
-
+    if (TypesJS.MessageUpdateMode.isManual()) return
     TypesJS.LongPollWorker.setActive()
 
     if (jsonObject) {
@@ -306,41 +299,44 @@ function callback_doLongPoll(jsonObject) {
                     if ((flags & 1) === 1) {
                         var msgId = update[1]
                         var userId = update.length > 3 ? update[3] : -1
-                        if (userId > 2000000000)
-                            userId -= 2000000000
+                        if (userId > 2000000000) userId -= 2000000000
                         var readState = eventId === 3 ? 1 : 0
-                        signaller.gotMessageInfo(userId, {"msgId": msgId,
-                                                          "readState": readState})
+                        signaller.gotMessageInfo(userId, { "msgId":     msgId,
+                                                           "readState": readState })
                     }
                     break;
                 case 4: // добавление нового сообщения
                     var msg = parseLongPollMessage(update.slice(1))
-                    StorageJS.saveMessage(msg.id, msg.chat_id,
-                                          msg.user_id, msg.from_id,
+                    StorageJS.saveMessage(msg.id,
+                                          msg.chat_id,
+                                          msg.user_id,
+                                          msg.from_id,
                                           msg.date,
-                                          msg.read_state, msg.out,
-                                          msg.title, msg.body,
+                                          msg.read_state,
+                                          msg.out,
+                                          msg.title,
+                                          msg.body,
                                           msg.geo,
-                                          msg.attachments, msg.fwd_messages)
+                                          msg.attachments,
+                                          msg.fwd_messages)
                     signaller.gotNewMessage(msg)
                     if (msg.update_title === true)
-                        signaller.gotDialogInfo(msg.chat_id, {"fullname": msg.title})
+                        signaller.gotDialogInfo(msg.chat_id, { "fullname": msg.title })
                     break;
                 case 6: // прочтение всех сообщений с $peer_id вплоть до $local_id включительно
                 case 7:
                     var peerId = update[1]
-                    if (peerId > 2000000000)
-                        peerId -= 2000000000
+                    if (peerId > 2000000000) peerId -= 2000000000
                     var localId = update[2]
-                    signaller.gotMessageInfo(peerId, {"msgId": localId,
-                                                     "peerOut": +(eventId === 7),
-                                                     "readState": 1})
+                    signaller.gotMessageInfo(peerId, { "msgId":     localId,
+                                                       "peerOut":   +(eventId === 7),
+                                                       "readState": 1 })
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:
                     var isOnline = eventId === 8
                     var userId = update[1]
-                    signaller.gotDialogInfo(-userId, {"isOnline": isOnline})
+                    signaller.gotDialogInfo(-userId, { "isOnline": isOnline })
                     break;
                 case 80: // счетчик непрочитанных
                     var count = update[1]
