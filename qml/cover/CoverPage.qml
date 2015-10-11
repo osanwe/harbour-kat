@@ -85,9 +85,10 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        interval: 900000 // 15 minutes
-        running: true
+        interval: TypesJS.UpdateInterval.getValue()
+        running: !Qt.application.active
         repeat: true
+        triggeredOnStart: true
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue()
 

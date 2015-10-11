@@ -59,16 +59,15 @@ var UpdateInterval = {
         name: "1 min",
         value: 60
     }, {
-        name: "30 sec",
-        value: 30
+        name: "25 sec",
+        value: 25
     }],
     index: 0,
 
     getValue: function() {
         this.index = parseInt(StorageJS.readSettingsValue("update_interval", 3), 10)
 
-        if (this.items.length > this.index)
-            return this.items[this.index].value
+        if (this.items.length > this.index) return this.items[this.index].value
 
         return -1
     }
@@ -84,24 +83,20 @@ var LongPollWorker = {
     },
 
     addValues: function(values) {
-        for (var key in values)
-            this.addValue(key, values[key])
+        for (var key in values) this.addValue(key, values[key])
     },
 
     delValue: function(key) {
-        if (key in this.items)
-            return delete this.items[key]
+        if (key in this.items) return delete this.items[key]
         return false
     },
 
     delValues: function(keys) {
-        for (var i in keys)
-            this.delValue(keys[i])
+        for (var i in keys) this.delValue(keys[i])
     },
 
     getValue: function(key) {
-        if (key in this.items)
-            return this.items[key]
+        if (key in this.items) return this.items[key]
         return function() {}
     },
 

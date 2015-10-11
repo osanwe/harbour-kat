@@ -103,12 +103,10 @@ function api_getChatUsers(dialogId) {
 }
 
 function api_startLongPoll(mode) {
-    if (mode)
-        LONGPOLL_SERVER.mode = mode
-
+    if (mode) LONGPOLL_SERVER.mode = mode
     RequestAPI.sendRequest("messages.getLongPollServer",
-                           {use_ssl: 1,
-                            need_pts: 0},
+                           { use_ssl:  1,
+                             need_pts: 0 },
                            callback_startLongPoll)
 }
 
@@ -161,13 +159,6 @@ function callback_getDialogsList(jsonObject) {
                         dialogId,
                         jsonMessage.read_state,
                         isChat)
-
-//        formDialogsList(parseDialogListItem(jsonMessage))
-//        if (jsonMessage.chat_id) {
-//            chatsIds += "," + jsonMessage.chat_id
-//        } else {
-//            uids += "," + jsonMessage.user_id
-//        }
     }
     if (uids.length === 0 && chatsUids.length === 0) {
         stopBusyIndicator()
@@ -261,10 +252,10 @@ function callback_startLongPoll(jsonObject) {
         LONGPOLL_SERVER.ts = res.ts
 
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
-                                          {key: LONGPOLL_SERVER.key,
-                                           ts: LONGPOLL_SERVER.ts,
-                                           wait: TypesJS.UpdateInterval.getValue(),
-                                           mode: LONGPOLL_SERVER.mode},
+                                       { key:  LONGPOLL_SERVER.key,
+                                         ts:   LONGPOLL_SERVER.ts,
+                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
 }
@@ -311,10 +302,10 @@ function callback_doLongPoll(jsonObject) {
         }
 
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
-                                          {key: LONGPOLL_SERVER.key,
-                                           ts: jsonObject.ts,
-                                           wait: TypesJS.UpdateInterval.getValue(),
-                                           mode: LONGPOLL_SERVER.mode},
+                                       { key:  LONGPOLL_SERVER.key,
+                                         ts:   jsonObject.ts,
+                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
 }
