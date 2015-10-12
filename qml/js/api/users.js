@@ -19,17 +19,11 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.pragma library
+.import "../signals.js" as SignalsJS
 .import "request.js" as RequestAPI
 .import "../storage.js" as StorageJS
 
-var signaller = Qt.createQmlObject("import QtQuick 2.0; \
-    QtObject { \
-        signal endLoading; \
-        signal gotDialogInfo(int dialogId, var info); \
-        signal gotUserAvatar(string avatar); \
-        signal gotUserNameAndAvatar(string userName, string avatar); \
-    }", Qt.application, "UsersSignaller");
+var signaller = SignalsJS.jsSignaller;
 
 // -------------- API functions --------------
 

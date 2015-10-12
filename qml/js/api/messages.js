@@ -19,7 +19,7 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.pragma library
+.import "../signals.js" as SignalsJS
 .import "../storage.js" as StorageJS
 .import "../types.js" as TypesJS
 .import "request.js" as RequestAPI
@@ -32,20 +32,7 @@ var LONGPOLL_SERVER = {
     ts: -1,
     mode: 2
 };
-
-var signaller = Qt.createQmlObject("import QtQuick 2.0; \
-    QtObject { \
-        signal endLoading; \
-        signal gotChatUsers(var users); \
-        signal gotDialogInfo(int dialogId, var info); \
-        signal gotDialogs(var dialogs); \
-        signal gotHistory(var messages); \
-        signal gotMessageInfo(int userId, var info); \
-        signal gotNewMessage(var message); \
-        signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
-        signal gotUnreadCount(int count); \
-        signal needScrollToBottom; \
-    }", Qt.application, "MessagesSignaller");
+var signaller = SignalsJS.jsSignaller;
 
 // -------------- API functions --------------
 
