@@ -52,6 +52,7 @@ Page {
         loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
         for (var item in messagesArray) formMessageList(messagesArray[item])
+        getLastHistoryFromServer()
         scrollMessagesToBottom()
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
@@ -141,6 +142,13 @@ Page {
                 // TODO: save new readState to db
             }
         }
+    }
+
+    function getLastHistoryFromServer() {
+        loadingMessagesIndicator.running = true
+        var offset = -MessagesAPI.HISTORY_COUNT
+        var lastMsgId = messages.getMessageId(true)
+        MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
     }
 
     BusyIndicator {
@@ -325,10 +333,7 @@ Page {
                 text: qsTr("Обновить")
                 onClicked: {
                     markDialogAsRead()
-                    loadingMessagesIndicator.running = true
-                    var offset = -MessagesAPI.HISTORY_COUNT
-                    var lastMsgId = messages.getMessageId(true)
-                    MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
+                    getLastHistoryFromServer()
                 }
             }
 

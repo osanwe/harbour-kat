@@ -42,37 +42,37 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="190"/>
+        <location filename="../qml/pages/DialogPage.qml" line="200"/>
         <source>Загрузить больше</source>
         <translation type="unfinished">Load more</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="206"/>
+        <location filename="../qml/pages/DialogPage.qml" line="216"/>
         <source>Был(a) в сети: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="244"/>
+        <location filename="../qml/pages/DialogPage.qml" line="254"/>
         <source>Копировать текст</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="312"/>
+        <location filename="../qml/pages/DialogPage.qml" line="322"/>
         <source>Сообщение:</source>
         <translation type="unfinished">Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="313"/>
+        <location filename="../qml/pages/DialogPage.qml" line="323"/>
         <source>Сообщение</source>
         <translation type="unfinished">Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="323"/>
+        <location filename="../qml/pages/DialogPage.qml" line="333"/>
         <source>Обновить</source>
         <translation type="unfinished">Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="334"/>
+        <location filename="../qml/pages/DialogPage.qml" line="341"/>
         <source>Прикрепить изображение</source>
         <translation type="unfinished">Attach image</translation>
     </message>
