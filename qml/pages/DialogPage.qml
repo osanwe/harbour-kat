@@ -52,7 +52,7 @@ Page {
         loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
         for (var item in messagesArray) formMessageList(messagesArray[item])
-        getLastHistoryFromServer()
+        getLastHistoryFromServer(true)
         scrollMessagesToBottom(true)
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
@@ -111,14 +111,16 @@ Page {
     }
 
     function formMessageList(messageData, insertToEnd) {
-        var index = (insertToEnd === true) ? messages.model.count : 0;
-        if (messages.model.count > 0 &&
-                messages.model.get(index > 0 ? index - 1 : 0).mid === messageData.mid)
-            return
+        var index = messages.lookupItem(messageData.mid)
 
         messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
-        messages.model.insert(index, messageData)
+        if (index === -1) {
+            index = (insertToEnd === true) ? messages.model.count : 0
+            messages.model.insert(index, messageData)
+        } else {
+            messages.model.set(index, messageData)
+        }
     }
 
     function scrollMessagesToBottom(toBottom) {
@@ -147,10 +149,15 @@ Page {
             MessagesAPI.api_markDialogAsRead(unreadMessages.toString())
     }
 
-    function getLastHistoryFromServer() {
+    function getLastHistoryFromServer(fromLastMessage) {
         loadingMessagesIndicator.running = true
-        var offset = -MessagesAPI.HISTORY_COUNT
-        var lastMsgId = messages.getMessageId(true)
+        var offset = 0
+        var lastMsgId = null
+        if (fromLastMessage === true) {
+            offset = -MessagesAPI.HISTORY_COUNT
+            lastMsgId = messages.getMessageId(true)
+        }
+
         MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
     }
 
