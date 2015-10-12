@@ -112,7 +112,8 @@ Page {
 
     function formMessageList(messageData, insertToEnd) {
         var index = (insertToEnd === true) ? messages.model.count : 0;
-        if (messages.count > 0 && messages.model.get(index).mid === messageData.mid)
+        if (messages.model.count > 0 &&
+                messages.model.get(index > 0 ? index - 1 : 0).mid === messageData.mid)
             return
 
         messageData.userAvatar = userAvatar
