@@ -133,15 +133,17 @@ Page {
     }
 
     function markDialogAsRead() {
-        MessagesAPI.api_markDialogAsRead(dialogId)
-
+        var unreadMessages = []
         for (var i = 0; i < messages.model.count; ++i) {
             var msg = messages.model.get(i)
             if (msg.readState === 0 && msg.out === 0) {
+                unreadMessages.push(msg.mid)
                 messages.model.setProperty(i, "readState", 1)
                 // TODO: save new readState to db
             }
         }
+        if (unreadMessages.length > 0)
+            MessagesAPI.api_markDialogAsRead(unreadMessages.toString())
     }
 
     function getLastHistoryFromServer() {

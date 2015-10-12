@@ -94,9 +94,9 @@ function api_searchDialogs(substring) {
                            callback_searchDialogs)
 }
 
-function api_markDialogAsRead(dialogId) {
+function api_markDialogAsRead(mids) {
     RequestAPI.sendRequest("messages.markAsRead",
-                           { peer_id: dialogId })
+                           { message_ids: mids })
 }
 
 
