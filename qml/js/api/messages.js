@@ -194,14 +194,12 @@ function callback_getHistory(jsonObject) {
     if (messages.length > 0)
         signaller.gotHistory(messages)
     signaller.endLoading()
-    signaller.needScrollToBottom()
 }
 
 function callback_sendMessage(jsonObject, isNew) {
     var msgId = jsonObject.response
     if (TypesJS.MessageUpdateMode.isManual() && msgId)
         api_getMessagesById(msgId)
-    signaller.needScrollToBottom()
 }
 
 function callback_createChat(jsonObject) {

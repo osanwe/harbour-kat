@@ -53,7 +53,7 @@ Page {
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
         for (var item in messagesArray) formMessageList(messagesArray[item])
         getLastHistoryFromServer()
-        scrollMessagesToBottom()
+        scrollMessagesToBottom(true)
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
         else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
@@ -107,7 +107,7 @@ Page {
             console.log(messageData.avatarSource + ' | ' + avatarSource)
             formMessageList(messageData, toBottom)
         }
-        scrollMessagesToBottom()
+        scrollMessagesToBottom(toBottom)
     }
 
     function formMessageList(messageData, insertToEnd) {
@@ -120,11 +120,11 @@ Page {
         messages.model.insert(index, messageData)
     }
 
-    function scrollMessagesToBottom() {
-        if (messagesOffset === 0) {
+    function scrollMessagesToBottom(toBottom) {
+        if (toBottom) {
             messages.positionViewAtEnd()
         } else {
-            messages.positionViewAtIndex(49, ListView.Beginning)
+            messages.positionViewAtIndex(MessagesAPI.HISTORY_COUNT - 2, ListView.Beginning)
         }
     }
 
@@ -373,7 +373,7 @@ Page {
         if (dialogId === fromId) {
             var messageData = MessagesAPI.parseMessage(jsonMessage)
             formMessageList(messageData, true)
-            scrollMessagesToBottom()
+            scrollMessagesToBottom(true)
         }
     }
 
@@ -405,7 +405,6 @@ Page {
         MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
-        MessagesAPI.signaller.needScrollToBottom.connect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
     }
@@ -417,7 +416,6 @@ Page {
         MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
-        MessagesAPI.signaller.needScrollToBottom.disconnect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
     }
