@@ -306,7 +306,7 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="100"/>
         <source>По возможности быть offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Stay offline if its possible </translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="93"/>
@@ -323,8 +323,8 @@
     <name>wall</name>
     <message>
         <location filename="../qml/js/api/wall.js" line="58"/>
-        <source>������������������������</source>
-        <translation type="unfinished"></translation>
+        <source>Опубликовано</source>
+        <translation type="unfinished">Published</translation>
     </message>
 </context>
 </TS>
