@@ -136,6 +136,12 @@ Page {
         if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
     }
 
+    function startAutoUpdate() {
+        if (!TypesJS.MessageUpdateMode.isManual() && !TypesJS.LongPollWorker.isActive()) {
+            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+        }
+    }
+
     Connections {
         target: fileDownloader
         onDownloaded: {
@@ -204,12 +210,34 @@ Page {
     }
 
     Timer {
-        interval: 0
-        running: Qt.application.active && TypesJS.MessageUpdateMode.isManual()
+        interval: 60000
+        running: Qt.application.active
+        repeat: false
+        triggeredOnStart: true
 
-        onTriggered: if (visible)
-                         if (messagesList.model.count === 0) formDialogsList()
-                         else updateDialogs()
+        property bool isFirstIteration: true
+
+        onRunningChanged: {
+            if (running) {
+                isFirstIteration = true
+                repeat = !TypesJS.MessageUpdateMode.isManual()
+            }
+        }
+
+        onTriggered: {
+            if (visible && isFirstIteration) {
+                if (messagesList.model.count === 0) formDialogsList()
+                else updateDialogs()
+
+                isFirstIteration = false
+            }
+
+            startAutoUpdate()
+        }
+    }
+
+    onStatusChanged: {
+        if (status === PageStatus.Active) startAutoUpdate()
     }
 
     Component.onCompleted: {
@@ -220,11 +248,6 @@ Page {
         MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
-
-        if (!TypesJS.MessageUpdateMode.isManual()) {
-            if (messagesList.model.count === 0) formDialogsList()
-            else updateDialogs()
-        }
     }
 
     Component.onDestruction: {

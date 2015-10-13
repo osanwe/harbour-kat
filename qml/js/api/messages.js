@@ -267,7 +267,7 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (TypesJS.MessageUpdateMode.isManual()) {
+    if (TypesJS.MessageUpdateMode.isManual() || !Qt.application.active) {
         return
     }
 
