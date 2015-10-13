@@ -311,7 +311,7 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>Обновлять сообщения вручную</source>
-        <translation type="unfinished"></translation>
+        <translation>Refresh messages manually</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="107"/>
