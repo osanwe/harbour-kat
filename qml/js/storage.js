@@ -251,6 +251,7 @@ function getLastMessagesForDialog(chatId) {
     db.transaction( function (tx) {
         console.log('... reading ...')
         var result = tx.executeSql('SELECT messages.id          AS id, ' +
+                                          'messages.from_id     AS from_id, ' +
                                           'messages.is_read     AS is_read, ' +
                                           'messages.is_out      AS is_out, ' +
                                           'messages.body        AS body, ' +
@@ -268,6 +269,7 @@ function getLastMessagesForDialog(chatId) {
             date.setTime(parseInt(item.date) * 1000)
             value[i] = {
                 mid:             item.id,
+                fromId:          item.from_id,
                 readState:       item.is_read,
                 out:             item.is_out,
                 message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :

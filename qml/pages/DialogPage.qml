@@ -43,7 +43,7 @@ Page {
 
     property int messagesOffset: 0
 
-    property variant chatUsers
+    property variant chatUsers: QtObject {}
 
     property string attachmentsList: ""
 
@@ -60,7 +60,11 @@ Page {
     }
 
     function saveUsers(users) {
-        chatUsers = users
+        var usersDict = {}
+        for (var index in users) {
+            usersDict[users[index].id] = users[index]
+        }
+        chatUsers = usersDict
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
     }
@@ -88,23 +92,23 @@ Page {
         attachmentsList = ""
     }
 
+    function getUserAvatar(userId) {
+        var avatar = "image://theme/icon-cover-people"
+
+        if (isChat) {
+            if (userId in chatUsers)
+                avatar = chatUsers[userId].photo
+        } else avatar = avatarSource
+
+        return avatar
+    }
+
     function formMessagesListFromServerData(messagesArray) {
         var toBottom = messages.model.count > 0 ?
                             messages.getMessageId(true) < messagesArray[0].mid : false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
-            if (isChat) {
-                console.log("chat")
-                for (var index in chatUsers) if (chatUsers[index].id === messageData.fromId) {
-                        messageData.avatarSource = chatUsers[index].photo
-                        break
-                    }
-            }
-            else {
-                console.log('user')
-                messageData.avatarSource = avatarSource
-            }
-            console.log(messageData.avatarSource + ' | ' + avatarSource)
+            messageData.avatarSource = getUserAvatar(messageData.fromId)
             formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom(toBottom)
@@ -154,8 +158,9 @@ Page {
         var offset = 0
         var lastMsgId = null
         if (fromLastMessage === true) {
-            offset = -MessagesAPI.HISTORY_COUNT
             lastMsgId = messages.getMessageId(true)
+            if (lastMsgId > 0)
+                offset = -MessagesAPI.HISTORY_COUNT
         }
 
         MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
@@ -374,6 +379,26 @@ Page {
         } else if (status === PageStatus.Active) {
             formNewDialogMessages()
         }
+
+    onChatUsersChanged: {
+        for (var i = 0; i < messages.count; ++i) {
+            var msg = messages.model.get(i)
+            var avatar = getUserAvatar(msg.fromId)
+            if (avatar !== msg.avatarSource)
+                messages.model.setProperty(i, "avatarSource", avatar)
+        }
+    }
+
+    onAvatarSourceChanged: {
+        if (!isChat) {
+            for (var i = 0; i < messages.count; ++i) {
+                var msg = messages.model.get(i)
+                if (avatarSource !== msg.avatarSource && msg.out === 0)
+                    messages.model.setProperty(i, "avatarSource", avatarSource)
+            }
+        }
+
+    }
 
     function addNewMessage(jsonMessage) {
         var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
