@@ -90,6 +90,7 @@ Page {
         MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
+        markDialogAsRead()
     }
 
     function getUserAvatar(userId) {
