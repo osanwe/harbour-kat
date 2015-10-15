@@ -252,6 +252,7 @@ function getLastMessagesForDialog(chatId) {
         console.log('... reading ...')
         var result = tx.executeSql('SELECT messages.id          AS id, ' +
                                           'messages.from_id     AS from_id, ' +
+                                          'messages.user_id     AS user_id, ' +
                                           'messages.is_read     AS is_read, ' +
                                           'messages.is_out      AS is_out, ' +
                                           'messages.body        AS body, ' +
@@ -269,7 +270,7 @@ function getLastMessagesForDialog(chatId) {
             date.setTime(parseInt(item.date) * 1000)
             value[i] = {
                 mid:             item.id,
-                fromId:          item.from_id,
+                fromId:          'from_id' in item ? item.from_id : item.user_id,
                 readState:       item.is_read,
                 out:             item.is_out,
                 message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
@@ -324,8 +325,8 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
                                             ( userId ? 'user_id, ' : '' ) +
                                             ( fromId ? 'from_id, ' : '' ) +
                                             ( date   ? 'date, '    : '' ) +
-                                            ( isRead ? 'is_read, ' : '' ) +
-                                            ( isOut  ? 'is_out, '  : '' ) +
+                     ( typeof isRead !== 'undefined' ? 'is_read, ' : '' ) +
+                     ( typeof isOut !== 'undefined'  ? 'is_out, '  : '' ) +
                                                        'body, ' +
                                                        'geo, ' +
                                                        'attachments, ' +
@@ -335,8 +336,8 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
                                        (userId ?        userId       + ', '   : '' ) +
                                        (fromId ?        fromId       + ', '   : '' ) +
                                        (date   ?        date         + ', '   : '' ) +
-                                       (isRead ?        isRead       + ', '   : '' ) +
-                                       (isOut  ?        isOut        + ', '   : '' ) +
+                      (typeof isRead !== 'undefined' ?  isRead       + ', '   : '' ) +
+                      (typeof isOut !== 'undefined'  ?  isOut        + ', '   : '' ) +
                                                        '?, ' +
                                                        '?, ' +
                                                        '?, ' +
