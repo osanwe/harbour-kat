@@ -270,7 +270,7 @@ function getLastMessagesForDialog(chatId) {
             date.setTime(parseInt(item.date) * 1000)
             value[i] = {
                 mid:             item.id,
-                fromId:          'from_id' in item ? item.from_id : item.user_id,
+                fromId:          item.from_id ? item.from_id : item.user_id,
                 readState:       item.is_read,
                 out:             item.is_out,
                 message:         item.body ? item.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') :
