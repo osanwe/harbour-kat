@@ -82,7 +82,7 @@ var LongPollWorker = {
 
     isActive: function() {
         var diff = Date.now() - this.lastActive
-        return diff <= UpdateInterval.getValue() * 1000
+        return diff <= 25000
     }
 }
 

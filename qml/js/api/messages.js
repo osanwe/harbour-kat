@@ -30,7 +30,8 @@ var LONGPOLL_SERVER = {
     key: '',
     server: '',
     ts: -1,
-    mode: 2
+    mode: 2,
+    timeout: 25
 };
 var signaller = SignalsJS.jsSignaller;
 
@@ -260,7 +261,7 @@ function callback_startLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
                                            ts: LONGPOLL_SERVER.ts,
-                                           wait: TypesJS.UpdateInterval.getValue(),
+                                           wait: LONGPOLL_SERVER.timeout,
                                            mode: LONGPOLL_SERVER.mode},
                                        callback_doLongPoll)
     }
@@ -346,7 +347,7 @@ function callback_doLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                           {key: LONGPOLL_SERVER.key,
                                            ts: jsonObject.ts,
-                                           wait: TypesJS.UpdateInterval.getValue(),
+                                           wait: LONGPOLL_SERVER.timeout,
                                            mode: LONGPOLL_SERVER.mode},
                                        callback_doLongPoll)
     }
