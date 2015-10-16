@@ -77,6 +77,7 @@ CoverBackground {
             iconSource: "image://theme/icon-cover-refresh"
 
             onTriggered: {
+                MessagesAPI.api_getUnreadMessagesCounter(true)
                 updateTimer.restart()
             }
         }
@@ -90,25 +91,11 @@ CoverBackground {
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
 
-//<<<<<<< HEAD
-//        onTriggered: {
-//            if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-//            if (!TypesJS.LongPollWorker.isActive()) startLongPoll()
-//        }
-//=======
-        onTriggered: if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
 
     Component.onCompleted: {
         MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
-//<<<<<<< HEAD
-
-//        if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-//        MessagesAPI.api_getUnreadMessagesCounter(true)
-//        startLongPoll()
-//=======
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }

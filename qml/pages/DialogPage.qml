@@ -51,14 +51,9 @@ Page {
         console.log('formNewDialogMessages()')
         loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
-//<<<<<<< HEAD
-//        for (var item in messagesArray) formMessageList(messagesArray[item], false)
-//        scrollMessagesToBottom()
-//=======
         for (var item in messagesArray) formMessageList(messagesArray[item])
         getLastHistoryFromServer(true)
         scrollMessagesToBottom(true)
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
         else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
@@ -77,9 +72,7 @@ Page {
 
     function saveUsers(users) {
         var usersDict = {}
-        for (var index in users) {
-            usersDict[users[index].id] = users[index]
-        }
+        for (var index in users) usersDict[users[index].id] = users[index]
         chatUsers = usersDict
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
@@ -99,8 +92,6 @@ Page {
         }
     }
 
-//<<<<<<< HEAD
-//=======
     function sendMessage() {
         MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
         messageInput.text = ""
@@ -112,53 +103,24 @@ Page {
         var avatar = "image://theme/icon-cover-people"
 
         if (isChat) {
-            if (userId in chatUsers)
-                avatar = chatUsers[userId].photo
+            if (userId in chatUsers) avatar = chatUsers[userId].photo
         } else avatar = avatarSource
 
         return avatar
     }
 
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
     function formMessagesListFromServerData(messagesArray) {
         var toBottom = messages.model.count > 0 ?
                     messages.getMessageId(true) < messagesArray[0].mid :
                     false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
-//<<<<<<< HEAD
-//            console.log(JSON.stringify(messageData))
-//            if (isChat) {
-//                console.log("chat")
-//                for (var index in chatUsers)
-//                    if (chatUsers[index].id === messageData.fromId) {
-//                        messageData.avatarSource = chatUsers[index].photo
-//                        break
-//                    }
-//            } else {
-//                console.log('user')
-//                messageData.avatarSource = avatarSource
-//            }
-//            console.log(messageData.avatarSource + ' | ' + avatarSource)
-//=======
             messageData.avatarSource = getUserAvatar(messageData.fromId)
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
             formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom(toBottom)
     }
 
-//<<<<<<< HEAD
-//    function sendMessage() {
-//        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
-//        messageInput.text = ""
-//        attachmentsList = ""
-//    }
-
-//    function scrollMessagesToBottom() {
-//        if (messagesOffset === 0) messages.positionViewAtEnd()
-//        else messages.positionViewAtIndex(49, ListView.Beginning)
-//=======
     function formMessageList(messageData, insertToEnd) {
         var index = messages.lookupItem(messageData.mid)
 
@@ -173,12 +135,8 @@ Page {
     }
 
     function scrollMessagesToBottom(toBottom) {
-        if (toBottom) {
-            messages.positionViewAtEnd()
-        } else {
-            messages.positionViewAtIndex(MessagesAPI.HISTORY_COUNT - 2, ListView.Beginning)
-        }
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
+        if (toBottom) messages.positionViewAtEnd()
+        else messages.positionViewAtIndex(MessagesAPI.HISTORY_COUNT - 2, ListView.Beginning)
     }
 
     function stopBusyIndicator() {
@@ -205,10 +163,8 @@ Page {
         var lastMsgId = null
         if (fromLastMessage === true) {
             lastMsgId = messages.getMessageId(true)
-            if (lastMsgId > 0)
-                offset = -MessagesAPI.HISTORY_COUNT
+            if (lastMsgId > 0) offset = -MessagesAPI.HISTORY_COUNT
         }
-
         MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
     }
 

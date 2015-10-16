@@ -197,12 +197,7 @@ function callback_getMessages(jsonObject) {
 
 function callback_sendMessage(jsonObject, isNew) {
     var msgId = jsonObject.response
-//<<<<<<< HEAD
-//    if (TypesJS.MessageUpdateMode.isManual() && msgId) api_getMessagesById(msgId)
-//    signaller.needScrollToBottom()
-//=======
     if (TypesJS.MessageUpdateMode.isManual() && msgId) api_getMessagesById(msgId)
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
 }
 
 function callback_createChat(jsonObject) {
@@ -270,14 +265,7 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-//<<<<<<< HEAD
-//    if (TypesJS.MessageUpdateMode.isManual()) return
-//=======
-    if (TypesJS.MessageUpdateMode.isManual() || !Qt.application.active) {
-        return
-    }
-
-//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
+    if (TypesJS.MessageUpdateMode.isManual() || !Qt.application.active) return
     TypesJS.LongPollWorker.setActive()
 
     if (jsonObject) {
