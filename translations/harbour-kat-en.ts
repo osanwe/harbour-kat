@@ -47,37 +47,37 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="189"/>
+        <location filename="../qml/pages/DialogPage.qml" line="216"/>
         <source>Загрузить больше</source>
         <translation type="unfinished">Load more</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="205"/>
+        <location filename="../qml/pages/DialogPage.qml" line="232"/>
         <source>Был(a) в сети: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="243"/>
+        <location filename="../qml/pages/DialogPage.qml" line="270"/>
         <source>Копировать текст</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="310"/>
+        <location filename="../qml/pages/DialogPage.qml" line="338"/>
         <source>Сообщение:</source>
         <translation type="unfinished">Message:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="311"/>
+        <location filename="../qml/pages/DialogPage.qml" line="339"/>
         <source>Сообщение</source>
         <translation type="unfinished">Message</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="321"/>
+        <location filename="../qml/pages/DialogPage.qml" line="349"/>
         <source>Обновить</source>
         <translation type="unfinished">Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="332"/>
+        <location filename="../qml/pages/DialogPage.qml" line="357"/>
         <source>Прикрепить изображение</source>
         <translation type="unfinished">Attach image</translation>
     </message>
@@ -85,22 +85,21 @@
 <context>
     <name>DialogsListPage</name>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="151"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="169"/>
         <source>Новое сообщение</source>
         <translation>New message</translation>
     </message>
-    <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="157"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="175"/>
         <source>Обновить</source>
         <translation>Refresh</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="163"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="181"/>
         <source>Сообщения</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="182"/>
+        <location filename="../qml/pages/DialogsListPage.qml" line="200"/>
         <source>Загрузить больше</source>
         <translation>Load more</translation>
     </message>

@@ -36,12 +36,6 @@ CoverBackground {
         unreadDialogs = counter
     }
 
-    function startLongPoll() {
-        if (!TypesJS.MessageUpdateMode.isManual()) {
-            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
-        }
-    }
-
     Row {
         anchors.centerIn: parent
         spacing: 20
@@ -91,24 +85,17 @@ CoverBackground {
 
     Timer {
         id: updateTimer
-        running: !Qt.application.active && TypesJS.MessageUpdateMode.isManual()
+        running: !Qt.application.active
         repeat: true
         triggeredOnStart: true
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
 
-        onTriggered: {
-            if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-            if (!TypesJS.LongPollWorker.isActive()) startLongPoll()
-        }
+        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
 
     Component.onCompleted: {
         MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
-
-        if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-        MessagesAPI.api_getUnreadMessagesCounter(true)
-        startLongPoll()
     }
     Component.onDestruction: AccountAPI.api_setOffline()
 }

@@ -19,7 +19,7 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.pragma library
+.import "../signals.js" as SignalsJS
 .import "../storage.js" as StorageJS
 .import "../types.js" as TypesJS
 .import "request.js" as RequestAPI
@@ -32,20 +32,7 @@ var LONGPOLL_SERVER = {
     ts: -1,
     mode: 2
 };
-
-var signaller = Qt.createQmlObject("import QtQuick 2.0; \
-    QtObject { \
-        signal endLoading; \
-        signal gotChatUsers(var users); \
-        signal gotDialogInfo(int dialogId, var info); \
-        signal gotDialogs(var dialogs); \
-        signal gotHistory(var messages); \
-        signal gotMessageInfo(int userId, var info); \
-        signal gotNewMessage(var message); \
-        signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
-        signal gotUnreadCount(int count); \
-        signal needScrollToBottom; \
-    }", Qt.application, "MessagesSignaller");
+var signaller = SignalsJS.jsSignaller;
 
 // -------------- API functions --------------
 
@@ -105,9 +92,9 @@ function api_searchDialogs(substring) {
                            callback_searchDialogs)
 }
 
-function api_markDialogAsRead(dialogId) {
+function api_markDialogAsRead(mids) {
     RequestAPI.sendRequest("messages.markAsRead",
-                           { peer_id: dialogId })
+                           { message_ids: mids })
 }
 
 
@@ -196,7 +183,6 @@ function callback_getHistory(jsonObject) {
     }
     if (messages.length > 0) signaller.gotHistory(messages)
     signaller.endLoading()
-    signaller.needScrollToBottom()
 }
 
 function callback_getMessages(jsonObject) {
@@ -212,7 +198,6 @@ function callback_getMessages(jsonObject) {
 function callback_sendMessage(jsonObject, isNew) {
     var msgId = jsonObject.response
     if (TypesJS.MessageUpdateMode.isManual() && msgId) api_getMessagesById(msgId)
-    signaller.needScrollToBottom()
 }
 
 function callback_createChat(jsonObject) {
@@ -280,7 +265,7 @@ function callback_startLongPoll(jsonObject) {
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (TypesJS.MessageUpdateMode.isManual()) return
+    if (TypesJS.MessageUpdateMode.isManual() || !Qt.application.active) return
     TypesJS.LongPollWorker.setActive()
 
     if (jsonObject) {
