@@ -182,12 +182,13 @@ Page {
             id: dialogTitle
             anchors.top: parent.top
             anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingLarge
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
             height: Theme.fontSizeLarge + 3 * Theme.paddingLarge
+            width: parent.width - Theme.paddingLarge
             verticalAlignment: Text.AlignVCenter
             text: fullname
+            elide: Text.ElideRight
         }
 
         Switch {
