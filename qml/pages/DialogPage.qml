@@ -43,7 +43,7 @@ Page {
 
     property int messagesOffset: 0
 
-    property variant chatUsers
+    property variant chatUsers: QtObject {}
 
     property string attachmentsList: ""
 
@@ -51,8 +51,14 @@ Page {
         console.log('formNewDialogMessages()')
         loadingMessagesIndicator.running = true
         var messagesArray = StorageJS.getLastMessagesForDialog(dialogId)
-        for (var item in messagesArray) formMessageList(messagesArray[item], false)
-        scrollMessagesToBottom()
+//<<<<<<< HEAD
+//        for (var item in messagesArray) formMessageList(messagesArray[item], false)
+//        scrollMessagesToBottom()
+//=======
+        for (var item in messagesArray) formMessageList(messagesArray[item])
+        getLastHistoryFromServer(true)
+        scrollMessagesToBottom(true)
+//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
 
         if (isChat) MessagesAPI.api_getChatUsers(dialogId)
         else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
@@ -70,7 +76,11 @@ Page {
     }
 
     function saveUsers(users) {
-        chatUsers = users
+        var usersDict = {}
+        for (var index in users) {
+            usersDict[users[index].id] = users[index]
+        }
+        chatUsers = usersDict
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
         MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
@@ -89,39 +99,86 @@ Page {
         }
     }
 
+//<<<<<<< HEAD
+//=======
+    function sendMessage() {
+        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
+        messageInput.text = ""
+        attachmentsList = ""
+        markDialogAsRead()
+    }
+
+    function getUserAvatar(userId) {
+        var avatar = "image://theme/icon-cover-people"
+
+        if (isChat) {
+            if (userId in chatUsers)
+                avatar = chatUsers[userId].photo
+        } else avatar = avatarSource
+
+        return avatar
+    }
+
+//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
     function formMessagesListFromServerData(messagesArray) {
         var toBottom = messages.model.count > 0 ?
                     messages.getMessageId(true) < messagesArray[0].mid :
                     false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
-            console.log(JSON.stringify(messageData))
-            if (isChat) {
-                console.log("chat")
-                for (var index in chatUsers)
-                    if (chatUsers[index].id === messageData.fromId) {
-                        messageData.avatarSource = chatUsers[index].photo
-                        break
-                    }
-            } else {
-                console.log('user')
-                messageData.avatarSource = avatarSource
-            }
-            console.log(messageData.avatarSource + ' | ' + avatarSource)
+//<<<<<<< HEAD
+//            console.log(JSON.stringify(messageData))
+//            if (isChat) {
+//                console.log("chat")
+//                for (var index in chatUsers)
+//                    if (chatUsers[index].id === messageData.fromId) {
+//                        messageData.avatarSource = chatUsers[index].photo
+//                        break
+//                    }
+//            } else {
+//                console.log('user')
+//                messageData.avatarSource = avatarSource
+//            }
+//            console.log(messageData.avatarSource + ' | ' + avatarSource)
+//=======
+            messageData.avatarSource = getUserAvatar(messageData.fromId)
+//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
             formMessageList(messageData, toBottom)
         }
-        scrollMessagesToBottom()
+        scrollMessagesToBottom(toBottom)
     }
 
-    function sendMessage() {
-        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
-        messageInput.text = ""
-        attachmentsList = ""
+//<<<<<<< HEAD
+//    function sendMessage() {
+//        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
+//        messageInput.text = ""
+//        attachmentsList = ""
+//    }
+
+//    function scrollMessagesToBottom() {
+//        if (messagesOffset === 0) messages.positionViewAtEnd()
+//        else messages.positionViewAtIndex(49, ListView.Beginning)
+//=======
+    function formMessageList(messageData, insertToEnd) {
+        var index = messages.lookupItem(messageData.mid)
+
+        messageData.userAvatar = userAvatar
+        messageData.useSeparator = useSeparators
+        if (index === -1) {
+            index = (insertToEnd === true) ? messages.model.count : 0
+            messages.model.insert(index, messageData)
+        } else {
+            messages.model.set(index, messageData)
+        }
     }
 
-    function scrollMessagesToBottom() {
-        if (messagesOffset === 0) messages.positionViewAtEnd()
-        else messages.positionViewAtIndex(49, ListView.Beginning)
+    function scrollMessagesToBottom(toBottom) {
+        if (toBottom) {
+            messages.positionViewAtEnd()
+        } else {
+            messages.positionViewAtIndex(MessagesAPI.HISTORY_COUNT - 2, ListView.Beginning)
+        }
+//>>>>>>> 04f0c16a304179b4a000f8e566b19bdd980eb2fd
     }
 
     function stopBusyIndicator() {
@@ -129,15 +186,30 @@ Page {
     }
 
     function markDialogAsRead() {
-        MessagesAPI.api_markDialogAsRead(dialogId)
-
+        var unreadMessages = []
         for (var i = 0; i < messages.model.count; ++i) {
             var msg = messages.model.get(i)
             if (msg.readState === 0 && msg.out === 0) {
+                unreadMessages.push(msg.mid)
                 messages.model.setProperty(i, "readState", 1)
                 // TODO: save new readState to db
             }
         }
+        if (unreadMessages.length > 0)
+            MessagesAPI.api_markDialogAsRead(unreadMessages.toString())
+    }
+
+    function getLastHistoryFromServer(fromLastMessage) {
+        loadingMessagesIndicator.running = true
+        var offset = 0
+        var lastMsgId = null
+        if (fromLastMessage === true) {
+            lastMsgId = messages.getMessageId(true)
+            if (lastMsgId > 0)
+                offset = -MessagesAPI.HISTORY_COUNT
+        }
+
+        MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
     }
 
     BusyIndicator {
@@ -321,10 +393,7 @@ Page {
                 text: qsTr("Обновить")
                 onClicked: {
                     markDialogAsRead()
-                    loadingMessagesIndicator.running = true
-                    var offset = -MessagesAPI.HISTORY_COUNT
-                    var lastMsgId = messages.getMessageId(true)
-                    MessagesAPI.api_getHistory(isChat, dialogId, offset, lastMsgId)
+                    getLastHistoryFromServer()
                 }
             }
 
@@ -353,6 +422,26 @@ Page {
         if (status === PageStatus.Inactive) markDialogAsRead()
         else if (status === PageStatus.Active) formNewDialogMessages()
 
+    onChatUsersChanged: {
+        for (var i = 0; i < messages.count; ++i) {
+            var msg = messages.model.get(i)
+            var avatar = getUserAvatar(msg.fromId)
+            if (avatar !== msg.avatarSource)
+                messages.model.setProperty(i, "avatarSource", avatar)
+        }
+    }
+
+    onAvatarSourceChanged: {
+        if (!isChat) {
+            for (var i = 0; i < messages.count; ++i) {
+                var msg = messages.model.get(i)
+                if (avatarSource !== msg.avatarSource && msg.out === 0)
+                    messages.model.setProperty(i, "avatarSource", avatarSource)
+            }
+        }
+
+    }
+
     function addNewMessage(jsonMessage) {
         var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
         if (isChat) fromId = jsonMessage.chat_id
@@ -360,7 +449,7 @@ Page {
         if (dialogId === fromId) {
             var messageData = MessagesAPI.parseMessage(jsonMessage)
             formMessageList(messageData, true)
-            scrollMessagesToBottom()
+            scrollMessagesToBottom(true)
         }
     }
 
@@ -389,7 +478,6 @@ Page {
         MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
-        MessagesAPI.signaller.needScrollToBottom.connect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
     }
@@ -401,7 +489,6 @@ Page {
         MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
         MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)
         MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
-        MessagesAPI.signaller.needScrollToBottom.disconnect(scrollMessagesToBottom)
         UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
         UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
     }

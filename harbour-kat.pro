@@ -52,7 +52,8 @@ OTHER_FILES += \
     qml/pages/NewWallPostPage.qml \
     qml/js/api/groups.js \
     qml/js/types.js \
-    qml/js/api/account.js
+    qml/js/api/account.js \
+    qml/js/signals.js
 
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \
