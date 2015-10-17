@@ -118,7 +118,10 @@ Page {
     function formMessageList(messageData, insertToEnd) {
         var index = messages.lookupItem(messageData.mid)
 
-        messageData.userAvatar = userAvatar
+        if (messageData.out === 0) {
+            if (!messageData.avatarSource)
+                messageData.avatarSource = getUserAvatar(messageData.from_id)
+        } else messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
         if (index === -1) {
             index = (insertToEnd === true) ? messages.model.count : 0
