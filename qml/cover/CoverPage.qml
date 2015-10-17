@@ -101,8 +101,13 @@ CoverBackground {
         }
     }
 
-    Component.onCompleted: MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
-    Component.onDestruction: AccountAPI.api_setOffline()
+    Component.onCompleted: {
+        MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
+    }
+    Component.onDestruction: {
+        MessagesAPI.signaller.gotUnreadCount.disconnect(updateUnreadMessagesCounter)
+        AccountAPI.api_setOffline()
+    }
 }
 
 
