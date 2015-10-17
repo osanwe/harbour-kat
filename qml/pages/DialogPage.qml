@@ -60,14 +60,16 @@ Page {
     }
 
     function formMessageList(messageData, insertToEnd) {
-        console.log('formMessageList()')
-        console.log(JSON.stringify(messageData))
-        var index = (insertToEnd) ? messages.model.count : 0;
-        if (messages.model.count > 0 && messages.model.get(index).mid === messageData.mid) return
+        var index = messages.lookupItem(messageData.mid)
 
         messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
-        messages.model.insert(index, messageData)
+        if (index === -1) {
+            index = (insertToEnd === true) ? messages.model.count : 0
+            messages.model.insert(index, messageData)
+        } else {
+            messages.model.set(index, messageData)
+        }
     }
 
     function saveUsers(users) {
@@ -119,19 +121,6 @@ Page {
             formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom(toBottom)
-    }
-
-    function formMessageList(messageData, insertToEnd) {
-        var index = messages.lookupItem(messageData.mid)
-
-        messageData.userAvatar = userAvatar
-        messageData.useSeparator = useSeparators
-        if (index === -1) {
-            index = (insertToEnd === true) ? messages.model.count : 0
-            messages.model.insert(index, messageData)
-        } else {
-            messages.model.set(index, messageData)
-        }
     }
 
     function scrollMessagesToBottom(toBottom) {
