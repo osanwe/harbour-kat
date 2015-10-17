@@ -31,8 +31,7 @@ CoverBackground {
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
-        if (counter !== unreadDialogs)
-            notificationHelper.activateLed(counter > unreadDialogs)
+        if (counter !== unreadDialogs) notificationHelper.activateLed(counter > unreadDialogs)
         unreadDialogs = counter
     }
 
@@ -76,10 +75,7 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
 
-            onTriggered: {
-                MessagesAPI.api_getUnreadMessagesCounter(true)
-                updateTimer.restart()
-            }
+            onTriggered: updateTimer.restart()
         }
     }
 
@@ -90,13 +86,10 @@ CoverBackground {
         triggeredOnStart: true
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
-
         onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
     }
 
-    Component.onCompleted: {
-        MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
-    }
+    Component.onCompleted: MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
     Component.onDestruction: AccountAPI.api_setOffline()
 }
 
