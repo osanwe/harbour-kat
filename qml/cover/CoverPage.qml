@@ -33,9 +33,11 @@ CoverBackground {
         coverMessagesCount.text = counter ? counter : "0"
         if (counter !== unreadDialogs) notificationHelper.activateLed(counter > unreadDialogs)
         unreadDialogs = counter
+        coverLoadingIndicator.running = false
     }
 
     Row {
+        id: coverInfoPanel
         anchors.centerIn: parent
         spacing: 20
 
@@ -52,6 +54,13 @@ CoverBackground {
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
         }
+    }
+
+    BusyIndicator {
+        id: coverLoadingIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: false
     }
 
     CoverActionList {
@@ -86,7 +95,10 @@ CoverBackground {
         triggeredOnStart: true
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
-        onTriggered: MessagesAPI.api_getUnreadMessagesCounter(true)
+        onTriggered: {
+            coverLoadingIndicator.running = true
+            MessagesAPI.api_getUnreadMessagesCounter(true)
+        }
     }
 
     Component.onCompleted: MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
