@@ -344,3 +344,25 @@ function saveMessage(id, chatId, userId, fromId, date, isRead, isOut, title, bod
                                                        '?)', values)
     })
 }
+
+function updateMessage(id, data) {
+    console.log("updateMessage(" + id + ")")
+
+    var db = getDatabase()
+    if (!db) return
+
+    var values = ''
+    for (var key in data) {
+        values += key + " = '" + JSON.stringify(data[key]) + "',"
+    }
+
+    if (values.length > 0) {
+        values = values.substring(0, values.length - 1)
+
+        db.transaction( function (tx) {
+            console.log('... updating ...')
+                tx.executeSql('UPDATE messages SET ' + values +
+                                                           ' WHERE id = ' + id)
+        })
+    }
+}

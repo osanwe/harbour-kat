@@ -150,7 +150,7 @@ Page {
             if (msg.readState === 0 && msg.out === 0) {
                 unreadMessages.push(msg.mid)
                 messages.model.setProperty(i, "readState", 1)
-                // TODO: save new readState to db
+                StorageJS.updateMessage(msg.mid, {"is_read": 1})
             }
         }
         if (unreadMessages.length > 0)
