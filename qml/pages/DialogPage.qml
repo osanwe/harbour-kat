@@ -428,11 +428,13 @@ Page {
                                             msg.readState !== data.readState) {
                             messages.model.setProperty(msgIndex,
                                                     "readState", data.readState)
+                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
                         }
                     }
                 } else {
                     messages.model.setProperty(msgIndex,
                                                     "readState", data.readState)
+                    StorageJS.updateMessage(data.msgId, {"is_read": data.readState})
                 }
             }
         }

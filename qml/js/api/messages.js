@@ -295,6 +295,7 @@ function callback_doLongPoll(jsonObject) {
                         var readState = eventId === 3 ? 1 : 0
                         signaller.gotMessageInfo(userId, {"msgId": msgId,
                                                           "readState": readState})
+                        StorageJS.updateMessage(msgId, {"is_read": readState})
                     }
                     break;
                 case 4: // добавление нового сообщения
@@ -334,6 +335,7 @@ function callback_doLongPoll(jsonObject) {
                     break;
                 }
             }
+            signaller.endLoading()
 
         } else if (jsonObject.failed === 2) {
             // история устарела - просто обновляем отпечаток времени
