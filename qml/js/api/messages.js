@@ -38,8 +38,8 @@ var signaller = SignalsJS.jsSignaller;
 // -------------- API functions --------------
 
 function api_getUnreadMessagesCounter(isCover) {
-    RequestAPI.sendRequest("messages.getDialogs",
-                           { unread:1 },
+    RequestAPI.sendRequest("execute",
+                           { code:"return  API.messages.getDialogs({unread:1}).count;" },
                            isCover ? callback_getUnreadMessagesCounter_cover :
                                      callback_getUnreadMessagesCounter_mainMenu)
 }
@@ -133,7 +133,7 @@ function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
 }
 
 function callback_getUnreadMessagesCounter_cover(jsonObject) {
-    signaller.gotUnreadCount(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response)
 }
 
 function callback_getDialogsList(jsonObject) {
