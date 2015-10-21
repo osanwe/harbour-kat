@@ -106,6 +106,11 @@ Page {
     function formMessagesListFromServerData(messagesArray) {
         var toBottom = messages.model.count > 0 ?
                             messages.getMessageId(true) < messagesArray[0].mid : false
+
+        if (toBottom && messagesArray.length > 1 &&
+                messagesArray[0].mid > messagesArray[messagesArray.length - 1].mid)
+            messagesArray.reverse()
+
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
             formMessageList(messageData, toBottom)
