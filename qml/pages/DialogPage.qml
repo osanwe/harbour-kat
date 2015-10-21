@@ -41,8 +41,6 @@ Page {
 
     property Item contextMenu
 
-    property int messagesOffset: 0
-
     property variant chatUsers: QtObject {}
 
     property string attachmentsList: ""
@@ -87,7 +85,8 @@ Page {
     }
 
     function sendMessage() {
-        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
+        var text = encodeURIComponent(messageInput.text)
+        MessagesAPI.api_sendMessage(isChat, dialogId, text, attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
         markDialogAsRead()
@@ -109,7 +108,6 @@ Page {
                             messages.getMessageId(true) < messagesArray[0].mid : false
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
-            messageData.avatarSource = getUserAvatar(messageData.fromId)
             formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom(toBottom)
@@ -128,6 +126,41 @@ Page {
             messages.model.insert(index, messageData)
         } else {
             messages.model.set(index, messageData)
+        }
+    }
+
+    function addNewMessage(jsonMessage) {
+        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
+        if (isChat)
+            fromId = jsonMessage.chat_id
+
+        if (dialogId === fromId) {
+            var messageData = MessagesAPI.parseMessage(jsonMessage)
+            formMessageList(messageData, true)
+            scrollMessagesToBottom(true)
+        }
+    }
+
+    function updateMessageInfo(userId, data) {
+        if (dialogId === userId) {
+            var msgIndex = messages.lookupItem(data.msgId)
+            if (msgIndex !== -1) {
+                if ("peerOut" in data) {
+                    for (; 0 <= msgIndex; --msgIndex) {
+                        var msg = messages.model.get(msgIndex)
+                        if (msg.out === data.peerOut &&
+                                            msg.readState !== data.readState) {
+                            messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
+                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
+                        }
+                    }
+                } else {
+                    messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
+                    StorageJS.updateMessage(data.msgId, {"is_read": data.readState})
+                }
+            }
         }
     }
 
@@ -292,7 +325,7 @@ Page {
                         return i
                     }
                 }
-                console.log("Message with id '" + itemId + "' does not exist")
+//                console.log("Message with id '" + itemId + "' does not exist")
                 return -1
             }
 
@@ -403,41 +436,6 @@ Page {
             }
         }
 
-    }
-
-    function addNewMessage(jsonMessage) {
-        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
-        if (isChat)
-            fromId = jsonMessage.chat_id
-
-        if (dialogId === fromId) {
-            var messageData = MessagesAPI.parseMessage(jsonMessage)
-            formMessageList(messageData, true)
-            scrollMessagesToBottom(true)
-        }
-    }
-
-    function updateMessageInfo(userId, data) {
-        if (dialogId === userId) {
-            var msgIndex = messages.lookupItem(data.msgId)
-            if (msgIndex !== -1) {
-                if ("peerOut" in data) {
-                    for (; 0 <= msgIndex; --msgIndex) {
-                        var msg = messages.model.get(msgIndex)
-                        if (msg.out === data.peerOut &&
-                                            msg.readState !== data.readState) {
-                            messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
-                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
-                        }
-                    }
-                } else {
-                    messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
-                    StorageJS.updateMessage(data.msgId, {"is_read": data.readState})
-                }
-            }
-        }
     }
 
     Component.onCompleted: {
