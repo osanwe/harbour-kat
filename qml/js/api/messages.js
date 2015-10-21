@@ -142,19 +142,6 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
-        StorageJS.saveMessage(jsonMessage.id,
-                              jsonMessage.chat_id,
-                              jsonMessage.user_id,
-                              jsonMessage.from_id,
-                              jsonMessage.date,
-                              jsonMessage.read_state,
-                              jsonMessage.out,
-                              jsonMessage.title,
-                              jsonMessage.body,
-                              jsonMessage.geo,
-                              jsonMessage.attachments,
-                              jsonMessage.fwd_messages)
-
         if (jsonMessage.chat_id) {
             chatsIds += "," + jsonMessage.chat_id
         } else {
