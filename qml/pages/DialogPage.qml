@@ -408,6 +408,20 @@ Page {
         }
     }
 
+    Timer {
+        interval: 0
+        running: Qt.application.active
+        repeat: false
+        triggeredOnStart: true
+
+        onTriggered: {
+            if (messages.count > 0) {
+                getLastHistoryFromServer(true)
+                scrollMessagesToBottom(true)
+            }
+        }
+    }
+
     Connections {
         target: photos
         onImageUploaded: {
