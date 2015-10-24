@@ -247,7 +247,7 @@ function callback_startLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   LONGPOLL_SERVER.ts,
-                                         wait: TypesJS.UpdateInterval.timeout,
+                                         wait: LONGPOLL_SERVER.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
@@ -335,7 +335,7 @@ function callback_doLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   jsonObject.ts,
-                                         wait: TypesJS.UpdateInterval.timeout,
+                                         wait: LONGPOLL_SERVER.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }

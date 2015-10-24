@@ -259,6 +259,10 @@
         <source>По возможности быть offline</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Очистить кэш</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>wall</name>

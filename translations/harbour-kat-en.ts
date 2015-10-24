@@ -317,6 +317,11 @@
         <source>Отображать разделитель в сообщениях</source>
         <translation>Display separators in messages</translation>
     </message>
+    <message>
+    <location filename="../qml/pages/SettingsPage.qml" line="117"/>
+        <source>Очистить кэш</source>
+        <translation>Clear cache</translation>
+    </message>
 </context>
 <context>
     <name>wall</name>
