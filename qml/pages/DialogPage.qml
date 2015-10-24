@@ -41,8 +41,6 @@ Page {
 
     property Item contextMenu
 
-    property int messagesOffset: 0
-
     property variant chatUsers: QtObject {}
 
     property string attachmentsList: ""
@@ -59,26 +57,13 @@ Page {
         else UsersAPI.api_getUsersAvatarAndOnlineStatus(dialogId)
     }
 
-    function formMessageList(messageData, insertToEnd) {
-        var index = messages.lookupItem(messageData.mid)
-
-        messageData.userAvatar = userAvatar
-        messageData.useSeparator = useSeparators
-        if (index === -1) {
-            index = (insertToEnd === true) ? messages.model.count : 0
-            messages.model.insert(index, messageData)
-        } else {
-            messages.model.set(index, messageData)
-        }
-    }
-
     function saveUsers(users) {
         var usersDict = {}
         for (var index in users) usersDict[users[index].id] = users[index]
         chatUsers = usersDict
         pageContainer.pushAttached(Qt.resolvedUrl("../pages/ChatUsersPage.qml"),
                                    { "chatTitle": fullname, "users": users })
-        MessagesAPI.api_getHistory(isChat, dialogId, messagesOffset)
+        MessagesAPI.api_getHistory(isChat, dialogId, 0)
     }
 
     function updateDialogInfo(userId, data) {
@@ -95,7 +80,8 @@ Page {
     }
 
     function sendMessage() {
-        MessagesAPI.api_sendMessage(isChat, dialogId, encodeURIComponent(messageInput.text), attachmentsList, false)
+        var text = encodeURIComponent(messageInput.text)
+        MessagesAPI.api_sendMessage(isChat, dialogId, text, attachmentsList, false)
         messageInput.text = ""
         attachmentsList = ""
         markDialogAsRead()
@@ -115,12 +101,67 @@ Page {
         var toBottom = messages.model.count > 0 ?
                     messages.getMessageId(true) < messagesArray[0].mid :
                     false
+
+        if (toBottom && messagesArray.length > 1 &&
+                messagesArray[0].mid > messagesArray[messagesArray.length - 1].mid)
+            messagesArray.reverse()
+
         for (var item in messagesArray) {
             var messageData = messagesArray[item]
-            messageData.avatarSource = getUserAvatar(messageData.fromId)
             formMessageList(messageData, toBottom)
         }
         scrollMessagesToBottom(toBottom)
+    }
+
+    function formMessageList(messageData, insertToEnd) {
+        var index = messages.lookupItem(messageData.mid)
+
+        if (messageData.out === 0) {
+            if (!messageData.avatarSource)
+                messageData.avatarSource = getUserAvatar(messageData.from_id)
+        } else messageData.userAvatar = userAvatar
+        messageData.useSeparator = useSeparators
+        if (index === -1) {
+            index = (insertToEnd === true) ? messages.model.count : 0
+            messages.model.insert(index, messageData)
+        } else {
+            messages.model.set(index, messageData)
+        }
+    }
+
+    function addNewMessage(jsonMessage) {
+        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
+        if (isChat)
+            fromId = jsonMessage.chat_id
+
+        if (dialogId === fromId) {
+            var messageData = MessagesAPI.parseMessage(jsonMessage)
+            formMessageList(messageData, true)
+            scrollMessagesToBottom(true)
+        }
+    }
+
+    function updateMessageInfo(userId, data) {
+        if (dialogId === userId) {
+            var msgIndex = messages.lookupItem(data.msgId)
+            if (msgIndex !== -1) {
+                if ("peerOut" in data) {
+                    for (; 0 <= msgIndex; --msgIndex) {
+                        var msg = messages.model.get(msgIndex)
+                        if (msg.out === data.peerOut &&
+                                            msg.readState !== data.readState) {
+                            messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
+                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
+                        }
+                    }
+                } else {
+                    messages.model.setProperty(msgIndex,
+                                                    "readState", data.readState)
+                    StorageJS.updateMessage(data.msgId, {"is_read": data.readState})
+                }
+            }
+        }
     }
 
     function scrollMessagesToBottom(toBottom) {
@@ -139,7 +180,7 @@ Page {
             if (msg.readState === 0 && msg.out === 0) {
                 unreadMessages.push(msg.mid)
                 messages.model.setProperty(i, "readState", 1)
-                // TODO: save new readState to db
+                StorageJS.updateMessage(msg.mid, {"is_read": 1})
             }
         }
         if (unreadMessages.length > 0)
@@ -172,12 +213,13 @@ Page {
             id: dialogTitle
             anchors.top: parent.top
             anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingLarge
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
             height: Theme.fontSizeLarge + 3 * Theme.paddingLarge
+            width: parent.width - Theme.paddingLarge
             verticalAlignment: Text.AlignVCenter
             text: fullname
+            elide: Text.ElideRight
         }
 
         Switch {
@@ -278,7 +320,7 @@ Page {
                         return i
                     }
                 }
-                console.log("Message with id '" + itemId + "' does not exist")
+//                console.log("Message with id '" + itemId + "' does not exist")
                 return -1
             }
 
@@ -355,6 +397,20 @@ Page {
         }
     }
 
+    Timer {
+        interval: 0
+        running: Qt.application.active
+        repeat: false
+        triggeredOnStart: true
+
+        onTriggered: {
+            if (messages.count > 0) {
+                getLastHistoryFromServer(true)
+                scrollMessagesToBottom(true)
+            }
+        }
+    }
+
     Connections {
         target: photos
         onImageUploaded: {
@@ -385,35 +441,6 @@ Page {
             }
         }
 
-    }
-
-    function addNewMessage(jsonMessage) {
-        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
-        if (isChat) fromId = jsonMessage.chat_id
-
-        if (dialogId === fromId) {
-            var messageData = MessagesAPI.parseMessage(jsonMessage)
-            formMessageList(messageData, true)
-            scrollMessagesToBottom(true)
-        }
-    }
-
-    function updateMessageInfo(userId, data) {
-        if (dialogId === userId) {
-            var msgIndex = messages.lookupItem(data.msgId)
-            if (msgIndex !== -1) {
-                if ("peerOut" in data) {
-                    for (; 0 <= msgIndex; --msgIndex) {
-                        var msg = messages.model.get(msgIndex)
-                        if (msg.out === data.peerOut && msg.readState !== data.readState) {
-                            messages.model.setProperty(msgIndex, "readState", data.readState)
-                        }
-                    }
-                } else {
-                    messages.model.setProperty(msgIndex, "readState", data.readState)
-                }
-            }
-        }
     }
 
     Component.onCompleted: {

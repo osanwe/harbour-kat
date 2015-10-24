@@ -174,6 +174,7 @@ Page {
         delegate: UserItem {
 
             onClicked: {
+                console.log("dialogId = " + itemId)
                 pageContainer.push(Qt.resolvedUrl("../pages/DialogPage.qml"),
                                           { "fullname":     nameOrTitle,
                                             "dialogId":     itemId,

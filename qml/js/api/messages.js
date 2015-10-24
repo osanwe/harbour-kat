@@ -30,15 +30,16 @@ var LONGPOLL_SERVER = {
     key: '',
     server: '',
     ts: -1,
-    mode: 2
+    mode: 2,
+    timeout: 25000
 };
 var signaller = SignalsJS.jsSignaller;
 
 // -------------- API functions --------------
 
 function api_getUnreadMessagesCounter(isCover) {
-    RequestAPI.sendRequest("messages.getDialogs",
-                           { unread:1 },
+    RequestAPI.sendRequest("execute",
+                           { code: "return  API.messages.getDialogs({unread:1}).count;" },
                            isCover ? callback_getUnreadMessagesCounter_cover :
                                      callback_getUnreadMessagesCounter_mainMenu)
 }
@@ -123,11 +124,11 @@ function api_startLongPoll(mode) {
 // -------------- Callbacks --------------
 
 function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
-//    signaller.gotUnreadCount(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response)
 }
 
 function callback_getUnreadMessagesCounter_cover(jsonObject) {
-    signaller.gotUnreadCount(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response)
 }
 
 function callback_getDialogsList(jsonObject) {
@@ -136,18 +137,6 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
-        StorageJS.saveMessage(jsonMessage.id,
-                              jsonMessage.chat_id,
-                              jsonMessage.user_id,
-                              jsonMessage.from_id,
-                              jsonMessage.date,
-                              jsonMessage.read_state,
-                              jsonMessage.out,
-                              jsonMessage.title,
-                              jsonMessage.body,
-                              jsonMessage.geo,
-                              jsonMessage.attachments,
-                              jsonMessage.fwd_messages)
         if (jsonMessage.chat_id) chatsIds += "," + jsonMessage.chat_id
         else uids += "," + jsonMessage.user_id
         signaller.gotDialogs(parseDialogListItem(jsonMessage))
@@ -166,20 +155,20 @@ function callback_getHistory(jsonObject) {
     var items = jsonObject.response.items
     var messages = []
     for (var index in items) {
-        var messageJsonObject = items[index]
-        StorageJS.saveMessage(messageJsonObject.id,
-                              messageJsonObject.chat_id,
-                              messageJsonObject.user_id,
-                              messageJsonObject.from_id,
-                              messageJsonObject.date,
-                              messageJsonObject.read_state,
-                              messageJsonObject.out,
-                              messageJsonObject.title,
-                              messageJsonObject.body,
-                              messageJsonObject.geo,
-                              messageJsonObject.attachments,
-                              messageJsonObject.fwd_messages)
-        messages[messages.length] = parseMessage(messageJsonObject)
+        var jsonMessage = items[index]
+        StorageJS.saveMessage(jsonMessage.id,
+                              jsonMessage.chat_id,
+                              jsonMessage.user_id,
+                              jsonMessage.from_id,
+                              jsonMessage.date,
+                              jsonMessage.read_state,
+                              jsonMessage.out,
+                              jsonMessage.title,
+                              jsonMessage.body,
+                              jsonMessage.geo,
+                              jsonMessage.attachments,
+                              jsonMessage.fwd_messages)
+        messages[messages.length] = parseMessage(jsonMessage)
     }
     if (messages.length > 0) signaller.gotHistory(messages)
     signaller.endLoading()
@@ -258,7 +247,7 @@ function callback_startLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   LONGPOLL_SERVER.ts,
-                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         wait: TypesJS.UpdateInterval.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
@@ -288,6 +277,7 @@ function callback_doLongPoll(jsonObject) {
                         var readState = eventId === 3 ? 1 : 0
                         signaller.gotMessageInfo(userId, { "msgId":     msgId,
                                                            "readState": readState })
+                        StorageJS.updateMessage(msgId, {"is_read": readState})
                     }
                     break;
                 case 4: // добавление нового сообщения
@@ -331,6 +321,7 @@ function callback_doLongPoll(jsonObject) {
                     break;
                 }
             }
+            signaller.endLoading()
 
         } else if (jsonObject.failed === 2) {
             // история устарела - просто обновляем отпечаток времени
@@ -344,7 +335,7 @@ function callback_doLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   jsonObject.ts,
-                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         wait: TypesJS.UpdateInterval.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
