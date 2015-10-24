@@ -307,9 +307,9 @@ function callback_doLongPoll(jsonObject) {
                     if (peerId > 2000000000) peerId -= 2000000000
                     var localId = update[2]
                     // TODO Add checking ids and out statuses before marking as read
-                    signaller.gotMessageInfo(peerId, { "id":        localId,
-                                                       "out":     +(eventId === 7),
-                                                       "readState": 1 })
+                    signaller.gotMessageInfo(peerId, {"msgId": localId,
+                                                     "peerOut": +(eventId === 7),
+                                                     "peerReadState": 1})
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:

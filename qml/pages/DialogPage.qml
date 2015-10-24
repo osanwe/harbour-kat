@@ -158,10 +158,10 @@ Page {
                     for (; 0 <= msgIndex; --msgIndex) {
                         var msg = messages.model.get(msgIndex)
                         if (msg.out === data.peerOut &&
-                                            msg.readState !== data.readState) {
+                                            msg.readState !== data.peerReadState) {
                             messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
-                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
+                                                    "readState", data.peerReadState)
+                            StorageJS.updateMessage(msg.mid, {"is_read": data.peerReadState})
                         }
                     }
                 } else {
