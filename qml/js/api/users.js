@@ -23,7 +23,7 @@
 .import "request.js" as RequestAPI
 .import "../storage.js" as StorageJS
 
-var signaller = SignalsJS.jsSignaller;
+var signaller = SignalsJS.signaller;
 
 // -------------- API functions --------------
 

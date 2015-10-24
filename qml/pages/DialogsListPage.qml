@@ -24,6 +24,7 @@ import Sailfish.Silica 1.0
 
 import "../views"
 import "../js/auth.js" as AuthJS
+import "../js/signals.js" as SignalsJS
 import "../js/storage.js" as StorageJS
 import "../js/api/messages.js" as MessagesAPI
 import "../js/api/users.js" as UsersAPI
@@ -241,22 +242,18 @@ Page {
     }
 
     Component.onCompleted: {
-        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
-        MessagesAPI.signaller.gotMessageInfo.connect(updateDialogInfo)
-        MessagesAPI.signaller.gotNewMessage.connect(updateDialogsList)
-        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
-        MessagesAPI.signaller.gotDialogs.connect(formDialogsList)
-        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
-        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+        SignalsJS.signaller.endLoading.connect(stopBusyIndicator)
+        SignalsJS.signaller.gotMessageInfo.connect(updateDialogInfo)
+        SignalsJS.signaller.gotNewMessage.connect(updateDialogsList)
+        SignalsJS.signaller.gotDialogInfo.connect(updateDialogInfo)
+        SignalsJS.signaller.gotDialogs.connect(formDialogsList)
     }
 
     Component.onDestruction: {
-        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        MessagesAPI.signaller.gotMessageInfo.disconnect(updateDialogInfo)
-        MessagesAPI.signaller.gotNewMessage.disconnect(updateDialogsList)
-        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
-        MessagesAPI.signaller.gotDialogs.disconnect(formDialogsList)
-        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        SignalsJS.signaller.endLoading.disconnect(stopBusyIndicator)
+        SignalsJS.signaller.gotMessageInfo.disconnect(updateDialogInfo)
+        SignalsJS.signaller.gotNewMessage.disconnect(updateDialogsList)
+        SignalsJS.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        SignalsJS.signaller.gotDialogs.disconnect(formDialogsList)
     }
 }

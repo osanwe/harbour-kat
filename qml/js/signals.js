@@ -21,7 +21,7 @@
 
 .pragma library
 
-var jsSignaller = Qt.createQmlObject("import QtQuick 2.0; \
+var signaller = Qt.createQmlObject("import QtQuick 2.0; \
     QtObject { \
         signal endLoading; \
         signal gotChatUsers(var users); \
