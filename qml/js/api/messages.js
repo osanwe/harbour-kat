@@ -309,7 +309,7 @@ function callback_doLongPoll(jsonObject) {
                     var localId = update[2]
                     signaller.gotMessageInfo(peerId, {"msgId": localId,
                                                      "peerOut": +(eventId === 7),
-                                                     "readState": 1})
+                                                     "peerReadState": 1})
                     break;
                 case 8: // друг стал онлайн/оффлайн
                 case 9:
