@@ -29,12 +29,10 @@ FileDownloader::FileDownloader(QObject *parent)
     connect(&m_WebCtrl, SIGNAL (finished(QNetworkReply*)), this, SLOT(fileDownloaded(QNetworkReply*)));
 }
 
-FileDownloader::~FileDownloader()
-{
+FileDownloader::~FileDownloader() {
 }
 
-void FileDownloader::startDownload(QString url, int mode)
-{
+void FileDownloader::startDownload(QString url, int mode) {
     m_Mode = mode;
     m_FileName = url.split("/").last();
     QNetworkRequest request(url);
@@ -43,6 +41,7 @@ void FileDownloader::startDownload(QString url, int mode)
 
 bool FileDownloader::clearCache() {
     qDebug() << "FileDownloader::clearCache()";
+
     bool result = true;
 
     QUrl path;
@@ -61,50 +60,43 @@ bool FileDownloader::clearCache() {
 }
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
+    qDebug() << "FileDownloader::clearCache()";
+
     m_DownloadedData = pReply->readAll();
-
-    switch (m_Mode) {
-    case SAVING_TO_CACHE:
-    {
-        QUrl path;
-        QStringList location = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
-        if (location.isEmpty()) path = QString("%1/%2").arg(getenv("$XDG_CACHE_HOME/harbour-kat/"), m_FileName);
-        else path = QString("%1/%2").arg(location.first(), m_FileName);
-
-//        QString path("/home/nemo/.cache/harbour-kat/");
-        QFile file(path.toString());
-        file.open(QIODevice::WriteOnly);
-        file.write(m_DownloadedData);
-        file.close();
-        break;
-    }
-
-    case SAVING_TO_DOWNLOADS:
-    {
-        QUrl path;
-        QStringList location = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
-        if (location.isEmpty()) path = QString("%1/%2").arg(getenv("$HOME/Downloads/"), m_FileName);
-        else path = QString("%1/%2").arg(location.first(), m_FileName);
-
-//        QString path("/home/nemo/Downloads/");
-//        QFile file(path.append(m_FileName));
-        QFile file(path.toString());
-        file.open(QIODevice::WriteOnly);
-        file.write(m_DownloadedData);
-        file.close();
-        break;
-    }
-
-    default:
-        break;
-    }
-
-    //emit a signal
+    writeDataToFile(buildFilePath());
     pReply->deleteLater();
     emit downloaded();
-//    Q_EMIT downloaded();
 }
 
 QByteArray FileDownloader::downloadedData() const {
     return m_DownloadedData;
+}
+
+QString FileDownloader::buildFilePath() {
+    qDebug() << QString("FileDownloader::buildFilePath()");
+
+    QString pathToFile;
+
+    QStringList location = QStandardPaths::standardLocations(m_Mode == SAVING_TO_CACHE ?
+                                                                 QStandardPaths::CacheLocation :
+                                                                 QStandardPaths::DownloadLocation);
+
+    if (location.isEmpty()) {
+        QString envVariable = getenv(m_Mode == SAVING_TO_CACHE ?
+                                         "$XDG_CACHE_HOME/harbour-kat/" : "$HOME/Downloads/");
+        pathToFile = QString("%1/%2").arg(envVariable, m_FileName);
+    } else pathToFile = QString("%1/%2").arg(location.first(), m_FileName);
+
+    return pathToFile;
+}
+
+void FileDownloader::writeDataToFile(QString pathToFile) {
+    qDebug() << QString("FileDownloader::writeDataToFile(%1)").arg(pathToFile);
+
+    QFile file(pathToFile);
+    if (file.exists()) return;
+
+    file.open(QIODevice::WriteOnly);
+    file.write(m_DownloadedData);
+    file.close();
 }

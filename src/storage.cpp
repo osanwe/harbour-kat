@@ -36,6 +36,7 @@ QString Storage::getPathToDatabase() {
 
 bool Storage::clearCache() {
     qDebug() << "Storage::clearCache()";
+
     if (!mDb.open()) false;
 
     QSqlQuery query("DELETE FROM messages");

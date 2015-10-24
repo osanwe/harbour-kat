@@ -64,6 +64,9 @@ private:
     QString m_FileName;
     QNetworkAccessManager m_WebCtrl;
     QByteArray m_DownloadedData;
+
+    QString buildFilePath();
+    void writeDataToFile(QString pathToFile);
 };
 
 #endif // FILEDOWNLOADER_H
