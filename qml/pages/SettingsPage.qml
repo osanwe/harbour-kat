@@ -117,7 +117,7 @@ Page {
                 text: qsTr("Очистить кэш")
 
                 onClicked: {
-                    // Clear database
+                    console.log(storage.clearCache())
                     // Clear avatars
                 }
             }

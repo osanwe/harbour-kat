@@ -35,6 +35,7 @@
 
 #include "filedownloader.h"
 #include "notificationhelper.h"
+#include "storage.h"
 #include "api/photos.h"
 
 int main(int argc, char *argv[])
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
 
     QScopedPointer<FileDownloader> fileDownloader(new FileDownloader(view.data()));
     QScopedPointer<NotificationHelper> notificationHelper(new NotificationHelper(view.data()));
+    QScopedPointer<Storage> storage(new Storage(view.data()));
     QScopedPointer<Photos> photos(new Photos(view.data()));
 
     QUrl cachePath;
@@ -54,6 +56,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("cachePath", cachePath);
     view->rootContext()->setContextProperty("fileDownloader", fileDownloader.data());
     view->rootContext()->setContextProperty("notificationHelper", notificationHelper.data());
+    view->rootContext()->setContextProperty("storage", storage.data());
     view->rootContext()->setContextProperty("photos", photos.data());
 
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));

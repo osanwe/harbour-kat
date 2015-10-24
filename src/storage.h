@@ -23,6 +23,7 @@ public:
 signals:
 
 public slots:
+    bool clearCache();
 
 private:
     QSqlDatabase mDb;
