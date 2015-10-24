@@ -33,7 +33,7 @@ var LONGPOLL_SERVER = {
     mode: 2,
     timeout: 25000
 };
-var signaller = SignalsJS.jsSignaller;
+var signaller = SignalsJS.signaller;
 
 // -------------- API functions --------------
 
