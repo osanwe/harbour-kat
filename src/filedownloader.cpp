@@ -41,6 +41,25 @@ void FileDownloader::startDownload(QString url, int mode)
     m_WebCtrl.get(request);
 }
 
+bool FileDownloader::clearCache() {
+    qDebug() << "FileDownloader::clearCache()";
+    bool result = true;
+
+    QUrl path;
+    QStringList location = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
+    if (location.isEmpty()) path = getenv("$XDG_CACHE_HOME/harbour-kat/");
+    else path = location.first();
+
+    QDir dir(path.toString());
+    QStringList files = dir.entryList();
+    for (int i = 0; i < files.size(); ++i) {
+        if (!files.at(i).endsWith(".jpg")) continue;
+        result = result && QFile::remove(QString("%1/%2").arg(path.toString(), files.at(i)));
+    }
+
+    return result;
+}
+
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     m_DownloadedData = pReply->readAll();
 

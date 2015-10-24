@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QDir>
 #include <QFile>
 #include <QIODevice>
 #include <QNetworkAccessManager>
@@ -53,6 +54,7 @@ signals:
 
 public slots:
     void startDownload(QString url, int mode);
+    bool clearCache();
 
 private slots:
     void fileDownloaded(QNetworkReply* pReply);

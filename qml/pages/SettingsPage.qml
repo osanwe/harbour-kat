@@ -118,7 +118,7 @@ Page {
 
                 onClicked: {
                     console.log(storage.clearCache())
-                    // Clear avatars
+                    console.log(fileDownloader.clearCache())
                 }
             }
         }
