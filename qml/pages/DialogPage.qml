@@ -88,12 +88,15 @@ Page {
     }
 
     function getUserAvatar(userId) {
+        console.log("getUserAvatar(" + userId + ")");
+
         var avatar = "image://theme/icon-cover-people"
 
         if (isChat) {
             if (userId in chatUsers) avatar = chatUsers[userId].photo
         } else avatar = avatarSource
 
+        console.log("avatar = " + avatar);
         return avatar
     }
 
@@ -118,7 +121,7 @@ Page {
 
         if (messageData.out === 0) {
             if (!messageData.avatarSource)
-                messageData.avatarSource = getUserAvatar(messageData.from_id)
+                messageData.avatarSource = getUserAvatar(messageData.fromId)
         } else messageData.userAvatar = userAvatar
         messageData.useSeparator = useSeparators
         if (index === -1) {
@@ -424,11 +427,11 @@ Page {
         else if (status === PageStatus.Active) formNewDialogMessages()
 
     onChatUsersChanged: {
+        console.log("onChatUsersChanged: ...")
         for (var i = 0; i < messages.count; ++i) {
             var msg = messages.model.get(i)
             var avatar = getUserAvatar(msg.fromId)
-            if (avatar !== msg.avatarSource)
-                messages.model.setProperty(i, "avatarSource", avatar)
+            if (avatar !== msg.avatarSource) messages.model.setProperty(i, "avatarSource", avatar)
         }
     }
 

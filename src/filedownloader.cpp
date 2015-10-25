@@ -60,7 +60,7 @@ bool FileDownloader::clearCache() {
 }
 
 void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
-    qDebug() << "FileDownloader::clearCache()";
+    qDebug() << "FileDownloader::fileDownloaded()";
 
     m_DownloadedData = pReply->readAll();
     writeDataToFile(buildFilePath());
