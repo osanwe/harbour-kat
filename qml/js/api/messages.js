@@ -19,7 +19,7 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-.pragma library
+.import "../signals.js" as SignalsJS
 .import "../storage.js" as StorageJS
 .import "../types.js" as TypesJS
 .import "request.js" as RequestAPI
@@ -30,28 +30,16 @@ var LONGPOLL_SERVER = {
     key: '',
     server: '',
     ts: -1,
-    mode: 2
+    mode: 2,
+    timeout: 25000
 };
-
-var signaller = Qt.createQmlObject("import QtQuick 2.0; \
-    QtObject { \
-        signal endLoading; \
-        signal gotChatUsers(var users); \
-        signal gotDialogInfo(int dialogId, var info); \
-        signal gotDialogs(var dialogs); \
-        signal gotHistory(var messages); \
-        signal gotMessageInfo(int userId, var info); \
-        signal gotNewMessage(var message); \
-        signal gotSearchDialogs(int id, string name, string photo, bool isOnline); \
-        signal gotUnreadCount(int count); \
-        signal needScrollToBottom; \
-    }", Qt.application, "MessagesSignaller");
+var signaller = SignalsJS.jsSignaller;
 
 // -------------- API functions --------------
 
 function api_getUnreadMessagesCounter(isCover) {
-    RequestAPI.sendRequest("messages.getDialogs",
-                           { unread:1 },
+    RequestAPI.sendRequest("execute",
+                           { code: "return  API.messages.getDialogs({unread:1}).count;" },
                            isCover ? callback_getUnreadMessagesCounter_cover :
                                      callback_getUnreadMessagesCounter_mainMenu)
 }
@@ -105,9 +93,9 @@ function api_searchDialogs(substring) {
                            callback_searchDialogs)
 }
 
-function api_markDialogAsRead(dialogId) {
+function api_markDialogAsRead(mids) {
     RequestAPI.sendRequest("messages.markAsRead",
-                           { peer_id: dialogId })
+                           { message_ids: mids })
 }
 
 
@@ -136,11 +124,11 @@ function api_startLongPoll(mode) {
 // -------------- Callbacks --------------
 
 function callback_getUnreadMessagesCounter_mainMenu(jsonObject) {
-//    signaller.gotUnreadCount(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response)
 }
 
 function callback_getUnreadMessagesCounter_cover(jsonObject) {
-    signaller.gotUnreadCount(jsonObject.response.count)
+    signaller.gotUnreadCount(jsonObject.response)
 }
 
 function callback_getDialogsList(jsonObject) {
@@ -149,18 +137,6 @@ function callback_getDialogsList(jsonObject) {
     var items = jsonObject.response.items
     for (var index in items) {
         var jsonMessage = items[index].message
-        StorageJS.saveMessage(jsonMessage.id,
-                              jsonMessage.chat_id,
-                              jsonMessage.user_id,
-                              jsonMessage.from_id,
-                              jsonMessage.date,
-                              jsonMessage.read_state,
-                              jsonMessage.out,
-                              jsonMessage.title,
-                              jsonMessage.body,
-                              jsonMessage.geo,
-                              jsonMessage.attachments,
-                              jsonMessage.fwd_messages)
         if (jsonMessage.chat_id) chatsIds += "," + jsonMessage.chat_id
         else uids += "," + jsonMessage.user_id
         signaller.gotDialogs(parseDialogListItem(jsonMessage))
@@ -179,24 +155,23 @@ function callback_getHistory(jsonObject) {
     var items = jsonObject.response.items
     var messages = []
     for (var index in items) {
-        var messageJsonObject = items[index]
-        StorageJS.saveMessage(messageJsonObject.id,
-                              messageJsonObject.chat_id,
-                              messageJsonObject.user_id,
-                              messageJsonObject.from_id,
-                              messageJsonObject.date,
-                              messageJsonObject.read_state,
-                              messageJsonObject.out,
-                              messageJsonObject.title,
-                              messageJsonObject.body,
-                              messageJsonObject.geo,
-                              messageJsonObject.attachments,
-                              messageJsonObject.fwd_messages)
-        messages[messages.length] = parseMessage(messageJsonObject)
+        var jsonMessage = items[index]
+        StorageJS.saveMessage(jsonMessage.id,
+                              jsonMessage.chat_id,
+                              jsonMessage.user_id,
+                              jsonMessage.from_id,
+                              jsonMessage.date,
+                              jsonMessage.read_state,
+                              jsonMessage.out,
+                              jsonMessage.title,
+                              jsonMessage.body,
+                              jsonMessage.geo,
+                              jsonMessage.attachments,
+                              jsonMessage.fwd_messages)
+        messages[messages.length] = parseMessage(jsonMessage)
     }
     if (messages.length > 0) signaller.gotHistory(messages)
     signaller.endLoading()
-    signaller.needScrollToBottom()
 }
 
 function callback_getMessages(jsonObject) {
@@ -212,7 +187,6 @@ function callback_getMessages(jsonObject) {
 function callback_sendMessage(jsonObject, isNew) {
     var msgId = jsonObject.response
     if (TypesJS.MessageUpdateMode.isManual() && msgId) api_getMessagesById(msgId)
-    signaller.needScrollToBottom()
 }
 
 function callback_createChat(jsonObject) {
@@ -273,14 +247,14 @@ function callback_startLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   LONGPOLL_SERVER.ts,
-                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         wait: LONGPOLL_SERVER.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }
 }
 
 function callback_doLongPoll(jsonObject) {
-    if (TypesJS.MessageUpdateMode.isManual()) return
+    if (TypesJS.MessageUpdateMode.isManual() || !Qt.application.active) return
     TypesJS.LongPollWorker.setActive()
 
     if (jsonObject) {
@@ -303,6 +277,7 @@ function callback_doLongPoll(jsonObject) {
                         var readState = eventId === 3 ? 1 : 0
                         signaller.gotMessageInfo(userId, { "msgId":     msgId,
                                                            "readState": readState })
+                        StorageJS.updateMessage(msgId, {"is_read": readState})
                     }
                     break;
                 case 4: // добавление нового сообщения
@@ -328,8 +303,9 @@ function callback_doLongPoll(jsonObject) {
                     var peerId = update[1]
                     if (peerId > 2000000000) peerId -= 2000000000
                     var localId = update[2]
-                    signaller.gotMessageInfo(peerId, { "msgId":     localId,
-                                                       "peerOut":   +(eventId === 7),
+                    // TODO Add checking ids and out statuses before marking as read
+                    signaller.gotMessageInfo(peerId, { "id":        localId,
+                                                       "out":     +(eventId === 7),
                                                        "readState": 1 })
                     break;
                 case 8: // друг стал онлайн/оффлайн
@@ -346,6 +322,7 @@ function callback_doLongPoll(jsonObject) {
                     break;
                 }
             }
+            signaller.endLoading()
 
         } else if (jsonObject.failed === 2) {
             // история устарела - просто обновляем отпечаток времени
@@ -359,7 +336,7 @@ function callback_doLongPoll(jsonObject) {
         RequestAPI.sendLongPollRequest(LONGPOLL_SERVER.server,
                                        { key:  LONGPOLL_SERVER.key,
                                          ts:   jsonObject.ts,
-                                         wait: TypesJS.UpdateInterval.getValue(),
+                                         wait: LONGPOLL_SERVER.timeout,
                                          mode: LONGPOLL_SERVER.mode },
                                        callback_doLongPoll)
     }

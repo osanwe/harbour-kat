@@ -32,6 +32,7 @@ Page {
 
         Column {
             anchors.fill: parent
+            spacing: Theme.paddingMedium
 
             PageHeader {
                 title: qsTr("Настройки")
@@ -108,6 +109,17 @@ Page {
                 checked: StorageJS.readSettingsValue("is_separated_messages") === 'true'
 
                 onCheckedChanged: StorageJS.storeSettingsValue("is_separated_messages", checked)
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width / 3 * 2
+                text: qsTr("Очистить кэш")
+
+                onClicked: {
+                    console.log(storage.clearCache())
+                    console.log(fileDownloader.clearCache())
+                }
             }
         }
     }

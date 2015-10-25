@@ -33,3 +33,18 @@ QString Storage::getPathToDatabase() {
     qDebug() << "Path to database:" << pathToDatabase;
     return pathToDatabase;
 }
+
+bool Storage::clearCache() {
+    qDebug() << "Storage::clearCache()";
+
+    if (!mDb.open()) false;
+
+    QSqlQuery query("DELETE FROM messages");
+    bool result = query.numRowsAffected() != -1;
+    result = result && query.exec("DELETE FROM dialogs");
+    result = result && query.exec("DELETE FROM users");
+    result = result && query.exec("DELETE FROM user_info");
+
+    mDb.close();
+    return result;
+}

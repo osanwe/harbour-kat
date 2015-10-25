@@ -31,18 +31,13 @@ CoverBackground {
 
     function updateCoverCounters(counter) {
         coverMessagesCount.text = counter ? counter : "0"
-        if (counter !== unreadDialogs)
-            notificationHelper.activateLed(counter > unreadDialogs)
+        if (counter !== unreadDialogs) notificationHelper.activateLed(counter > unreadDialogs)
         unreadDialogs = counter
-    }
-
-    function startLongPoll() {
-        if (!TypesJS.MessageUpdateMode.isManual()) {
-            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
-        }
+        coverLoadingIndicator.running = false
     }
 
     Row {
+        id: coverInfoPanel
         anchors.centerIn: parent
         spacing: 20
 
@@ -59,6 +54,13 @@ CoverBackground {
             font.bold: true
             font.pixelSize: Theme.fontSizeHuge
         }
+    }
+
+    BusyIndicator {
+        id: coverLoadingIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: false
     }
 
     CoverActionList {
@@ -82,35 +84,30 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
 
-            onTriggered: {
-                MessagesAPI.api_getUnreadMessagesCounter(true)
-                updateTimer.restart()
-            }
+            onTriggered: updateTimer.restart()
         }
     }
 
     Timer {
         id: updateTimer
-        running: !Qt.application.active && TypesJS.MessageUpdateMode.isManual()
+        running: !Qt.application.active
         repeat: true
         triggeredOnStart: true
 
         onRunningChanged: if (running) interval = TypesJS.UpdateInterval.getValue() * 1000
-
         onTriggered: {
-            if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-            if (!TypesJS.LongPollWorker.isActive()) startLongPoll()
+            coverLoadingIndicator.running = true
+            MessagesAPI.api_getUnreadMessagesCounter(true)
         }
     }
 
     Component.onCompleted: {
         MessagesAPI.signaller.gotUnreadCount.connect(updateCoverCounters)
-
-        if (StorageJS.readSettingsValue("is_offline_mode") !== 'true') AccountAPI.api_setOnline()
-        MessagesAPI.api_getUnreadMessagesCounter(true)
-        startLongPoll()
     }
-    Component.onDestruction: AccountAPI.api_setOffline()
+    Component.onDestruction: {
+        MessagesAPI.signaller.gotUnreadCount.disconnect(updateUnreadMessagesCounter)
+        AccountAPI.api_setOffline()
+    }
 }
 
 

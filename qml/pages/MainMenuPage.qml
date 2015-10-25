@@ -68,14 +68,23 @@ Page {
         userFullName = name
         userAvatarUrl = avatarUrl
     }
+
+    function updateUnreadMessagesCounter(counter) {
+        console.log("updateUnreadMessagesCounter(" + counter + ")")
+        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
+    }
+
+    function generateModelFromArray() {
+        for (var index in mainMenuPage.model) {
+            mainMenu.model.append(mainMenuPage.model[index])
+        }
+    }
+
     SilicaListView {
+        id: mainMenu
         anchors.fill: parent
 
-        function updateUnreadMessagesCounter(counter) {
-    //        mainMenu.model.setProperty(1, "counter", counter ? counter : "")
-        }
-
-        model: mainMenuPage.model
+        model: ListModel {}
 
         header: PageHeader {
             title: userFullName
@@ -179,12 +188,15 @@ Page {
     }
 
     Component.onCompleted: {
-        UsersAPI.signaller.gotUserNameAndAvatar.connect(updateUserNameAndAvatar)
-
+        generateModelFromArray()
         doStartUpdate()
+
+        MessagesAPI.signaller.gotUnreadCount.connect(updateUnreadMessagesCounter)
+        UsersAPI.signaller.gotUserNameAndAvatar.connect(updateUserNameAndAvatar)
     }
 
     Component.onDestruction: {
+        MessagesAPI.signaller.gotUnreadCount.disconnect(updateUnreadMessagesCounter)
         UsersAPI.signaller.gotUserNameAndAvatar.disconnect(updateUserNameAndAvatar)
     }
 }
