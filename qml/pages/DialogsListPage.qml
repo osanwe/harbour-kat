@@ -81,9 +81,9 @@ Page {
         var dialogIndex = lookupItem(itemData[3])
 
         if (dialogIndex !== -1) {
-            var data = { "out":         itemData[0],
-                         "previewText": itemData[2],
-                         "readState":   itemData[4] }
+            var data = { out:         itemData[0],
+                         previewText: itemData[2],
+                         readState:   itemData[4] }
             if (isChat) data["nameOrTitle"] = itemData[1]
 
             updateDialogInfo(itemData[3], data)
@@ -100,6 +100,8 @@ Page {
     }
 
     function updateDialogInfo(dialogId, data) {
+        console.log("updateDialogInfo(" + dialogId + ", " + JSON.stringify(data) + ")")
+
         var idx = lookupItem(dialogId)
 
         if (idx !== -1) {
