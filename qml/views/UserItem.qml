@@ -90,6 +90,7 @@ BackgroundItem {
         anchors.rightMargin: Theme.paddingLarge
         maximumLineCount: 1
         color: !isDialog || readState === 1 ? Theme.secondaryColor : Theme.secondaryHighlightColor
+        linkColor: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
         text: EmojiOne.toImage(previewText)
         truncationMode: TruncationMode.Fade
     }

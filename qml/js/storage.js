@@ -188,7 +188,10 @@ function readUserAvatar() {
 // -------------- Cache functions --------------
 
 function prepareMessagePreview(body, attachments, fwd_messages) {
-    if (body) body = body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    if (body) body = body.replace(/&/g, '&amp;')
+                         .replace(/&amp;quot;/g, '"')
+                         .replace(/</g, '&lt;')
+                         .replace(/>/g, '&gt;')
     else body = ""
     if (fwd_messages) body = "[сообщения] " + body
     if (attachments) body = "[вложения] " + body
@@ -279,6 +282,7 @@ function getLastMessagesForDialog(chatId) {
                 readState:       item.is_read,
                 out:             item.is_out,
                 message:         item.body ? item.body.replace(/&/g, '&amp;')
+                                                      .replace(/&amp;quot;/g, '"')
                                                       .replace(/</g, '&lt;')
                                                       .replace(/>/g, '&gt;')
                                                       .replace(/\n/g, "<br>")

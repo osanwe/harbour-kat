@@ -100,7 +100,7 @@ Column {
         width: parent.width
         horizontalAlignment: isOut ? Text.AlignRight : Text.AlignLeft
         text: EmojiOne.toImage(content)
-        textFormat: Text.StyledText
+//        textFormat: Text.StyledText
         color: isRead ? Theme.primaryColor : Theme.highlightColor
         linkColor: isRead ? Theme.secondaryColor : Theme.secondaryHighlightColor
         wrapMode: Text.Wrap

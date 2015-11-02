@@ -62,6 +62,7 @@ function parsePost(jsonObject, jsonProfiles, jsonGroups) {
 
     postData[0] = jsonObject.post_id
     postData[1] = jsonObject.text.replace(/&/g, '&amp;')
+                                 .replace(/&amp;quot;/g, '"')
                                  .replace(/</g, '&lt;')
                                  .replace(/>/g, '&gt;')
                                  .replace(/\n/g, "<br>")

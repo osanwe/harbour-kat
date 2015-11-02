@@ -193,7 +193,7 @@ Page {
             onClicked: {
                 loadingIndicator.running = true
                 dialogsOffset = dialogsOffset + 20
-                chatsCounter = 0
+//                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
