@@ -132,15 +132,20 @@ Page {
         }
     }
 
+    /**
+     * The method appends new message to the messages list in the current dialog.
+     * @param jsonMessage - info about new message in JSON format
+     */
     function addNewMessage(jsonMessage) {
-        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id
-        if (isChat)
-            fromId = jsonMessage.chat_id
+        console.log("addNewMessage(" + JSON.stringify(jsonMessage) + ")");
+
+        var fromId = jsonMessage.fromId ? jsonMessage.fromId : jsonMessage.user_id;
+        if (isChat) fromId = jsonMessage.chat_id;
 
         if (dialogId === fromId) {
-            var messageData = MessagesAPI.parseMessage(jsonMessage)
-            formMessageList(messageData, true)
-            scrollMessagesToBottom(true)
+            var messageData = MessagesAPI.parseMessage(jsonMessage);
+            formMessageList(messageData, true);
+            scrollMessagesToBottom(true);
         }
     }
 
