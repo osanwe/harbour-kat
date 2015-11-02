@@ -375,6 +375,7 @@ function parseMessage(jsonObject) {
         readState:       jsonObject.read_state,
         out:             jsonObject.out,
         message:         jsonObject.body.replace(/&/g, '&amp;')
+                                        .replace(/&amp;quot;/g, '"')
                                         .replace(/</g, '&lt;')
                                         .replace(/>/g, '&gt;')
                                         .replace(/\n/g, "<br>")
