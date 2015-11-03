@@ -106,7 +106,7 @@ CoverBackground {
         SignalsJS.signaller.gotUnreadCount.connect(updateCoverCounters)
     }
     Component.onDestruction: {
-        MessagesAPI.signaller.gotUnreadCount.disconnect(updateUnreadMessagesCounter)
+        MessagesAPI.signaller.gotUnreadCount.disconnect(updateCoverCounters)
         AccountAPI.api_setOffline()
     }
 }
