@@ -22,6 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../views"
+import "../js/signals.js" as SignalsJS
 import "../js/storage.js" as StorageJS
 import "../js/types.js" as TypesJS
 import "../js/api/messages.js" as MessagesAPI
@@ -157,10 +158,10 @@ Page {
                     for (; 0 <= msgIndex; --msgIndex) {
                         var msg = messages.model.get(msgIndex)
                         if (msg.out === data.peerOut &&
-                                            msg.readState !== data.readState) {
+                                            msg.readState !== data.peerReadState) {
                             messages.model.setProperty(msgIndex,
-                                                    "readState", data.readState)
-                            StorageJS.updateMessage(msg.mid, {"is_read": data.readState})
+                                                    "readState", data.peerReadState)
+                            StorageJS.updateMessage(msg.mid, {"is_read": data.peerReadState})
                         }
                     }
                 } else {
@@ -452,24 +453,20 @@ Page {
     }
 
     Component.onCompleted: {
-        MessagesAPI.signaller.endLoading.connect(stopBusyIndicator)
-        MessagesAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
-        MessagesAPI.signaller.gotChatUsers.connect(saveUsers)
-        MessagesAPI.signaller.gotHistory.connect(formMessagesListFromServerData)
-        MessagesAPI.signaller.gotMessageInfo.connect(updateMessageInfo)
-        MessagesAPI.signaller.gotNewMessage.connect(addNewMessage)
-        UsersAPI.signaller.endLoading.connect(stopBusyIndicator)
-        UsersAPI.signaller.gotDialogInfo.connect(updateDialogInfo)
+        SignalsJS.signaller.endLoading.connect(stopBusyIndicator)
+        SignalsJS.signaller.gotDialogInfo.connect(updateDialogInfo)
+        SignalsJS.signaller.gotChatUsers.connect(saveUsers)
+        SignalsJS.signaller.gotHistory.connect(formMessagesListFromServerData)
+        SignalsJS.signaller.gotMessageInfo.connect(updateMessageInfo)
+        SignalsJS.signaller.gotNewMessage.connect(addNewMessage)
     }
 
     Component.onDestruction: {
-        MessagesAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        MessagesAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
-        MessagesAPI.signaller.gotChatUsers.disconnect(saveUsers)
-        MessagesAPI.signaller.gotHistory.disconnect(formMessagesListFromServerData)
-        MessagesAPI.signaller.gotMessageInfo.disconnect(updateMessageInfo)
-        MessagesAPI.signaller.gotNewMessage.disconnect(addNewMessage)
-        UsersAPI.signaller.endLoading.disconnect(stopBusyIndicator)
-        UsersAPI.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        SignalsJS.signaller.endLoading.disconnect(stopBusyIndicator)
+        SignalsJS.signaller.gotDialogInfo.disconnect(updateDialogInfo)
+        SignalsJS.signaller.gotChatUsers.disconnect(saveUsers)
+        SignalsJS.signaller.gotHistory.disconnect(formMessagesListFromServerData)
+        SignalsJS.signaller.gotMessageInfo.disconnect(updateMessageInfo)
+        SignalsJS.signaller.gotNewMessage.disconnect(addNewMessage)
     }
 }
