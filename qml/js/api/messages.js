@@ -142,7 +142,7 @@ function callback_getDialogsList(jsonObject) {
         var jsonMessage = items[index].message
         if (jsonMessage.chat_id) chatsIds += "," + jsonMessage.chat_id
         else uids += "," + jsonMessage.user_id
-        signaller.gotDialogs(parseDialogListItem(jsonMessage))
+        signaller.gotDialogs(parseDialogListItem(jsonMessage), false)
     }
     if (uids.length === 0 && chatsIds.length === 0) {
         signaller.endLoading()

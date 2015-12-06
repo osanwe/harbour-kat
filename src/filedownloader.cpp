@@ -26,6 +26,7 @@
 FileDownloader::FileDownloader(QObject *parent)
     : QObject(parent)
 {
+    workFlag = false;
     connect(&m_WebCtrl, SIGNAL (finished(QNetworkReply*)), this, SLOT(fileDownloaded(QNetworkReply*)));
 }
 
@@ -33,6 +34,8 @@ FileDownloader::~FileDownloader() {
 }
 
 void FileDownloader::startDownload(QString url, int mode) {
+    qDebug() << QString("FileDownloader::startDownload(%1, %2)").arg(url, mode);
+    workFlag = true;
     m_Mode = mode;
     m_FileName = url.split("/").last();
     QNetworkRequest request(url);
@@ -65,6 +68,7 @@ void FileDownloader::fileDownloaded(QNetworkReply* pReply) {
     m_DownloadedData = pReply->readAll();
     writeDataToFile(buildFilePath());
     pReply->deleteLater();
+    workFlag = false;
     emit downloaded();
 }
 
@@ -96,7 +100,12 @@ void FileDownloader::writeDataToFile(QString pathToFile) {
     QFile file(pathToFile);
     if (file.exists()) return;
 
-    file.open(QIODevice::WriteOnly);
-    file.write(m_DownloadedData);
-    file.close();
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(m_DownloadedData);
+        file.close();
+    }
+}
+
+bool FileDownloader::isWorkNow() {
+    return workFlag;
 }

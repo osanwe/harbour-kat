@@ -36,100 +36,146 @@ Page {
     property var dialogsData: []
     property var usersAvatars: []
 
+    /**
+     * The function searches the index of dialog by id.
+     * @param itemId - dialog id for searching
+     * @return The index of dialog or -1 if it was not found.
+     */
     function lookupItem(itemId) {
-        if (itemId < 0) return -1
+        console.log('lookupItem(' + itemId + ')');
+        if (itemId < 0) return -1;
         for (var i = 0; i < dialogsData.length; ++i) {
-            if (dialogsData[i].itemId === itemId) return i
+            if (dialogsData[i].itemId === itemId) return i;
         }
-        return -1
+        return -1;
     }
 
+    /**
+     * The method starts dialogs update process.
+     */
     function updateDialogs() {
-        console.log('updateDialogs()')
+        console.log('updateDialogs()');
         if (StorageJS.readSettingsValue("user_id")) {
-            dialogsOffset = 0
-            dialogsData = []
-            usersAvatars = []
-            loadingIndicator.running = true
-            messagesList.footerItem.visible = false
-            MessagesAPI.api_getDialogsList(dialogsOffset)
+            dialogsOffset = 0;
+            dialogsData = [];
+            usersAvatars = [];
+            loadingIndicator.running = true;
+            messagesList.footerItem.visible = false;
+            MessagesAPI.api_getDialogsList(dialogsOffset);
         }
     }
 
-    function formDialogsList(listItemData) {
+    /**
+     * The function forms dialogs list after reading information from database.
+     */
+    function formDialogsListFromDb() {
+        console.log('formDialogsListFromDb()');
+        var lastDialogs = StorageJS.getLastDialogs();
+        for (var item in lastDialogs) messagesList.model.append(lastDialogs[item]);
+        updateDialogs();
+    }
+
+    /**
+     * The function forms dialogs list after getting information from server.
+     * @param listItemData - the information about dialog
+     * @param isFirst - if true, add the element to start of the array
+     */
+    function formDialogsList(listItemData, isFirst) {
+        console.log('formDialogsList(' + listItemData + ')');
         if (listItemData) {
-            dialogsData[dialogsData.length] = { isDialog:     true,
-                                                out:          listItemData[0],
-                                                avatarSource: "image://theme/icon-cover-message",
-                                                nameOrTitle:  listItemData[1],
-                                                previewText:  listItemData[2],
-                                                itemId:       listItemData[3],
-                                                readState:    listItemData[4],
-                                                isOnline:     false,
-                                                isChat:       listItemData[5] }
-        } else {
-            var lastDialogs = StorageJS.getLastDialogs()
-            for (var item in lastDialogs) messagesList.model.append(lastDialogs[item])
-            updateDialogs()
+            var newData = { isDialog:     true,
+                            out:          listItemData[0],
+                            avatarSource: "image://theme/icon-cover-message",
+                            nameOrTitle:  listItemData[1],
+                            previewText:  listItemData[2],
+                            itemId:       listItemData[3],
+                            readState:    listItemData[4],
+                            isOnline:     false,
+                            isChat:       listItemData[5] };
+            if (isFirst) dialogsData.unshift(newData);
+            else dialogsData.push(newData);
         }
     }
 
+    /**
+     * The function updates dialogs list after getting new information from long poll server.
+     * @param jsonMessage - the information about new message in json format
+     */
     function updateDialogsList(jsonMessage) {
-        var itemData = MessagesAPI.parseDialogListItem(jsonMessage)
+        console.log('updateDialogsList(' + JSON.stringify(jsonMessage) +')');
+        var itemData = MessagesAPI.parseDialogListItem(jsonMessage);
 
-        var uid = jsonMessage.from_id
-        var isChat = itemData[5]
-        var dialogIndex = lookupItem(itemData[3])
+        var uid = jsonMessage.from_id;
+        var isChat = itemData[5];
+        var dialogIndex = lookupItem(itemData[3]);
 
         if (dialogIndex !== -1) {
             var data = { out:         itemData[0],
                          previewText: itemData[2],
-                         readState:   itemData[4] }
-            if (isChat) data["nameOrTitle"] = itemData[1]
+                         readState:   itemData[4] };
+            if (isChat) data["nameOrTitle"] = itemData[1];
 
-            updateDialogInfo(itemData[3], data)
+            updateDialogInfo(itemData[3], data);
 
-            data = dialogsData.splice(dialogIndex, 1)[0]
-            dialogsData.unshift(data)
+            data = dialogsData.splice(dialogIndex, 1)[0];
+            dialogsData.unshift(data);
 
-            flushDialogsData()
+            flushDialogsData();
         } else {
-            formDialogsList(itemData, true)
-            if (isChat) MessagesAPI.api_getChat(itemData[3])
-            else UsersAPI.api_getUsersAvatarAndOnlineStatus(uid)
+            formDialogsList(itemData, true);
+            if (isChat) MessagesAPI.api_getChat(itemData[3]);
+            else UsersAPI.api_getUsersAvatarAndOnlineStatus(uid);
         }
     }
 
+    /**
+     * The function update the information about certain dialog.
+     * @param dialogId - dialog id for updating
+     * @param data - new information for updating
+     */
     function updateDialogInfo(dialogId, data) {
-        console.log("updateDialogInfo(" + dialogId + ", " + JSON.stringify(data) + ")")
+        console.log("updateDialogInfo(" + dialogId + ", " + JSON.stringify(data) + ")");
 
-        var idx = lookupItem(dialogId)
+        var idx = lookupItem(dialogId);
 
         if (idx !== -1) {
-            var infoKeys = Object.keys(data)
+            var infoKeys = Object.keys(data);
             for (var i in infoKeys) {
-                var key = infoKeys[i]
-                if (key in dialogsData[idx]) dialogsData[idx][key] = data[key]
-                if (key === 'avatarSource') usersAvatars.push(data[key])
+                var key = infoKeys[i];
+                if (key in dialogsData[idx]) dialogsData[idx][key] = data[key];
+                if (key === 'avatarSource') usersAvatars.push(data[key]);
             }
         }
     }
 
+    /**
+     * The function shows the saved dialogs data.
+     */
     function flushDialogsData() {
-        messagesList.model.clear()
-        for (var item in dialogsData) messagesList.model.append(dialogsData[item])
-        messagesList.footerItem.visible = true
+        console.log('flushDialogsData()');
+        messagesList.model.clear();
+        for (var item in dialogsData) messagesList.model.append(dialogsData[item]);
+        messagesList.footerItem.visible = true;
     }
 
+    /**
+     * The function finished dialogs updating process.
+     */
     function stopBusyIndicator() {
-        flushDialogsData()
-        loadingIndicator.running = false
-        if (usersAvatars.length > 0) fileDownloader.startDownload(usersAvatars[0], 0)
+        console.log('stopBusyIndicator()');
+        flushDialogsData();
+        loadingIndicator.running = false;
+        if (usersAvatars.length > 0 && !fileDownloader.isWorkNow()) {
+            fileDownloader.startDownload(usersAvatars[0], 0);
+        }
     }
 
+    /**
+     * The function starts dialogs auto updating with long poll server.
+     */
     function startAutoUpdate() {
         if (!TypesJS.MessageUpdateMode.isManual() && !TypesJS.LongPollWorker.isActive()) {
-            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH)
+            MessagesAPI.api_startLongPoll(TypesJS.LongPollMode.ATTACH);
         }
     }
 
@@ -194,7 +240,6 @@ Page {
             onClicked: {
                 loadingIndicator.running = true
                 dialogsOffset = dialogsOffset + 20
-//                chatsCounter = 0
                 MessagesAPI.api_getDialogsList(dialogsOffset)
             }
         }
@@ -219,7 +264,7 @@ Page {
 
         onTriggered: {
             if (visible && isFirstIteration) {
-                if (messagesList.model.count === 0) formDialogsList()
+                if (messagesList.model.count === 0) formDialogsListFromDb()
                 else updateDialogs()
 
                 isFirstIteration = false

@@ -55,6 +55,7 @@ signals:
 public slots:
     void startDownload(QString url, int mode);
     bool clearCache();
+    bool isWorkNow();
 
 private slots:
     void fileDownloaded(QNetworkReply* pReply);
@@ -64,6 +65,7 @@ private:
     QString m_FileName;
     QNetworkAccessManager m_WebCtrl;
     QByteArray m_DownloadedData;
+    bool workFlag;
 
     QString buildFilePath();
     void writeDataToFile(QString pathToFile);

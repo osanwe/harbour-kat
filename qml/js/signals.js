@@ -26,7 +26,7 @@ var signaller = Qt.createQmlObject("import QtQuick 2.0; \
         signal endLoading; \
         signal gotChatUsers(var users); \
         signal gotDialogInfo(int dialogId, var info); \
-        signal gotDialogs(var dialogs); \
+        signal gotDialogs(var dialogs, bool isFirst); \
         signal gotHistory(var messages); \
         signal gotMessageInfo(int userId, var info); \
         signal gotNewMessage(var message); \
