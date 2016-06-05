@@ -41,7 +41,7 @@
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="37"/>
         <source>Ckazzku</source>
-        <translation type="unfinished"></translation>
+        <translation>Ckazzku</translation>
     </message>
 </context>
 <context>
@@ -49,37 +49,37 @@
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="259"/>
         <source>Загрузить больше</source>
-        <translation type="unfinished">Load more</translation>
+        <translation>Load more</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="275"/>
         <source>Был(a) в сети: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Last seen: %1</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="313"/>
         <source>Копировать текст</source>
-        <translation type="unfinished"></translation>
+        <translation>Copy text</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="381"/>
         <source>Сообщение:</source>
-        <translation type="unfinished">Message:</translation>
+        <translation>Message:</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="382"/>
         <source>Сообщение</source>
-        <translation type="unfinished">Message</translation>
+        <translation>Message</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="392"/>
         <source>Обновить</source>
-        <translation type="unfinished">Refresh</translation>
+        <translation>Refresh</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="400"/>
         <source>Прикрепить изображение</source>
-        <translation type="unfinished">Attach image</translation>
+        <translation>Attach image</translation>
     </message>
 </context>
 <context>
