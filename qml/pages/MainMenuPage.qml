@@ -22,11 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-ApplicationWindow
-{
-    id: application
-
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    initialPage: settings.accessToken() ? Qt.createComponent(Qt.resolvedUrl("pages/MainMenuPage.qml")) :
-                                          Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))
+Page {
+    id: mainMenuPage
 }
+

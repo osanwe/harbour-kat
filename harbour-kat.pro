@@ -41,3 +41,7 @@ OTHER_FILES += \
 
 HEADERS += \
     src/settingswrapper.h
+
+DISTFILES += \
+    qml/pages/MainMenuPage.qml \
+    qml/pages/LoginPage.qml

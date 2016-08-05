@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 Petr Vytovtov
+  Copyright (C) 2016 Petr Vytovtov
   Contact: Petr Vytovtov <osanwe@protonmail.ch>
   All rights reserved.
 
