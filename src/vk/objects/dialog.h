@@ -4,14 +4,13 @@
 #include <QJsonObject>
 #include <QObject>
 
+#include "chat.h"
 #include "message.h"
+#include "user.h"
 
 class Dialog : public QObject
 {
     Q_OBJECT
-
-    Q_PROPERTY(bool unread READ unread CONSTANT)
-    Q_PROPERTY(Message* lastMessage READ lastMessage CONSTANT)
 
 public:
     explicit Dialog(QObject *parent = 0);
@@ -21,12 +20,24 @@ public:
     bool unread() const;
     void setUnread(bool unread);
 
+    bool isChat() const;
+    void setIsChat(bool isChat);
+
     Message *lastMessage() const;
     void setLastMessage(Message *lastMessage);
 
+    User *user() const;
+    void setUser(User *user);
+
+    Chat *chat() const;
+    void setChat(Chat *chat);
+
 private:
     bool _unread;
+    bool _isChat;
     Message *_lastMessage;
+    User *_user;
+    Chat *_chat;
 };
 
 #endif // DIALOG_H

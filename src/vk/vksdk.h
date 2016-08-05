@@ -1,12 +1,17 @@
 #ifndef VKSDK_H
 #define VKSDK_H
 
+#include <QList>
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 #include "longpoll.h"
 #include "messages.h"
 #include "users.h"
+#include "objects/chat.h"
+#include "objects/dialog.h"
+#include "objects/user.h"
 
 class VkSDK : public QObject
 {
@@ -26,12 +31,21 @@ public:
     Messages* messages() const;
     Users* users() const;
 
+public slots:
+    void gotChatsList(QList<QObject*> chatsList);
+    void gotDialogList(QList<QObject*> dialogsList);
+    void gotUsersList(QList<QObject*> usersList);
+
 private:
     QString _accessToken;
 
     LongPoll *_longPoll;
     Messages *_messages;
     Users *_users;
+
+    QStringList _usersIds;
+    QStringList _chatsIds;
+    QList<QObject*> _dialogs;
 };
 
 #endif // VKSDK_H

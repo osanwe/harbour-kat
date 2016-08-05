@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonValue>
 #include <QList>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -29,6 +30,7 @@ public:
     ~ApiRequest();
 
     enum TaskType {
+        MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
         USERS_GET,
     };
@@ -39,7 +41,7 @@ public:
     void setAccessToken(QString token);
 
 signals:
-    void gotDialogs(QJsonObject object);
+    void gotResponse(QJsonValue object, TaskType type);
 
 public slots:
     void finished(QNetworkReply *reply);

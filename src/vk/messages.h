@@ -4,14 +4,17 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonValue>
 #include <QList>
 #include <QNetworkReply>
 #include <QObject>
 #include <QScopedPointer>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 #include "apirequest.h"
+#include "objects/chat.h"
 
 #include <QDebug>
 
@@ -25,13 +28,15 @@ public:
 
     void setAccessToken(QString value);
 
+    Q_INVOKABLE void getChat(QStringList ids);
     Q_INVOKABLE void getDialogs(int offset = 0);
 
 signals:
-    void gotDialogs(QVariant dialogsModel);
+    void gotChatsList(QList<QObject*> chatsList);
+    void gotDialogsList(QList<QObject*> dialogsList);
 
 public slots:
-    void gotResponse(QJsonObject object);
+    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
 
 private:
     QString _accessToken;

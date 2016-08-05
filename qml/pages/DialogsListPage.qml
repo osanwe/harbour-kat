@@ -79,11 +79,6 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Connections {
-        target: vksdk.messages
-        onGotDialogs: dialogsList.model = dialogsModel
-    }
-
     Component.onCompleted: vksdk.messages.getDialogs()
 }
 

@@ -29,7 +29,9 @@ SOURCES += \
     src/vk/longpoll.cpp \
     src/vk/objects/message.cpp \
     src/vk/objects/dialog.cpp \
-    src/vk/users.cpp
+    src/vk/users.cpp \
+    src/vk/objects/chat.cpp \
+    src/vk/objects/user.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -56,7 +58,9 @@ HEADERS += \
     src/vk/longpoll.h \
     src/vk/objects/message.h \
     src/vk/objects/dialog.h \
-    src/vk/users.h
+    src/vk/users.h \
+    src/vk/objects/chat.h \
+    src/vk/objects/user.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

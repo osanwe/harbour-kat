@@ -20,7 +20,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
         QStringList coords = geo.value("coordinates").toString().split(" ");
         message->setGeo(QPair<QString, QString>(coords.at(0), coords.at(1)));
     }
-    // Attachments
+    // TODO: Attachments
     if (object.contains("fwd_messages")) {
         QJsonArray fwds = object.value("fwd_messages").toArray();
         for (int index = 0; index < fwds.size(); ++index) {
