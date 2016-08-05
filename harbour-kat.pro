@@ -27,7 +27,8 @@ SOURCES += \
     src/vk/apirequest.cpp \
     src/vk/messages.cpp \
     src/vk/longpoll.cpp \
-    src/vk/objects/message.cpp
+    src/vk/objects/message.cpp \
+    src/vk/objects/dialog.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -52,7 +53,8 @@ HEADERS += \
     src/vk/apirequest.h \
     src/vk/messages.h \
     src/vk/longpoll.h \
-    src/vk/objects/message.h
+    src/vk/objects/message.h \
+    src/vk/objects/dialog.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

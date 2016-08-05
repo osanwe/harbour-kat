@@ -13,6 +13,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include "objects/dialog.h"
 #include "objects/message.h"
 
 #include <QDebug>

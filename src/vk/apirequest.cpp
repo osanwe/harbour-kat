@@ -36,10 +36,7 @@ void ApiRequest::finished(QNetworkReply *reply) {
     case MESSAGES_GET_DIALOGS:
         QJsonArray dialogs = jObj.value("items").toArray();
         for (int index = 0; index < dialogs.size(); ++index) {
-            QJsonObject dialog = dialogs.at(index).toObject();
-            if (dialog.contains("unread")) qDebug() << "Unread dialog";
-            Message *message = Message::fromJsonObject(dialog.value("message").toObject());
-            qDebug() << message->geo().first << message->geo().second;
+            Dialog *dialog = Dialog::fromJsonObject(dialogs.at(index).toObject());
         }
         break;
 
