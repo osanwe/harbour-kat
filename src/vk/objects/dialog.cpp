@@ -42,3 +42,23 @@ void Dialog::setLastMessage(Message *lastMessage)
     _lastMessage = lastMessage;
 }
 
+User *Dialog::user() const
+{
+    return _user;
+}
+
+void Dialog::setUser(User *user)
+{
+    _user = user;
+}
+
+Chat *Dialog::chat() const
+{
+    return _chat;
+}
+
+void Dialog::setChat(Chat *chat)
+{
+    _chat = chat;
+}
+

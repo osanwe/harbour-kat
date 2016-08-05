@@ -23,22 +23,47 @@ public:
     QString lastName() const;
     void setLastName(const QString &lastName);
 
-    QString photo() const;
-    void setPhoto(const QString &photo);
-
     QString status() const;
     void setStatus(const QString &status);
 
-    bool isOnline() const;
-    void setIsOnline(bool isOnline);
+    QString bdate() const;
+    void setBdate(const QString &bdate);
+
+    QString city() const;
+    void setCity(const QString &city);
+
+    bool online() const;
+    void setOnline(bool online);
+
+    QString photo50() const;
+    void setPhoto50(const QString &photo50);
+
+    QString photoMaxOrig() const;
+    void setPhotoMaxOrig(const QString &photoMaxOrig);
+
+    int relation() const;
+    void setRelation(int relation);
+
+    int sex() const;
+    void setSex(int sex);
+
+    bool verified() const;
+    void setVerified(bool verified);
 
 private:
     int _id;
     QString _firstName;
     QString _lastName;
-    QString _photo;
+    QString _bdate;
+    QString _city;
+    // TODO: Add counters
+    bool _online;
+    QString _photo50;
+    QString _photoMaxOrig;
+    int _relation;
+    int _sex;
     QString _status;
-    bool _isOnline;
+    bool _verified;
 };
 
 #endif // USER_H

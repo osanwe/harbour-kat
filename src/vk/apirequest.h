@@ -41,7 +41,7 @@ public:
     void setAccessToken(QString token);
 
 signals:
-    void gotResponse(QJsonValue object, TaskType type);
+    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
 
 public slots:
     void finished(QNetworkReply *reply);

@@ -22,13 +22,16 @@ public:
 
     void setAccessToken(QString value);
 
-    Q_INVOKABLE void get(int userId);
+    Q_INVOKABLE void getSelfProfile();
+    Q_INVOKABLE void getUserProfile(int id);
+    Q_INVOKABLE void get(QStringList ids);
 
 signals:
+    void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);
 
 public slots:
-    void gotResponse(QJsonValue object, ApiRequest::TaskType type);
+    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
 
 private:
     QString _accessToken;

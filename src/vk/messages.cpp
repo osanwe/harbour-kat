@@ -30,24 +30,24 @@ void Messages::getDialogs(int offset) {
 }
 
 void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
-    switch (type) {
-    case ApiRequest::MESSAGES_GET_CHAT:
-        QJsonArray chats = value.toArray();
-        QList<QObject*> chatsList;
-        for (int index = 0; index < chats.size(); ++index) {
-            chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
-        }
-        emit gotChatsList(chatsList);
-        break;
+//    switch (type) {
+//    case ApiRequest::MESSAGES_GET_CHAT:
+//        QJsonArray chats = value.toArray();
+//        QList<QObject*> chatsList;
+//        for (int index = 0; index < chats.size(); ++index) {
+////            chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
+//        }
+//        emit gotChatsList(chatsList);
+//        break;
 
-    case ApiRequest::MESSAGES_GET_DIALOGS:
-        QJsonArray dialogs = value.toObject().value("items").toArray();
-        QList<QObject*> dialogsList;
-        for (int index = 0; index < dialogs.size(); ++index) {
-            dialogsList.append(Dialog::fromJsonObject(dialogs.at(index).toObject()));
-        }
-        emit gotDialogsList(dialogsList);
-        break;
-    }
+//    case ApiRequest::MESSAGES_GET_DIALOGS:
+//        QJsonArray dialogs = value.toObject().value("items").toArray();
+//        QList<QObject*> dialogsList;
+//        for (int index = 0; index < dialogs.size(); ++index) {
+//            dialogsList.append(Dialog::fromJsonObject(dialogs.at(index).toObject()));
+//        }
+//        emit gotDialogsList(dialogsList);
+//        break;
+//    }
 }
 

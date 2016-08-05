@@ -30,6 +30,7 @@ ApplicationWindow
     initialPage: {
         if (settings.accessToken()) {
             vksdk.setAccessTocken(settings.accessToken())
+            vksdk.setUserId(settings.userId())
             return Qt.createComponent(Qt.resolvedUrl("pages/MainMenuPage.qml"))
         } else {
             return Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))

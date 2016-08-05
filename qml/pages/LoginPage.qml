@@ -44,7 +44,9 @@ Page {
         target: authorization
         onAuthorized: {
             vksdk.setAccessTocken(accessToken)
+            vksdk.setUserId(userId)
             settings.setAccessToken(accessToken)
+            settings.setUserId(userId)
             pageStack.replace(Qt.resolvedUrl("MainMenuPage.qml"))
             loginNotification.previewBody = qsTr("Logged to vk.com")
             loginNotification.publish()

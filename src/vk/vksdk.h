@@ -26,18 +26,22 @@ public:
     ~VkSDK();
 
     Q_INVOKABLE void setAccessTocken(QString value);
+    Q_INVOKABLE void setUserId(int value);
 
     LongPoll* longPoll() const;
     Messages* messages() const;
     Users* users() const;
 
 public slots:
+    void gotUserProfile(User *user);
+
     void gotChatsList(QList<QObject*> chatsList);
     void gotDialogList(QList<QObject*> dialogsList);
     void gotUsersList(QList<QObject*> usersList);
 
 private:
     QString _accessToken;
+    int _userId;
 
     LongPoll *_longPoll;
     Messages *_messages;

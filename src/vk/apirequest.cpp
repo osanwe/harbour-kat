@@ -30,7 +30,7 @@ void ApiRequest::setAccessToken(QString token) {
 
 void ApiRequest::finished(QNetworkReply *reply) {
     QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
-    QJsonObject jObj = jDoc.object().value("response");
+    QJsonValue jObj = jDoc.object().value("response");
     emit gotResponse(jObj, _currentTaskType);
     reply->deleteLater();
 }

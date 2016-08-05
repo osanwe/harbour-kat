@@ -26,8 +26,9 @@ Page {
     id: mainMenuPage
 
     property var menuItems: [
-        { itemText: qsTr("News"),     counter: 0 },
-        { itemText: qsTr("Messages"), counter: 0 }
+        { itemText: qsTr("My profile"), counter: 0 },
+        { itemText: qsTr("News"),       counter: 0 },
+        { itemText: qsTr("Messages"),   counter: 0 }
     ]
 
     function generateModelFromArray() {
@@ -110,6 +111,9 @@ Page {
                     break;
 
                 case 1:
+                    break;
+
+                case 2:
                     pageStack.push(Qt.resolvedUrl("DialogsListPage.qml"))
                     break;
                 }
@@ -125,7 +129,8 @@ Page {
     Component.onCompleted: {
         generateModelFromArray()
         vksdk.longPoll.getLongPollServer()
-        vksdk.messages.getDialogs()
+        vksdk.users.getSelfProfile()
+//        vksdk.messages.getDialogs()
     }
 }
 
