@@ -24,5 +24,88 @@ import Sailfish.Silica 1.0
 
 Page {
     id: mainMenuPage
+
+    property var menuItems: [
+        { itemText: qsTr("News"),     counter: 0 },
+        { itemText: qsTr("Messages"), counter: 0 }
+    ]
+
+    function generateModelFromArray() {
+        for (var index in menuItems)
+            menuList.model.append(menuItems[index])
+    }
+
+    SilicaListView {
+        id: menuList
+
+        anchors.fill: parent
+
+        model: ListModel {}
+
+        PullDownMenu {
+
+            MenuItem {
+                text: qsTr("About")
+            }
+
+            MenuItem {
+                text: qsTr("Logout")
+            }
+
+            MenuItem {
+                text: qsTr("Settings")
+            }
+        }
+
+        header: PageHeader {
+            title: qsTr("First name; Last name")
+        }
+
+        delegate: BackgroundItem {
+            id: menuItem
+            width: parent.width
+            height: Theme.itemSizeMedium
+
+            property var item: model.modelData ? model.modelData : model
+
+            Row {
+                spacing: Theme.paddingMedium
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: Theme.horizontalPageMargin
+                }
+
+                Label {
+                    text: item.itemText
+                    color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                }
+
+                Rectangle {
+                    width: menuItemCounter.width < menuItemCounter.height ?
+                               menuItemCounter.height :
+                               menuItemCounter.width + 2 * Theme.paddingSmall
+                    height: menuItemCounter.height
+                    radius: 10
+                    color: menuItem.highlighted ? Theme.primaryColor : Theme.highlightColor
+                    visible: item.counter !== 0
+
+                    Label {
+                        id: menuItemCounter
+                        anchors.centerIn: parent
+                        font.bold: true
+                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: item.counter
+                    }
+                }
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        generateModelFromArray()
+    }
 }
 
