@@ -31,7 +31,19 @@ Page {
         anchors.fill: parent
         url: authorization.buildAuthUrl()
 
-        onUrlChanged: console.log(url)
+        onUrlChanged: authorization.tryToGetAccessToken(url)
+    }
+
+    Connections {
+        target: authorization
+        onAuthorized: {
+            pageStack.replace(Qt.resolvedUrl("MainMenuPage.qml"))
+            // TODO: Saving accessToken and userId
+        }
+        onError: {
+            loginWebView.url = authorization.buildAuthUrl()
+            // TODO: Showing error notification
+        }
     }
 }
 

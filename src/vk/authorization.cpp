@@ -18,3 +18,12 @@ QString Authorization::buildAuthUrl() {
     url.setQuery(query);
     return url.toString();
 }
+
+void Authorization::tryToGetAccessToken(QString url) {
+    QUrlQuery query(QUrl(url).fragment());
+    if (query.hasQueryItem("access_token")) {
+        emit authorized(query.queryItemValue("access_token"), query.queryItemValue("user_id"));
+    } else if (query.hasQueryItem("error")) {
+        emit error(query.queryItemValue("error"), query.queryItemValue("error_description"));
+    }
+}
