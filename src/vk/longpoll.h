@@ -38,6 +38,7 @@ private:
     QNetworkAccessManager *_manager;
 
     void doLongPollRequest();
+    void parseLongPollUpdates(QJsonArray updates);
 };
 
 #endif // LONGPOLL_H
