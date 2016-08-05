@@ -28,7 +28,8 @@ SOURCES += \
     src/vk/messages.cpp \
     src/vk/longpoll.cpp \
     src/vk/objects/message.cpp \
-    src/vk/objects/dialog.cpp
+    src/vk/objects/dialog.cpp \
+    src/vk/users.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -54,7 +55,8 @@ HEADERS += \
     src/vk/messages.h \
     src/vk/longpoll.h \
     src/vk/objects/message.h \
-    src/vk/objects/dialog.h
+    src/vk/objects/dialog.h \
+    src/vk/users.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

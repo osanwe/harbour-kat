@@ -28,6 +28,7 @@ public:
 
     enum TaskType {
         MESSAGES_GET_DIALOGS,
+        USERS_GET,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
