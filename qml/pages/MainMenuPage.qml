@@ -110,6 +110,7 @@ Page {
 
     Component.onCompleted: {
         generateModelFromArray()
+        vksdk.longPoll.getLongPollServer()
     }
 }
 

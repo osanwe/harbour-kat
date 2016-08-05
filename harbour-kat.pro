@@ -24,7 +24,9 @@ SOURCES += \
     src/settingswrapper.cpp \
     src/vk/authorization.cpp \
     src/vk/vksdk.cpp \
-    src/vk/apirequest.cpp
+    src/vk/apirequest.cpp \
+    src/vk/messages.cpp \
+    src/vk/longpoll.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -46,7 +48,9 @@ HEADERS += \
     src/settingswrapper.h \
     src/vk/authorization.h \
     src/vk/vksdk.h \
-    src/vk/apirequest.h
+    src/vk/apirequest.h \
+    src/vk/messages.h \
+    src/vk/longpoll.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

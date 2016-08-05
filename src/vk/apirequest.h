@@ -23,13 +23,25 @@ public:
     explicit ApiRequest(QObject *parent = 0);
     ~ApiRequest();
 
-    void makeGetRequest(QUrl url, QUrlQuery query);
+    enum TaskType {
+        MESSAGES_GET_LONG_POLL_SERVER,
+    };
+
+    void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
     void makePostRequest(QUrl url, QUrlQuery query, QByteArray body);
+
+    void setAccessToken(QString token);
 
 public slots:
     void finished(QNetworkReply *reply);
 
 private:
+    const QString API_URL = "https://api.vk.com/method/";
+    const QString API_VERSION = "5.53";
+
+    QString _accessToken;
+    TaskType _currentTaskType;
+
     QNetworkAccessManager *_manager;
 };
 

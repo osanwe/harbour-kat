@@ -1,14 +1,21 @@
 #include "vksdk.h"
 
 VkSDK::VkSDK(QObject *parent) : QObject(parent) {
-    _request = new ApiRequest(this);
+    _longPoll = new LongPoll(this);
+
+    qRegisterMetaType<LongPoll*>("LongPoll*");
 }
 
 VkSDK::~VkSDK() {
-    delete _request;
+    delete _longPoll;
 }
 
 void VkSDK::setAccessTocken(QString value) {
     _accessToken = value;
+    _longPoll->setAccessToken(value);
+}
+
+LongPoll *VkSDK::longPoll() const {
+    return _longPoll;
 }
 
