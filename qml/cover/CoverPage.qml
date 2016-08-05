@@ -25,16 +25,38 @@ import Sailfish.Silica 1.0
 CoverBackground {
     id: cover
 
+    Column {
+        anchors.centerIn: parent
+        spacing: Theme.paddingMedium
+
+        Row {
+            spacing: Theme.paddingMedium
+
+            Image {
+                anchors.verticalCenter: messagesCounter.verticalCenter
+                source: "image://theme/icon-m-message"
+            }
+
+            Label {
+                id: messagesCounter
+                text: "0"
+                font.bold: true
+                font.pixelSize: Theme.fontSizeHuge
+            }
+        }
+    }
+
     CoverActionList {
         id: coverAction
 
         CoverAction {
             iconSource: "image://theme/icon-cover-new"
         }
+    }
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-refresh"
-        }
+    Connections {
+        target: vksdk.longPoll
+        onUnreadDialogsCounterUpdated: messagesCounter.text = value
     }
 }
 

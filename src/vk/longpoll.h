@@ -26,6 +26,9 @@ public:
 
     Q_INVOKABLE void getLongPollServer();
 
+signals:
+    void unreadDialogsCounterUpdated(int value);
+
 public slots:
     void finished(QNetworkReply *reply);
 

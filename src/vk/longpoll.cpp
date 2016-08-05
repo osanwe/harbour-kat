@@ -75,7 +75,7 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
             qDebug() << "\ttimestamp:" << update.at(3).toInt();
             qDebug() << "\tsubject" << update.at(4).toString();
             qDebug() << "\ttext:" << update.at(5).toString();
-            qDebug() << "\tin" << update.at(6).toArray();
+            qDebug() << "\tattachments:" << update.at(6).toArray();
             qDebug() << "--------------";
             break;
 
@@ -83,7 +83,8 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
         case 7:
             qDebug() << "--------------";
             qDebug() << "Messages were readed";
-            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
+            qDebug() << update;
+//            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
             qDebug() << "--------------";
             break;
 
@@ -113,9 +114,7 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
             break;
 
         case 80:
-            qDebug() << "--------------";
-            qDebug() << "Unread dialogs:" << update.at(1).toInt();
-            qDebug() << "--------------";
+            emit unreadDialogsCounterUpdated(update.at(1).toInt());
             break;
 
         default:

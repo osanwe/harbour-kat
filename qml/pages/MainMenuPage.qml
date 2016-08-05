@@ -108,6 +108,11 @@ Page {
         }
     }
 
+    Connections {
+        target: vksdk.longPoll
+        onUnreadDialogsCounterUpdated: menuList.model.setProperty(1, "counter", value)
+    }
+
     Component.onCompleted: {
         generateModelFromArray()
         vksdk.longPoll.getLongPollServer()
