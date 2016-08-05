@@ -68,49 +68,49 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
         QJsonArray update = updates.at(index).toArray();
         switch (update.at(0).toInt()) {
         case 4:
-            qDebug() << "--------------";
-            qDebug() << "The message was sent";
-            qDebug() << "\tflags:" << update.at(1).toInt();
-            qDebug() << "\tfrom:" << update.at(2).toInt();
-            qDebug() << "\ttimestamp:" << update.at(3).toInt();
-            qDebug() << "\tsubject" << update.at(4).toString();
-            qDebug() << "\ttext:" << update.at(5).toString();
-            qDebug() << "\tattachments:" << update.at(6).toArray();
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "The message was sent";
+//            qDebug() << "\tflags:" << update.at(1).toInt();
+//            qDebug() << "\tfrom:" << update.at(2).toInt();
+//            qDebug() << "\ttimestamp:" << update.at(3).toInt();
+//            qDebug() << "\tsubject" << update.at(4).toString();
+//            qDebug() << "\ttext:" << update.at(5).toString();
+//            qDebug() << "\tattachments:" << update.at(6).toArray();
+//            qDebug() << "--------------";
             break;
 
         case 6:
         case 7:
-            qDebug() << "--------------";
-            qDebug() << "Messages were readed";
-            qDebug() << update;
-//            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "Messages were readed";
+//            qDebug() << update;
+////            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
+//            qDebug() << "--------------";
             break;
 
         case 8:
-            qDebug() << "--------------";
-            qDebug() << "User" << update.at(1).toInt() << "is online";
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "User" << update.at(1).toInt() << "is online";
+//            qDebug() << "--------------";
             break;
 
         case 9:
-            qDebug() << "--------------";
-            qDebug() << "User" << update.at(1).toInt() << "is offline";
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "User" << update.at(1).toInt() << "is offline";
+//            qDebug() << "--------------";
             break;
 
         case 61:
-            qDebug() << "--------------";
-            qDebug() << "User" << update.at(1).toInt() << "typing...";
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "User" << update.at(1).toInt() << "typing...";
+//            qDebug() << "--------------";
             break;
 
         case 62:
-            qDebug() << "--------------";
-            qDebug() << "User" << update.at(1).toInt() << "typing...";
-            qDebug() << "\tin" << update.at(2).toInt();
-            qDebug() << "--------------";
+//            qDebug() << "--------------";
+//            qDebug() << "User" << update.at(1).toInt() << "typing...";
+//            qDebug() << "\tin" << update.at(2).toInt();
+//            qDebug() << "--------------";
             break;
 
         case 80:

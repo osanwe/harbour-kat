@@ -21,12 +21,9 @@ public:
     explicit Messages(QObject *parent = 0);
     ~Messages();
 
-    void setAccessTocken(QString value);
+    void setAccessToken(QString value);
 
-    Q_INVOKABLE void getLongPollServer();
-
-public slots:
-    void finished(QNetworkReply *reply, ApiRequest::TaskType type);
+    Q_INVOKABLE void getDialogs(int offset = 0);
 
 private:
     QString _accessToken;

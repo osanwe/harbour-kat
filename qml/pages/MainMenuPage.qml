@@ -105,6 +105,17 @@ Page {
                     }
                 }
             }
+
+            onClicked: {
+                switch (index) {
+                case 0:
+                    break;
+
+                case 1:
+                    pageStack.push(Qt.resolvedUrl("DialogsListPage.qml"))
+                    break;
+                }
+            }
         }
     }
 

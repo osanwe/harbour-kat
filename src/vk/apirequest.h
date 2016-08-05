@@ -13,6 +13,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include "objects/message.h"
+
 #include <QDebug>
 
 class ApiRequest : public QObject
@@ -24,7 +26,7 @@ public:
     ~ApiRequest();
 
     enum TaskType {
-        MESSAGES_GET_LONG_POLL_SERVER,
+        MESSAGES_GET_DIALOGS,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
