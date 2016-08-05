@@ -13,9 +13,15 @@
 TARGET = harbour-kat
 
 CONFIG += sailfishapp
+greaterThan(QT_VERSION, 5.5) {
+    CONFIG += C++11
+} else {
+    QMAKE_CXXFLAGS += -std=gnu++11
+}
 
 SOURCES += \
-    src/harbour-kat.cpp
+    src/harbour-kat.cpp \
+    src/settingswrapper.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -32,3 +38,6 @@ OTHER_FILES += \
 #CONFIG += sailfishapp_i18n
 #TRANSLATIONS += \
 #    translations/harbour-kat-en.ts
+
+HEADERS += \
+    src/settingswrapper.h

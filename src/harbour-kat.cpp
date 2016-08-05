@@ -30,26 +30,14 @@
 
 #include <sailfishapp.h>
 
-int main(int argc, char *argv[])
-{
+#include "settingswrapper.h"
+
+int main(int argc, char *argv[]) {
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
-    QScopedPointer<FileDownloader> fileDownloader(new FileDownloader(view.data()));
-    QScopedPointer<NotificationHelper> notificationHelper(new NotificationHelper(view.data()));
-    QScopedPointer<Storage> storage(new Storage(view.data()));
-    QScopedPointer<Photos> photos(new Photos(view.data()));
-
-    QUrl cachePath;
-    QStringList cacheLocation = QStandardPaths::standardLocations(QStandardPaths::CacheLocation);
-    if (cacheLocation.isEmpty()) cachePath = getenv("$XDG_CACHE_HOME/harbour-kat/");
-    else cachePath = QString("%1/").arg(cacheLocation.first());
-
-    view->rootContext()->setContextProperty("cachePath", cachePath);
-    view->rootContext()->setContextProperty("fileDownloader", fileDownloader.data());
-    view->rootContext()->setContextProperty("notificationHelper", notificationHelper.data());
-    view->rootContext()->setContextProperty("storage", storage.data());
-    view->rootContext()->setContextProperty("photos", photos.data());
+    QScopedPointer<SettingsWrapper> settings(new SettingsWrapper(view.data()));
+    view->rootContext()->setContextProperty("settings", settings.data());
 
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
     view->show();
