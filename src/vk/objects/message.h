@@ -12,6 +12,9 @@
 class Message : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString body READ body CONSTANT)
+
 public:
     explicit Message(QObject *parent = 0);
 

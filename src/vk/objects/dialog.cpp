@@ -1,12 +1,13 @@
 #include "dialog.h"
 
-Dialog::Dialog(QObject *parent) : QObject(parent)
-{}
+Dialog::Dialog(QObject *parent) : QObject(parent) {
+    qRegisterMetaType<Message*>("Message*");
+}
 
 Dialog *Dialog::fromJsonObject(QJsonObject object) {
     Dialog *dialog = new Dialog();
     dialog->setUnread(object.contains("unread"));
-    dialog->setLastMessage(object.value("message").toObject());
+    dialog->setLastMessage(Message::fromJsonObject(object.value("message").toObject()));
     return dialog;
 }
 

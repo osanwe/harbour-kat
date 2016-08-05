@@ -5,6 +5,7 @@ Page {
     id: dialogsListPage
 
     SilicaListView {
+        id: dialogsList
         anchors.fill: parent
 
         model: 10
@@ -70,11 +71,19 @@ Page {
                     width: parent.width
                     color: dialogItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
+                    text: modelData.lastMessage.body
                 }
             }
         }
 
         VerticalScrollDecorator {}
     }
+
+    Connections {
+        target: vksdk.messages
+        onGotDialogs: dialogsList.model = dialogsModel
+    }
+
+    Component.onCompleted: vksdk.messages.getDialogs()
 }
 

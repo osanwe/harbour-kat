@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QList>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -12,6 +13,7 @@
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QVariant>
 
 #include "objects/dialog.h"
 #include "objects/message.h"
@@ -35,6 +37,9 @@ public:
     void makePostRequest(QUrl url, QUrlQuery query, QByteArray body);
 
     void setAccessToken(QString token);
+
+signals:
+    void gotDialogs(QJsonObject object);
 
 public slots:
     void finished(QNetworkReply *reply);

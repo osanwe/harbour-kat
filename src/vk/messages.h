@@ -4,10 +4,12 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QList>
 #include <QNetworkReply>
 #include <QObject>
 #include <QScopedPointer>
 #include <QString>
+#include <QVariant>
 
 #include "apirequest.h"
 
@@ -24,6 +26,12 @@ public:
     void setAccessToken(QString value);
 
     Q_INVOKABLE void getDialogs(int offset = 0);
+
+signals:
+    void gotDialogs(QVariant dialogsModel);
+
+public slots:
+    void gotResponse(QJsonObject object);
 
 private:
     QString _accessToken;

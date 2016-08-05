@@ -34,10 +34,7 @@ void ApiRequest::finished(QNetworkReply *reply) {
 
     switch (_currentTaskType) {
     case MESSAGES_GET_DIALOGS:
-        QJsonArray dialogs = jObj.value("items").toArray();
-        for (int index = 0; index < dialogs.size(); ++index) {
-            Dialog *dialog = Dialog::fromJsonObject(dialogs.at(index).toObject());
-        }
+        emit gotDialogs(jObj);
         break;
 
 //    default:
