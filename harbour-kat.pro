@@ -23,7 +23,8 @@ SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
     src/vk/authorization.cpp \
-    src/vk/vksdk.cpp
+    src/vk/vksdk.cpp \
+    src/vk/apirequest.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -44,7 +45,8 @@ OTHER_FILES += \
 HEADERS += \
     src/settingswrapper.h \
     src/vk/authorization.h \
-    src/vk/vksdk.h
+    src/vk/vksdk.h \
+    src/vk/apirequest.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
