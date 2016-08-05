@@ -31,6 +31,7 @@
 #include <sailfishapp.h>
 
 #include "settingswrapper.h"
+#include "vk/authorization.h"
 
 int main(int argc, char *argv[]) {
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
@@ -38,6 +39,9 @@ int main(int argc, char *argv[]) {
 
     QScopedPointer<SettingsWrapper> settings(new SettingsWrapper(view.data()));
     view->rootContext()->setContextProperty("settings", settings.data());
+
+    QScopedPointer<Authorization> authorization(new Authorization(view.data()));
+    view->rootContext()->setContextProperty("authorization", authorization.data());
 
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
     view->show();

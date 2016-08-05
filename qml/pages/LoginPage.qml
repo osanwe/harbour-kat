@@ -24,5 +24,14 @@ import Sailfish.Silica 1.0
 
 Page {
     id: loginPage
+
+    SilicaWebView {
+        id: loginWebView
+
+        anchors.fill: parent
+        url: authorization.buildAuthUrl()
+
+        onUrlChanged: console.log(url)
+    }
 }
 
