@@ -61,9 +61,7 @@ Page {
             }
         }
 
-        header: PageHeader {
-            title: qsTr("First name; Last name")
-        }
+        header: PageHeader {}
 
         delegate: BackgroundItem {
             id: menuItem
@@ -127,6 +125,7 @@ Page {
     Component.onCompleted: {
         generateModelFromArray()
         vksdk.longPoll.getLongPollServer()
+        vksdk.messages.getDialogs()
     }
 }
 
