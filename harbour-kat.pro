@@ -12,49 +12,23 @@
 # The name of your application
 TARGET = harbour-kat
 
-QT += dbus sql
-
-CONFIG += link_pkgconfig sailfishapp
-PKGCONFIG += mlite5
-
-HEADERS += \
-    src/filedownloader.h \
-    src/notificationhelper.h \
-    src/api/apirequest.h \
-    src/storage.h \
-    src/api/photos.h
+CONFIG += sailfishapp
 
 SOURCES += \
-    src/harbour-kat.cpp \
-    src/filedownloader.cpp \
-    src/notificationhelper.cpp \
-    src/api/apirequest.cpp \
-    src/storage.cpp \
-    src/api/photos.cpp
+    src/harbour-kat.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
     qml/cover/*.qml \
     qml/pages/*.qml \
     qml/views/*.qml \
-    qml/js/*.js \
-    qml/js/api/*.js \
-    qml/emojione/*.js \
-    qml/emojione/png/*.png \
-    qml/fonts/OpenSansEmoji.ttf \
     translations/*.ts \
     rpm/harbour-kat.yaml \
     rpm/harbour-kat.spec \
     rpm/harbour-kat.changes.in \
     LICENSE \
-    README.md \
-    .gitignore \
-    qml/pages/NewWallPostPage.qml \
-    qml/js/api/groups.js \
-    qml/js/types.js \
-    qml/js/api/account.js \
-    qml/js/signals.js
+    README.md
 
-CONFIG += sailfishapp_i18n
-TRANSLATIONS += \
-    translations/harbour-kat-en.ts
+#CONFIG += sailfishapp_i18n
+#TRANSLATIONS += \
+#    translations/harbour-kat-en.ts

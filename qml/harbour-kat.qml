@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 Petr Vytovtov
+  Copyright (C) 2016 Petr Vytovtov
   Contact: Petr Vytovtov <osanwe@protonmail.ch>
   All rights reserved.
 
@@ -21,28 +21,11 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import "pages"
-import "js/storage.js" as StorageJS
 
 ApplicationWindow
 {
     id: application
 
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    initialPage: {
-        StorageJS.initDatabase()
-
-        if (parseInt(StorageJS.readSettingsValue("start_page"), 10) === 1) {
-            return Qt.createQmlObject("import QtQuick 2.0; import \"pages\"; Component { DialogsListPage {} }", application)
-        } else {
-            return Qt.createQmlObject("import QtQuick 2.0; import \"pages\"; Component { NewsfeedPage {} }", application)
-        }
-    }
-
-    Component.onCompleted: {
-        pageStack.pushAttached(Qt.resolvedUrl("pages/MainMenuPage.qml"))
-        if (!StorageJS.readSettingsValue("user_id")) {
-            pageStack.push(Qt.resolvedUrl("pages/LoginPage.qml"))
-        }
-    }
+    initialPage: {}
 }

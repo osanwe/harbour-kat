@@ -23,20 +23,12 @@
 #include <QtQuick>
 #endif
 
-#include <sailfishapp.h>
 #include <QGuiApplication>
-#include <QScopedPointer>
-#include <QQuickView>
 #include <QQmlContext>
+#include <QQuickView>
+#include <QScopedPointer>
 
-#include <QUrl>
-#include <QStandardPaths>
-#include <QStringList>
-
-#include "filedownloader.h"
-#include "notificationhelper.h"
-#include "storage.h"
-#include "api/photos.h"
+#include <sailfishapp.h>
 
 int main(int argc, char *argv[])
 {
