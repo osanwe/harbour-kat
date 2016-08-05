@@ -9,6 +9,19 @@ class User : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(int id READ id CONSTANT)
+    Q_PROPERTY(QString firstName READ firstName CONSTANT)
+    Q_PROPERTY(QString lastName READ lastName CONSTANT)
+    Q_PROPERTY(QString status READ status CONSTANT)
+    Q_PROPERTY(QString bdate READ bdate CONSTANT)
+    Q_PROPERTY(QString city READ city CONSTANT)
+    Q_PROPERTY(int online READ online CONSTANT)
+    Q_PROPERTY(QString photo50 READ photo50 CONSTANT)
+    Q_PROPERTY(QString photoMaxOrig READ photoMaxOrig CONSTANT)
+    Q_PROPERTY(int relation READ relation CONSTANT)
+    Q_PROPERTY(int sex READ sex CONSTANT)
+    Q_PROPERTY(bool verified READ verified CONSTANT)
+
 public:
     explicit User(QObject *parent = 0);
 

@@ -9,12 +9,16 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
 
+    qRegisterMetaType<User*>("User*");
+
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
 }
 
 VkSDK::~VkSDK() {
+    delete _selfProfile;
+
     delete _longPoll;
     delete _messages;
     delete _users;
@@ -31,6 +35,10 @@ void VkSDK::setUserId(int value) {
     _userId = value;
 }
 
+User *VkSDK::selfProfile() const {
+    return _selfProfile;
+}
+
 LongPoll *VkSDK::longPoll() const {
     return _longPoll;
 }
@@ -44,8 +52,10 @@ Users *VkSDK::users() const {
 }
 
 void VkSDK::gotUserProfile(User *user) {
-    if (user->id() == _userId) qDebug() << "self profile";
-    else qDebug() << "common profile";
+    if (user->id() == _userId) {
+        _selfProfile = user;
+        emit gotSelfProfile();
+    } else qDebug() << "common profile";
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {

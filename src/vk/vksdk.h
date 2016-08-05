@@ -17,6 +17,8 @@ class VkSDK : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
+
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
@@ -28,9 +30,14 @@ public:
     Q_INVOKABLE void setAccessTocken(QString value);
     Q_INVOKABLE void setUserId(int value);
 
+    User* selfProfile() const;
+
     LongPoll* longPoll() const;
     Messages* messages() const;
     Users* users() const;
+
+signals:
+    void gotSelfProfile();
 
 public slots:
     void gotUserProfile(User *user);
@@ -42,6 +49,8 @@ public slots:
 private:
     QString _accessToken;
     int _userId;
+
+    User *_selfProfile;
 
     LongPoll *_longPoll;
     Messages *_messages;

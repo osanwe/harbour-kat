@@ -67,7 +67,7 @@ Page {
         delegate: BackgroundItem {
             id: menuItem
             width: parent.width
-            height: Theme.itemSizeMedium
+            height: Theme.itemSizeSmall
 
             property var item: model.modelData ? model.modelData : model
 
@@ -124,6 +124,11 @@ Page {
     Connections {
         target: vksdk.longPoll
         onUnreadDialogsCounterUpdated: menuList.model.setProperty(1, "counter", value)
+    }
+
+    Connections {
+        target: vksdk
+        onGotSelfProfile: menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
     }
 
     Component.onCompleted: {
