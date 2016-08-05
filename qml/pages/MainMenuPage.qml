@@ -50,6 +50,10 @@ Page {
 
             MenuItem {
                 text: qsTr("Logout")
+                onClicked: {
+                    settings.removeAccessToken()
+                    pageStack.replace(Qt.resolvedUrl("LoginPage.qml"))
+                }
             }
 
             MenuItem {

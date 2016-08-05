@@ -40,6 +40,8 @@ public:
     Q_INVOKABLE QString accessToken();
     Q_INVOKABLE QString defaultPage();
 
+    Q_INVOKABLE void removeAccessToken();
+
 private:
     QSettings *_settings;
 

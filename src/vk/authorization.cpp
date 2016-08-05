@@ -1,10 +1,8 @@
 #include "authorization.h"
 
-Authorization::Authorization(QObject *parent) : QObject(parent)
-{}
+Authorization::Authorization(QObject *parent) : QObject(parent) {}
 
-Authorization::~Authorization()
-{}
+Authorization::~Authorization() {}
 
 QString Authorization::buildAuthUrl() {
     QUrl url("https://oauth.vk.com/authorize");
@@ -15,6 +13,7 @@ QString Authorization::buildAuthUrl() {
     query.addQueryItem("scope", "friends,photos,audio,video,docs,notes,pages,status,wall,groups,messages,notifications,offline");
     query.addQueryItem("response_type", "token");
     query.addQueryItem("v", "5.53");
+    query.addQueryItem("revoke", "1");
     url.setQuery(query);
     return url.toString();
 }

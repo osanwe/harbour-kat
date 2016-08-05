@@ -44,3 +44,7 @@ QString SettingsWrapper::accessToken() {
 QString SettingsWrapper::defaultPage() {
     return _settings->value(DEFAULT_PAGE_KEY).toString();
 }
+
+void SettingsWrapper::removeAccessToken() {
+    _settings->remove(ACCESS_TOKEN_KEY);
+}
