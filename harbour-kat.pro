@@ -22,7 +22,8 @@ greaterThan(QT_VERSION, 5.5) {
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
-    src/vk/authorization.cpp
+    src/vk/authorization.cpp \
+    src/vk/vksdk.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -42,7 +43,8 @@ OTHER_FILES += \
 
 HEADERS += \
     src/settingswrapper.h \
-    src/vk/authorization.h
+    src/vk/authorization.h \
+    src/vk/vksdk.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

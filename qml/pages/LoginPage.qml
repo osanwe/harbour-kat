@@ -21,9 +21,15 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import org.nemomobile.notifications 1.0
 
 Page {
     id: loginPage
+
+    Notification {
+        id: loginNotification
+        category: "harbour-kat"
+    }
 
     SilicaWebView {
         id: loginWebView
@@ -37,12 +43,16 @@ Page {
     Connections {
         target: authorization
         onAuthorized: {
+            vksdk.setAccessTocken(accessToken)
+            settings.setAccessToken(accessToken)
             pageStack.replace(Qt.resolvedUrl("MainMenuPage.qml"))
-            // TODO: Saving accessToken and userId
+            loginNotification.previewBody = qsTr("Logged to vk.com")
+            loginNotification.publish()
         }
         onError: {
+            loginNotification.previewBody = errorMessage
+            loginNotification.publish()
             loginWebView.url = authorization.buildAuthUrl()
-            // TODO: Showing error notification
         }
     }
 }

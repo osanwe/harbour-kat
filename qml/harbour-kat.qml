@@ -27,6 +27,12 @@ ApplicationWindow
     id: application
 
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
-    initialPage: settings.accessToken() ? Qt.createComponent(Qt.resolvedUrl("pages/MainMenuPage.qml")) :
-                                          Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))
+    initialPage: {
+        if (settings.accessToken()) {
+            vksdk.setAccessTocken(settings.accessToken())
+            return Qt.createComponent(Qt.resolvedUrl("pages/MainMenuPage.qml"))
+        } else {
+            return Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))
+        }
+    }
 }

@@ -32,6 +32,7 @@
 
 #include "settingswrapper.h"
 #include "vk/authorization.h"
+#include "vk/vksdk.h"
 
 int main(int argc, char *argv[]) {
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
@@ -42,6 +43,9 @@ int main(int argc, char *argv[]) {
 
     QScopedPointer<Authorization> authorization(new Authorization(view.data()));
     view->rootContext()->setContextProperty("authorization", authorization.data());
+
+    QScopedPointer<VkSDK> vksdk(new VkSDK(view.data()));
+    view->rootContext()->setContextProperty("vksdk", vksdk.data());
 
     view->setSource(SailfishApp::pathTo("qml/harbour-kat.qml"));
     view->show();
