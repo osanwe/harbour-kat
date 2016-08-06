@@ -7,16 +7,16 @@ Page {
     property var profile
 
     property var counters: [
-        { title: qsTr("Photos"), counter: profile.photosCounter },
-        { title: qsTr("Videos"), counter: profile.videosCounter },
-        { title: qsTr("Audios"), counter: profile.audiosCounter },
-        { title: qsTr("Groups"), counter: profile.groupsCounter },
-        { title: qsTr("Pages"), counter: profile.pagesCounter },
-        { title: qsTr("Followers"), counter: profile.followersCounter },
-        { title: qsTr("Friends"), counter: profile.friendsCounter },
-        { title: qsTr("Online friends"), counter: profile.onlineFriendsCounter },
-        { title: qsTr("Mutual Friends"), counter: profile.mutualFriendsCounter },
-        { title: qsTr("Notes"), counter: profile.notesCounter }
+        { index: 0, title: qsTr("Photos"), counter: profile.photosCounter },
+        { index: 1, title: qsTr("Videos"), counter: profile.videosCounter },
+        { index: 2, title: qsTr("Audios"), counter: profile.audiosCounter },
+        { index: 3, title: qsTr("Groups"), counter: profile.groupsCounter },
+        { index: 4, title: qsTr("Pages"), counter: profile.pagesCounter },
+        { index: 5, title: qsTr("Followers"), counter: profile.followersCounter },
+        { index: 6, title: qsTr("Friends"), counter: profile.friendsCounter },
+        { index: 7, title: qsTr("Online friends"), counter: profile.onlineFriendsCounter },
+        { index: 8, title: qsTr("Mutual Friends"), counter: profile.mutualFriendsCounter },
+        { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
     ]
 
     SilicaFlickable {
@@ -106,6 +106,23 @@ Page {
                                 text: item.counter
                             }
                         }
+
+                        onClicked: switch (item.index) {
+                                   case 6:
+                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 1 })
+                                       break;
+
+                                   case 7:
+                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 2 })
+                                       break;
+
+                                   case 8:
+                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 3 })
+                                       break;
+                                   }
                     }
                 }
             }

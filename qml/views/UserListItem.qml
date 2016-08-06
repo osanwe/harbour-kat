@@ -5,8 +5,6 @@ BackgroundItem {
     id: userListItem
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.leftMargin: Theme.horizontalPageMargin
-    anchors.rightMargin: Theme.horizontalPageMargin
     height: Theme.itemSizeMedium
 
     property var isUser
@@ -16,7 +14,10 @@ BackgroundItem {
     property alias bodyText: body.text
 
     Row {
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: Theme.horizontalPageMargin
+        anchors.rightMargin: Theme.horizontalPageMargin
         height: parent.height
         spacing: Theme.paddingMedium
 
@@ -31,8 +32,6 @@ BackgroundItem {
         Column {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width - avatar.width - Theme.paddingMedium
-            height: parent.height
-            spacing: Theme.paddingMedium
 
             Row {
                 width: parent.width

@@ -31,7 +31,9 @@ SOURCES += \
     src/vk/objects/dialog.cpp \
     src/vk/users.cpp \
     src/vk/objects/chat.cpp \
-    src/vk/objects/user.cpp
+    src/vk/objects/user.cpp \
+    src/vk/friends.cpp \
+    src/vk/objects/friend.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -60,7 +62,9 @@ HEADERS += \
     src/vk/objects/dialog.h \
     src/vk/users.h \
     src/vk/objects/chat.h \
-    src/vk/objects/user.h
+    src/vk/objects/user.h \
+    src/vk/friends.h \
+    src/vk/objects/friend.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \

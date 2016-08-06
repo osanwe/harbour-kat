@@ -1,16 +1,20 @@
 #include "vksdk.h"
 
 VkSDK::VkSDK(QObject *parent) : QObject(parent) {
+    _friends = new Friends(this);
     _longPoll = new LongPoll(this);
     _messages = new Messages(this);
     _users = new Users(this);
 
+    connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
 
+    qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");
 
+    qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
@@ -19,6 +23,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 VkSDK::~VkSDK() {
     delete _selfProfile;
 
+    delete _friends;
     delete _longPoll;
     delete _messages;
     delete _users;
@@ -26,6 +31,7 @@ VkSDK::~VkSDK() {
 
 void VkSDK::setAccessTocken(QString value) {
     _accessToken = value;
+    _friends->setAccessToken(value);
     _longPoll->setAccessToken(value);
     _messages->setAccessToken(value);
     _users->setAccessToken(value);
@@ -39,6 +45,10 @@ User *VkSDK::selfProfile() const {
     return _selfProfile;
 }
 
+Friends *VkSDK::friends() const {
+    return _friends;
+}
+
 LongPoll *VkSDK::longPoll() const {
     return _longPoll;
 }
@@ -49,6 +59,10 @@ Messages *VkSDK::messages() const {
 
 Users *VkSDK::users() const {
     return _users;
+}
+
+void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
+    emit gotFriends(QVariant::fromValue(friendsList));
 }
 
 void VkSDK::gotUserProfile(User *user) {

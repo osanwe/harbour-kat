@@ -30,6 +30,7 @@ public:
     ~ApiRequest();
 
     enum TaskType {
+        FRIENDS_GET,
         MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
         USERS_GET,
