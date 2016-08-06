@@ -22,6 +22,14 @@ void Friends::get(int userId) {
     request->makeApiGetRequest("friends.get", query, ApiRequest::FRIENDS_GET);
 }
 
+void Friends::getOnline(int userId) {
+
+}
+
+void Friends::getMutual(int userId) {
+
+}
+
 void Friends::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::FRIENDS_GET:

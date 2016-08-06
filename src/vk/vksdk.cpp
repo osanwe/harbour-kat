@@ -41,6 +41,19 @@ void VkSDK::setUserId(int value) {
     _userId = value;
 }
 
+QVariant VkSDK::getAllFriends() {
+    return QVariant::fromValue(_currentFriendsList);
+}
+
+QVariant VkSDK::getOnlineFriends() {
+    int index = 0;
+    while (index < _currentFriendsList.size()) {
+        if (qobject_cast<Friend*>(_currentFriendsList.at(index))->online()) index++;
+        else _currentFriendsList.removeAt(index);
+    }
+    return QVariant::fromValue(_currentFriendsList);
+}
+
 User *VkSDK::selfProfile() const {
     return _selfProfile;
 }
@@ -62,7 +75,8 @@ Users *VkSDK::users() const {
 }
 
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
-    emit gotFriends(QVariant::fromValue(friendsList));
+    _currentFriendsList = friendsList;
+    emit gotFriends();
 }
 
 void VkSDK::gotUserProfile(User *user) {

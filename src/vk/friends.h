@@ -25,6 +25,8 @@ public:
     void setAccessToken(QString value);
 
     Q_INVOKABLE void get(int userId);
+    Q_INVOKABLE void getOnline(int userId);
+    Q_INVOKABLE void getMutual(int userId);
 
 signals:
     void gotFriendsList(QList<QObject*> friendsList);

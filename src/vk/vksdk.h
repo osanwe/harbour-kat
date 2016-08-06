@@ -34,6 +34,9 @@ public:
     Q_INVOKABLE void setAccessTocken(QString value);
     Q_INVOKABLE void setUserId(int value);
 
+    Q_INVOKABLE QVariant getAllFriends();
+    Q_INVOKABLE QVariant getOnlineFriends();
+
     User* selfProfile() const;
 
     Friends* friends() const;
@@ -42,7 +45,7 @@ public:
     Users* users() const;
 
 signals:
-    void gotFriends(QVariant friends);
+    void gotFriends();
     void gotSelfProfile();
     void gotProfile(User *user);
 
@@ -57,8 +60,9 @@ public slots:
 private:
     QString _accessToken;
     int _userId;
-
     User *_selfProfile;
+
+    QList<QObject *> _currentFriendsList;
 
     Friends *_friends;
     LongPoll *_longPoll;

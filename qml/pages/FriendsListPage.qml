@@ -31,19 +31,17 @@ Page {
 
     Connections {
         target: vksdk
-        onGotFriends: friendsListView.model = friends
+        onGotFriends: switch (type) {
+                      case 1:
+                          friendsListView.model = vksdk.getAllFriends()
+                          break
+
+                      case 2:
+                          friendsListView.model = vksdk.getOnlineFriends()
+                          break
+                      }
     }
 
-    Component.onCompleted: switch (type) {
-                           case 1:
-                               vksdk.friends.get(userId)
-                               break;
-
-                           case 2:
-                               break;
-
-                           case 3:
-                               break;
-                           }
+    Component.onCompleted: vksdk.friends.get(userId)
 }
 
