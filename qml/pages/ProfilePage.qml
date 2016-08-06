@@ -219,7 +219,8 @@ Page {
 
     Connections {
         target: vksdk
-        onGotProfile: pageStack.replace(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
+        onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
+        onGotSelfProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: vksdk.selfProfile })
     }
 
     Component.onCompleted: {
