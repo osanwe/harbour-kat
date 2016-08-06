@@ -55,7 +55,8 @@ void VkSDK::gotUserProfile(User *user) {
     if (user->id() == _userId) {
         _selfProfile = user;
         emit gotSelfProfile();
-    } else qDebug() << "common profile";
+        emit gotProfile(user);
+    } else emit gotProfile(user);
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {

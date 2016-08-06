@@ -1,0 +1,212 @@
+import QtQuick 2.0
+import Sailfish.Silica 1.0
+
+Page {
+    id: profilePage
+
+    property var profile
+
+    property var counters: [
+        { title: qsTr("Photos"), counter: profile.photosCounter },
+        { title: qsTr("Videos"), counter: profile.videosCounter },
+        { title: qsTr("Audios"), counter: profile.audiosCounter },
+        { title: qsTr("Groups"), counter: profile.groupsCounter },
+        { title: qsTr("Pages"), counter: profile.pagesCounter },
+        { title: qsTr("Followers"), counter: profile.followersCounter },
+        { title: qsTr("Friends"), counter: profile.friendsCounter },
+        { title: qsTr("Online friends"), counter: profile.onlineFriendsCounter },
+        { title: qsTr("Mutual Friends"), counter: profile.mutualFriendsCounter },
+        { title: qsTr("Notes"), counter: profile.notesCounter }
+    ]
+
+    SilicaFlickable {
+        anchors.fill: parent
+
+        Column {
+            anchors.fill: parent
+            anchors.leftMargin: Theme.horizontalPageMargin
+            anchors.rightMargin: Theme.horizontalPageMargin
+            spacing: Theme.paddingLarge
+
+            PageHeader {
+                title: profile.firstName + " " + profile.lastName
+
+                Switch {
+                    anchors.verticalCenter: parent.verticalCenter
+                    automaticCheck: false
+                    checked: profile.online
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingLarge
+
+                Image {
+                    width: Theme.iconSizeExtraLarge
+                    height: Theme.iconSizeExtraLarge
+                    source: profile.photo200
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: pageStack.push(Qt.resolvedUrl("ImageViewPage.qml"), { photoSource: profile.photoMaxOrig })
+                    }
+                }
+
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
+//                    height: Theme.iconSizeExtraLarge
+                    color: Theme.secondaryColor
+                    maximumLineCount: 4
+                    wrapMode: Text.WordWrap
+                    truncationMode: TruncationMode.Fade
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    text: profile.status
+                }
+            }
+
+            Flow {
+                width: parent.width
+
+                Repeater {
+                    id: countersGrid
+                    model: ListModel {}
+
+                    delegate: BackgroundItem {
+                        id: counterItem
+
+                        property var item: model.modelData ? model.modelData : model
+
+                        width: Theme.itemSizeMedium + 2 * Theme.paddingMedium
+                        height: Theme.itemSizeMedium + 2 * Theme.paddingMedium
+                        visible: item.counter > 0
+
+                        Column {
+                            anchors.fill: parent
+                            anchors.leftMargin: Theme.paddingMedium
+                            anchors.rightMargin: Theme.paddingMedium
+                            anchors.topMargin: Theme.paddingMedium
+                            anchors.bottomMargin: Theme.paddingMedium
+
+                            Label {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: parent.width
+                                truncationMode: TruncationMode.Fade
+                                font.bold: true
+                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                                text: item.title
+                            }
+
+                            Label {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: parent.width
+                                truncationMode: TruncationMode.Fade
+                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                                text: item.counter
+                            }
+                        }
+                    }
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: profile.sex !== 0
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Gender:")
+                }
+
+                Label {
+                    text: profile.sex === 1 ? qsTr("Female") : qsTr("Male")
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: profile.bdate !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Birthday:")
+                }
+
+                Label {
+                    text: profile.bdate
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: profile.city !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("City:")
+                }
+
+                Label {
+                    text: profile.city
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: profile.relation !== 0
+
+                Label {
+                    font.bold: true
+                    text: switch (profile.relation) {
+                          case 1:
+                              return qsTr("Single")
+
+                          case 2:
+                              return qsTr("In a relationship")
+
+                          case 3:
+                              return qsTr("Engaged")
+
+                          case 4:
+                              return qsTr("Married")
+
+                          case 5:
+                              return qsTr("It's complicated")
+
+                          case 6:
+                              return qsTr("Actively searching")
+
+                          case 7:
+                              return qsTr("In love")
+                          }
+                }
+
+                Label {
+                    font.underline: true
+                    color: Theme.highlightColor
+                    text: profile.relationPartnerName
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: vksdk.users.getUserProfile(profile.relationPartnerId)
+                    }
+                }
+            }
+        }
+    }
+
+    Connections {
+        target: vksdk
+        onGotProfile: pageStack.replace(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
+    }
+
+    Component.onCompleted: {
+        for (var index in counters) countersGrid.model.append(counters[index])
+    }
+}
+

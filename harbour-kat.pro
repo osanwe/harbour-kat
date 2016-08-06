@@ -65,4 +65,6 @@ HEADERS += \
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
     qml/pages/LoginPage.qml \
-    qml/pages/DialogsListPage.qml
+    qml/pages/DialogsListPage.qml \
+    qml/pages/ProfilePage.qml \
+    qml/pages/ImageViewPage.qml

@@ -108,6 +108,7 @@ Page {
             onClicked: {
                 switch (index) {
                 case 0:
+                    pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: vksdk.selfProfile })
                     break;
 
                 case 1:

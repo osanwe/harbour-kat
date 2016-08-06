@@ -38,6 +38,7 @@ public:
 
 signals:
     void gotSelfProfile();
+    void gotProfile(User *user);
 
 public slots:
     void gotUserProfile(User *user);
