@@ -44,9 +44,11 @@ Page {
         anchors.fill: parent
 
         PullDownMenu {
-            visible: profile.id !== vksdk.selfProfile.id
+            visible: (profile.id !== vksdk.selfProfile.id) &&
+                     (profile.canWritePrivateMessage)
 
             MenuItem {
+                visible: profile.canWritePrivateMessage
                 text: qsTr("Go to dialog")
                 onClicked: pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { profile: profile })
             }

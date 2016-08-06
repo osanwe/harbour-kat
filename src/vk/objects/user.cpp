@@ -41,6 +41,7 @@ User *User::fromJsonObject(QJsonObject object)
     if (object.contains("sex")) user->setSex(object.value("sex").toInt());
     if (object.contains("status")) user->setStatus(object.value("status").toString());
     if (object.contains("verified")) user->setVerified(object.value("verified").toBool());
+    if (object.contains("can_write_private_message")) user->setCanWritePrivateMessage(object.value("can_write_private_message").toInt() == 1);
     if (object.contains("relation_partner")) {
         QJsonObject partner = object.value("relation_partner").toObject();
         user->setRelationPartnerId(partner.value("id").toInt());
@@ -310,5 +311,15 @@ QString User::relationPartnerName() const
 void User::setRelationPartnerName(const QString &relationPartnerName)
 {
     _relationPartnerName = relationPartnerName;
+}
+
+bool User::canWritePrivateMessage() const
+{
+    return _canWritePrivateMessage;
+}
+
+void User::setCanWritePrivateMessage(bool canWritePrivateMessage)
+{
+    _canWritePrivateMessage = canWritePrivateMessage;
 }
 

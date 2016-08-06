@@ -57,6 +57,7 @@ class User : public QObject
     Q_PROPERTY(int onlineFriendsCounter READ onlineFriendsCounter CONSTANT)
     Q_PROPERTY(int mutualFriendsCounter READ mutualFriendsCounter CONSTANT)
     Q_PROPERTY(int followersCounter READ followersCounter CONSTANT)
+    Q_PROPERTY(bool canWritePrivateMessage READ canWritePrivateMessage CONSTANT)
 
 public:
     explicit User(QObject *parent = 0);
@@ -138,6 +139,9 @@ public:
     QString relationPartnerName() const;
     void setRelationPartnerName(const QString &relationPartnerName);
 
+    bool canWritePrivateMessage() const;
+    void setCanWritePrivateMessage(bool canWritePrivateMessage);
+
 private:
     int _id;
     QString _firstName;
@@ -164,6 +168,7 @@ private:
     int _onlineFriendsCounter = 0;
     int _mutualFriendsCounter = 0;
     int _followersCounter = 0;
+    bool _canWritePrivateMessage;
 };
 
 #endif // USER_H

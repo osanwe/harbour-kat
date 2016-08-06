@@ -38,7 +38,7 @@ void Users::getSelfProfile() {
 void Users::getUserProfile(int id) {
     QUrlQuery *query = new QUrlQuery();
     if (id != 0) query->addQueryItem("user_ids", QString("%1").arg(id));
-    query->addQueryItem("fields", "bdate,city,counters,online,photo_50,photo_200,photo_max_orig,relation,sex,status,verified");
+    query->addQueryItem("fields", "bdate,can_write_private_message,city,counters,online,photo_50,photo_200,photo_max_orig,relation,sex,status,verified");
     ApiRequest *request = new ApiRequest();
     connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
