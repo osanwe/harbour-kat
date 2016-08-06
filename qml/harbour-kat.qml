@@ -26,6 +26,8 @@ ApplicationWindow
 {
     id: application
 
+    allowedOrientations: Orientation.All
+
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     initialPage: {
         if (settings.accessToken()) {
