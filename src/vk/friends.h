@@ -7,6 +7,7 @@
 #include <QList>
 #include <QObject>
 #include <QString>
+#include <QVariantList>
 #include <QUrlQuery>
 
 #include "apirequest.h"
@@ -30,6 +31,7 @@ public:
 
 signals:
     void gotFriendsList(QList<QObject*> friendsList);
+    void gotMutualFriendsIds(QVariantList ids);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);

@@ -30,23 +30,27 @@ void Users::get(QStringList ids) {
     query->addQueryItem("user_ids", ids.join(","));
     query->addQueryItem("fields", "photo_50,online,status");
     ApiRequest *request = new ApiRequest();
-    connect(request, SIGNAL(gotResponse(QJsonObject,ApiRequest::TaskType)),
-            this, SLOT(gotResponse(QJsonObject,ApiRequest::TaskType)));
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
     request->setAccessToken(_accessToken);
-    request->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET);
+    request->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET_FRIENDS);
 }
 
 void Users::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
+    QJsonArray users;
     switch (type) {
     case ApiRequest::USERS_GET:
-        QJsonArray users = value.toArray();
+        users = value.toArray();
         if (users.size() == 1) emit gotUserProfile(User::fromJsonObject(users.at(0).toObject()));
-//        QJsonArray users = object.toArray();
-//        QList<QObject*> usersList;
-//        for (int index = 0; index < users.size(); ++index) {
-//            usersList.append(User::fromJsonObject(users.at(index).toObject()));
-//        }
-//        emit gotUsersList(usersList);
+        break;
+
+    case ApiRequest::USERS_GET_FRIENDS:
+        users = value.toArray();
+        QList<QObject*> usersList;
+        for (int index = 0; index < users.size(); ++index) {
+            usersList.append(Friend::fromJsonObject(users.at(index).toObject()));
+        }
+        emit gotUsersList(usersList);
         break;
     }
 }

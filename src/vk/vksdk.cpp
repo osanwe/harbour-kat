@@ -7,9 +7,11 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _users = new Users(this);
 
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
+    connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
+    connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
 
     qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");
@@ -41,19 +43,6 @@ void VkSDK::setUserId(int value) {
     _userId = value;
 }
 
-QVariant VkSDK::getAllFriends() {
-    return QVariant::fromValue(_currentFriendsList);
-}
-
-QVariant VkSDK::getOnlineFriends() {
-    int index = 0;
-    while (index < _currentFriendsList.size()) {
-        if (qobject_cast<Friend*>(_currentFriendsList.at(index))->online()) index++;
-        else _currentFriendsList.removeAt(index);
-    }
-    return QVariant::fromValue(_currentFriendsList);
-}
-
 User *VkSDK::selfProfile() const {
     return _selfProfile;
 }
@@ -75,8 +64,13 @@ Users *VkSDK::users() const {
 }
 
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
-    _currentFriendsList = friendsList;
-    emit gotFriends();
+    emit gotFriends(QVariant::fromValue(friendsList));
+}
+
+void VkSDK::gotMutualFriendsIds(QVariantList ids) {
+    QStringList sIds;
+    foreach (QVariant id, ids) sIds.append(id.toString());
+    _users->get(sIds);
 }
 
 void VkSDK::gotUserProfile(User *user) {
@@ -84,6 +78,10 @@ void VkSDK::gotUserProfile(User *user) {
         _selfProfile = user;
         emit gotSelfProfile();
     } else emit gotProfile(user);
+}
+
+void VkSDK::gotUsersList(QList<QObject *> usersList) {
+    emit gotFriends(QVariant::fromValue(usersList));
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {
@@ -108,15 +106,5 @@ void VkSDK::gotDialogList(QList<QObject *> dialogsList) {
 //    }
 //    if (!_chatsIds.isEmpty()) _messages->getChat(_chatsIds);
 //    else _users->get(_usersIds);
-}
-
-void VkSDK::gotUsersList(QList<QObject *> usersList) {
-//    foreach (User *user, usersList) {
-//        foreach (Dialog *dialog, _dialogs) {
-//            if (!dialog->isChat() && dialog->lastMessage()->userId() == user->id()) {
-//                dialog->setUser(user);
-//            }
-//        }
-//    }
 }
 

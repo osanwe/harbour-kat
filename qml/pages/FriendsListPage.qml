@@ -33,19 +33,22 @@ Page {
 
     Connections {
         target: vksdk
-        onGotFriends:
-            switch (type) {
-            case 1:
-                friendsListView.model = vksdk.getAllFriends()
-                break
-
-            case 2:
-                friendsListView.model = vksdk.getOnlineFriends()
-                break
-            }
+        onGotFriends: friendsListView.model = friends
         onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
     }
 
-    Component.onCompleted: vksdk.friends.get(userId)
+    Component.onCompleted: switch (type) {
+                           case 1:
+                               vksdk.friends.get(userId)
+                               break;
+
+                           case 2:
+                               vksdk.friends.getOnline(userId)
+                               break;
+
+                           case 3:
+                               vksdk.friends.getMutual(userId)
+                               break;
+                           }
 }
 

@@ -27,12 +27,18 @@ void Friends::getOnline(int userId) {
 }
 
 void Friends::getMutual(int userId) {
-
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("target_uid", QString("%1").arg(userId));
+    ApiRequest *request = new ApiRequest();
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+    request->setAccessToken(_accessToken);
+    request->makeApiGetRequest("friends.getMutual", query, ApiRequest::FRIENDS_GET_MUTUAL);
 }
 
 void Friends::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
-    case ApiRequest::FRIENDS_GET:
+    case ApiRequest::FRIENDS_GET: {
         QList<QObject*> friendsList;
         QJsonArray friends = value.toObject().value("items").toArray();
         for (int index = 0; index < friends.size(); ++index) {
@@ -40,6 +46,19 @@ void Friends::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
             friendsList.append(Friend::fromJsonObject(friendItem));
         }
         emit gotFriendsList(friendsList);
+        break;
+    }
+
+    case ApiRequest::FRIENDS_GET_MUTUAL: {
+//        QJsonArray friends = value.toArray();
+//        for (int index = 0; index < friends.size(); ++index) {
+//            qDebug() << friends.at(index);
+//        }
+        emit gotMutualFriendsIds(value.toArray().toVariantList());
+        break;
+    }
+
+    default:
         break;
     }
 }

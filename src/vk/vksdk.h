@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QVariant>
+#include <QVariantList>
 
 #include "friends.h"
 #include "longpoll.h"
@@ -34,9 +35,6 @@ public:
     Q_INVOKABLE void setAccessTocken(QString value);
     Q_INVOKABLE void setUserId(int value);
 
-    Q_INVOKABLE QVariant getAllFriends();
-    Q_INVOKABLE QVariant getOnlineFriends();
-
     User* selfProfile() const;
 
     Friends* friends() const;
@@ -45,24 +43,23 @@ public:
     Users* users() const;
 
 signals:
-    void gotFriends();
+    void gotFriends(QVariant friends);
     void gotSelfProfile();
     void gotProfile(User *user);
 
 public slots:
     void gotFriendsList(QList<QObject*> friendsList);
+    void gotMutualFriendsIds(QVariantList ids);
     void gotUserProfile(User *user);
+    void gotUsersList(QList<QObject*> usersList);
 
     void gotChatsList(QList<QObject*> chatsList);
     void gotDialogList(QList<QObject*> dialogsList);
-    void gotUsersList(QList<QObject*> usersList);
 
 private:
     QString _accessToken;
     int _userId;
     User *_selfProfile;
-
-    QList<QObject *> _currentFriendsList;
 
     Friends *_friends;
     LongPoll *_longPoll;

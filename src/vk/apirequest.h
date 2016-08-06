@@ -31,9 +31,11 @@ public:
 
     enum TaskType {
         FRIENDS_GET,
+        FRIENDS_GET_MUTUAL,
         MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
         USERS_GET,
+        USERS_GET_FRIENDS,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);

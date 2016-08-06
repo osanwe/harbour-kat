@@ -9,6 +9,7 @@
 #include <QUrlQuery>
 
 #include "apirequest.h"
+#include "objects/friend.h"
 #include "objects/user.h"
 
 #include <QDebug>
