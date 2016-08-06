@@ -67,4 +67,6 @@ DISTFILES += \
     qml/pages/LoginPage.qml \
     qml/pages/DialogsListPage.qml \
     qml/pages/ProfilePage.qml \
-    qml/pages/ImageViewPage.qml
+    qml/pages/ImageViewPage.qml \
+    qml/pages/FriendsListPage.qml \
+    qml/views/UserListItem.qml

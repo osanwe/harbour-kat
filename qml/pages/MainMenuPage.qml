@@ -28,7 +28,8 @@ Page {
     property var menuItems: [
         { itemText: qsTr("My profile"), counter: 0 },
         { itemText: qsTr("News"),       counter: 0 },
-        { itemText: qsTr("Messages"),   counter: 0 }
+        { itemText: qsTr("Messages"),   counter: 0 },
+        { itemText: qsTr("Friends"),   counter: 0 },
     ]
 
     function generateModelFromArray() {
@@ -116,6 +117,10 @@ Page {
 
                 case 2:
                     pageStack.push(Qt.resolvedUrl("DialogsListPage.qml"))
+                    break;
+
+                case 3:
+                    pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"), { userId: vksdk.selfProfile.id, type: 1 })
                     break;
                 }
             }
