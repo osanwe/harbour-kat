@@ -43,6 +43,15 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
+        PullDownMenu {
+            visible: profile.id !== vksdk.selfProfile.id
+
+            MenuItem {
+                text: qsTr("Go to dialog")
+                onClicked: pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { profile: profile })
+            }
+        }
+
         Column {
             anchors.fill: parent
             anchors.leftMargin: Theme.horizontalPageMargin
