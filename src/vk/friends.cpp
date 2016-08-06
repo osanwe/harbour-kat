@@ -23,7 +23,13 @@ void Friends::get(int userId) {
 }
 
 void Friends::getOnline(int userId) {
-
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("user_id", QString("%1").arg(userId));
+    ApiRequest *request = new ApiRequest();
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+    request->setAccessToken(_accessToken);
+    request->makeApiGetRequest("friends.getOnline", query, ApiRequest::FRIENDS_GET_ONLINE);
 }
 
 void Friends::getMutual(int userId) {
@@ -49,11 +55,8 @@ void Friends::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     }
 
+    case ApiRequest::FRIENDS_GET_ONLINE:
     case ApiRequest::FRIENDS_GET_MUTUAL: {
-//        QJsonArray friends = value.toArray();
-//        for (int index = 0; index < friends.size(); ++index) {
-//            qDebug() << friends.at(index);
-//        }
         emit gotMutualFriendsIds(value.toArray().toVariantList());
         break;
     }
