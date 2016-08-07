@@ -29,13 +29,19 @@ Message::Message(QObject *parent) : QObject(parent)
 Message *Message::fromJsonObject(QJsonObject object) {
     Message *message = new Message();
     message->setId(object.value("id").toInt());
-    if (object.contains("user_id")) message->setUserId(object.value("user_id").toInt());
-    if (object.contains("chat_id")) message->setChatId(object.value("chat_id").toInt());
-    message->setFromId(object.value("from_id").toInt());
-    message->setDate(object.value("date").toInt());
-    message->setReadState(object.value("read_state").toBool());
-    message->setOut(object.value("out").toBool());
-    message->setBody(object.value("body").toString());
+    if (object.contains("user_id")) {
+        message->setChat(false);
+        message->setUserId(object.value("user_id").toInt());
+    }
+    if (object.contains("chat_id")) {
+        message->setChat(true);
+        message->setChatId(object.value("chat_id").toInt());
+    }
+    if (object.contains("from_id")) message->setFromId(object.value("from_id").toInt());
+    if (object.contains("date")) message->setDate(object.value("date").toInt());
+    if (object.contains("read_state")) message->setReadState(object.value("read_state").toInt() == 1);
+    if (object.contains("out")) message->setOut(object.value("out").toInt() == 1);
+    if (object.contains("body")) message->setBody(object.value("body").toString());
     if (object.contains("geo")) {
         QJsonObject geo = object.value("geo").toObject();
         QStringList coords = geo.value("coordinates").toString().split(" ");
@@ -60,6 +66,16 @@ int Message::id() const
 void Message::setId(int id)
 {
     _id = id;
+}
+
+int Message::userId() const
+{
+    return _userId;
+}
+
+void Message::setUserId(int userId)
+{
+    _userId = userId;
 }
 
 int Message::chatId() const
@@ -132,16 +148,6 @@ void Message::addFwdMessages(Message *message)
     _fwdMessages.append(message);
 }
 
-int Message::userId() const
-{
-    return _userId;
-}
-
-void Message::setUserId(int userId)
-{
-    _userId = userId;
-}
-
 QPair<QString, QString> Message::geo() const
 {
     return _geo;
@@ -150,5 +156,15 @@ QPair<QString, QString> Message::geo() const
 void Message::setGeo(const QPair<QString, QString> &geo)
 {
     _geo = geo;
+}
+
+bool Message::chat() const
+{
+    return _chat;
+}
+
+void Message::setChat(bool chat)
+{
+    _chat = chat;
 }
 

@@ -31,6 +31,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
+    connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
     connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
 
@@ -86,6 +87,10 @@ Users *VkSDK::users() const {
 
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
     emit gotFriends(QVariant::fromValue(friendsList));
+}
+
+void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
+    emit gotMessages(QVariant::fromValue(messagesList));
 }
 
 void VkSDK::gotMutualFriendsIds(QVariantList ids) {

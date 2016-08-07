@@ -65,11 +65,13 @@ public:
 
 signals:
     void gotFriends(QVariant friends);
+    void gotMessages(QVariant messages);
     void gotSelfProfile();
     void gotProfile(User *user);
 
 public slots:
     void gotFriendsList(QList<QObject*> friendsList);
+    void gotMessagesList(QList<QObject*> messagesList);
     void gotMutualFriendsIds(QVariantList ids);
     void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);

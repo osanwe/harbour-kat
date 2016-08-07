@@ -74,4 +74,5 @@ DISTFILES += \
     qml/pages/ImageViewPage.qml \
     qml/pages/FriendsListPage.qml \
     qml/views/UserListItem.qml \
-    qml/pages/DialogPage.qml
+    qml/pages/DialogPage.qml \
+    qml/views/MessageItem.qml

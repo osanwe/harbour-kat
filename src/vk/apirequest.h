@@ -12,27 +12,7 @@
 #include <QNetworkRequest>
 #include <QObject>
 #include <QString>
-#include <QUrl>
-#include <QUrlQuery>
-#include <QVariant>
-
-#include "objects/dialog.h"
-#include "objects/message.h"
-
-#include <QDebug>
-
-class ApiRequest : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit ApiRequest(QObject *parent = 0);
-    ~ApiRequest();
-
-    enum TaskType {
-        FRIENDS_GET,
-        FRIENDS_GET_MUTUAL,
-        FRIENDS_GET_ONLINE/*
+/*
   Copyright (C) 2016 Petr Vytovtov
   Contact: Petr Vytovtov <osanwe@protonmail.ch>
   All rights reserved.
@@ -53,9 +33,30 @@ public:
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-,
+#include <QUrl>
+#include <QUrlQuery>
+#include <QVariant>
+
+#include "objects/dialog.h"
+#include "objects/message.h"
+
+#include <QDebug>
+
+class ApiRequest : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit ApiRequest(QObject *parent = 0);
+    ~ApiRequest();
+
+    enum TaskType {
+        FRIENDS_GET,
+        FRIENDS_GET_MUTUAL,
+        FRIENDS_GET_ONLINE,
         MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
+        MESSAGES_GET_HISTORY,
         USERS_GET,
         USERS_GET_FRIENDS,
     };

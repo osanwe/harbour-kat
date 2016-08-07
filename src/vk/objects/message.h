@@ -34,6 +34,16 @@ class Message : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(int id READ id CONSTANT)
+    Q_PROPERTY(int userId READ userId CONSTANT)
+    Q_PROPERTY(int chatId READ chatId CONSTANT)
+    Q_PROPERTY(int fromId READ fromId CONSTANT)
+    Q_PROPERTY(int date READ date CONSTANT)
+    Q_PROPERTY(bool chat READ chat CONSTANT)
+    Q_PROPERTY(bool readState READ readState CONSTANT)
+    Q_PROPERTY(bool out READ out CONSTANT)
+    Q_PROPERTY(QString body READ body CONSTANT)
+    Q_PROPERTY(QString body READ body CONSTANT)
     Q_PROPERTY(QString body READ body CONSTANT)
 
 public:
@@ -44,6 +54,9 @@ public:
     int id() const;
     void setId(int id);
 
+    int userId() const;
+    void setUserId(int userId);
+
     int chatId() const;
     void setChatId(int chatId);
 
@@ -52,6 +65,9 @@ public:
 
     int date() const;
     void setDate(int date);
+
+    bool chat() const;
+    void setChat(bool chat);
 
     bool readState() const;
     void setReadState(bool readState);
@@ -65,9 +81,6 @@ public:
     QList<Message *> fwdMessages() const;
     void addFwdMessages(Message *message);
 
-    int userId() const;
-    void setUserId(int userId);
-
     QPair<QString, QString> geo() const;
     void setGeo(const QPair<QString, QString> &geo);
 
@@ -77,6 +90,7 @@ private:
     int _chatId;
     int _fromId;
     int _date;
+    bool _chat;
     bool _readState;
     bool _out;
     QString _body;

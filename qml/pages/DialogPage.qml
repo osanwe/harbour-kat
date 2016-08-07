@@ -22,16 +22,27 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../views"
+
 Page {
     id: dialogPage
 
     property var profile
 
-//    SilicaListView {
-//        anchors.fill: parent
-//        anchors.bottomMargin: newMessageRow.height + Theme.paddingLarge
-//        clip: true
-//    }
+    SilicaListView {
+        id: messagesListView
+        anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingMedium + message_text.height
+        verticalLayoutDirection: ListView.BottomToTop
+        clip: true
+        delegate: MessageItem {
+            isOut: model.modelData.out
+            avatarSource: model.modelData.out ? vksdk.selfProfile.photo50 : profile.photo50
+            bodyText: model.modelData.body
+        }
+
+        VerticalScrollDecorator {}
+    }
 
     Row {
         anchors.left: parent.left
@@ -62,5 +73,12 @@ Page {
             onClicked: console.log("attach")
         }
     }
+
+    Connections {
+        target: vksdk
+        onGotMessages: messagesListView.model = messages
+    }
+
+    Component.onCompleted: vksdk.messages.getHistory(profile.id)
 }
 

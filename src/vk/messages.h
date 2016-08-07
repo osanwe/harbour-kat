@@ -51,10 +51,12 @@ public:
 
     Q_INVOKABLE void getChat(QStringList ids);
     Q_INVOKABLE void getDialogs(int offset = 0);
+    Q_INVOKABLE void getHistory(int peerId, int offset = 0);
 
 signals:
     void gotChatsList(QList<QObject*> chatsList);
     void gotDialogsList(QList<QObject*> dialogsList);
+    void gotMessagesList(QList<QObject*> messagesList);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);

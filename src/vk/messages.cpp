@@ -50,8 +50,32 @@ void Messages::getDialogs(int offset) {
     request->makeApiGetRequest("messages.getDialogs", query, ApiRequest::MESSAGES_GET_DIALOGS);
 }
 
+void Messages::getHistory(int peerId, int offset) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("peer_id", QString("%1").arg(peerId));
+    query->addQueryItem("offset", QString("%1").arg(offset));
+    ApiRequest *request = new ApiRequest(this);
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+    request->setAccessToken(_accessToken);
+    request->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
+}
+
 void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
-//    switch (type) {
+    switch (type) {
+    case ApiRequest::MESSAGES_GET_HISTORY: {
+        QJsonArray messages = value.toObject().value("items").toArray();
+        QList<QObject*> messagesList;
+        for (int index = 0; index < messages.size(); ++index) {
+            messagesList.append(Message::fromJsonObject(messages.at(index).toObject()));
+        }
+        emit gotMessagesList(messagesList);
+        break;
+    }
+
+    default:
+        break;
+
 //    case ApiRequest::MESSAGES_GET_CHAT:
 //        QJsonArray chats = value.toArray();
 //        QList<QObject*> chatsList;
@@ -69,6 +93,6 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
 //        }
 //        emit gotDialogsList(dialogsList);
 //        break;
-//    }
+    }
 }
 
