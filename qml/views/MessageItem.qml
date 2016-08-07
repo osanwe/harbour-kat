@@ -22,7 +22,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-BackgroundItem {
+Item {
     id: messageItem
 
     property var date
@@ -30,17 +30,22 @@ BackgroundItem {
     property var isRead
     property alias avatarSource: avatar.source
     property alias bodyText: body.text
+    property var fwdMessages
+    property bool highlighted: !(isRead || isOut)
 
-    anchors.left: parent.left
-    anchors.right: parent.right
     height: Math.max(avatar.height, content.height) + Theme.paddingLarge
-    highlighted: pressed || !(isRead || isOut)
 
     function convertUnixtimeToString(unixtime) {
         var d = new Date(unixtime * 1000)
         var month = d.getMonth() + 1
         var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
         return d.getDate() + "." + month + "." + d.getFullYear() + " " + d.getHours() + ":" + minutes
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+        visible: highlighted
     }
 
     Item {
@@ -57,45 +62,6 @@ BackgroundItem {
             height: Theme.iconSizeMedium
             LayoutMirroring.enabled:isOut
         }
-
-//        Label {
-//            id: typing
-//            anchors.horizontalCenter: parent.horizontalCenter
-//            visible: model.messageType === MessageBase.Typing
-//            font.pixelSize: Theme.fontSizeSmall
-//            color: Theme.secondaryHighlightColor
-//            text: content.profile.firstName + qsTr(" typing...")
-//        }
-
-//        Column {
-//            id: service
-
-//            anchors.centerIn: parent
-//            spacing: Theme.paddingSmall
-//            visible: model.messageType === MessageBase.Service ||
-//                     (model.messageType === MessageBase.Text && model.action !== -1)
-
-//            Label {
-//                id: service_body
-
-//                width: chatDelegate.width - 2 * Theme.horizontalPageMargin
-//                wrapMode: Text.Wrap
-//                font.pixelSize: Theme.fontSizeSmall
-//                color: Theme.secondaryColor
-//                text: model.messageType === MessageBase.Service
-//                      ? model.display
-//                      : chats.currentChat.actionToString(content.profile.fullName, model.action,
-//                                                         model.actionText, content.profile.sex)
-//                visible: text !== ""
-//            }
-
-//            AttachmentsView {
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                visible: model.attachments && model.attachments.count()
-//                maximumWidth: chatDelegate.width * 0.8
-//                attachments: model.attachments
-//            }
-//        }
 
         Column {
             id: content
@@ -129,13 +95,13 @@ BackgroundItem {
                 onLinkActivated: Qt.openUrlExternally(link)
             }
 
-//            AttachmentsView {
-//                width: message_body.width
-//                visible: model.attachments && model.attachments.count()
-//                maximumWidth: message_body.width
-//                attachments: model.attachments
-//                isOut: model.isOut
-//            }
+            AttachmentsView {
+                id: attachments
+                width: parent.width
+                aout: isOut
+                aread: isRead
+                amessages: fwdMessages
+            }
         }
     }
 }

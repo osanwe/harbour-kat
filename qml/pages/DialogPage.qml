@@ -40,11 +40,15 @@ Page {
 
             property var item: model.modelData ? model.modelData : model
 
+            anchors.left: parent.left
+            anchors.right: parent.right
+
             date: item.date
             isOut: item.out
-            isRead: readState
+            isRead: item.readState
             avatarSource: item.out ? vksdk.selfProfile.photo50 : profile.photo50
             bodyText: item.body
+            fwdMessages: item.fwdMessages
         }
 
         PullDownMenu {
@@ -92,15 +96,16 @@ Page {
         target: vksdk
         onGotMessages: {
             for (var index in messages)
-                messagesListView.model.append({ id:        messages[index].id,
-                                                userId:    messages[index].userId,
-                                                chatId:    messages[index].chatId,
-                                                fromId:    messages[index].fromId,
-                                                date:      messages[index].date,
-                                                chat:      messages[index].chat,
-                                                readState: messages[index].readState,
-                                                out:       messages[index].out,
-                                                body:      messages[index].body })
+                messagesListView.model.append({ id:          messages[index].id,
+                                                userId:      messages[index].userId,
+                                                chatId:      messages[index].chatId,
+                                                fromId:      messages[index].fromId,
+                                                date:        messages[index].date,
+                                                chat:        messages[index].chat,
+                                                readState:   messages[index].readState,
+                                                out:         messages[index].out,
+                                                body:        messages[index].body,
+                                                fwdMessages: messages[index].fwdMessages })
         }
     }
 

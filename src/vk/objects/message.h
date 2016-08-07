@@ -29,6 +29,9 @@
 #include <QPair>
 #include <QString>
 #include <QStringList>
+#include <QVariant>
+
+#include <QDebug>
 
 class Message : public QObject
 {
@@ -44,7 +47,7 @@ class Message : public QObject
     Q_PROPERTY(bool out READ out CONSTANT)
     Q_PROPERTY(QString body READ body CONSTANT)
 //    Q_PROPERTY(QString body READ body CONSTANT)
-//    Q_PROPERTY(QString body READ body CONSTANT)
+    Q_PROPERTY(QVariant fwdMessages READ fwdMessages CONSTANT)
 
 public:
     explicit Message(QObject *parent = 0);
@@ -78,7 +81,7 @@ public:
     QString body() const;
     void setBody(const QString &body);
 
-    QList<Message *> fwdMessages() const;
+    QVariant fwdMessages() const;
     void addFwdMessages(Message *message);
 
     QPair<QString, QString> geo() const;
@@ -96,7 +99,7 @@ private:
     QString _body;
     QPair<QString, QString> _geo;
     // Attachments
-    QList<Message *> _fwdMessages;
+    QList<QObject*> _fwdMessages;
 };
 
 #endif // MESSAGE_H

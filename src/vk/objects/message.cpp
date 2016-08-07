@@ -138,9 +138,9 @@ void Message::setBody(const QString &body)
     _body = body;
 }
 
-QList<Message *> Message::fwdMessages() const
+QVariant Message::fwdMessages() const
 {
-    return _fwdMessages;
+    return QVariant::fromValue(_fwdMessages);
 }
 
 void Message::addFwdMessages(Message *message)
