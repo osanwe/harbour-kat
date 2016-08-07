@@ -35,10 +35,22 @@ Page {
         anchors.bottomMargin: Theme.paddingMedium + message_text.height
         verticalLayoutDirection: ListView.BottomToTop
         clip: true
+        model: ListModel {}
         delegate: MessageItem {
-            isOut: model.modelData.out
-            avatarSource: model.modelData.out ? vksdk.selfProfile.photo50 : profile.photo50
-            bodyText: model.modelData.body
+
+            property var item: model.modelData ? model.modelData : model
+
+            isOut: item.out
+            avatarSource: item.out ? vksdk.selfProfile.photo50 : profile.photo50
+            bodyText: item.body
+        }
+
+        PullDownMenu {
+
+            MenuItem {
+                text: qsTr("Load more")
+                onClicked: vksdk.messages.getHistory(profile.id, messagesListView.model.count)
+            }
         }
 
         VerticalScrollDecorator {}
@@ -60,7 +72,7 @@ Page {
 
             EnterKey.enabled: text.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-            EnterKey.onClicked: emailField.focus = true
+            EnterKey.onClicked: {}
         }
 
 
@@ -76,7 +88,18 @@ Page {
 
     Connections {
         target: vksdk
-        onGotMessages: messagesListView.model = messages
+        onGotMessages: {
+            for (var index in messages)
+                messagesListView.model.append({ id:        messages[index].id,
+                                                userId:    messages[index].userId,
+                                                chatId:    messages[index].chatId,
+                                                fromId:    messages[index].fromId,
+                                                date:      messages[index].date,
+                                                chat:      messages[index].chat,
+                                                readState: messages[index].readState,
+                                                out:       messages[index].out,
+                                                body:      messages[index].body })
+        }
     }
 
     Component.onCompleted: vksdk.messages.getHistory(profile.id)

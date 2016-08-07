@@ -43,8 +43,8 @@ class Message : public QObject
     Q_PROPERTY(bool readState READ readState CONSTANT)
     Q_PROPERTY(bool out READ out CONSTANT)
     Q_PROPERTY(QString body READ body CONSTANT)
-    Q_PROPERTY(QString body READ body CONSTANT)
-    Q_PROPERTY(QString body READ body CONSTANT)
+//    Q_PROPERTY(QString body READ body CONSTANT)
+//    Q_PROPERTY(QString body READ body CONSTANT)
 
 public:
     explicit Message(QObject *parent = 0);
