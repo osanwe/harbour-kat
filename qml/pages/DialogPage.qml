@@ -48,6 +48,8 @@ Page {
             isRead: item.readState
             avatarSource: item.out ? vksdk.selfProfile.photo50 : profile.photo50
             bodyText: item.body
+            geoTile: item.geoTile
+            geoMap: item.geoMap
             fwdMessages: item.fwdMessages
         }
 
@@ -105,6 +107,8 @@ Page {
                                                 readState:   messages[index].readState,
                                                 out:         messages[index].out,
                                                 body:        messages[index].body,
+                                                geoMap:      messages[index].geoMap,
+                                                geoTile:     messages[index].geoTile,
                                                 fwdMessages: messages[index].fwdMessages })
         }
     }

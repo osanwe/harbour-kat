@@ -22,28 +22,21 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Column {
+Item {
+    width: maximumWidth
     height: childrenRect.height
-    spacing: Theme.paddingSmall
 
-    property var ageoTile
-    property var ageoMap
+    Image {
+        anchors.left: parent.left
+        width: parent.width / 2
+        fillMode: Image.PreserveAspectFit
+        source: geoTile
+        LayoutMirroring.enabled: isOut
 
-    property var amessages
-
-    Loader {
-        property int maximumWidth: parent.width
-        property var geoTile: ageoTile
-        property var geoMap: ageoMap
-        active: typeof(ageoTile) !== 'undefined'
-        source: "GeoItem.qml"
-    }
-
-    Loader {
-        property int maximumWidth: parent.width
-        property var messages: amessages
-        active: amessages.count > 0
-        source: "FwdMessages.qml"
+        MouseArea {
+            anchors.fill: parent
+            onClicked: Qt.openUrlExternally(geoMap)
+        }
     }
 }
 

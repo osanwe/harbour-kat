@@ -26,7 +26,6 @@ User::User(QObject *parent) : QObject(parent)
 
 User *User::fromJsonObject(QJsonObject object)
 {
-    qDebug() << object;
     User *user = new User();
     user->setId(object.value("id").toInt());
     user->setFirstName(object.value("first_name").toString());

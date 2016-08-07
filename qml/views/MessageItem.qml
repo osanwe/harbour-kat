@@ -30,6 +30,8 @@ Item {
     property var isRead
     property alias avatarSource: avatar.source
     property alias bodyText: body.text
+    property var geoTile
+    property var geoMap
     property var fwdMessages
     property bool highlighted: !(isRead || isOut)
 
@@ -98,8 +100,8 @@ Item {
             AttachmentsView {
                 id: attachments
                 width: parent.width
-                aout: isOut
-                aread: isRead
+                ageoTile: geoTile
+                ageoMap: geoMap
                 amessages: fwdMessages
             }
         }

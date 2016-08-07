@@ -36,12 +36,12 @@ Column {
             width: fwdColumn.width
             height: childrenRect.height
             spacing: Theme.paddingSmall
-            LayoutMirroring.enabled: out
+            LayoutMirroring.enabled: isOut
 
             Rectangle {
                 width: 1
                 height: message.height
-                color: read ? Theme.primaryColor : Theme.highlightColor
+                color: isRead ? Theme.primaryColor : Theme.highlightColor
             }
 
             Column {
@@ -54,9 +54,9 @@ Column {
                     id: datetime
                     width: parent.width
                     horizontalAlignment: Text.AlignLeft
-                    color: messageItem.highlighted || (!read && out) ? Theme.secondaryHighlightColor: Theme.secondaryColor
+                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor: Theme.secondaryColor
                     font.pixelSize: Theme.fontSizeTiny
-                    LayoutMirroring.enabled: out
+                    LayoutMirroring.enabled: isOut
                     text: convertUnixtimeToString(messagesRepeater.model.get(index).date)
                     visible: text !== ""
                 }
@@ -66,9 +66,9 @@ Column {
                     width: parent.width
                     horizontalAlignment: Text.AlignLeft
                     wrapMode: Text.Wrap
-                    color: messageItem.highlighted || (!read && out) ? Theme.highlightColor : Theme.primaryColor
+                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.highlightColor : Theme.primaryColor
                     linkColor: messageItem.highlighted ? Theme.primaryColor : Theme.highlightColor
-                    LayoutMirroring.enabled: out
+                    LayoutMirroring.enabled: isOut
                     visible: text !== ""
                     text: messagesRepeater.model.get(index).body
 
@@ -77,8 +77,8 @@ Column {
 
                 AttachmentsView {
                     width: parent.width
-                    aout: isOut
-                    aread: read
+                    ageoMap: messagesRepeater.model.get(index).geoMap
+                    ageoTile: messagesRepeater.model.get(index).geoTile
                     amessages: messagesRepeater.model.get(index).fwdMessages
                 }
             }

@@ -22,6 +22,8 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <math.h>
+
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QList>
@@ -46,7 +48,8 @@ class Message : public QObject
     Q_PROPERTY(bool readState READ readState CONSTANT)
     Q_PROPERTY(bool out READ out CONSTANT)
     Q_PROPERTY(QString body READ body CONSTANT)
-//    Q_PROPERTY(QString body READ body CONSTANT)
+    Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
+    Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
     Q_PROPERTY(QVariant fwdMessages READ fwdMessages CONSTANT)
 
 public:
@@ -84,8 +87,11 @@ public:
     QVariant fwdMessages() const;
     void addFwdMessages(Message *message);
 
-    QPair<QString, QString> geo() const;
-    void setGeo(const QPair<QString, QString> &geo);
+    QString geoTile() const;
+    void setGeoTile(double lat, double lon);
+
+    QString geoMap() const;
+    void setGeoMap(double lat, double lon);
 
 private:
     int _id;
@@ -97,7 +103,8 @@ private:
     bool _readState;
     bool _out;
     QString _body;
-    QPair<QString, QString> _geo;
+    QString _geoTile;
+    QString _geoMap;
     // Attachments
     QList<QObject*> _fwdMessages;
 };

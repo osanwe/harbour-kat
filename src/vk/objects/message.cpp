@@ -45,7 +45,8 @@ Message *Message::fromJsonObject(QJsonObject object) {
     if (object.contains("geo")) {
         QJsonObject geo = object.value("geo").toObject();
         QStringList coords = geo.value("coordinates").toString().split(" ");
-        message->setGeo(QPair<QString, QString>(coords.at(0), coords.at(1)));
+        message->setGeoMap(coords.at(0).toDouble(), coords.at(1).toDouble());
+        message->setGeoTile(coords.at(0).toDouble(), coords.at(1).toDouble());
     }
     // TODO: Attachments
     if (object.contains("fwd_messages")) {
@@ -148,14 +149,24 @@ void Message::addFwdMessages(Message *message)
     _fwdMessages.append(message);
 }
 
-QPair<QString, QString> Message::geo() const
+QString Message::geoTile() const
 {
-    return _geo;
+    return _geoTile;
 }
 
-void Message::setGeo(const QPair<QString, QString> &geo)
+void Message::setGeoTile(double lat, double lon)
 {
-    _geo = geo;
+    _geoTile = QString("http://www.mapquestapi.com/staticmap/v4/getmap?key=AfRC0WKf0YDWjtNKyWuB3LCpdHUQeME6&size=400,200&zoom=18&center=%1,%2").arg(lat).arg(lon);
+}
+
+QString Message::geoMap() const
+{
+    return _geoMap;
+}
+
+void Message::setGeoMap(double lat, double lon)
+{
+    _geoMap = QString("http://www.openstreetmap.org/?mlat=%1&mlon=%2&zoom=19").arg(lat).arg(lon);
 }
 
 bool Message::chat() const

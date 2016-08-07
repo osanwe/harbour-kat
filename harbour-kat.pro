@@ -77,4 +77,5 @@ DISTFILES += \
     qml/pages/DialogPage.qml \
     qml/views/MessageItem.qml \
     qml/views/FwdMessages.qml \
-    qml/views/AttachmentsView.qml
+    qml/views/AttachmentsView.qml \
+    qml/views/GeoItem.qml
