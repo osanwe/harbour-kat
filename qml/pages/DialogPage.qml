@@ -51,13 +51,11 @@ Page {
             geoTile: item.geoTile
             geoMap: item.geoMap
             fwdMessages: item.fwdMessages
-        }
 
-        PullDownMenu {
-
-            MenuItem {
-                text: qsTr("Load more")
-                onClicked: vksdk.messages.getHistory(profile.id, messagesListView.model.count)
+            Component.onCompleted: {
+                if (index === messagesListView.model.count-1) {
+                    vksdk.messages.getHistory(profile.id, messagesListView.model.count)
+                }
             }
         }
 
