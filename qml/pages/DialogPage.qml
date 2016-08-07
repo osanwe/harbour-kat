@@ -40,7 +40,9 @@ Page {
 
             property var item: model.modelData ? model.modelData : model
 
+            date: item.date
             isOut: item.out
+            isRead: readState
             avatarSource: item.out ? vksdk.selfProfile.photo50 : profile.photo50
             bodyText: item.body
         }

@@ -25,13 +25,23 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     id: messageItem
 
+    property var date
     property var isOut
+    property var isRead
     property alias avatarSource: avatar.source
     property alias bodyText: body.text
 
     anchors.left: parent.left
     anchors.right: parent.right
     height: Math.max(avatar.height, content.height) + Theme.paddingLarge
+    highlighted: pressed || !(isRead || isOut)
+
+    function convertUnixtimeToString(unixtime) {
+        var d = new Date(unixtime * 1000)
+        var month = d.getMonth() + 1
+        var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
+        return d.getDate() + "." + month + "." + d.getFullYear() + " " + d.getHours() + ":" + minutes
+    }
 
     Item {
         anchors.fill: parent
@@ -96,11 +106,22 @@ BackgroundItem {
             LayoutMirroring.enabled: isOut
 
             Label {
+                id: datetime
+                width: body.width
+                horizontalAlignment: Text.AlignLeft
+                color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeTiny
+                LayoutMirroring.enabled: isOut
+                text: convertUnixtimeToString(date)
+                visible: text !== ""
+            }
+
+            Label {
                 id: body
                 width: messageItem.width - avatar.width - Theme.paddingMedium - 2 * Theme.horizontalPageMargin
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.Wrap
-                color: messageItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                color: messageItem.highlighted || (!isRead && isOut) ? Theme.highlightColor : Theme.primaryColor
                 linkColor: messageItem.highlighted ? Theme.primaryColor : Theme.highlightColor
                 LayoutMirroring.enabled: isOut
                 visible: text !== ""
