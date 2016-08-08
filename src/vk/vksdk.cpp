@@ -90,6 +90,7 @@ void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
 }
 
 void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
+    _users->get(_getIdsFromMessages(messagesList));
     emit gotMessages(QVariant::fromValue(messagesList));
 }
 
@@ -131,6 +132,19 @@ void VkSDK::gotDialogList(QList<QObject *> dialogsList) {
 ////        else _usersIds.append(dialog->lastMessage()->userId());
 //    }
 //    if (!_chatsIds.isEmpty()) _messages->getChat(_chatsIds);
-//    else _users->get(_usersIds);
+    //    else _users->get(_usersIds);
+}
+
+QStringList VkSDK::_getIdsFromMessages(QList<QObject *> messages) {
+    QStringList ids;
+    for (int index = 0; index < messages.size(); ++index) {
+        Message *msg = qobject_cast<Message*>(messages.at(index));
+        QString id = QString("%1").arg(msg->fromId());
+        if (!ids.contains(id) && id != "0") {
+            ids.append(id);
+        }
+        if (!msg->fwdMessagesList().isEmpty()) ids += _getIdsFromMessages(msg->fwdMessagesList());
+    }
+    return ids;
 }
 

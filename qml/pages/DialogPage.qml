@@ -27,7 +27,8 @@ import "../views"
 Page {
     id: dialogPage
 
-    property var profile
+    property var historyId
+    property var profiles
 
     SilicaListView {
         id: messagesListView
@@ -39,6 +40,7 @@ Page {
         delegate: MessageItem {
 
             property var item: model.modelData ? model.modelData : model
+            property var avatarSrc: profiles[item.fromId] ? profiles[item.fromId].photo50 : "image://theme/icon-m-person"
 
             anchors.left: parent.left
             anchors.right: parent.right
@@ -46,7 +48,7 @@ Page {
             date: item.date
             isOut: item.out
             isRead: item.readState
-            avatarSource: item.out ? vksdk.selfProfile.photo50 : profile.photo50
+            avatarSource: avatarSrc
             bodyText: item.body
             geoTile: item.geoTile
             geoMap: item.geoMap
@@ -54,7 +56,7 @@ Page {
 
             Component.onCompleted: {
                 if (index === messagesListView.model.count-1) {
-                    vksdk.messages.getHistory(profile.id, messagesListView.model.count)
+                    vksdk.messages.getHistory(historyId, messagesListView.model.count)
                 }
             }
         }
@@ -109,8 +111,18 @@ Page {
                                                 geoTile:     messages[index].geoTile,
                                                 fwdMessages: messages[index].fwdMessages })
         }
+        onGotFriends: {
+            for (var index in friends) {
+                var id = friends[index].id + ''
+                profiles[id] = friends[index]
+            }
+            messagesListView.returnToBounds()
+        }
     }
 
-    Component.onCompleted: vksdk.messages.getHistory(profile.id)
+    Component.onCompleted: {
+        console.log(profiles)
+        vksdk.messages.getHistory(historyId)
+    }
 }
 

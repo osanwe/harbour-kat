@@ -144,6 +144,10 @@ QVariant Message::fwdMessages() const
     return QVariant::fromValue(_fwdMessages);
 }
 
+QList<QObject *> Message::fwdMessagesList() const {
+    return _fwdMessages;
+}
+
 void Message::addFwdMessages(Message *message)
 {
     _fwdMessages.append(message);

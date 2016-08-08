@@ -92,6 +92,8 @@ private:
     QStringList _usersIds;
     QStringList _chatsIds;
     QList<QObject*> _dialogs;
+
+    QStringList _getIdsFromMessages(QList<QObject*> messages);
 };
 
 #endif // VKSDK_H

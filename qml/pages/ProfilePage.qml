@@ -50,7 +50,15 @@ Page {
             MenuItem {
                 visible: profile.canWritePrivateMessage
                 text: qsTr("Go to dialog")
-                onClicked: pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { profile: profile })
+                onClicked: {
+                    var userId = profile.id + ''
+                    var selfId = vksdk.selfProfile.id + ''
+                    var profiles = new Object
+                    profiles[userId] = profile
+                    profiles[selfId] = vksdk.selfProfile
+                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { historyId: profile.id,
+                                                                       profiles:  profiles })
+                }
             }
         }
 

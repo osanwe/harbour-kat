@@ -85,6 +85,7 @@ public:
     void setBody(const QString &body);
 
     QVariant fwdMessages() const;
+    QList<QObject*> fwdMessagesList() const;
     void addFwdMessages(Message *message);
 
     QString geoTile() const;
@@ -94,11 +95,11 @@ public:
     void setGeoMap(double lat, double lon);
 
 private:
-    int _id;
-    int _userId;
-    int _chatId;
-    int _fromId;
-    int _date;
+    int _id = 0;
+    int _userId = 0;
+    int _chatId = 0;
+    int _fromId = 0;
+    int _date = 0;
     bool _chat;
     bool _readState;
     bool _out;

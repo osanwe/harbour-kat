@@ -51,6 +51,18 @@ Column {
                 spacing: Theme.paddingSmall
 
                 Label {
+                    width: parent.width
+                    horizontalAlignment: Text.AlignLeft
+                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor: Theme.secondaryColor
+                    font.bold: true
+                    font.pixelSize: Theme.fontSizeSmall
+                    LayoutMirroring.enabled: isOut
+                    text: profiles[messagesRepeater.model.get(index).userId].firstName + " " +
+                          profiles[messagesRepeater.model.get(index).userId].lastName
+                    visible: text !== ""
+                }
+
+                Label {
                     id: datetime
                     width: parent.width
                     horizontalAlignment: Text.AlignLeft
