@@ -32,6 +32,7 @@ Item {
     property alias bodyText: body.text
     property var geoTile
     property var geoMap
+    property var photos
     property var fwdMessages
     property bool highlighted: !(isRead || isOut)
 
@@ -102,6 +103,7 @@ Item {
                 width: parent.width
                 ageoTile: geoTile
                 ageoMap: geoMap
+                aphotos: photos
                 amessages: fwdMessages
             }
         }

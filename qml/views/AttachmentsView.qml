@@ -28,8 +28,15 @@ Column {
 
     property var ageoTile
     property var ageoMap
-
+    property var aphotos
     property var amessages
+
+    Loader {
+        property int maximumWidth: parent.width
+        property var photos: aphotos
+        active: aphotos.count > 0
+        source: "PhotosView.qml"
+    }
 
     Loader {
         property int maximumWidth: parent.width

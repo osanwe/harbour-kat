@@ -21,9 +21,7 @@
 
 #include "message.h"
 
-Message::Message(QObject *parent) : QObject(parent)
-{
-
+Message::Message(QObject *parent) : QObject(parent) {
 }
 
 Message *Message::fromJsonObject(QJsonObject object) {
@@ -48,7 +46,35 @@ Message *Message::fromJsonObject(QJsonObject object) {
         message->setGeoMap(coords.at(0).toDouble(), coords.at(1).toDouble());
         message->setGeoTile(coords.at(0).toDouble(), coords.at(1).toDouble());
     }
-    // TODO: Attachments
+    if (object.contains("attachments")) {
+        QJsonArray attachments = object.value("attachments").toArray();
+        for (int index = 0; index < attachments.size(); ++index) {
+            QJsonObject attachment = attachments.at(index).toObject();
+            if (attachment.value("type").toString() == "gift") {
+                //
+            } else if (attachment.value("type").toString() == "photo") {
+                message->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
+            } else if (attachment.value("type").toString() == "video") {
+                //
+            } else if (attachment.value("type").toString() == "audio") {
+                //
+            } else if (attachment.value("type").toString() == "doc") {
+                //
+            } else if (attachment.value("type").toString() == "wall") {
+                //
+            } else if (attachment.value("type").toString() == "wall_reply") {
+                //
+            } else if (attachment.value("type").toString() == "sticker") {
+                //
+            } else if (attachment.value("type").toString() == "link") {
+                //
+            } else if (attachment.value("type").toString() == "market") {
+                //
+            } else if (attachment.value("type").toString() == "market_album") {
+                //
+            }
+        }
+    }
     if (object.contains("fwd_messages")) {
         QJsonArray fwds = object.value("fwd_messages").toArray();
         for (int index = 0; index < fwds.size(); ++index) {
@@ -137,6 +163,21 @@ QString Message::body() const
 void Message::setBody(const QString &body)
 {
     _body = body;
+}
+
+QVariant Message::photos() const
+{
+    return QVariant::fromValue(_photos);
+}
+
+QList<QObject *> Message::photosList() const
+{
+    return _photos;
+}
+
+void Message::addPhoto(Photo *photo)
+{
+    _photos.append(photo);
 }
 
 QVariant Message::fwdMessages() const

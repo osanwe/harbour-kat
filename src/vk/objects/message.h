@@ -33,6 +33,8 @@
 #include <QStringList>
 #include <QVariant>
 
+#include "photo.h"
+
 #include <QDebug>
 
 class Message : public QObject
@@ -50,6 +52,7 @@ class Message : public QObject
     Q_PROPERTY(QString body READ body CONSTANT)
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
+    Q_PROPERTY(QVariant photos READ photos CONSTANT)
     Q_PROPERTY(QVariant fwdMessages READ fwdMessages CONSTANT)
 
 public:
@@ -84,6 +87,10 @@ public:
     QString body() const;
     void setBody(const QString &body);
 
+    QVariant photos() const;
+    QList<QObject *> photosList() const;
+    void addPhoto(Photo *photo);
+
     QVariant fwdMessages() const;
     QList<QObject*> fwdMessagesList() const;
     void addFwdMessages(Message *message);
@@ -106,7 +113,7 @@ private:
     QString _body;
     QString _geoTile;
     QString _geoMap;
-    // Attachments
+    QList<QObject*> _photos;
     QList<QObject*> _fwdMessages;
 };
 

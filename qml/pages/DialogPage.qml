@@ -52,6 +52,7 @@ Page {
             bodyText: item.body
             geoTile: item.geoTile
             geoMap: item.geoMap
+            photos: item.photos
             fwdMessages: item.fwdMessages
 
             Component.onCompleted: {
@@ -109,6 +110,7 @@ Page {
                                                 body:        messages[index].body,
                                                 geoMap:      messages[index].geoMap,
                                                 geoTile:     messages[index].geoTile,
+                                                photos:      messages[index].photos,
                                                 fwdMessages: messages[index].fwdMessages })
         }
         onGotFriends: {

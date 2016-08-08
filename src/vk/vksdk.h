@@ -35,6 +35,7 @@
 #include "users.h"
 #include "objects/chat.h"
 #include "objects/dialog.h"
+#include "objects/photo.h"
 #include "objects/friend.h"
 #include "objects/user.h"
 

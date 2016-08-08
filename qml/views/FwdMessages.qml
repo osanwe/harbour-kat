@@ -91,6 +91,7 @@ Column {
                     width: parent.width
                     ageoMap: messagesRepeater.model.get(index).geoMap
                     ageoTile: messagesRepeater.model.get(index).geoTile
+                    aphotos: messagesRepeater.model.get(index).photos
                     amessages: messagesRepeater.model.get(index).fwdMessages
                 }
             }
