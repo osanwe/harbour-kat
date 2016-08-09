@@ -26,6 +26,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _longPoll = new LongPoll(this);
     _messages = new Messages(this);
     _users = new Users(this);
+    _videos = new Videos(this);
 
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
     connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
@@ -34,6 +35,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
     connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
+    connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
 
     qRegisterMetaType<Photo*>("Photo*");
     qRegisterMetaType<Friend*>("Friend*");
@@ -44,6 +46,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
+    qRegisterMetaType<Videos*>("Videos*");
 }
 
 VkSDK::~VkSDK() {
@@ -53,6 +56,7 @@ VkSDK::~VkSDK() {
     delete _longPoll;
     delete _messages;
     delete _users;
+    delete _videos;
 }
 
 void VkSDK::setAccessTocken(QString value) {
@@ -61,6 +65,7 @@ void VkSDK::setAccessTocken(QString value) {
     _longPoll->setAccessToken(value);
     _messages->setAccessToken(value);
     _users->setAccessToken(value);
+    _videos->setAccessToken(value);
 }
 
 void VkSDK::setUserId(int value) {
@@ -87,6 +92,11 @@ Users *VkSDK::users() const {
     return _users;
 }
 
+Videos *VkSDK::videos() const
+{
+    return _videos;
+}
+
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
     emit gotFriends(QVariant::fromValue(friendsList));
 }
@@ -111,6 +121,11 @@ void VkSDK::gotUserProfile(User *user) {
 
 void VkSDK::gotUsersList(QList<QObject *> usersList) {
     emit gotFriends(QVariant::fromValue(usersList));
+}
+
+void VkSDK::gotVideoObject(Video *video)
+{
+    emit gotVideo(video);
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {

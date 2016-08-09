@@ -38,11 +38,16 @@ Item {
                 fillMode: Image.PreserveAspectCrop
                 source: videos.get(index).photo
 
-                Component.onCompleted: console.log(videos.get(index).photo)
+                Image {
+                    anchors.centerIn: parent
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                    source: "image://theme/icon-m-play"
+                }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {}
+                    onClicked: vksdk.videos.get(videos.get(index).ownerId, videos.get(index).id)
                 }
             }
         }

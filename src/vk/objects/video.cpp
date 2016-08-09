@@ -9,6 +9,7 @@ Video *Video::fromJsonObject(QJsonObject object) {
     Video *video = new Video();
     if (object.contains("id")) video->setId(object.value("id").toInt());
     if (object.contains("owner_id")) video->setOwnerId(object.value("owner_id").toInt());
+    if (object.contains("duration")) video->setDuration(object.value("duration").toInt());
     if (object.contains("title")) video->setTitle(object.value("title").toString());
     if (object.contains("photo_130")) video->setPhoto130(object.value("photo_130").toString());
     if (object.contains("photo_320")) video->setPhoto320(object.value("photo_320").toString());
@@ -42,6 +43,16 @@ int Video::ownerId() const
 void Video::setOwnerId(int ownerId)
 {
     _ownerId = ownerId;
+}
+
+int Video::duration() const
+{
+    return _duration;
+}
+
+void Video::setDuration(int duration)
+{
+    _duration = duration;
 }
 
 QString Video::title() const

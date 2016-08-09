@@ -13,6 +13,7 @@ class Video : public QObject
 
     Q_PROPERTY(int id READ id CONSTANT)
     Q_PROPERTY(int ownerId READ ownerId CONSTANT)
+    Q_PROPERTY(int duration READ duration CONSTANT)
     Q_PROPERTY(QString title READ title CONSTANT)
     Q_PROPERTY(QString photo READ photo CONSTANT)
     Q_PROPERTY(QString video READ video CONSTANT)
@@ -27,6 +28,9 @@ public:
 
     int ownerId() const;
     void setOwnerId(int ownerId);
+
+    int duration() const;
+    void setDuration(int duration);
 
     QString title() const;
     void setTitle(const QString &title);
@@ -46,6 +50,7 @@ public:
 private:
     int _id;
     int _ownerId;
+    int _duration;
     QString _title;
     QString _photo130;
     QString _photo320;

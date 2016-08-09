@@ -19,6 +19,8 @@ greaterThan(QT_VERSION, 5.5) {
     QMAKE_CXXFLAGS += -std=gnu++11
 }
 
+QT += multimedia
+
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
@@ -35,7 +37,8 @@ SOURCES += \
     src/vk/friends.cpp \
     src/vk/objects/friend.cpp \
     src/vk/objects/photo.cpp \
-    src/vk/objects/video.cpp
+    src/vk/objects/video.cpp \
+    src/vk/videos.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -68,7 +71,8 @@ HEADERS += \
     src/vk/friends.h \
     src/vk/objects/friend.h \
     src/vk/objects/photo.h \
-    src/vk/objects/video.h
+    src/vk/objects/video.h \
+    src/vk/videos.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -84,4 +88,5 @@ DISTFILES += \
     qml/views/AttachmentsView.qml \
     qml/views/GeoItem.qml \
     qml/views/PhotosView.qml \
-    qml/views/VideosView.qml
+    qml/views/VideosView.qml \
+    qml/pages/VideoPlayer.qml

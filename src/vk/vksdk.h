@@ -33,6 +33,7 @@
 #include "longpoll.h"
 #include "messages.h"
 #include "users.h"
+#include "videos.h"
 #include "objects/chat.h"
 #include "objects/dialog.h"
 #include "objects/photo.h"
@@ -50,6 +51,7 @@ class VkSDK : public QObject
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
+    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 
 public:
     explicit VkSDK(QObject *parent = 0);
@@ -64,12 +66,14 @@ public:
     LongPoll* longPoll() const;
     Messages* messages() const;
     Users* users() const;
+    Videos* videos() const;
 
 signals:
     void gotFriends(QVariant friends);
     void gotMessages(QVariant messages);
     void gotSelfProfile();
     void gotProfile(User *user);
+    void gotVideo(Video *video);
 
 public slots:
     void gotFriendsList(QList<QObject*> friendsList);
@@ -77,6 +81,7 @@ public slots:
     void gotMutualFriendsIds(QVariantList ids);
     void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);
+    void gotVideoObject(Video *video);
 
     void gotChatsList(QList<QObject*> chatsList);
     void gotDialogList(QList<QObject*> dialogsList);
@@ -90,6 +95,7 @@ private:
     LongPoll *_longPoll;
     Messages *_messages;
     Users *_users;
+    Videos *_videos;
 
     QStringList _usersIds;
     QStringList _chatsIds;

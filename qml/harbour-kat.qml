@@ -26,7 +26,8 @@ ApplicationWindow
 {
     id: application
 
-    allowedOrientations: Orientation.All
+//    allowedOrientations: Orientation.All
+//    _defaultPageOrientations: Orientation.All
 
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     initialPage: {

@@ -59,6 +59,7 @@ public:
         MESSAGES_GET_HISTORY,
         USERS_GET,
         USERS_GET_FRIENDS,
+        VIDEO_GET,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
