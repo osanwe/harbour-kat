@@ -42,7 +42,11 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         var sources = []
-                        for (var idx in photos) sources[idx] = photos.get(idx).photoMaximum
+                        var idx = 0
+                        while (idx < photos.count) {
+                            sources[idx] = photos.get(idx).photoMaximum
+                            idx++
+                        }
                         pageStack.push(Qt.resolvedUrl("../pages/ImageViewPage.qml"), { current:     index,
                                                                                        imagesModel: sources })
                     }

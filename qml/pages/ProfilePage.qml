@@ -89,7 +89,7 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: pageStack.push(Qt.resolvedUrl("ImageViewPage.qml"), { photoSource: profile.photoMaxOrig })
+                        onClicked: pageStack.push(Qt.resolvedUrl("ImageViewPage.qml"), { imagesModel: [profile.photoMaxOrig] })
                     }
                 }
 
