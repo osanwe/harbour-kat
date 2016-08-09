@@ -34,6 +34,7 @@
 #include <QVariant>
 
 #include "photo.h"
+#include "video.h"
 
 #include <QDebug>
 
@@ -53,6 +54,7 @@ class Message : public QObject
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
     Q_PROPERTY(QVariant photos READ photos CONSTANT)
+    Q_PROPERTY(QVariant videos READ videos CONSTANT)
     Q_PROPERTY(QVariant fwdMessages READ fwdMessages CONSTANT)
 
 public:
@@ -91,6 +93,10 @@ public:
     QList<QObject *> photosList() const;
     void addPhoto(Photo *photo);
 
+    QVariant videos() const;
+    QList<QObject *> videosList() const;
+    void addVideo(Video *video);
+
     QVariant fwdMessages() const;
     QList<QObject*> fwdMessagesList() const;
     void addFwdMessages(Message *message);
@@ -114,6 +120,7 @@ private:
     QString _geoTile;
     QString _geoMap;
     QList<QObject*> _photos;
+    QList<QObject*> _videos;
     QList<QObject*> _fwdMessages;
 };
 

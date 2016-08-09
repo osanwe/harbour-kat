@@ -92,6 +92,7 @@ Column {
                     ageoMap: messagesRepeater.model.get(index).geoMap
                     ageoTile: messagesRepeater.model.get(index).geoTile
                     aphotos: messagesRepeater.model.get(index).photos
+                    avideos: messagesRepeater.model.get(index).videos
                     amessages: messagesRepeater.model.get(index).fwdMessages
                 }
             }

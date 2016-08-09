@@ -50,9 +50,10 @@ Page {
             isRead: item.readState
             avatarSource: avatarSrc
             bodyText: item.body
+            photos: item.photos
+            videos: item.videos
             geoTile: item.geoTile
             geoMap: item.geoMap
-            photos: item.photos
             fwdMessages: item.fwdMessages
 
             Component.onCompleted: {
@@ -98,7 +99,7 @@ Page {
     Connections {
         target: vksdk
         onGotMessages: {
-            for (var index in messages)
+            for (var index in messages) {
                 messagesListView.model.append({ id:          messages[index].id,
                                                 userId:      messages[index].userId,
                                                 chatId:      messages[index].chatId,
@@ -111,7 +112,9 @@ Page {
                                                 geoMap:      messages[index].geoMap,
                                                 geoTile:     messages[index].geoTile,
                                                 photos:      messages[index].photos,
+                                                videos:      messages[index].videos,
                                                 fwdMessages: messages[index].fwdMessages })
+            }
         }
         onGotFriends: {
             for (var index in friends) {

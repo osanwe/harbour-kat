@@ -30,9 +30,10 @@ Item {
     property var isRead
     property alias avatarSource: avatar.source
     property alias bodyText: body.text
+    property var photos
+    property var videos
     property var geoTile
     property var geoMap
-    property var photos
     property var fwdMessages
     property bool highlighted: !(isRead || isOut)
 
@@ -104,6 +105,7 @@ Item {
                 ageoTile: geoTile
                 ageoMap: geoMap
                 aphotos: photos
+                avideos: videos
                 amessages: fwdMessages
             }
         }

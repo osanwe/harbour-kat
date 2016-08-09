@@ -38,6 +38,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Photo*>("Photo*");
     qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");
+    qRegisterMetaType<Video*>("Video*");
 
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<LongPoll*>("LongPoll*");

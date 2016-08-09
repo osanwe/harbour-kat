@@ -55,7 +55,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "photo") {
                 message->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
             } else if (attachment.value("type").toString() == "video") {
-                //
+                message->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
             } else if (attachment.value("type").toString() == "audio") {
                 //
             } else if (attachment.value("type").toString() == "doc") {
@@ -178,6 +178,21 @@ QList<QObject *> Message::photosList() const
 void Message::addPhoto(Photo *photo)
 {
     _photos.append(photo);
+}
+
+QVariant Message::videos() const
+{
+    return QVariant::fromValue(_videos);
+}
+
+QList<QObject *> Message::videosList() const
+{
+    return _videos;
+}
+
+void Message::addVideo(Video *video)
+{
+    _videos.append(video);
 }
 
 QVariant Message::fwdMessages() const

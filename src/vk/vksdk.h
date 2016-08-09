@@ -38,6 +38,7 @@
 #include "objects/photo.h"
 #include "objects/friend.h"
 #include "objects/user.h"
+#include "objects/video.h"
 
 class VkSDK : public QObject
 {

@@ -34,7 +34,8 @@ SOURCES += \
     src/vk/objects/user.cpp \
     src/vk/friends.cpp \
     src/vk/objects/friend.cpp \
-    src/vk/objects/photo.cpp
+    src/vk/objects/photo.cpp \
+    src/vk/objects/video.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -66,7 +67,8 @@ HEADERS += \
     src/vk/objects/user.h \
     src/vk/friends.h \
     src/vk/objects/friend.h \
-    src/vk/objects/photo.h
+    src/vk/objects/photo.h \
+    src/vk/objects/video.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -81,4 +83,5 @@ DISTFILES += \
     qml/views/FwdMessages.qml \
     qml/views/AttachmentsView.qml \
     qml/views/GeoItem.qml \
-    qml/views/PhotosView.qml
+    qml/views/PhotosView.qml \
+    qml/views/VideosView.qml

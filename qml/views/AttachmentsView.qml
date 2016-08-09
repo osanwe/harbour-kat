@@ -26,9 +26,10 @@ Column {
     height: childrenRect.height
     spacing: Theme.paddingSmall
 
+    property var aphotos
+    property var avideos
     property var ageoTile
     property var ageoMap
-    property var aphotos
     property var amessages
 
     Loader {
@@ -36,6 +37,13 @@ Column {
         property var photos: aphotos
         active: aphotos.count > 0
         source: "PhotosView.qml"
+    }
+
+    Loader {
+        property int maximumWidth: parent.width
+        property var videos: avideos
+        active: avideos.count > 0
+        source: "VideosView.qml"
     }
 
     Loader {
