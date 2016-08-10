@@ -38,6 +38,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
 
     qRegisterMetaType<Audio*>("Audio*");
+    qRegisterMetaType<Document*>("Document*");
     qRegisterMetaType<Photo*>("Photo*");
     qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");

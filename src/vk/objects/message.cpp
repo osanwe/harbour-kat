@@ -59,7 +59,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "audio") {
                 message->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
             } else if (attachment.value("type").toString() == "doc") {
-                //
+                message->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
             } else if (attachment.value("type").toString() == "wall") {
                 //
             } else if (attachment.value("type").toString() == "wall_reply") {
@@ -178,6 +178,21 @@ QList<QObject *> Message::audiosList() const
 void Message::addAudio(Audio *audio)
 {
     _audios.append(audio);
+}
+
+QVariant Message::documents() const
+{
+    return QVariant::fromValue(_documents);
+}
+
+QList<QObject *> Message::documentsList() const
+{
+    return _documents;
+}
+
+void Message::addDocument(Document *document)
+{
+    _documents.append(document);
 }
 
 QVariant Message::photos() const
