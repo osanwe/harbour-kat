@@ -32,6 +32,7 @@ Item {
     property alias bodyText: body.text
     property var photos
     property var videos
+    property var audios
     property var geoTile
     property var geoMap
     property var fwdMessages
@@ -106,6 +107,7 @@ Item {
                 ageoMap: geoMap
                 aphotos: photos
                 avideos: videos
+                aaudios: audios
                 amessages: fwdMessages
             }
         }

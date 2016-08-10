@@ -57,7 +57,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "video") {
                 message->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
             } else if (attachment.value("type").toString() == "audio") {
-                //
+                message->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
             } else if (attachment.value("type").toString() == "doc") {
                 //
             } else if (attachment.value("type").toString() == "wall") {
@@ -163,6 +163,21 @@ QString Message::body() const
 void Message::setBody(const QString &body)
 {
     _body = body;
+}
+
+QVariant Message::audios() const
+{
+    return QVariant::fromValue(_audios);
+}
+
+QList<QObject *> Message::audiosList() const
+{
+    return _audios;
+}
+
+void Message::addAudio(Audio *audio)
+{
+    _audios.append(audio);
 }
 
 QVariant Message::photos() const

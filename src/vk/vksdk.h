@@ -34,6 +34,7 @@
 #include "messages.h"
 #include "users.h"
 #include "videos.h"
+#include "objects/audio.h"
 #include "objects/chat.h"
 #include "objects/dialog.h"
 #include "objects/photo.h"

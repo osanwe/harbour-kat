@@ -28,6 +28,7 @@ Column {
 
     property var aphotos
     property var avideos
+    property var aaudios
     property var ageoTile
     property var ageoMap
     property var amessages
@@ -44,6 +45,13 @@ Column {
         property var videos: avideos
         active: avideos.count > 0
         source: "VideosView.qml"
+    }
+
+    Loader {
+        property int maximumWidth: parent.width
+        property var audios: aaudios
+        active: aaudios.count > 0
+        source: "AudiosView.qml"
     }
 
     Loader {

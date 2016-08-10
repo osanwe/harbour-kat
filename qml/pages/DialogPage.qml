@@ -52,6 +52,7 @@ Page {
             bodyText: item.body
             photos: item.photos
             videos: item.videos
+            audios: item.audios
             geoTile: item.geoTile
             geoMap: item.geoMap
             fwdMessages: item.fwdMessages
@@ -113,6 +114,7 @@ Page {
                                                 geoTile:     messages[index].geoTile,
                                                 photos:      messages[index].photos,
                                                 videos:      messages[index].videos,
+                                                audios:      messages[index].audios,
                                                 fwdMessages: messages[index].fwdMessages })
             }
         }
