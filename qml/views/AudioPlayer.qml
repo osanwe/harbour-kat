@@ -54,18 +54,35 @@ DockedPanel {
                 width: Theme.iconSizeMedium
                 height: Theme.iconSizeMedium
                 icon.source: "image://theme/icon-m-left"
+                onClicked: {
+                    player.prev()
+                    _index = player.currentIndex
+                }
             }
 
             IconButton {
                 width: Theme.iconSizeMedium
                 height: Theme.iconSizeMedium
-                icon.source: "image://theme/icon-m-play"
+                icon.source: player.isPlaying ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
+                onClicked: {
+                    if (player.isPlaying) {
+                        icon.source = "image://theme/icon-m-play"
+                        player.pause()
+                    } else {
+                        icon.source = "image://theme/icon-m-pause"
+                        player.pause()
+                    }
+                }
             }
 
             IconButton {
                 width: Theme.iconSizeMedium
                 height: Theme.iconSizeMedium
                 icon.source: "image://theme/icon-m-right"
+                onClicked: {
+                    player.next()
+                    _index = player.currentIndex
+                }
             }
 
             Column {
@@ -109,7 +126,8 @@ DockedPanel {
                 counter--
                 var d = new Date(player.position)
                 dataduration.value = player.position / 1000
-                dataduration.valueText = d.getMinutes() + ":" + d.getSeconds()
+                var seconds = d.getSeconds() > 10 ? d.getSeconds() : "0" + d.getSeconds()
+                dataduration.valueText = d.getMinutes() + ":" + seconds
             }
         }
     }

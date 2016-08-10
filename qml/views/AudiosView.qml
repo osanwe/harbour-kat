@@ -32,40 +32,28 @@ Item {
         Repeater {
             model: audios
 
-            Item {
-                id: audioitem
+            BackgroundItem {
                 width: maximumWidth
                 height: Theme.itemSizeMedium
 
-                IconButton {
+                Image {
                     id: playpausebutton
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
-                    icon.source: "image://theme/icon-m-play"
-
-                    onClicked: {
-                        if (player.isPlaying) {
-                            player.pause()
-                            playpausebutton.icon.source = "image://theme/icon-m-play"
-                        } else {
-                            player.playMedia(audios.get(index).url)
-                            playpausebutton.icon.source = "image://theme/icon-m-pause"
-                            audioPlayer.open = true
-                            audioPlayer.setAudios(audios, index)
-                        }
-                    }
+                    source: "image://theme/icon-m-sounds"
                 }
 
                 Column {
                     anchors.left: playpausebutton.right
-                    anchors.right: audioitem.right
+                    anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: Theme.paddingMedium
 
                     Label {
                         width: parent.width
+                        height: contentHeight
                         font.bold: true
                         truncationMode: TruncationMode.Fade
                         text: audios.get(index).title
@@ -73,9 +61,23 @@ Item {
 
                     Label {
                         width: parent.width
+                        height: contentHeight
                         truncationMode: TruncationMode.Fade
                         text: audios.get(index).artist
                     }
+                }
+
+                onClicked: {
+                    var urls = []
+                    var idx = 0
+                    while (idx < audios.count) {
+                        urls[idx] = audios.get(idx).url
+                        idx++
+                    }
+                    console.log(urls)
+                    player.setPlaylist(urls, index)
+                    audioPlayer.open = true
+                    audioPlayer.setAudios(audios, index)
                 }
             }
         }
