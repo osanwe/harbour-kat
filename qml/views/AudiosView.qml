@@ -76,8 +76,14 @@ Item {
                     }
                     console.log(urls)
                     player.setPlaylist(urls, index)
-                    audioPlayer.open = true
-                    audioPlayer.setAudios(audios, index)
+                    audioPlayer.playing = true
+                    audioPlayer.showControls()
+                    audioPlayer._audios = audios
+                    audioPlayer._index = index
+                    audioPlayer.author = audios.get(index).artist
+                    audioPlayer.title = audios.get(index).title
+                    audioPlayer.duration = audios.get(index).duration
+//                    audioPlayer.setAudios(audios, index)
                 }
             }
         }

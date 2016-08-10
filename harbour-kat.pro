@@ -94,5 +94,4 @@ DISTFILES += \
     qml/views/PhotosView.qml \
     qml/views/VideosView.qml \
     qml/pages/VideoPlayer.qml \
-    qml/views/AudiosView.qml \
-    qml/views/AudioPlayer.qml
+    qml/views/AudiosView.qml

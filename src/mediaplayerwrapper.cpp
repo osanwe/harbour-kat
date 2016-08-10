@@ -2,6 +2,7 @@
 
 MediaPlayerWrapper::MediaPlayerWrapper(QObject *parent) : QObject(parent) {
     _player = new QMediaPlayer();
+    connect(_player, SIGNAL(positionChanged(qint64)), this, SLOT(_positionChanged(qint64)));
 }
 
 MediaPlayerWrapper::~MediaPlayerWrapper() {
@@ -13,8 +14,8 @@ void MediaPlayerWrapper::setPlaylist(QStringList urls, int index) {
     foreach (QString url, urls) {
         _playlist->addMedia(QUrl(url));
     }
-    _playlist->setCurrentIndex(index);
     _player->setPlaylist(_playlist);
+    _playlist->setCurrentIndex(index);
     _player->play();
 }
 
@@ -34,12 +35,22 @@ void MediaPlayerWrapper::prev() {
     _player->playlist()->previous();
 }
 
-int MediaPlayerWrapper::position() const {
+void MediaPlayerWrapper::seekTo(int value)
+{
+    _player->setPosition(value * 1000);
+}
+
+qint64 MediaPlayerWrapper::position() {
     return _player->position();
 }
 
 int MediaPlayerWrapper::currentIndex() const {
     return _player->playlist()->currentIndex();
+}
+
+void MediaPlayerWrapper::_positionChanged(qint64 pos)
+{
+    emit positionChanged(pos);
 }
 
 bool MediaPlayerWrapper::isPlaying() const {
