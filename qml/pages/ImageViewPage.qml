@@ -31,6 +31,7 @@ Page {
     SilicaListView {
         id: flick
         anchors.fill: parent
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
         clip: true
         snapMode: ListView.SnapOneItem
         orientation: ListView.HorizontalFlick

@@ -28,6 +28,7 @@ Page {
     SilicaListView {
         id: dialogsList
         anchors.fill: parent
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
 
         model: 10
 

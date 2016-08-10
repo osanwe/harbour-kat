@@ -21,10 +21,13 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+;import Sailfish.Media 1.0
 
 ApplicationWindow
 {
     id: application
+
+    property alias panel: audioPlayer
 
 //    allowedOrientations: Orientation.All
 //    _defaultPageOrientations: Orientation.All
@@ -38,5 +41,42 @@ ApplicationWindow
         } else {
             return Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))
         }
+    }
+
+    MediaPlayerControlsPanel {
+        id: audioPlayer
+        active: true
+        position: player.position / 1000
+
+        property var _audios
+        property var _index
+
+        onPreviousClicked: {
+            if (_index > 0) {
+                player.prev()
+                _index--
+                author = _audios.get(_index).artist
+                title = _audios.get(_index).title
+                duration = _audios.get(_index).duration
+            }
+        }
+        onPlayPauseClicked: {
+            if (playing) player.pause()
+            else player.play()
+            playing = !playing
+        }
+        onNextClicked: {
+            if (_index < _audios.count-1) {
+                player.next()
+                _index++
+                author = _audios.get(_index).artist
+                title = _audios.get(_index).title
+                duration = _audios.get(_index).duration
+            }
+        }
+        onSliderReleased: player.seekTo(value)
+        onRepeatClicked: {}
+        onShuffleClicked: {}
+        onAddToPlaylist: {}
     }
 }

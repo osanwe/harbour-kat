@@ -66,6 +66,7 @@ Page {
             anchors.fill: parent
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
+            anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
             spacing: Theme.paddingLarge
 
             PageHeader {

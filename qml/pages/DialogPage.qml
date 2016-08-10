@@ -21,7 +21,6 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-;import Sailfish.Media 1.0
 
 import "../views"
 
@@ -76,9 +75,10 @@ Page {
         id: newmessagerow
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: audioPlayer.top
+        anchors.bottom: parent.bottom
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.rightMargin: Theme.horizontalPageMargin
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
         spacing: Theme.paddingMedium
 
         TextField {
@@ -101,40 +101,6 @@ Page {
 
             onClicked: console.log("attach")
         }
-    }
-
-    MediaPlayerControlsPanel {
-        id: audioPlayer
-        active: true
-        position: player.position / 1000
-
-        property var _audios
-        property var _index
-
-        onPreviousClicked: {
-            if (_index > 0) {
-                player.prev()
-                _index--
-                author = _audios.get(_index).artist
-                title = _audios.get(_index).title
-                duration = _audios.get(_index).duration
-            }
-        }
-        onPlayPauseClicked: {
-            if (playing) player.pause()
-            else player.play()
-            playing = !playing
-        }
-        onNextClicked: {
-            if (_index < _audios.count-1) {
-                player.next()
-                _index++
-                author = _audios.get(_index).artist
-                title = _audios.get(_index).title
-                duration = _audios.get(_index).duration
-            }
-        }
-        onSliderReleased: player.seekTo(value)
     }
 
     Connections {

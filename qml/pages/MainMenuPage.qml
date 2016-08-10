@@ -41,6 +41,7 @@ Page {
         id: menuList
 
         anchors.fill: parent
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
 
         model: ListModel {}
 

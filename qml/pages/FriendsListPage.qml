@@ -33,6 +33,7 @@ Page {
     SilicaListView {
         id: friendsListView
         anchors.fill: parent
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
 
         header: PageHeader {
             title: type === 1 ? qsTr("Friends") : type === 2 ? qsTr("Online friends") :
