@@ -33,7 +33,7 @@ Page {
     SilicaListView {
         id: messagesListView
         anchors.fill: parent
-        anchors.bottomMargin: Theme.paddingMedium + message_text.height
+        anchors.bottomMargin: Theme.paddingMedium + message_text.height + (audioPlayer.open ? audioPlayer.height : 0)
         verticalLayoutDirection: ListView.BottomToTop
         clip: true
         model: ListModel {}
@@ -73,6 +73,7 @@ Page {
         anchors.bottom: parent.bottom
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.rightMargin: Theme.horizontalPageMargin
+        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
         spacing: Theme.paddingMedium
 
         TextField {
@@ -95,6 +96,11 @@ Page {
 
             onClicked: console.log("attach")
         }
+    }
+
+    AudioPlayer {
+        id: audioPlayer
+        open: player.isPlaying
     }
 
     Connections {

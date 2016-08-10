@@ -37,13 +37,25 @@ Item {
                 width: maximumWidth
                 height: Theme.itemSizeMedium
 
-                Image {
+                IconButton {
                     id: playpausebutton
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
-                    source: "image://theme/icon-m-play"
+                    icon.source: "image://theme/icon-m-play"
+
+                    onClicked: {
+                        if (player.isPlaying) {
+                            player.pause()
+                            playpausebutton.icon.source = "image://theme/icon-m-play"
+                        } else {
+                            player.playMedia(audios.get(index).url)
+                            playpausebutton.icon.source = "image://theme/icon-m-pause"
+                            audioPlayer.open = true
+                            audioPlayer.setAudios(audios, index)
+                        }
+                    }
                 }
 
                 Column {

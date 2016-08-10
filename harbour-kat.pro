@@ -39,7 +39,8 @@ SOURCES += \
     src/vk/objects/photo.cpp \
     src/vk/objects/video.cpp \
     src/vk/videos.cpp \
-    src/vk/objects/audio.cpp
+    src/vk/objects/audio.cpp \
+    src/mediaplayerwrapper.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -74,7 +75,8 @@ HEADERS += \
     src/vk/objects/photo.h \
     src/vk/objects/video.h \
     src/vk/videos.h \
-    src/vk/objects/audio.h
+    src/vk/objects/audio.h \
+    src/mediaplayerwrapper.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -92,4 +94,5 @@ DISTFILES += \
     qml/views/PhotosView.qml \
     qml/views/VideosView.qml \
     qml/pages/VideoPlayer.qml \
-    qml/views/AudiosView.qml
+    qml/views/AudiosView.qml \
+    qml/views/AudioPlayer.qml
