@@ -26,10 +26,10 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE void add(Dialog dialog);
+    Q_INVOKABLE void add(Dialog *dialog);
 
 private:
-    QList<Dialog> _dialogsData;
+    QList<Dialog *> _dialogsData;
 };
 
 #endif // DIALOGSLISTMODEL_H

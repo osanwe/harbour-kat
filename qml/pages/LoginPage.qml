@@ -48,7 +48,7 @@ Page {
             settings.setAccessToken(accessToken)
             settings.setUserId(userId)
             pageStack.replace(Qt.resolvedUrl("MainMenuPage.qml"))
-            loginNotification.previewBody = qsTr("Logged to vk.com")
+            loginNotification.previewBody = qsTr("Logged to vk.com with Kat")
             loginNotification.publish()
         }
         onError: {

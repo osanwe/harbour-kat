@@ -40,7 +40,7 @@ QHash<int, QByteArray> DialogsListModel::roleNames() const {
     return roles;
 }
 
-void DialogsListModel::add(Dialog dialog) {
+void DialogsListModel::add(Dialog *dialog) {
     beginInsertRows(QModelIndex(), _dialogsData.size(), _dialogsData.size());
     _dialogsData.append(dialog);
     endInsertRows();

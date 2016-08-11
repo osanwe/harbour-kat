@@ -32,24 +32,16 @@ Page {
         { itemText: qsTr("Friends"),   counter: 0 },
     ]
 
-    function generateModelFromArray() {
-        for (var index in menuItems)
-            menuList.model.append(menuItems[index])
-    }
-
     SilicaListView {
         id: menuList
-
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
-
         model: ListModel {}
 
         PullDownMenu {
 
-            MenuItem {
-                text: qsTr("About")
-            }
+//            MenuItem {
+//                text: qsTr("About")
+//            }
 
             MenuItem {
                 text: qsTr("Logout")
@@ -59,9 +51,9 @@ Page {
                 }
             }
 
-            MenuItem {
-                text: qsTr("Settings")
-            }
+//            MenuItem {
+//                text: qsTr("Settings")
+//            }
         }
 
         header: PageHeader {}
@@ -74,7 +66,6 @@ Page {
             property var item: model.modelData ? model.modelData : model
 
             Row {
-                spacing: Theme.paddingMedium
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -82,6 +73,7 @@ Page {
                     leftMargin: Theme.horizontalPageMargin
                     rightMargin: Theme.horizontalPageMargin
                 }
+                spacing: Theme.paddingMedium
 
                 Label {
                     text: item.itemText
@@ -114,6 +106,7 @@ Page {
                     break;
 
                 case 1:
+//                    pageStack.push(Qt.resolvedUrl("NewsfeedPage.qml"), { profile: vksdk.selfProfile })
                     break;
 
                 case 2:
@@ -130,16 +123,20 @@ Page {
 
     Connections {
         target: vksdk.longPoll
-        onUnreadDialogsCounterUpdated: menuList.model.setProperty(1, "counter", value)
+        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
     }
 
     Connections {
         target: vksdk
-        onGotSelfProfile: menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
+        onGotSelfProfile: {
+            if (status === PageStatus.Active) {
+                menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
+            }
+        }
     }
 
     Component.onCompleted: {
-        generateModelFromArray()
+        for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.longPoll.getLongPollServer()
         vksdk.users.getSelfProfile()
 //        vksdk.messages.getDialogs()
