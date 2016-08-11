@@ -30,6 +30,7 @@ Column {
     property var avideos
     property var aaudios
     property var adocuments
+    property var anews
     property var ageoTile
     property var ageoMap
     property var amessages
@@ -60,6 +61,13 @@ Column {
         property var documents: adocuments
         active: adocuments.count > 0
         source: "DocumentsView.qml"
+    }
+
+    Loader {
+        property int maximumWidth: parent.width
+        property var news: anews
+        active: anews.count > 0
+        source: "NewsView.qml"
     }
 
     Loader {

@@ -58,6 +58,7 @@ Page {
             videos: item.videos
             audios: item.audios
             documents: item.documents
+            news: item.news
             geoTile: item.geoTile
             geoMap: item.geoMap
             fwdMessages: item.fwdMessages
@@ -123,6 +124,7 @@ Page {
                                                 videos:      messages[index].videos,
                                                 audios:      messages[index].audios,
                                                 documents:   messages[index].documents,
+                                                news:        messages[index].news,
                                                 fwdMessages: messages[index].fwdMessages })
             }
         }

@@ -61,7 +61,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "doc") {
                 message->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
             } else if (attachment.value("type").toString() == "wall") {
-                //
+                message->addNews(News::fromJsonObject(attachment.value("wall").toObject()));
             } else if (attachment.value("type").toString() == "wall_reply") {
                 //
             } else if (attachment.value("type").toString() == "sticker") {
@@ -193,6 +193,21 @@ QList<QObject *> Message::documentsList() const
 void Message::addDocument(Document *document)
 {
     _documents.append(document);
+}
+
+QVariant Message::news() const
+{
+    return QVariant::fromValue(_news);
+}
+
+QList<QObject *> Message::newsList() const
+{
+    return _news;
+}
+
+void Message::addNews(News *news)
+{
+    _news.append(news);
 }
 
 QVariant Message::photos() const

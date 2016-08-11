@@ -41,7 +41,8 @@ SOURCES += \
     src/vk/videos.cpp \
     src/vk/objects/audio.cpp \
     src/mediaplayerwrapper.cpp \
-    src/vk/objects/document.cpp
+    src/vk/objects/document.cpp \
+    src/vk/objects/news.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -78,7 +79,8 @@ HEADERS += \
     src/vk/videos.h \
     src/vk/objects/audio.h \
     src/mediaplayerwrapper.h \
-    src/vk/objects/document.h
+    src/vk/objects/document.h \
+    src/vk/objects/news.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -97,4 +99,5 @@ DISTFILES += \
     qml/views/VideosView.qml \
     qml/pages/VideoPlayer.qml \
     qml/views/AudiosView.qml \
-    qml/views/DocumentsView.qml
+    qml/views/DocumentsView.qml \
+    qml/views/NewsView.qml

@@ -39,6 +39,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
     qRegisterMetaType<Audio*>("Audio*");
     qRegisterMetaType<Document*>("Document*");
+    qRegisterMetaType<News*>("News*");
     qRegisterMetaType<Photo*>("Photo*");
     qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");

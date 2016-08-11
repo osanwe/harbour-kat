@@ -95,6 +95,7 @@ Column {
                     avideos: messagesRepeater.model.get(index).videos
                     aaudios: messagesRepeater.model.get(index).audios
                     adocuments: messagesRepeater.model.get(index).documents
+                    anews: messagesRepeater.model.get(index).news
                     amessages: messagesRepeater.model.get(index).fwdMessages
                 }
             }
