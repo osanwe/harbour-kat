@@ -32,6 +32,13 @@ Page {
         { itemText: qsTr("Friends"),   counter: 0 },
     ]
 
+    BusyIndicator {
+       id: busyIndicator
+       anchors.centerIn: parent
+       size: BusyIndicatorSize.Large
+       running: false
+    }
+
     SilicaListView {
         id: menuList
         anchors.fill: parent
@@ -130,12 +137,14 @@ Page {
         target: vksdk
         onGotSelfProfile: {
             if (status === PageStatus.Active) {
+                busyIndicator.running = false
                 menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
             }
         }
     }
 
     Component.onCompleted: {
+        busyIndicator.running = true
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.longPoll.getLongPollServer()
         vksdk.users.getSelfProfile()
