@@ -43,7 +43,8 @@ SOURCES += \
     src/mediaplayerwrapper.cpp \
     src/vk/objects/document.cpp \
     src/vk/objects/news.cpp \
-    src/vk/wall.cpp
+    src/vk/wall.cpp \
+    src/vk/models/dialogslistmodel.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -82,7 +83,8 @@ HEADERS += \
     src/mediaplayerwrapper.h \
     src/vk/objects/document.h \
     src/vk/objects/news.h \
-    src/vk/wall.h
+    src/vk/wall.h \
+    src/vk/models/dialogslistmodel.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
