@@ -27,6 +27,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _messages = new Messages(this);
     _users = new Users(this);
     _videos = new Videos(this);
+    _wall = new Wall(this);
 
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
     connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
@@ -36,6 +37,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
     connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
     connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
+    connect(_wall, SIGNAL(gotWallpost(News*)), this, SLOT(gotWallpostObject(News*)));
 
     qRegisterMetaType<Audio*>("Audio*");
     qRegisterMetaType<Document*>("Document*");
@@ -50,6 +52,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
     qRegisterMetaType<Videos*>("Videos*");
+    qRegisterMetaType<Wall*>("Wall*");
 }
 
 VkSDK::~VkSDK() {
@@ -60,6 +63,7 @@ VkSDK::~VkSDK() {
     delete _messages;
     delete _users;
     delete _videos;
+    delete _wall;
 }
 
 void VkSDK::setAccessTocken(QString value) {
@@ -69,6 +73,7 @@ void VkSDK::setAccessTocken(QString value) {
     _messages->setAccessToken(value);
     _users->setAccessToken(value);
     _videos->setAccessToken(value);
+    _wall->setAccessToken(value);
 }
 
 void VkSDK::setUserId(int value) {
@@ -100,6 +105,11 @@ Videos *VkSDK::videos() const
     return _videos;
 }
 
+Wall *VkSDK::wall() const
+{
+    return _wall;
+}
+
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
     emit gotFriends(QVariant::fromValue(friendsList));
 }
@@ -129,6 +139,11 @@ void VkSDK::gotUsersList(QList<QObject *> usersList) {
 void VkSDK::gotVideoObject(Video *video)
 {
     emit gotVideo(video);
+}
+
+void VkSDK::gotWallpostObject(News *wallpost)
+{
+    emit gotWallpost(wallpost);
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {

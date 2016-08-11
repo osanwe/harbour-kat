@@ -70,8 +70,10 @@ Item {
                     }
                 }
 
-                onClicked: pageStack.push(Qt.resolvedUrl("../pages/WallPostPage.qml"),
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("../pages/WallPostPage.qml"),
                                           { wallpost: news.get(index) })
+                }
             }
         }
     }

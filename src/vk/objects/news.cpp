@@ -3,17 +3,24 @@
 News::News(QObject *parent) : QObject(parent)
 {}
 
+News::~News()
+{}
+
 News *News::fromJsonObject(QJsonObject object) {
-    qDebug() << object;
+//    qDebug() << object;
     News *news = new News();
     if (object.contains("id")) news->setId(object.value("id").toInt());
     if (object.contains("to_id")) news->setToId(object.value("to_id").toInt());
     if (object.contains("from_id")) news->setFromId(object.value("from_id").toInt());
     if (object.contains("date")) news->setDate(object.value("date").toInt());
     if (object.contains("text")) news->setText(object.value("text").toString());
-    if (object.contains("copy_owner_id")) news->setCopyOwnerId(object.value("copy_owner_id").toInt());
-    if (object.contains("copy_post_id")) news->setCopyPostId(object.value("copy_post_id").toInt());
     if (object.contains("copy_text")) news->setCopyText(object.value("copy_text").toString());
+    if (object.contains("copy_history")) {
+        QJsonArray history = object.value("copy_history").toArray();
+//        News* repost = new News();
+//        repost->initJsonObject(history.at(0).toObject());
+        news->setRepost(history.at(0).toObject());
+    }
     if (object.contains("geo")) {
         QJsonObject geo = object.value("geo").toObject();
         QStringList coords = geo.value("coordinates").toString().split(" ");
@@ -190,26 +197,6 @@ void News::addVideo(Video *video)
     _videos.append(video);
 }
 
-int News::copyOwnerId() const
-{
-    return _copyOwnerId;
-}
-
-void News::setCopyOwnerId(int copyOwnerId)
-{
-    _copyOwnerId = copyOwnerId;
-}
-
-int News::copyPostId() const
-{
-    return _copyPostId;
-}
-
-void News::setCopyPostId(int copyPostId)
-{
-    _copyPostId = copyPostId;
-}
-
 QString News::copyText() const
 {
     return _copyText;
@@ -218,5 +205,15 @@ QString News::copyText() const
 void News::setCopyText(const QString &copyText)
 {
     _copyText = copyText;
+}
+
+News *News::repost() const
+{
+    return News::fromJsonObject(_repost);
+}
+
+void News::setRepost(QJsonObject repost)
+{
+    _repost = repost;
 }
 

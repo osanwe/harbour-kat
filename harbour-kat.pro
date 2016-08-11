@@ -42,7 +42,8 @@ SOURCES += \
     src/vk/objects/audio.cpp \
     src/mediaplayerwrapper.cpp \
     src/vk/objects/document.cpp \
-    src/vk/objects/news.cpp
+    src/vk/objects/news.cpp \
+    src/vk/wall.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -80,7 +81,8 @@ HEADERS += \
     src/vk/objects/audio.h \
     src/mediaplayerwrapper.h \
     src/vk/objects/document.h \
-    src/vk/objects/news.h
+    src/vk/objects/news.h \
+    src/vk/wall.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -101,4 +103,6 @@ DISTFILES += \
     qml/views/AudiosView.qml \
     qml/views/DocumentsView.qml \
     qml/views/NewsView.qml \
-    qml/pages/WallPostPage.qml
+    qml/pages/WallPostPage.qml \
+    qml/views/WallPostView.qml \
+    qml/views/RepostView.qml

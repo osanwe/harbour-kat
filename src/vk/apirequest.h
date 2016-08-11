@@ -60,6 +60,7 @@ public:
         USERS_GET,
         USERS_GET_FRIENDS,
         VIDEO_GET,
+        WALL_GET_BY_ID,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);

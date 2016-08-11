@@ -34,13 +34,6 @@ Page {
         anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
         contentHeight: content.height
 
-        PullDownMenu {
-
-            MenuItem {
-                text: qsTr("Like")
-            }
-        }
-
         Column {
             id: content
             anchors.left: parent.left
@@ -48,29 +41,28 @@ Page {
             anchors.top: parent.top
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
-            spacing: Theme.paddingLarge
+
+            PullDownMenu {
+
+                MenuItem {
+                    text: qsTr("Like")
+                }
+            }
 
             PageHeader {
                 title: qsTr("Wall post")
             }
 
-            Label {
+            Loader {
+                property var _wallpost: wallpost
+                property var _repost: wallpost.repost
                 width: parent.width
-                wrapMode: Text.WordWrap
-                text: wallpost.text
-            }
-
-            AttachmentsView {
-                id: attachments
-                width: parent.width
-                ageoTile: wallpost.geoTile
-                ageoMap: wallpost.geoMap
-                aphotos: wallpost.photos
-                avideos: wallpost.videos
-                aaudios: wallpost.audios
-                adocuments: wallpost.documents
+                active: true
+                source: "../views/WallPostView.qml"
             }
         }
+
+        VerticalScrollDecorator {}
     }
 }
 

@@ -36,7 +36,7 @@ Item {
                 width: photos.count === 1 ? maximumWidth : maximumWidth / 2
                 height: photos.count === 1 ? maximumWidth : maximumWidth / 2
                 fillMode: Image.PreserveAspectCrop
-                source: photos.get(index).photoMaximum
+                source: photoMaximum ? photoMaximum : photos[index].photoMaximum
 
                 MouseArea {
                     anchors.fill: parent

@@ -38,35 +38,35 @@ Column {
     Loader {
         property int maximumWidth: parent.width
         property var photos: aphotos
-        active: aphotos.count > 0
+        active: aphotos.count > 0 || aphotos.length > 0
         source: "PhotosView.qml"
     }
 
     Loader {
         property int maximumWidth: parent.width
         property var videos: avideos
-        active: avideos.count > 0
+        active: avideos.count > 0 || avideos.length > 0
         source: "VideosView.qml"
     }
 
     Loader {
         property int maximumWidth: parent.width
         property var audios: aaudios
-        active: aaudios.count > 0
+        active: aaudios.count > 0 || aaudios.length > 0
         source: "AudiosView.qml"
     }
 
     Loader {
         property int maximumWidth: parent.width
         property var documents: adocuments
-        active: adocuments.count > 0
+        active: adocuments.count > 0 || adocuments.length > 0
         source: "DocumentsView.qml"
     }
 
     Loader {
         property int maximumWidth: parent.width
         property var news: anews
-        active: anews.count > 0
+        active: anews.count > 0 || anews.length > 0
         source: "NewsView.qml"
     }
 
@@ -81,8 +81,10 @@ Column {
     Loader {
         property int maximumWidth: parent.width
         property var messages: amessages
-        active: amessages.count > 0
+        active: amessages.count > 0 || amessages.length > 0
         source: "FwdMessages.qml"
     }
+
+    Component.onCompleted: console.log(aphotos.count, aphotos.length, aphotos)
 }
 

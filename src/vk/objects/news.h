@@ -30,14 +30,14 @@ class News : public QObject
     Q_PROPERTY(QVariant documents READ documents CONSTANT)
     Q_PROPERTY(QVariant photos READ photos CONSTANT)
     Q_PROPERTY(QVariant videos READ videos CONSTANT)
-    Q_PROPERTY(int copyOwnerId READ copyOwnerId CONSTANT)
-    Q_PROPERTY(int copyPostId READ copyPostId CONSTANT)
     Q_PROPERTY(QString copyText READ copyText CONSTANT)
+    Q_PROPERTY(News* repost READ repost CONSTANT)
 
 public:
     explicit News(QObject *parent = 0);
+    ~News();
 
-    static News* fromJsonObject(QJsonObject object);
+    static News *fromJsonObject(QJsonObject object);
 
     int id() const;
     void setId(int id);
@@ -76,20 +76,17 @@ public:
     QList<QObject *> videosList() const;
     void addVideo(Video *video);
 
-    int copyOwnerId() const;
-    void setCopyOwnerId(int copyOwnerId);
-
-    int copyPostId() const;
-    void setCopyPostId(int copyPostId);
-
     QString copyText() const;
     void setCopyText(const QString &copyText);
 
+    News* repost() const;
+    void setRepost(QJsonObject repost);
+
 private:
-    int _id;
-    int _toId;
-    int _fromId;
-    int _date;
+    int _id = 0;
+    int _toId = 0;
+    int _fromId = 0;
+    int _date = 0;
     QString _text;
     QString _geoTile;
     QString _geoMap;
@@ -97,9 +94,8 @@ private:
     QList<QObject*> _documents;
     QList<QObject*> _photos;
     QList<QObject*> _videos;
-    int _copyOwnerId;
-    int _copyPostId;
     QString _copyText;
+    QJsonObject _repost;
 };
 
 #endif // NEWS_H
