@@ -53,7 +53,6 @@ Item {
 
                     Label {
                         width: parent.width
-//                        height: contentHeight
                         maximumLineCount: 1
                         truncationMode: TruncationMode.Fade
                         text: (news.get(index).copyText ? news.get(index).copyText : news.get(index).text).replace('\n', ' ')
@@ -61,7 +60,6 @@ Item {
 
                     Label {
                         width: parent.width
-//                        height: contentHeight
                         maximumLineCount: 1
                         truncationMode: TruncationMode.Fade
                         text: {
@@ -72,8 +70,8 @@ Item {
                     }
                 }
 
-                onClicked: {
-                }
+                onClicked: pageStack.push(Qt.resolvedUrl("../pages/WallPostPage.qml"),
+                                          { wallpost: news.get(index) })
             }
         }
     }

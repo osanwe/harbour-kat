@@ -100,4 +100,5 @@ DISTFILES += \
     qml/pages/VideoPlayer.qml \
     qml/views/AudiosView.qml \
     qml/views/DocumentsView.qml \
-    qml/views/NewsView.qml
+    qml/views/NewsView.qml \
+    qml/pages/WallPostPage.qml
