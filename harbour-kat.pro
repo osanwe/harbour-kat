@@ -21,6 +21,8 @@ greaterThan(QT_VERSION, 5.5) {
 
 QT += multimedia
 
+include("vksdk/vksdk.pri")
+
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
@@ -108,3 +110,5 @@ DISTFILES += \
     qml/pages/WallPostPage.qml \
     qml/views/WallPostView.qml \
     qml/views/RepostView.qml
+
+RESOURCES +=
