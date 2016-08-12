@@ -26,27 +26,7 @@ include("vksdk/vksdk.pri")
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
-    src/vk/authorization.cpp \
-    src/vk/vksdk.cpp \
-    src/vk/apirequest.cpp \
-    src/vk/messages.cpp \
-    src/vk/longpoll.cpp \
-    src/vk/objects/message.cpp \
-    src/vk/objects/dialog.cpp \
-    src/vk/users.cpp \
-    src/vk/objects/chat.cpp \
-    src/vk/objects/user.cpp \
-    src/vk/friends.cpp \
-    src/vk/objects/friend.cpp \
-    src/vk/objects/photo.cpp \
-    src/vk/objects/video.cpp \
-    src/vk/videos.cpp \
-    src/vk/objects/audio.cpp \
-    src/mediaplayerwrapper.cpp \
-    src/vk/objects/document.cpp \
-    src/vk/objects/news.cpp \
-    src/vk/wall.cpp \
-    src/vk/models/dialogslistmodel.cpp
+    src/mediaplayerwrapper.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -66,27 +46,7 @@ OTHER_FILES += \
 
 HEADERS += \
     src/settingswrapper.h \
-    src/vk/authorization.h \
-    src/vk/vksdk.h \
-    src/vk/apirequest.h \
-    src/vk/messages.h \
-    src/vk/longpoll.h \
-    src/vk/objects/message.h \
-    src/vk/objects/dialog.h \
-    src/vk/users.h \
-    src/vk/objects/chat.h \
-    src/vk/objects/user.h \
-    src/vk/friends.h \
-    src/vk/objects/friend.h \
-    src/vk/objects/photo.h \
-    src/vk/objects/video.h \
-    src/vk/videos.h \
-    src/vk/objects/audio.h \
-    src/mediaplayerwrapper.h \
-    src/vk/objects/document.h \
-    src/vk/objects/news.h \
-    src/vk/wall.h \
-    src/vk/models/dialogslistmodel.h
+    src/mediaplayerwrapper.h
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -111,4 +71,3 @@ DISTFILES += \
     qml/views/WallPostView.qml \
     qml/views/RepostView.qml
 
-RESOURCES +=
