@@ -54,7 +54,7 @@ Page {
                 text: qsTr("Logout")
                 onClicked: {
                     settings.removeAccessToken()
-                    pageStack.replace(Qt.resolvedUrl("LoginPage.qml"))
+                    pageContainer.replace(Qt.resolvedUrl("LoginPage.qml"))
                 }
             }
 
@@ -109,19 +109,21 @@ Page {
             onClicked: {
                 switch (index) {
                 case 0:
-                    pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: vksdk.selfProfile })
+                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
+                                   { profileId: vksdk.selfProfile.id })
                     break;
 
                 case 1:
-//                    pageStack.push(Qt.resolvedUrl("NewsfeedPage.qml"), { profile: vksdk.selfProfile })
+//                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"), { profile: vksdk.selfProfile })
                     break;
 
                 case 2:
-                    pageStack.push(Qt.resolvedUrl("DialogsListPage.qml"))
+                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
                     break;
 
                 case 3:
-                    pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"), { userId: vksdk.selfProfile.id, type: 1 })
+                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                       { userId: vksdk.selfProfile.id, type: 1 })
                     break;
                 }
             }

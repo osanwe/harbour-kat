@@ -47,7 +47,7 @@ Page {
             vksdk.setUserId(userId)
             settings.setAccessToken(accessToken)
             settings.setUserId(userId)
-            pageStack.replace(Qt.resolvedUrl("MainMenuPage.qml"))
+            pageContainer.replace(Qt.resolvedUrl("MainMenuPage.qml"))
             loginNotification.previewBody = qsTr("Logged to vk.com with Kat")
             loginNotification.publish()
         }

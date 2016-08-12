@@ -25,6 +25,7 @@ import Sailfish.Silica 1.0
 Page {
     id: profilePage
 
+    property var profileId
     property var profile
 
     property var counters: [
@@ -40,8 +41,15 @@ Page {
         { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
     ]
 
+    function generateCountersModel() {
+        countersGrid.model.clear()
+        for (var index in counters) countersGrid.model.append(counters[index])
+    }
+
     SilicaFlickable {
         anchors.fill: parent
+        anchors.bottomMargin: Theme.paddingLarge
+        contentHeight: content.height + header.height
 
         PullDownMenu {
             visible: (profile.id !== vksdk.selfProfile.id) &&
@@ -51,6 +59,7 @@ Page {
                 visible: profile.canWritePrivateMessage
                 text: qsTr("Go to dialog")
                 onClicked: {
+                    // TODO: Profiles must provide the model
                     var userId = profile.id + ''
                     var selfId = vksdk.selfProfile.id + ''
                     var profiles = new Object
@@ -62,22 +71,25 @@ Page {
             }
         }
 
+        PageHeader {
+            id: header
+            title: profile.firstName + " " + profile.lastName
+
+            Switch {
+                anchors.verticalCenter: parent.verticalCenter
+                automaticCheck: false
+                checked: profile.online
+            }
+        }
+
         Column {
-            anchors.fill: parent
+            id: content
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: header.bottom
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
-            anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
             spacing: Theme.paddingLarge
-
-            PageHeader {
-                title: profile.firstName + " " + profile.lastName
-
-                Switch {
-                    anchors.verticalCenter: parent.verticalCenter
-                    automaticCheck: false
-                    checked: profile.online
-                }
-            }
 
             Row {
                 width: parent.width
@@ -90,14 +102,14 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: pageStack.push(Qt.resolvedUrl("ImageViewPage.qml"), { imagesModel: [profile.photoMaxOrig] })
+                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
+                                                  { imagesModel: [profile.photoMaxOrig] })
                     }
                 }
 
                 Label {
                     anchors.verticalCenter: parent.verticalCenter
                     width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
-//                    height: Theme.iconSizeExtraLarge
                     color: Theme.secondaryColor
                     maximumLineCount: 4
                     wrapMode: Text.WordWrap
@@ -150,17 +162,17 @@ Page {
 
                         onClicked: switch (item.index) {
                                    case 6:
-                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
                                                       { userId: profile.id, type: 1 })
                                        break;
 
                                    case 7:
-                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
                                                       { userId: profile.id, type: 2 })
                                        break;
 
                                    case 8:
-                                       pageStack.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
                                                       { userId: profile.id, type: 3 })
                                        break;
                                    }
@@ -251,21 +263,32 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: vksdk.users.getUserProfile(profile.relationPartnerId)
+                        onClicked: pageContainer.replace(Qt.resolvedUrl("ProfilePage.qml"),
+                                                         { profileId: profile.relationPartnerId } )
                     }
                 }
             }
         }
+
+        VerticalScrollDecorator {}
     }
 
     Connections {
         target: vksdk
-        onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
-        onGotSelfProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: vksdk.selfProfile })
+        onGotProfile: {
+            if (profileId === user.id) {
+                profile = user
+                generateCountersModel()
+            }
+        }
+        onGotSelfProfile: {
+            if (profileId === vksdk.selfProfile.id) {
+                profile = vksdk.selfProfile
+                generateCountersModel()
+            }
+        }
     }
 
-    Component.onCompleted: {
-        for (var index in counters) countersGrid.model.append(counters[index])
-    }
+    Component.onCompleted: vksdk.users.getUserProfile(profileId)
 }
 

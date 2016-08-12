@@ -47,7 +47,8 @@ Page {
             titleText: model.modelData.firstName + " " + modelData.lastName
             bodyText: model.modelData.status
 
-            onClicked: vksdk.users.getUserProfile(model.modelData.id)
+//            onClicked: vksdk.users.getUserProfile(model.modelData.id)
+            onClicked: pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: model.modelData.id })
         }
 
         VerticalScrollDecorator {}
@@ -56,7 +57,7 @@ Page {
     Connections {
         target: vksdk
         onGotFriends: friendsListView.model = friends
-        onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
+//        onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
     }
 
     Component.onCompleted: switch (type) {
