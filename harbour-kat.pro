@@ -69,5 +69,6 @@ DISTFILES += \
     qml/views/NewsView.qml \
     qml/pages/WallPostPage.qml \
     qml/views/WallPostView.qml \
-    qml/views/RepostView.qml
+    qml/views/RepostView.qml \
+    qml/pages/NewsfeedPage.qml
 

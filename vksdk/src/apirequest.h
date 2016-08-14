@@ -57,6 +57,7 @@ public:
         MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
         MESSAGES_GET_HISTORY,
+        NEWSFEED_GET,
         USERS_GET,
         USERS_GET_FRIENDS,
         VIDEO_GET,

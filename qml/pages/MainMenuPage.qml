@@ -114,7 +114,7 @@ Page {
                     break;
 
                 case 1:
-//                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"), { profile: vksdk.selfProfile })
+                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
                     break;
 
                 case 2:
