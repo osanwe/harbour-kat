@@ -33,13 +33,17 @@ void Newsfeed::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         QString _nextFrom = response.value("next_from").toString();
         QList<News *> items;
         QList<User *> profiles;
+        QList<Group *> groups;
         for (int index = 0; index < _items.size(); ++index) {
             items.append(News::fromJsonObject(_items.at(index).toObject()));
         }
         for (int index = 0; index < _profiles.size(); ++index) {
             profiles.append(User::fromJsonObject(_profiles.at(index).toObject()));
         }
-        emit gotNewsfeed(items, profiles);
+        for (int index = 0; index < _groups.size(); ++index) {
+            groups.append(Group::fromJsonObject(_groups.at(index).toObject()));
+        }
+        emit gotNewsfeed(items, profiles, groups);
     }
 
     default:

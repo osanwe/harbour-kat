@@ -10,6 +10,7 @@
 #include <QUrlQuery>
 
 #include "apirequest.h"
+#include "objects/group.h"
 #include "objects/news.h"
 #include "objects/user.h"
 
@@ -28,7 +29,7 @@ public:
     Q_INVOKABLE void get(QString startFrom = "");
 
 signals:
-    void gotNewsfeed(QList<News *> items, QList<User *> profiles);
+    void gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);

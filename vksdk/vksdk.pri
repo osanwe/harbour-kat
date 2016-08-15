@@ -20,7 +20,8 @@ HEADERS += \
     $$PWD/src/objects/user.h \
     $$PWD/src/objects/video.h \
     $$PWD/src/newsfeed.h \
-    $$PWD/src/models/newsfeedmodel.h
+    $$PWD/src/models/newsfeedmodel.h \
+    $$PWD/src/objects/group.h
 
 SOURCES += \
     $$PWD/src/apirequest.cpp \
@@ -44,4 +45,5 @@ SOURCES += \
     $$PWD/src/objects/user.cpp \
     $$PWD/src/objects/video.cpp \
     $$PWD/src/newsfeed.cpp \
-    $$PWD/src/models/newsfeedmodel.cpp
+    $$PWD/src/models/newsfeedmodel.cpp \
+    $$PWD/src/objects/group.cpp

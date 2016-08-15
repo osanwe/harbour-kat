@@ -37,7 +37,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
-    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>)));
+    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
     connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
     connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
@@ -145,10 +145,11 @@ void VkSDK::gotMutualFriendsIds(QVariantList ids) {
     _users->get(sIds);
 }
 
-void VkSDK::gotNewsfeed(QList<News *> items, QList<User *> profiles)
+void VkSDK::gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups)
 {
     foreach (News *item, items) _newsfeedModel->addNews(item);
     foreach (User *user, profiles) _newsfeedModel->addUser(user);
+    foreach (Group *group, groups) _newsfeedModel->addGroup(group);
 //    emit newsfeedModelChanged();
 }
 

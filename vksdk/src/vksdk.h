@@ -41,6 +41,7 @@
 #include "objects/chat.h"
 #include "objects/dialog.h"
 #include "objects/document.h"
+#include "objects/group.h"
 #include "objects/news.h"
 #include "objects/photo.h"
 #include "objects/friend.h"
@@ -95,7 +96,7 @@ public slots:
     void gotFriendsList(QList<QObject*> friendsList);
     void gotMessagesList(QList<QObject*> messagesList);
     void gotMutualFriendsIds(QVariantList ids);
-    void gotNewsfeed(QList<News*> items, QList<User*> profiles);
+    void gotNewsfeed(QList<News*> items, QList<User*> profiles, QList<Group *> groups);
     void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);
     void gotVideoObject(Video *video);

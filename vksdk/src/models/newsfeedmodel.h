@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QList>
 
+#include "../objects/group.h"
 #include "../objects/news.h"
 #include "../objects/user.h"
 
@@ -30,12 +31,14 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual QHash<int, QByteArray> roleNames() const;
 
+    Q_INVOKABLE void addGroup(Group *group);
     Q_INVOKABLE void addNews(News *news);
     Q_INVOKABLE void addUser(User *user);
 
 private:
     QList<News *> _newsfeed;
     QList<User *> _profiles;
+    QList<Group *> _groups;
 
     QString _getAvatarSource(const int id) const;
 };

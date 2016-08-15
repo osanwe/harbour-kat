@@ -45,6 +45,12 @@ QHash<int, QByteArray> NewsfeedModel::roleNames() const {
     return roles;
 }
 
+void NewsfeedModel::addGroup(Group *group) {
+    _groups.append(group);
+    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
+    emit dataChanged(index, index);
+}
+
 void NewsfeedModel::addNews(News *news) {
     beginInsertRows(QModelIndex(), _newsfeed.size(), _newsfeed.size());
     _newsfeed.append(news);
@@ -63,7 +69,7 @@ QString NewsfeedModel::_getAvatarSource(const int id) const {
     if (id > 0) {
         foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
     } else if (id < 0) {
-        //
+        foreach (Group *group, _groups) if (id == group->id()) return group->photo50();
     }
     return "image://theme/icon-m-person";
 }
