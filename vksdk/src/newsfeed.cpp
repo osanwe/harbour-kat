@@ -27,10 +27,16 @@ void Newsfeed::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::NEWSFEED_GET: {
         QJsonObject response = value.toObject();
-        QJsonArray items = response.value("items").toArray();
-        QJsonArray profiles = response.value("profiles").toArray();
-        QJsonArray groups = response.value("groups").toArray();
-        QString nextFrom = response.value("next_from").toString();
+        QJsonArray _items = response.value("items").toArray();
+        QJsonArray _profiles = response.value("profiles").toArray();
+        QJsonArray _groups = response.value("groups").toArray();
+        QString _nextFrom = response.value("next_from").toString();
+        QList<News *> items;
+        QList<User *> profiles;
+        for (int index = 0; index < _items.size(); ++index) {
+            items.append(News::fromJsonObject(_items.at(index).toObject()));
+        }
+        emit gotNewsfeed(items, profiles);
     }
 
     default:

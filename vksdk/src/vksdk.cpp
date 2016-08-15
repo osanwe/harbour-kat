@@ -30,11 +30,14 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos = new Videos(this);
     _wall = new Wall(this);
 
+    _newsfeedModel = new NewsfeedModel(this);
+
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
     connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
+    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>)));
     connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
     connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
     connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
@@ -47,6 +50,8 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Friend*>("Friend*");
     qRegisterMetaType<User*>("User*");
     qRegisterMetaType<Video*>("Video*");
+
+    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<LongPoll*>("LongPoll*");
@@ -67,6 +72,8 @@ VkSDK::~VkSDK() {
     delete _users;
     delete _videos;
     delete _wall;
+
+    delete _newsfeedModel;
 }
 
 void VkSDK::setAccessTocken(QString value) {
@@ -118,6 +125,11 @@ Wall *VkSDK::wall() const
     return _wall;
 }
 
+NewsfeedModel* VkSDK::newsfeedModel() const
+{
+    return _newsfeedModel;
+}
+
 void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
     emit gotFriends(QVariant::fromValue(friendsList));
 }
@@ -131,6 +143,13 @@ void VkSDK::gotMutualFriendsIds(QVariantList ids) {
     QStringList sIds;
     foreach (QVariant id, ids) sIds.append(id.toString());
     _users->get(sIds);
+}
+
+void VkSDK::gotNewsfeed(QList<News *> items, QList<User *> profiles)
+{
+    foreach (News *item, items) _newsfeedModel->addNews(item);
+    foreach (User *user, profiles) _newsfeedModel->addUser(user);
+//    emit newsfeedModelChanged();
 }
 
 void VkSDK::gotUserProfile(User *user) {

@@ -27,6 +27,13 @@ ApplicationWindow
 {
     id: application
 
+    function convertUnixtimeToString(unixtime) {
+        var d = new Date(unixtime * 1000)
+        var month = d.getMonth() + 1
+        var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
+        return d.getDate() + "." + month + "." + d.getFullYear() + " " + d.getHours() + ":" + minutes
+    }
+
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
 

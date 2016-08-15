@@ -4,11 +4,14 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QList>
 #include <QObject>
 #include <QString>
 #include <QUrlQuery>
 
 #include "apirequest.h"
+#include "objects/news.h"
+#include "objects/user.h"
 
 #include <QDebug>
 
@@ -25,7 +28,7 @@ public:
     Q_INVOKABLE void get(QString startFrom = "");
 
 signals:
-    void gotNewsfeed(QList<QObject *> newsfeedList);
+    void gotNewsfeed(QList<News *> items, QList<User *> profiles);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);

@@ -23,7 +23,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    id: mainMenuPage
+    id: newfeedPage
 
     BusyIndicator {
        id: busyIndicator
@@ -33,13 +33,49 @@ Page {
     }
 
     SilicaListView {
-        id: menuList
+        id: newsfeed
         anchors.fill: parent
-        model: ListModel {}
+        model: vksdk.newsfeedModel
 
-        header: PageHeader {}
+        header: PageHeader {
+            title: qsTr("Newsfeed")
+        }
 
         delegate: BackgroundItem {
+            id: newsfeedItem
+            width: parent.width
+            height: content.height + Theme.paddingLarge
+
+            Item {
+                id: content
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: Theme.horizontalPageMargin
+                anchors.rightMargin: Theme.horizontalPageMargin
+                height: childrenRect.height
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.paddingSmall
+
+                    Label {
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 5
+                        truncationMode: TruncationMode.Fade
+                        color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: newsText
+                    }
+
+                    Label {
+                        width: parent.width
+                        color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        font.pixelSize: Theme.fontSizeTiny
+                        text: convertUnixtimeToString(datetime)
+                    }
+                }
+            }
         }
 
         VerticalScrollDecorator {}
