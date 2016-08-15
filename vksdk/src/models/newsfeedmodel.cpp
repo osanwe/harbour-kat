@@ -27,6 +27,21 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
     case DateRole:
         return QVariant(_newsfeed.at(index.row())->date());
 
+    case CommentsCountRole:
+        return QVariant(_newsfeed.at(index.row())->commentsCount());
+
+    case LikesCountRole:
+        return QVariant(_newsfeed.at(index.row())->likesCount());
+
+    case RepostsCountRole:
+        return QVariant(_newsfeed.at(index.row())->repostsCount());
+
+    case IsLikedRole:
+        return QVariant(_newsfeed.at(index.row())->userLiked());
+
+    case IsRepostedRole:
+        return QVariant(_newsfeed.at(index.row())->userReposted());
+
     case AttachmentsRole:
         return QVariant();
 
@@ -44,6 +59,11 @@ QHash<int, QByteArray> NewsfeedModel::roleNames() const {
     roles[TitleRole] = "title";
     roles[TextRole] = "newsText";
     roles[DateRole] = "datetime";
+    roles[CommentsCountRole] = "commentsCount";
+    roles[LikesCountRole] = "likesCount";
+    roles[RepostsCountRole] = "repostsCount";
+    roles[IsLikedRole] = "isLiked";
+    roles[IsRepostedRole] = "isReposted";
     roles[AttachmentsRole] = "attachments";
     roles[FullPostRole] = "wallpost";
     return roles;

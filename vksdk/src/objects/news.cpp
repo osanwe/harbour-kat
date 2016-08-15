@@ -22,6 +22,20 @@ News *News::fromJsonObject(QJsonObject object) {
 //        repost->initJsonObject(history.at(0).toObject());
         news->setRepost(history.at(0).toObject());
     }
+    if (object.contains("comments")) {
+        QJsonObject comments = object.value("comments").toObject();
+        if (comments.contains("count")) news->setCommentsCount(comments.value("count").toInt());
+    }
+    if (object.contains("likes")) {
+        QJsonObject likes = object.value("likes").toObject();
+        if (likes.contains("count")) news->setLikesCount(likes.value("count").toInt());
+        if (likes.contains("user_likes")) news->setUserLiked(likes.value("user_likes").toInt() == 1);
+    }
+    if (object.contains("reposts")) {
+        QJsonObject reposts = object.value("reposts").toObject();
+        if (reposts.contains("count")) news->setRepostsCount(reposts.value("count").toInt());
+        if (reposts.contains("user_reposted")) news->setUserReposted(reposts.value("user_reposted").toInt() == 1);
+    }
     if (object.contains("geo")) {
         QJsonObject geo = object.value("geo").toObject();
         QStringList coords = geo.value("coordinates").toString().split(" ");
@@ -226,5 +240,55 @@ News *News::repost() const
 void News::setRepost(QJsonObject repost)
 {
     _repost = repost;
+}
+
+int News::likesCount() const
+{
+    return _likesCount;
+}
+
+void News::setLikesCount(int likesCount)
+{
+    _likesCount = likesCount;
+}
+
+int News::repostsCount() const
+{
+    return _repostsCount;
+}
+
+void News::setRepostsCount(int repostsCount)
+{
+    _repostsCount = repostsCount;
+}
+
+int News::commentsCount() const
+{
+    return _commentsCount;
+}
+
+void News::setCommentsCount(int commentsCount)
+{
+    _commentsCount = commentsCount;
+}
+
+bool News::userLiked() const
+{
+    return _userLiked;
+}
+
+void News::setUserLiked(bool userLiked)
+{
+    _userLiked = userLiked;
+}
+
+bool News::userReposted() const
+{
+    return _userReposted;
+}
+
+void News::setUserReposted(bool userReposted)
+{
+    _userReposted = userReposted;
 }
 

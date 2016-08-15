@@ -79,11 +79,61 @@ Page {
                         text: title
                     }
 
-                    Label {
+                    Row {
                         width: parent.width
-                        color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeTiny
-                        text: convertUnixtimeToString(datetime)
+                        spacing: Theme.paddingSmall
+
+                        Label {
+                            width: parent.width - comments.width - likes.width - reposts.width - 3 * Theme.fontSizeTiny - 6 * Theme.paddingSmall
+                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeTiny
+                            text: convertUnixtimeToString(datetime)
+                        }
+
+                        Image {
+                            width: Theme.fontSizeTiny
+                            height: Theme.fontSizeTiny
+                            source: "image://theme/icon-s-chat?" +
+                                    (newsfeedItem.highlighted ? Theme.secondaryHighlightColor :
+                                                                Theme.secondaryColor)
+                        }
+
+                        Label {
+                            id: comments
+                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeTiny
+                            text: commentsCount
+                        }
+
+                        Image {
+                            width: Theme.fontSizeTiny
+                            height: Theme.fontSizeTiny
+                            source: "image://theme/icon-s-like?" +
+                                    (newsfeedItem.highlighted || isLiked ?
+                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
+                        }
+
+                        Label {
+                            id: likes
+                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeTiny
+                            text: likesCount
+                        }
+
+                        Image {
+                            width: Theme.fontSizeTiny
+                            height: Theme.fontSizeTiny
+                            source: "image://theme/icon-s-retweet?" +
+                                    (newsfeedItem.highlighted || isReposted ?
+                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
+                        }
+
+                        Label {
+                            id: reposts
+                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeTiny
+                            text: repostsCount
+                        }
                     }
 
                     Label {

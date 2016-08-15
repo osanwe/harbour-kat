@@ -24,6 +24,11 @@ public:
         TitleRole,
         TextRole,
         DateRole,
+        CommentsCountRole,
+        LikesCountRole,
+        RepostsCountRole,
+        IsLikedRole,
+        IsRepostedRole,
         AttachmentsRole,
         FullPostRole,
     };

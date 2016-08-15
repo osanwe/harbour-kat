@@ -24,6 +24,11 @@ class News : public QObject
     Q_PROPERTY(int toId READ toId CONSTANT)
     Q_PROPERTY(int fromId READ fromId CONSTANT)
     Q_PROPERTY(int date READ date CONSTANT)
+    Q_PROPERTY(int commentsCount READ commentsCount CONSTANT)
+    Q_PROPERTY(int likesCount READ likesCount CONSTANT)
+    Q_PROPERTY(int repostsCount READ repostsCount CONSTANT)
+    Q_PROPERTY(bool userLiked READ userLiked CONSTANT)
+    Q_PROPERTY(bool userReposted READ userReposted CONSTANT)
     Q_PROPERTY(QString text READ text CONSTANT)
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
@@ -86,12 +91,32 @@ public:
     News* repost() const;
     void setRepost(QJsonObject repost);
 
+    int likesCount() const;
+    void setLikesCount(int likesCount);
+
+    int repostsCount() const;
+    void setRepostsCount(int repostsCount);
+
+    int commentsCount() const;
+    void setCommentsCount(int commentsCount);
+
+    bool userLiked() const;
+    void setUserLiked(bool userLiked);
+
+    bool userReposted() const;
+    void setUserReposted(bool userReposted);
+
 private:
     int _id = 0;
     int _sourceId = 0;
     int _toId = 0;
     int _fromId = 0;
     int _date = 0;
+    int _commentsCount = 0;
+    int _likesCount = 0;
+    int _repostsCount = 0;
+    bool _userLiked;
+    bool _userReposted;
     QString _text;
     QString _geoTile;
     QString _geoMap;
