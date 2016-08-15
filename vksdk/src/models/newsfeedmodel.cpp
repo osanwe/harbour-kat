@@ -69,6 +69,18 @@ void NewsfeedModel::addUser(User *user) {
     emit dataChanged(index, index);
 }
 
+void NewsfeedModel::setNextFrom(QString value) {
+    _nextFrom = value;
+}
+
+int NewsfeedModel::size() const {
+    return _newsfeed.size();
+}
+
+QString NewsfeedModel::next() const {
+    return _nextFrom;
+}
+
 QString NewsfeedModel::_getAvatarSource(const int id) const {
     if (id > 0) {
         foreach (User *user, _profiles) if (id == user->id()) return user->photo50();

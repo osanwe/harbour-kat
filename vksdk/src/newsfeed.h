@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE void get(QString startFrom = "");
 
 signals:
-    void gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups);
+    void gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups, QString nextFrom);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);

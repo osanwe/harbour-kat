@@ -43,7 +43,7 @@ void Newsfeed::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         for (int index = 0; index < _groups.size(); ++index) {
             groups.append(Group::fromJsonObject(_groups.at(index).toObject()));
         }
-        emit gotNewsfeed(items, profiles, groups);
+        emit gotNewsfeed(items, profiles, groups, _nextFrom);
     }
 
     default:

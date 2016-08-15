@@ -98,6 +98,10 @@ Page {
             }
 
             onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"), { wallpost: wallpost })
+
+            Component.onCompleted: {
+                if (index === vksdk.newsfeedModel.size-1) vksdk.newsfeed.get(vksdk.newsfeedModel.next)
+            }
         }
 
         VerticalScrollDecorator {}

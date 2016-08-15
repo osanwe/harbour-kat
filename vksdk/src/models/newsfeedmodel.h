@@ -15,6 +15,9 @@ class NewsfeedModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    Q_PROPERTY(int size READ size CONSTANT)
+    Q_PROPERTY(QString next READ next CONSTANT)
+
 public:
     enum Roles {
         AvatarRole = Qt::UserRole + 1,
@@ -35,11 +38,16 @@ public:
     Q_INVOKABLE void addGroup(Group *group);
     Q_INVOKABLE void addNews(News *news);
     Q_INVOKABLE void addUser(User *user);
+    Q_INVOKABLE void setNextFrom(QString value);
+
+    int size() const;
+    QString next() const;
 
 private:
     QList<News *> _newsfeed;
     QList<User *> _profiles;
     QList<Group *> _groups;
+    QString _nextFrom;
 
     QString _getAvatarSource(const int id) const;
     QString _getTitle(const int id) const;

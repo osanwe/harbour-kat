@@ -96,7 +96,7 @@ public slots:
     void gotFriendsList(QList<QObject*> friendsList);
     void gotMessagesList(QList<QObject*> messagesList);
     void gotMutualFriendsIds(QVariantList ids);
-    void gotNewsfeed(QList<News*> items, QList<User*> profiles, QList<Group *> groups);
+    void gotNewsfeed(QList<News*> items, QList<User*> profiles, QList<Group *> groups, QString nextFrom);
     void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);
     void gotVideoObject(Video *video);
