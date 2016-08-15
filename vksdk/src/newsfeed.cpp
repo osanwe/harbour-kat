@@ -36,6 +36,9 @@ void Newsfeed::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         for (int index = 0; index < _items.size(); ++index) {
             items.append(News::fromJsonObject(_items.at(index).toObject()));
         }
+        for (int index = 0; index < _profiles.size(); ++index) {
+            profiles.append(User::fromJsonObject(_profiles.at(index).toObject()));
+        }
         emit gotNewsfeed(items, profiles);
     }
 

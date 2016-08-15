@@ -55,8 +55,19 @@ Page {
                 anchors.rightMargin: Theme.horizontalPageMargin
                 height: childrenRect.height
 
+                Image {
+                    id: avatar
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                    source: avatarSource
+                }
+
                 Column {
-                    width: parent.width
+                    anchors.left: avatar.right
+                    anchors.right: parent.right
+                    anchors.leftMargin: Theme.paddingMedium
                     spacing: Theme.paddingSmall
 
                     Label {

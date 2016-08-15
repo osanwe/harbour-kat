@@ -16,7 +16,7 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
 
     switch (role) {
     case AvatarRole:
-        return QVariant();
+        return QVariant(_getAvatarSource(_newsfeed.at(index.row())->sourceId()));
 
     case TitleRole:
         return QVariant();
@@ -37,7 +37,7 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
 
 QHash<int, QByteArray> NewsfeedModel::roleNames() const {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
-    roles[AvatarRole] = "avatar";
+    roles[AvatarRole] = "avatarSource";
     roles[TitleRole] = "title";
     roles[TextRole] = "newsText";
     roles[DateRole] = "datetime";
@@ -57,5 +57,14 @@ void NewsfeedModel::addUser(User *user) {
     _profiles.append(user);
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
+}
+
+QString NewsfeedModel::_getAvatarSource(const int id) const {
+    if (id > 0) {
+        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
+    } else if (id < 0) {
+        //
+    }
+    return "image://theme/icon-m-person";
 }
 

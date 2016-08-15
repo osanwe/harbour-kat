@@ -36,6 +36,8 @@ public:
 private:
     QList<News *> _newsfeed;
     QList<User *> _profiles;
+
+    QString _getAvatarSource(const int id) const;
 };
 
 #endif // NEWSFEEDMODEL_H

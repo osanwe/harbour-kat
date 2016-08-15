@@ -20,6 +20,7 @@ class News : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int id READ id CONSTANT)
+    Q_PROPERTY(int sourceId READ sourceId CONSTANT)
     Q_PROPERTY(int toId READ toId CONSTANT)
     Q_PROPERTY(int fromId READ fromId CONSTANT)
     Q_PROPERTY(int date READ date CONSTANT)
@@ -41,6 +42,9 @@ public:
 
     int id() const;
     void setId(int id);
+
+    int sourceId() const;
+    void setSourceId(int sourceId);
 
     int toId() const;
     void setToId(int toId);
@@ -84,6 +88,7 @@ public:
 
 private:
     int _id = 0;
+    int _sourceId = 0;
     int _toId = 0;
     int _fromId = 0;
     int _date = 0;
