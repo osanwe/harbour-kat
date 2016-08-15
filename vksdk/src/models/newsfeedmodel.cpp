@@ -19,7 +19,7 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
         return QVariant(_getAvatarSource(_newsfeed.at(index.row())->sourceId()));
 
     case TitleRole:
-        return QVariant();
+        return QVariant(_getTitle(_newsfeed.at(index.row())->sourceId()));
 
     case TextRole:
         return QVariant(_newsfeed.at(index.row())->text());
@@ -29,6 +29,9 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
 
     case AttachmentsRole:
         return QVariant();
+
+    case FullPostRole:
+        return QVariant::fromValue(_newsfeed.at(index.row()));
 
     default:
         return QVariant();
@@ -42,6 +45,7 @@ QHash<int, QByteArray> NewsfeedModel::roleNames() const {
     roles[TextRole] = "newsText";
     roles[DateRole] = "datetime";
     roles[AttachmentsRole] = "attachments";
+    roles[FullPostRole] = "wallpost";
     return roles;
 }
 
@@ -72,5 +76,14 @@ QString NewsfeedModel::_getAvatarSource(const int id) const {
         foreach (Group *group, _groups) if (id == group->id()) return group->photo50();
     }
     return "image://theme/icon-m-person";
+}
+
+QString NewsfeedModel::_getTitle(const int id) const {
+    if (id > 0) {
+        foreach (User *user, _profiles) if (id == user->id()) return QString("%1 %2").arg(user->firstName()).arg(user->lastName());
+    } else if (id < 0) {
+        foreach (Group *group, _groups) if (id == group->id()) return group->name();
+    }
+    return "";
 }
 

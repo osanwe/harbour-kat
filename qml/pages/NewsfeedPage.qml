@@ -72,11 +72,11 @@ Page {
 
                     Label {
                         width: parent.width
-                        wrapMode: Text.WordWrap
-                        maximumLineCount: 5
+                        color: newsfeedItem.highlighted ? Theme.secondaryColor : Theme.secondaryHighlightColor
+                        font.bold: true
+                        font.pixelSize: Theme.fontSizeTiny
                         truncationMode: TruncationMode.Fade
-                        color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                        text: newsText
+                        text: title
                     }
 
                     Label {
@@ -85,8 +85,19 @@ Page {
                         font.pixelSize: Theme.fontSizeTiny
                         text: convertUnixtimeToString(datetime)
                     }
+
+                    Label {
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        maximumLineCount: 5
+                        truncationMode: TruncationMode.Fade
+                        color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        text: newsText
+                    }
                 }
             }
+
+            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"), { wallpost: wallpost })
         }
 
         VerticalScrollDecorator {}

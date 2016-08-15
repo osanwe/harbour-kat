@@ -21,7 +21,8 @@ public:
         TitleRole,
         TextRole,
         DateRole,
-        AttachmentsRole
+        AttachmentsRole,
+        FullPostRole,
     };
 
     explicit NewsfeedModel(QObject *parent = 0);
@@ -41,6 +42,7 @@ private:
     QList<Group *> _groups;
 
     QString _getAvatarSource(const int id) const;
+    QString _getTitle(const int id) const;
 };
 
 #endif // NEWSFEEDMODEL_H
