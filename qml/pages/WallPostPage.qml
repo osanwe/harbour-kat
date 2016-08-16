@@ -27,32 +27,33 @@ import "../views"
 Page {
     id: profilePage
 
+    property var name
     property var wallpost
 
     SilicaFlickable {
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
-        contentHeight: content.height
+        contentHeight: header.height + content.height
+
+        PullDownMenu {
+
+            MenuItem {
+                text: qsTr("Like")
+                onClicked: vksdk.likes(sourceId, id)
+            }
+        }
+
+        PageHeader {
+            id: header
+            title: name
+        }
 
         Column {
             id: content
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: parent.top
+            anchors.top: header.bottom
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
-
-            PullDownMenu {
-
-                MenuItem {
-                    text: qsTr("Like")
-                    onClicked: vksdk.likes(sourceId, id)
-                }
-            }
-
-            PageHeader {
-                title: qsTr("Wall post")
-            }
 
             Loader {
                 property var _wallpost: wallpost

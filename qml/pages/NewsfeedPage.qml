@@ -22,6 +22,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../views"
+
 Page {
     id: newfeedPage
 
@@ -145,6 +147,23 @@ Page {
                         color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                         text: newsText
                     }
+
+//                    AttachmentsView { // TODO
+//                        width: parent.width
+//                        ageoTile: _wallpost.geoTile
+//                        ageoMap: _wallpost.geoMap
+//                        aphotos: _wallpost.photos
+//                        avideos: _wallpost.videos
+//                        aaudios: _wallpost.audios
+//                        adocuments: _wallpost.documents
+//                    }
+
+//                    Loader { // TODO
+//                        property var rwallpost: _wallpost.repost
+//                        width: parent.width - Theme.paddingSmall
+//                        active: _repost !== 0
+//                        source: "../views/RepostView.qml"
+//                    }
                 }
             }
 
@@ -160,7 +179,8 @@ Page {
                 }
             }
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"), { wallpost: wallpost })
+            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
+                                          { name: title, wallpost: wallpost })
 
             Component.onCompleted: {
                 if (index === vksdk.newsfeedModel.size-1) vksdk.newsfeed.get(vksdk.newsfeedModel.next)

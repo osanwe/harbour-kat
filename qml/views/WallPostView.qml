@@ -2,11 +2,66 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Column {
-    spacing: Theme.paddingLarge
+    spacing: Theme.paddingSmall
+
+    Row {
+        width: parent.width
+        spacing: Theme.paddingSmall
+
+        Label {
+            width: parent.width - comments.width - likes.width - reposts.width - 3 * Theme.fontSizeTiny - 6 * Theme.paddingSmall
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            text: convertUnixtimeToString(_wallpost.date)
+        }
+
+        Image {
+            width: Theme.fontSizeTiny
+            height: Theme.fontSizeTiny
+            source: "image://theme/icon-s-chat"
+        }
+
+        Label {
+            id: comments
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            text: _wallpost.commentsCount
+        }
+
+        Image {
+            width: Theme.fontSizeTiny
+            height: Theme.fontSizeTiny
+            source: "image://theme/icon-s-like?" +
+                    (_wallpost.userLiked ? Theme.secondaryHighlightColor : Theme.secondaryColor)
+        }
+
+        Label {
+            id: likes
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            text: _wallpost.likesCount
+        }
+
+        Image {
+            width: Theme.fontSizeTiny
+            height: Theme.fontSizeTiny
+            source: "image://theme/icon-s-retweet?" +
+                    (_wallpost.userReposted ? Theme.secondaryHighlightColor : Theme.secondaryColor)
+        }
+
+        Label {
+            id: reposts
+            color: Theme.secondaryColor
+            font.pixelSize: Theme.fontSizeTiny
+            text: _wallpost.repostsCount
+        }
+    }
 
     Label {
         width: parent.width
         wrapMode: Text.WordWrap
+        truncationMode: TruncationMode.Fade
+//        maximumLineCount: 5
         text: _wallpost.text
     }
 
@@ -27,5 +82,7 @@ Column {
         active: _repost !== 0
         source: "RepostView.qml"
     }
+
+//    Component.onCompleted: console.log(_wallpost.photos)
 }
 
