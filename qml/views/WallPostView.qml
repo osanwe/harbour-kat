@@ -83,6 +83,6 @@ Column {
         source: "RepostView.qml"
     }
 
-//    Component.onCompleted: console.log(_wallpost.photos)
+//    Component.onCompleted: console.log(_wallpost.photos, _wallpost.photos.length)
 }
 

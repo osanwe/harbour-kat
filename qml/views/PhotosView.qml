@@ -30,23 +30,19 @@ Item {
         width: parent.width
 
         Repeater {
-            model: photos
+            model: photos.length
 
             Image {
-                width: photos.count === 1 ? maximumWidth : maximumWidth / 2
-                height: photos.count === 1 ? maximumWidth : maximumWidth / 2
+                width: photos.length === 1 ? maximumWidth : maximumWidth / 2
+                height: photos.length === 1 ? maximumWidth : maximumWidth / 2
                 fillMode: Image.PreserveAspectCrop
-                source: photoMaximum ? photoMaximum : photos[index].photoMaximum
+                source: photos[index].photoMaximum
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         var sources = []
-                        var idx = 0
-                        while (idx < photos.count) {
-                            sources[idx] = photos.get(idx).photoMaximum
-                            idx++
-                        }
+                        for (var idx in photos) sources[idx] = photos[idx].photoMaximum
                         pageStack.push(Qt.resolvedUrl("../pages/ImageViewPage.qml"), { current:     index,
                                                                                        imagesModel: sources })
                     }
