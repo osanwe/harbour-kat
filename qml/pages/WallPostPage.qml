@@ -46,6 +46,7 @@ Page {
 
                 MenuItem {
                     text: qsTr("Like")
+                    onClicked: vksdk.likes(sourceId, id)
                 }
             }
 

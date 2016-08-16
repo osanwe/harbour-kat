@@ -54,6 +54,7 @@ public:
         FRIENDS_GET,
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,
+        LIKES_ADD,
         MESSAGES_GET_CHAT,
         MESSAGES_GET_DIALOGS,
         MESSAGES_GET_HISTORY,

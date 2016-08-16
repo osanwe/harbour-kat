@@ -30,6 +30,7 @@
 #include <QVariantList>
 
 #include "friends.h"
+#include "likes.h"
 #include "longpoll.h"
 #include "messages.h"
 #include "newsfeed.h"
@@ -55,6 +56,7 @@ class VkSDK : public QObject
     Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
+    Q_PROPERTY(Likes* likes READ likes CONSTANT)
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
@@ -74,6 +76,7 @@ public:
     User* selfProfile() const;
 
     Friends* friends() const;
+    Likes *likes() const;
     LongPoll* longPoll() const;
     Messages* messages() const;
     Newsfeed* newsfeed() const;
@@ -111,6 +114,7 @@ private:
     User *_selfProfile;
 
     Friends *_friends;
+    Likes *_likes;
     LongPoll *_longPoll;
     Messages *_messages;
     Newsfeed *_newsfeed;

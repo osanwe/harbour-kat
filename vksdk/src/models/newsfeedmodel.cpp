@@ -48,9 +48,36 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
     case FullPostRole:
         return QVariant::fromValue(_newsfeed.at(index.row()));
 
+    case PostIdRole:
+        return QVariant(_newsfeed.at(index.row())->id());
+
+    case SourceIdRole:
+        return QVariant(_newsfeed.at(index.row())->sourceId());
+
     default:
         return QVariant();
     }
+}
+
+bool NewsfeedModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    if (!index.isValid()) return false;
+
+    switch (role) {
+    case LikesCountRole:
+        _newsfeed.at(index.row())->setLikesCount(value.toInt());
+        break;
+
+    case IsLikedRole:
+        _newsfeed.at(index.row())->setUserLiked(value.toBool());
+        break;
+
+    default:
+        return false;
+    }
+
+    emit dataChanged(index, index, QVector<int>() << role);
+
+    return true;
 }
 
 QHash<int, QByteArray> NewsfeedModel::roleNames() const {
@@ -66,7 +93,14 @@ QHash<int, QByteArray> NewsfeedModel::roleNames() const {
     roles[IsRepostedRole] = "isReposted";
     roles[AttachmentsRole] = "attachments";
     roles[FullPostRole] = "wallpost";
+    roles[PostIdRole] = "postId";
+    roles[SourceIdRole] = "sourceId";
     return roles;
+}
+
+Qt::ItemFlags NewsfeedModel::flags(const QModelIndex &index) const {
+    if (!index.isValid()) return Qt::ItemIsEnabled;
+    return QAbstractListModel::flags(index) | Qt::ItemIsEnabled;
 }
 
 void NewsfeedModel::addGroup(Group *group) {

@@ -31,6 +31,8 @@ public:
         IsRepostedRole,
         AttachmentsRole,
         FullPostRole,
+        PostIdRole,
+        SourceIdRole,
     };
 
     explicit NewsfeedModel(QObject *parent = 0);
@@ -38,7 +40,9 @@ public:
 
     virtual int rowCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual QHash<int, QByteArray> roleNames() const;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
     Q_INVOKABLE void addGroup(Group *group);
     Q_INVOKABLE void addNews(News *news);

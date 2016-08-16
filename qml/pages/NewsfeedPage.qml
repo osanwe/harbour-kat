@@ -41,10 +41,11 @@ Page {
             title: qsTr("Newsfeed")
         }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             id: newsfeedItem
             width: parent.width
-            height: content.height + Theme.paddingLarge
+            contentHeight: content.height + Theme.paddingLarge
+//            height: content.height + Theme.paddingLarge
 
             Item {
                 id: content
@@ -143,6 +144,18 @@ Page {
                         truncationMode: TruncationMode.Fade
                         color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                         text: newsText
+                    }
+                }
+            }
+
+            menu: ContextMenu {
+
+                MenuItem {
+                    text: qsTr("Like")
+                    onClicked: {
+                        vksdk.likes.addPost(sourceId, postId)
+                        isLiked = true
+                        likesCount += 1
                     }
                 }
             }
