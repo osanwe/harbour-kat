@@ -30,13 +30,13 @@ Item {
         width: parent.width
 
         Repeater {
-            model: videos
+            model: videos.length
 
             Image {
                 width: maximumWidth
                 height: maximumWidth / 16 * 9
                 fillMode: Image.PreserveAspectCrop
-                source: videos.get(index).photo
+                source: videos[index].photo
 
                 Image {
                     anchors.centerIn: parent
@@ -47,7 +47,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: vksdk.videos.get(videos.get(index).ownerId, videos.get(index).id)
+                    onClicked: vksdk.videos.get(videos[index].ownerId, videos[index].id)
                 }
             }
         }
