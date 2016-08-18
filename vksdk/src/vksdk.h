@@ -136,6 +136,7 @@ private:
 
     QStringList _usersIds;
     QStringList _chatsIds;
+    QStringList _chatUsersIds;
     QList<QObject*> _dialogs;
 
     QStringList _getIdsFromMessages(QList<QObject*> messages);

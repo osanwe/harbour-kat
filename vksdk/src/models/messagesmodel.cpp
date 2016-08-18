@@ -14,6 +14,10 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
     Message *message = _messages.at(index.row());
 
     switch (role) {
+    case AvatarRole:
+        if (_profiles.contains(message->fromId())) return QVariant(_profiles[message->fromId()]->photo50());
+        return QVariant();
+
     case IdRole:
         return QVariant(message->id());
 
@@ -93,5 +97,14 @@ void MessagesModel::add(Message *message) {
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
+}
+
+void MessagesModel::addProfile(Friend *profile) {
+    if (_profiles.contains(profile->id())) return;
+    _profiles[profile->id()] = profile;
+
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_messages.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
 }
 

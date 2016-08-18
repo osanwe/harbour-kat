@@ -161,7 +161,9 @@ void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
     foreach (QObject *object, messagesList) {
         Message *message = qobject_cast<Message*>(object);
         _messagesModel->add(message);
+        _chatUsersIds.append(QString("%1").arg(message->fromId()));
     }
+    _users->get(_chatUsersIds);
 }
 
 void VkSDK::gotMutualFriendsIds(QVariantList ids) {
@@ -196,6 +198,12 @@ void VkSDK::gotUsersList(QList<QObject *> usersList) {
         foreach (QObject *object, usersList) {
             Friend *user = qobject_cast<Friend*>(object);
             _dialogsListModel->addProfile(user);
+        }
+    } else if (_chatUsersIds.size() > 0) {
+        _chatUsersIds.clear();
+        foreach (QObject *object, usersList) {
+            Friend *user = qobject_cast<Friend*>(object);
+            _messagesModel->addProfile(user);
         }
     } else emit gotFriends(QVariant::fromValue(usersList));
 }

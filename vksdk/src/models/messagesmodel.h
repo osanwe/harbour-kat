@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QList>
 
+#include "../objects/friend.h"
 #include "../objects/message.h"
 
 class MessagesModel : public QAbstractListModel
@@ -35,9 +36,11 @@ public:
 
     Q_INVOKABLE void clear();
     Q_INVOKABLE void add(Message *message);
+    Q_INVOKABLE void addProfile(Friend *profile);
 
 private:
     QList<Message*> _messages;
+    QHash<int, Friend*> _profiles;
 };
 
 #endif // MESSAGESMODEL_H
