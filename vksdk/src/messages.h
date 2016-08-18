@@ -55,7 +55,7 @@ public:
 
 signals:
     void gotChatsList(QList<QObject*> chatsList);
-    void gotDialogsList(QList<QObject*> dialogsList);
+    void gotDialogsList(QList<Dialog*> dialogsList);
     void gotMessagesList(QList<QObject*> messagesList);
     void gotUnreadDialogsCounter(int value);
 

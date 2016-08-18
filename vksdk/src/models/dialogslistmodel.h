@@ -29,7 +29,8 @@ public:
     Q_INVOKABLE void add(Dialog *dialog);
 
 private:
-    QList<Dialog *> _dialogsData;
+    QList<int> _dialogsIds;
+    QHash<int, Dialog*> _dialogs;
 };
 
 #endif // DIALOGSLISTMODEL_H

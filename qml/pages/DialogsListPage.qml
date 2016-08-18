@@ -28,15 +28,10 @@ Page {
     SilicaListView {
         id: dialogsList
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
 
-        model: 10
+        model: vksdk.dialogsListModel
 
         PullDownMenu {
-
-            MenuItem {
-                text: qsTr("Refresh")
-            }
 
             MenuItem {
                 text: qsTr("New message")
@@ -51,6 +46,14 @@ Page {
             id: dialogItem
             width: parent.width
             height: Theme.itemSizeMedium
+
+            Switch {
+                id: unreadStatus
+                anchors.horizontalCenter: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                automaticCheck: false
+                checked: unread
+            }
 
             Image {
                 id: dialogAvatar
@@ -81,7 +84,7 @@ Page {
                     }
 
                     Label {
-                        id: name
+                        id: title
                         width: parent.width - isOnline.width - Theme.paddingMedium
                         color: dialogItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                         font.bold: true
@@ -91,9 +94,11 @@ Page {
 
                 Label {
                     width: parent.width
-                    color: dialogItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    color: dialogItem.highlighted || unread ? Theme.secondaryHighlightColor :
+                                                              Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
-                    text: modelData.lastMessage.body
+                    maximumLineCount: 1
+                    text: preview.replace('\n', ' ')
                 }
             }
         }

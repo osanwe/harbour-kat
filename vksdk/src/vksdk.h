@@ -37,6 +37,7 @@
 #include "users.h"
 #include "videos.h"
 #include "wall.h"
+#include "models/dialogslistmodel.h"
 #include "models/newsfeedmodel.h"
 #include "objects/audio.h"
 #include "objects/chat.h"
@@ -64,6 +65,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Videos* videos READ videos CONSTANT)
     Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
+    Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel)
 
 public:
@@ -84,6 +86,7 @@ public:
     Videos* videos() const;
     Wall* wall() const;
 
+    DialogsListModel* dialogsListModel() const;
     NewsfeedModel* newsfeedModel() const;
 
 signals:
@@ -97,6 +100,7 @@ signals:
     void newsfeedModelChanged();
 
 public slots:
+    void gotDialogList(QList<Dialog*> dialogsList);
     void gotFriendsList(QList<QObject*> friendsList);
     void gotMessagesList(QList<QObject*> messagesList);
     void gotMutualFriendsIds(QVariantList ids);
@@ -108,7 +112,6 @@ public slots:
     void gotWallpostObject(News *wallpost);
 
     void gotChatsList(QList<QObject*> chatsList);
-    void gotDialogList(QList<QObject*> dialogsList);
 
 private:
     QString _accessToken;
@@ -124,6 +127,7 @@ private:
     Videos *_videos;
     Wall *_wall;
 
+    DialogsListModel *_dialogsListModel;
     NewsfeedModel *_newsfeedModel;
 
     QStringList _usersIds;

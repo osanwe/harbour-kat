@@ -31,12 +31,13 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos = new Videos(this);
     _wall = new Wall(this);
 
+    _dialogsListModel = new DialogsListModel(this);
     _newsfeedModel = new NewsfeedModel(this);
 
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
     connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
     connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
-    connect(_messages, SIGNAL(gotDialogsList(QList<QObject*>)), this, SLOT(gotDialogList(QList<QObject*>)));
+    connect(_messages, SIGNAL(gotDialogsList(QList<Dialog*>)), this, SLOT(gotDialogList(QList<Dialog*>)));
     connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
     connect(_messages, SIGNAL(gotUnreadDialogsCounter(int)), this, SLOT(gotUnreadDialogsCounter(int)));
     connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)));
@@ -53,6 +54,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<User*>("User*");
     qRegisterMetaType<Video*>("Video*");
 
+    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
     qRegisterMetaType<Friends*>("Friends*");
@@ -77,6 +79,7 @@ VkSDK::~VkSDK() {
     delete _videos;
     delete _wall;
 
+    delete _dialogsListModel;
     delete _newsfeedModel;
 }
 
@@ -133,6 +136,10 @@ Videos *VkSDK::videos() const
 Wall *VkSDK::wall() const
 {
     return _wall;
+}
+
+DialogsListModel *VkSDK::dialogsListModel() const {
+    return _dialogsListModel;
 }
 
 NewsfeedModel* VkSDK::newsfeedModel() const
@@ -203,7 +210,8 @@ void VkSDK::gotChatsList(QList<QObject *> chatsList) {
 //    _users->get(users);
 }
 
-void VkSDK::gotDialogList(QList<QObject *> dialogsList) {
+void VkSDK::gotDialogList(QList<Dialog *> dialogsList) {
+    foreach (Dialog *dialog, dialogsList) _dialogsListModel->add(dialog);
 //    _dialogs = dialogsList;
 //    foreach (Dialog *dialog, dialogsList) {
 ////        if (dialog->isChat()) _chatsIds.append(dialog->lastMessage()->chatId());

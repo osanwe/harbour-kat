@@ -47,18 +47,10 @@ public:
     Message *lastMessage() const;
     void setLastMessage(Message *lastMessage);
 
-    User *user() const;
-    void setUser(User *user);
-
-    Chat *chat() const;
-    void setChat(Chat *chat);
-
 private:
     bool _unread;
     bool _isChat;
     Message *_lastMessage;
-    User *_user;
-    Chat *_chat;
 };
 
 #endif // DIALOG_H

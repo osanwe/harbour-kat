@@ -77,7 +77,7 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         QJsonObject object = value.toObject();
         if (object.contains("unread_dialogs")) emit gotUnreadDialogsCounter(object.value("unread_dialogs").toInt());
         QJsonArray dialogs = value.toObject().value("items").toArray();
-        QList<QObject*> dialogsList;
+        QList<Dialog*> dialogsList;
         for (int index = 0; index < dialogs.size(); ++index) {
             dialogsList.append(Dialog::fromJsonObject(dialogs.at(index).toObject()));
         }
