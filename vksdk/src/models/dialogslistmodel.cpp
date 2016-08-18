@@ -46,6 +46,13 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
     case IsOutRole:
         return QVariant(dialog->lastMessage()->out());
 
+    case IsOnlineRole:
+        if (dialog->isChat()) return QVariant();
+        else {
+            if (!_profiles.contains(profileId)) return QVariant();
+            return QVariant(_profiles[profileId]->online());
+        }
+
     default:
         return QVariant();
     }
@@ -60,6 +67,7 @@ QHash<int, QByteArray> DialogsListModel::roleNames() const {
     roles[IsChatRole] = "isChat";
     roles[UnreadRole] = "unread";
     roles[IsOutRole] = "isOut";
+    roles[IsOnlineRole] = "online";
     return roles;
 }
 

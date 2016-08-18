@@ -84,6 +84,7 @@ Page {
                         height: name.height
                         width: height
                         automaticCheck: false
+                        checked: online
                         visible: !isChat
                     }
 

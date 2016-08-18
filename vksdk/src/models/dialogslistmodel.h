@@ -22,6 +22,7 @@ public:
         IsChatRole,
         UnreadRole,
         IsOutRole,
+        IsOnlineRole,
     };
 
     explicit DialogsListModel(QObject *parent = 0);
