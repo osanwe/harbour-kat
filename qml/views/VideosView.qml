@@ -47,7 +47,10 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: vksdk.videos.get(videos[index].ownerId, videos[index].id)
+//                    onClicked: vksdk.videos.get(videos[index].ownerId, videos[index].id)
+                    onClicked: pageContainer.push(Qt.resolvedUrl("../pages/VideoPlayer.qml"),
+                                                  { ownerId: videos[index].ownerId,
+                                                    videoId: videos[index].id })
                 }
             }
         }

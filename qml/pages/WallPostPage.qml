@@ -58,6 +58,7 @@ Page {
             Loader {
                 property var _wallpost: wallpost
                 property var _repost: wallpost.repost
+                property bool isFeed: false
                 width: parent.width
                 active: true
                 source: "../views/WallPostView.qml"

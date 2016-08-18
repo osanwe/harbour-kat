@@ -30,7 +30,7 @@ Item {
         width: parent.width
 
         Repeater {
-            model: audios
+            model: audios.length
 
             BackgroundItem {
                 width: maximumWidth
@@ -56,14 +56,14 @@ Item {
                         height: contentHeight
                         font.bold: true
                         truncationMode: TruncationMode.Fade
-                        text: audios.get(index).title
+                        text: audios[index].title
                     }
 
                     Label {
                         width: parent.width
                         height: contentHeight
                         truncationMode: TruncationMode.Fade
-                        text: audios.get(index).artist
+                        text: audios[index].artist
                     }
                 }
 
@@ -71,19 +71,17 @@ Item {
                     var urls = []
                     var idx = 0
                     while (idx < audios.count) {
-                        urls[idx] = audios.get(idx).url
+                        urls[idx] = audios[idx].url
                         idx++
                     }
-                    console.log(urls)
                     player.setPlaylist(urls, index)
                     audioPlayer.playing = true
                     audioPlayer.showControls()
                     audioPlayer._audios = audios
                     audioPlayer._index = index
-                    audioPlayer.author = audios.get(index).artist
-                    audioPlayer.title = audios.get(index).title
-                    audioPlayer.duration = audios.get(index).duration
-//                    audioPlayer.setAudios(audios, index)
+                    audioPlayer.author = audios[index].artist
+                    audioPlayer.title = audios[index].title
+                    audioPlayer.duration = audios[index].duration
                 }
             }
         }

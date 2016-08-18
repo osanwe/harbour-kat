@@ -82,71 +82,80 @@ Page {
                         text: title
                     }
 
-                    Row {
+                    Loader {
+                        property var _wallpost: wallpost
+                        property var _repost: wallpost.repost
+                        property bool isFeed: true
                         width: parent.width
-                        spacing: Theme.paddingSmall
-
-                        Label {
-                            width: parent.width - comments.width - likes.width - reposts.width - 3 * Theme.fontSizeTiny - 6 * Theme.paddingSmall
-                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeTiny
-                            text: convertUnixtimeToString(datetime)
-                        }
-
-                        Image {
-                            width: Theme.fontSizeTiny
-                            height: Theme.fontSizeTiny
-                            source: "image://theme/icon-s-chat?" +
-                                    (newsfeedItem.highlighted ? Theme.secondaryHighlightColor :
-                                                                Theme.secondaryColor)
-                        }
-
-                        Label {
-                            id: comments
-                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeTiny
-                            text: commentsCount
-                        }
-
-                        Image {
-                            width: Theme.fontSizeTiny
-                            height: Theme.fontSizeTiny
-                            source: "image://theme/icon-s-like?" +
-                                    (newsfeedItem.highlighted || isLiked ?
-                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
-                        }
-
-                        Label {
-                            id: likes
-                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeTiny
-                            text: likesCount
-                        }
-
-                        Image {
-                            width: Theme.fontSizeTiny
-                            height: Theme.fontSizeTiny
-                            source: "image://theme/icon-s-retweet?" +
-                                    (newsfeedItem.highlighted || isReposted ?
-                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
-                        }
-
-                        Label {
-                            id: reposts
-                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeTiny
-                            text: repostsCount
-                        }
+                        active: true
+                        source: "../views/WallPostView.qml"
                     }
 
-                    Label {
-                        width: parent.width
-                        wrapMode: Text.WordWrap
-                        maximumLineCount: 5
-                        truncationMode: TruncationMode.Fade
-                        color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                        text: newsText
-                    }
+//                    Row {
+//                        width: parent.width
+//                        spacing: Theme.paddingSmall
+
+//                        Label {
+//                            width: parent.width - comments.width - likes.width - reposts.width - 3 * Theme.fontSizeTiny - 6 * Theme.paddingSmall
+//                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+//                            font.pixelSize: Theme.fontSizeTiny
+//                            text: convertUnixtimeToString(datetime)
+//                        }
+
+//                        Image {
+//                            width: Theme.fontSizeTiny
+//                            height: Theme.fontSizeTiny
+//                            source: "image://theme/icon-s-chat?" +
+//                                    (newsfeedItem.highlighted ? Theme.secondaryHighlightColor :
+//                                                                Theme.secondaryColor)
+//                        }
+
+//                        Label {
+//                            id: comments
+//                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+//                            font.pixelSize: Theme.fontSizeTiny
+//                            text: commentsCount
+//                        }
+
+//                        Image {
+//                            width: Theme.fontSizeTiny
+//                            height: Theme.fontSizeTiny
+//                            source: "image://theme/icon-s-like?" +
+//                                    (newsfeedItem.highlighted || isLiked ?
+//                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
+//                        }
+
+//                        Label {
+//                            id: likes
+//                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+//                            font.pixelSize: Theme.fontSizeTiny
+//                            text: likesCount
+//                        }
+
+//                        Image {
+//                            width: Theme.fontSizeTiny
+//                            height: Theme.fontSizeTiny
+//                            source: "image://theme/icon-s-retweet?" +
+//                                    (newsfeedItem.highlighted || isReposted ?
+//                                         Theme.secondaryHighlightColor : Theme.secondaryColor)
+//                        }
+
+//                        Label {
+//                            id: reposts
+//                            color: newsfeedItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
+//                            font.pixelSize: Theme.fontSizeTiny
+//                            text: repostsCount
+//                        }
+//                    }
+
+//                    Label {
+//                        width: parent.width
+//                        wrapMode: Text.WordWrap
+//                        maximumLineCount: 5
+//                        truncationMode: TruncationMode.Fade
+//                        color: newsfeedItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+//                        text: newsText
+//                    }
 
 //                    AttachmentsView { // TODO
 //                        width: parent.width

@@ -30,7 +30,7 @@ Item {
         width: parent.width
 
         Repeater {
-            model: news
+            model: news.length
 
             BackgroundItem {
                 width: maximumWidth
@@ -55,7 +55,7 @@ Item {
                         width: parent.width
                         maximumLineCount: 1
                         truncationMode: TruncationMode.Fade
-                        text: (news.get(index).copyText ? news.get(index).copyText : news.get(index).text).replace('\n', ' ')
+                        text: (news[index].copyText ? news[index].copyText : news[index].text).replace('\n', ' ')
                     }
 
                     Label {
@@ -63,7 +63,7 @@ Item {
                         maximumLineCount: 1
                         truncationMode: TruncationMode.Fade
                         text: {
-                            var d = new Date(news.get(index).date * 1000)
+                            var d = new Date(news[index].date * 1000)
                             var month = d.getMonth() + 1
                             return qsTr("[Wall post] ") + d.getDate() + "." + month + "." + d.getFullYear()
                         }
@@ -72,7 +72,7 @@ Item {
 
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("../pages/WallPostPage.qml"),
-                                          { wallpost: news.get(index) })
+                                          { wallpost: news[index] })
                 }
             }
         }

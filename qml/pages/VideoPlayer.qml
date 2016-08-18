@@ -26,9 +26,11 @@ import Sailfish.Silica 1.0
 Page {
     anchors.fill: parent
 
+    property var ownerId
+    property var videoId
+
     property var url
     property var duration
-
     property bool isPlaying: true
 
     allowedOrientations: Orientation.LandscapeMask
@@ -38,7 +40,7 @@ Page {
         anchors.fill: parent
         autoPlay: true
         fillMode: VideoOutput.PreserveAspectFit
-        source: url
+//        source: url
 
         MouseArea {
             anchors.fill: parent
@@ -73,10 +75,18 @@ Page {
         id: videoProgressBar
         anchors.bottom: parent.bottom
         width: parent.width
-        maximumValue: duration
+//        maximumValue: duration
         value: videoView.position / 1000
         visible: false
     }
 
-    Component.onCompleted: console.log(url)
+    Connections {
+        target: vksdk
+        onGotVideo: {
+            videoView.source = video.video
+            videoProgressBar.maximumValue = video.duration
+        }
+    }
+
+    Component.onCompleted: vksdk.videos.get(ownerId, videoId)
 }

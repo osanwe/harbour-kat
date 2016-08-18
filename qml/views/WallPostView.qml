@@ -61,8 +61,9 @@ Column {
         width: parent.width
         wrapMode: Text.WordWrap
         truncationMode: TruncationMode.Fade
-//        maximumLineCount: 5
+        maximumLineCount: isFeed ? 5 : _wallpost.text.length
         text: _wallpost.text
+        visible: _wallpost.text.length !== 0
     }
 
     AttachmentsView {

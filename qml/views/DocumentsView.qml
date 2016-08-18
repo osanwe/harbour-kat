@@ -30,21 +30,21 @@ Item {
         width: parent.width
 
         Repeater {
-            model: documents
+            model: documents.length
 
             Item {
                 width: maximumWidth
                 height: childrenRect.height
 
                 Loader {
-                    active: documents.get(index).hasPhoto
+                    active: documents[index].hasPhoto
                     sourceComponent: Component {
 
                         Image {
                             width: maximumWidth / 2
                             height: maximumWidth / 2
                             fillMode: Image.PreserveAspectFit
-                            source: documents.get(index).photo
+                            source: documents[index].photo
 
                             Rectangle {
                                 anchors.bottom: parent.bottom
@@ -55,7 +55,7 @@ Item {
                                 Label {
                                     width: parent.width
                                     elide: Text.ElideMiddle
-                                    text: documents.get(index).title
+                                    text: documents[index].title
                                 }
                             }
                         }
@@ -63,7 +63,7 @@ Item {
                 }
 
                 Loader {
-                    active: !documents.get(index).hasPhoto
+                    active: !documents[index].hasPhoto
                     sourceComponent: Component {
 
                         Item {
@@ -89,14 +89,14 @@ Item {
                                     width: parent.width
                                     height: contentHeight
                                     elide: Text.ElideMiddle
-                                    text: documents.get(index).title
+                                    text: documents[index].title
                                 }
 
                                 Label {
                                     width: parent.width
                                     height: contentHeight
                                     truncationMode: TruncationMode.Fade
-                                    text: documents.get(index).size
+                                    text: documents[index].size
                                 }
                             }
                         }
@@ -105,7 +105,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: Qt.openUrlExternally(documents.get(index).url)
+                    onClicked: Qt.openUrlExternally(documents[index].url)
                 }
             }
         }

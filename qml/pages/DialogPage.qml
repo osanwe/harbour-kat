@@ -135,8 +135,8 @@ Page {
             }
             messagesListView.returnToBounds()
         }
-        onGotVideo: pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"), { url: video.video,
-                                                                        duration: video.duration })
+//        onGotVideo: pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"), { url: video.video,
+//                                                                        duration: video.duration })
     }
 
     Component.onCompleted: {
