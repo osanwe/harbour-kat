@@ -39,34 +39,32 @@ Page {
         anchors.bottom: newmessagerow.top
         verticalLayoutDirection: ListView.BottomToTop
         clip: true
-        model: ListModel {}
+
+        model: vksdk.messagesModel
+
         delegate: MessageItem {
-
-            property var item: model.modelData ? model.modelData : model
-            property var avatarSrc: profiles[item.fromId] ? profiles[item.fromId].photo50 : "image://theme/icon-m-person"
-
             anchors.left: parent.left
             anchors.right: parent.right
 
-            date: item.date
-            isOut: item.out
-            isRead: item.readState
-            avatarSource: avatarSrc
-            bodyText: item.body
-            photos: item.photos
-            videos: item.videos
-            audios: item.audios
-            documents: item.documents
-            news: item.news
-            geoTile: item.geoTile
-            geoMap: item.geoMap
-            fwdMessages: item.fwdMessages
+            date: datetime
+            isOut: out
+            isRead: read
+            avatarSource: avatar
+            bodyText: body
+            photos: photosList
+            videos: videosList
+            audios: audiosList
+            documents: documentsList
+            news: newsList
+            geoTile: geoTileUrl
+            geoMap: geoMapUrl
+            fwdMessages: fwdMessagesList
 
-            Component.onCompleted: {
-                if (index === messagesListView.model.count-1) {
-                    vksdk.messages.getHistory(historyId, messagesListView.model.count)
-                }
-            }
+//            Component.onCompleted: {
+//                if (index === messagesListView.model.count-1) {
+//                    vksdk.messages.getHistory(historyId, messagesListView.model.count)
+//                }
+//            }
         }
 
         VerticalScrollDecorator {}
@@ -104,39 +102,40 @@ Page {
         }
     }
 
-    Connections {
-        target: vksdk
-        onGotMessages: {
-            for (var index in messages) {
-                messagesListView.model.append({ id:          messages[index].id,
-                                                userId:      messages[index].userId,
-                                                chatId:      messages[index].chatId,
-                                                fromId:      messages[index].fromId,
-                                                date:        messages[index].date,
-                                                chat:        messages[index].chat,
-                                                readState:   messages[index].readState,
-                                                out:         messages[index].out,
-                                                body:        messages[index].body,
-                                                geoMap:      messages[index].geoMap,
-                                                geoTile:     messages[index].geoTile,
-                                                photos:      messages[index].photos,
-                                                videos:      messages[index].videos,
-                                                audios:      messages[index].audios,
-                                                documents:   messages[index].documents,
-                                                news:        messages[index].news,
-                                                fwdMessages: messages[index].fwdMessages })
-            }
-        }
-        onGotFriends: {
-            for (var index in friends) {
-                var id = friends[index].id + ''
-                profiles[id] = friends[index]
-            }
-            messagesListView.returnToBounds()
-        }
-    }
+//    Connections {
+//        target: vksdk
+//        onGotMessages: {
+//            for (var index in messages) {
+//                messagesListView.model.append({ id:          messages[index].id,
+//                                                userId:      messages[index].userId,
+//                                                chatId:      messages[index].chatId,
+//                                                fromId:      messages[index].fromId,
+//                                                date:        messages[index].date,
+//                                                chat:        messages[index].chat,
+//                                                readState:   messages[index].readState,
+//                                                out:         messages[index].out,
+//                                                body:        messages[index].body,
+//                                                geoMap:      messages[index].geoMap,
+//                                                geoTile:     messages[index].geoTile,
+//                                                photos:      messages[index].photos,
+//                                                videos:      messages[index].videos,
+//                                                audios:      messages[index].audios,
+//                                                documents:   messages[index].documents,
+//                                                news:        messages[index].news,
+//                                                fwdMessages: messages[index].fwdMessages })
+//            }
+//        }
+//        onGotFriends: {
+//            for (var index in friends) {
+//                var id = friends[index].id + ''
+//                profiles[id] = friends[index]
+//            }
+//            messagesListView.returnToBounds()
+//        }
+//    }
 
     Component.onCompleted: {
+        vksdk.messagesModel.clear()
         if (chat) historyId += 2000000000
         vksdk.messages.getHistory(historyId)
     }

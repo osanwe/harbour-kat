@@ -32,6 +32,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _wall = new Wall(this);
 
     _dialogsListModel = new DialogsListModel(this);
+    _messagesModel = new MessagesModel(this);
     _newsfeedModel = new NewsfeedModel(this);
 
     connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
@@ -55,6 +56,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Video*>("Video*");
 
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
+    qRegisterMetaType<MessagesModel*>("MessagesModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
     qRegisterMetaType<Friends*>("Friends*");
@@ -80,6 +82,7 @@ VkSDK::~VkSDK() {
     delete _wall;
 
     delete _dialogsListModel;
+    delete _messagesModel;
     delete _newsfeedModel;
 }
 
@@ -142,8 +145,11 @@ DialogsListModel *VkSDK::dialogsListModel() const {
     return _dialogsListModel;
 }
 
-NewsfeedModel* VkSDK::newsfeedModel() const
-{
+MessagesModel *VkSDK::messagesModel() const {
+    return _messagesModel;
+}
+
+NewsfeedModel* VkSDK::newsfeedModel() const {
     return _newsfeedModel;
 }
 
@@ -152,8 +158,10 @@ void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
 }
 
 void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
-    _users->get(_getIdsFromMessages(messagesList));
-    emit gotMessages(QVariant::fromValue(messagesList));
+    foreach (QObject *object, messagesList) {
+        Message *message = qobject_cast<Message*>(object);
+        _messagesModel->add(message);
+    }
 }
 
 void VkSDK::gotMutualFriendsIds(QVariantList ids) {
