@@ -65,7 +65,8 @@ Page {
                     var profiles = new Object
                     profiles[userId] = profile
                     profiles[selfId] = vksdk.selfProfile
-                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { historyId: profile.id,
+                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { chat: false,
+                                                                       historyId: profile.id,
                                                                        profiles:  profiles })
                 }
             }

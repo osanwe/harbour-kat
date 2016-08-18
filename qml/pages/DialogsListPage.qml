@@ -110,6 +110,9 @@ Page {
                     text: (hasAttachments ? qsTr("[Attachments] ") : "") + preview.replace('\n', ' ')
                 }
             }
+
+            onClicked: pageContainer.push(Qt.resolvedUrl("DialogPage.qml"), { chat: isChat,
+                                                                              historyId: id })
         }
 
         VerticalScrollDecorator {}

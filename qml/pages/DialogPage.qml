@@ -27,6 +27,7 @@ import "../views"
 Page {
     id: dialogPage
 
+    property bool chat
     property var historyId
     property var profiles
 
@@ -36,8 +37,6 @@ Page {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: newmessagerow.top
-//        anchors.fill: parent
-//        anchors.bottomMargin: Theme.paddingMedium + message_text.height + (audioPlayer.open ? audioPlayer.height : 0)
         verticalLayoutDirection: ListView.BottomToTop
         clip: true
         model: ListModel {}
@@ -135,12 +134,10 @@ Page {
             }
             messagesListView.returnToBounds()
         }
-//        onGotVideo: pageStack.push(Qt.resolvedUrl("VideoPlayer.qml"), { url: video.video,
-//                                                                        duration: video.duration })
     }
 
     Component.onCompleted: {
-        console.log(profiles)
+        if (chat) historyId += 2000000000
         vksdk.messages.getHistory(historyId)
     }
 }
