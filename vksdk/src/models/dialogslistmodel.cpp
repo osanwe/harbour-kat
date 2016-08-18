@@ -16,14 +16,23 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
     int chatId = dialog->lastMessage()->chatId();
 
     switch (role) {
-    case AvatarRole:
+    case AvatarRole: {
+        QStringList avatarUrls;
         if (dialog->isChat()) {
             if (!_chats.contains(chatId)) return QVariant();
-            return QVariant(_chats[chatId]->photo());
+            if (!_chats[chatId]->photo().isEmpty()) avatarUrls.append(_chats[chatId]->photo());
+            else {
+                for (int index = 0; index < _chats[chatId]->users().size() && index < 4; ++index) {
+                    avatarUrls.append(_profiles[_chats[chatId]->users().at(index).toInt()]->photo50());
+                }
+            }
+            return QVariant(avatarUrls);
         } else {
             if (!_profiles.contains(profileId)) return QVariant();
-            return QVariant(_profiles[profileId]->photo50());
+            avatarUrls.append(_profiles[profileId]->photo50());
+            return QVariant(avatarUrls);
         }
+    }
 
     case TitleRole:
         if (dialog->isChat()) {

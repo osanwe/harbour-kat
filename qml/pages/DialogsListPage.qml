@@ -22,6 +22,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../views"
+
 Page {
     id: dialogsListPage
 
@@ -57,14 +59,14 @@ Page {
                 visible: unread && !isOut
             }
 
-            Image {
+            DialogImage {
                 id: dialogAvatar
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: Theme.horizontalPageMargin
                 width: Theme.iconSizeMedium
                 height: Theme.iconSizeMedium
-                source: avatar
+                src: avatar
             }
 
             Column {

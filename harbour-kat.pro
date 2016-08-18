@@ -70,5 +70,6 @@ DISTFILES += \
     qml/pages/WallPostPage.qml \
     qml/views/WallPostView.qml \
     qml/views/RepostView.qml \
-    qml/pages/NewsfeedPage.qml
+    qml/pages/NewsfeedPage.qml \
+    qml/views/DialogImage.qml
 
