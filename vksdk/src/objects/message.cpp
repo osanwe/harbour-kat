@@ -274,6 +274,11 @@ void Message::setGeoMap(double lat, double lon)
     _geoMap = QString("http://www.openstreetmap.org/?mlat=%1&mlon=%2&zoom=19").arg(lat).arg(lon);
 }
 
+bool Message::hasAttachments() const {
+    return _audios.size() > 0 || _documents.size() > 0 || _news.size() > 0 || _photos.size() > 0 ||
+            _videos.size() > 0 || _fwdMessages.size() > 0 || !_geoMap.isEmpty();
+}
+
 bool Message::chat() const
 {
     return _chat;

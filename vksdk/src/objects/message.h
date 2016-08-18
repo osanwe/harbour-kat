@@ -125,6 +125,8 @@ public:
     QString geoMap() const;
     void setGeoMap(double lat, double lon);
 
+    bool hasAttachments() const;
+
 private:
     int _id = 0;
     int _userId = 0;

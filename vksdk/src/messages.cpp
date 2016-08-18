@@ -31,7 +31,6 @@ void Messages::setAccessToken(QString value) {
 
 void Messages::getChat(QStringList ids) {
     QUrlQuery *query = new QUrlQuery();
-    qDebug() << ids.size() << ids.join(",");
     if (ids.size() == 1) query->addQueryItem("chat_id", ids.at(0));
     else if (ids.size() > 1) query->addQueryItem("chat_ids", ids.join(","));
     ApiRequest *request = new ApiRequest(this);
@@ -88,11 +87,9 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
 
     case ApiRequest::MESSAGES_GET_CHAT: {
         QJsonArray chats = value.toArray();
-        qDebug() << chats;
         QList<QObject*> chatsList;
         for (int index = 0; index < chats.size(); ++index) {
             chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
-            qDebug() << qobject_cast<Chat*>(chatsList.last())->title();
         }
         emit gotChatsList(chatsList);
         break;

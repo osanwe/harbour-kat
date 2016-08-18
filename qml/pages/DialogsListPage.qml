@@ -105,7 +105,7 @@ Page {
                                                               Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
                     maximumLineCount: 1
-                    text: preview.replace('\n', ' ')
+                    text: (hasAttachments ? qsTr("[Attachments] ") : "") + preview.replace('\n', ' ')
                 }
             }
         }

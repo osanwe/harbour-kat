@@ -57,6 +57,9 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
             return QVariant(_profiles[profileId]->online());
         }
 
+    case HasAttachmentsRole:
+        return QVariant(dialog->lastMessage()->hasAttachments());
+
     default:
         return QVariant();
     }
@@ -72,6 +75,7 @@ QHash<int, QByteArray> DialogsListModel::roleNames() const {
     roles[UnreadRole] = "unread";
     roles[IsOutRole] = "isOut";
     roles[IsOnlineRole] = "online";
+    roles[HasAttachmentsRole] = "hasAttachments";
     return roles;
 }
 

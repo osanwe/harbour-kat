@@ -24,6 +24,7 @@ public:
         UnreadRole,
         IsOutRole,
         IsOnlineRole,
+        HasAttachmentsRole,
     };
 
     explicit DialogsListModel(QObject *parent = 0);
