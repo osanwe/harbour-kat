@@ -42,17 +42,13 @@ Item {
 
     height: Math.max(avatar.height, content.height) + Theme.paddingLarge
 
-    function convertUnixtimeToString(unixtime) {
-        var d = new Date(unixtime * 1000)
-        var month = d.getMonth() + 1
-        var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()
-        return d.getDate() + "." + month + "." + d.getFullYear() + " " + d.getHours() + ":" + minutes
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        color: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
-        visible: highlighted
+    Switch {
+        anchors.horizontalCenter: parent.left
+        anchors.top: parent.top
+        LayoutMirroring.enabled: isOut
+        automaticCheck: false
+        checked: !isRead
+        visible: !isRead
     }
 
     Item {
@@ -67,7 +63,7 @@ Item {
             anchors.topMargin: Theme.paddingMedium
             width: Theme.iconSizeMedium
             height: Theme.iconSizeMedium
-            LayoutMirroring.enabled:isOut
+            LayoutMirroring.enabled: isOut
         }
 
         Column {
