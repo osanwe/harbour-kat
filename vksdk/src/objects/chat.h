@@ -34,7 +34,7 @@ class Chat : public QObject
 public:
     explicit Chat(QObject *parent = 0);
 
-    const Chat* fromJsonObject(QJsonObject object);
+    static Chat* fromJsonObject(QJsonObject object);
 
     int id() const;
     void setId(int id);

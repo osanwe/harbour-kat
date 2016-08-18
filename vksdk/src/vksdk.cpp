@@ -203,32 +203,25 @@ void VkSDK::gotWallpostObject(News *wallpost)
 }
 
 void VkSDK::gotChatsList(QList<QObject *> chatsList) {
-//    foreach (Chat *chat, chatsList) {
-//        foreach (QVariant user, chat->users()) {
-////            if (!users.contains(user.toString())) users.append(user.toString());
-//        }
-//        foreach (Dialog *dialog, _dialogs) {
-//            if (dialog->isChat() && dialog->lastMessage()->chatId() == chat->id()) {
-//                dialog->setChat(chat);
-//            }
-//        }
-//    }
-//    _users->get(users);
+    _chatsIds.clear();
+    foreach (QObject *object, chatsList) {
+        Chat *chat = qobject_cast<Chat*>(object);
+        foreach (QVariant user, chat->users()) {
+            if (!_usersIds.contains(user.toString())) _usersIds.append(user.toString());
+        }
+        _dialogsListModel->addChat(chat);
+    }
+    _users->get(_usersIds);
 }
 
 void VkSDK::gotDialogList(QList<Dialog *> dialogsList) {
     foreach (Dialog *dialog, dialogsList) {
         _dialogsListModel->add(dialog);
-        if (!dialog->isChat()) _usersIds.append(QString("%1").arg(dialog->lastMessage()->userId()));
+        if (dialog->isChat()) _chatsIds.append(QString("%1").arg(dialog->lastMessage()->chatId()));
+        else _usersIds.append(QString("%1").arg(dialog->lastMessage()->userId()));
     }
-    _users->get(_usersIds);
-//    _dialogs = dialogsList;
-//    foreach (Dialog *dialog, dialogsList) {
-////        if (dialog->isChat()) _chatsIds.append(dialog->lastMessage()->chatId());
-////        else _usersIds.append(dialog->lastMessage()->userId());
-//    }
-//    if (!_chatsIds.isEmpty()) _messages->getChat(_chatsIds);
-    //    else _users->get(_usersIds);
+    if (_chatsIds.empty()) _users->get(_usersIds);
+    else _messages->getChat(_chatsIds);
 }
 
 QStringList VkSDK::_getIdsFromMessages(QList<QObject *> messages) {

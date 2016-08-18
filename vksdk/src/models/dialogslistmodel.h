@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QList>
 
+#include "../objects/chat.h"
 #include "../objects/dialog.h"
 #include "../objects/friend.h"
 
@@ -33,9 +34,11 @@ public:
 
     Q_INVOKABLE void add(Dialog *dialog);
     Q_INVOKABLE void addProfile(Friend *profile);
+    Q_INVOKABLE void addChat(Chat *chat);
 
 private:
     QList<int> _dialogsIds;
+    QHash<int, Chat*> _chats;
     QHash<int, Dialog*> _dialogs;
     QHash<int, Friend*> _profiles;
 };

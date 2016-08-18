@@ -17,15 +17,19 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
 
     switch (role) {
     case AvatarRole:
-        if (dialog->isChat()) return QVariant();
-        else {
+        if (dialog->isChat()) {
+            if (!_chats.contains(chatId)) return QVariant();
+            return QVariant(_chats[chatId]->photo());
+        } else {
             if (!_profiles.contains(profileId)) return QVariant();
             return QVariant(_profiles[profileId]->photo50());
         }
 
     case TitleRole:
-        if (dialog->isChat()) return QVariant();
-        else {
+        if (dialog->isChat()) {
+            if (!_chats.contains(chatId)) return QVariant();
+            return QVariant(_chats[chatId]->title());
+        } else {
             if (!_profiles.contains(profileId)) return QVariant();
             return QVariant(_profiles[profileId]->firstName() + " " + _profiles[profileId]->lastName());
         }
@@ -88,7 +92,13 @@ void DialogsListModel::addProfile(Friend *profile) {
     if (_profiles.contains(profile->id())) return;
     _profiles[profile->id()] = profile;
 
-    qDebug() << profile->firstName();
+    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
+    emit dataChanged(index, index);
+}
+
+void DialogsListModel::addChat(Chat *chat) {
+    if (_chats.contains(chat->id())) return;
+    _chats[chat->id()] = chat;
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);

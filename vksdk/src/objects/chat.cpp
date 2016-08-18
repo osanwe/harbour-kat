@@ -26,7 +26,7 @@ Chat::Chat(QObject *parent) : QObject(parent)
 
 }
 
-const Chat *Chat::fromJsonObject(QJsonObject object)
+Chat *Chat::fromJsonObject(QJsonObject object)
 {
     Chat *chat = new Chat();
     chat->setId(object.value("id").toInt());

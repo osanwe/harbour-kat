@@ -31,13 +31,14 @@ void Messages::setAccessToken(QString value) {
 
 void Messages::getChat(QStringList ids) {
     QUrlQuery *query = new QUrlQuery();
+    qDebug() << ids.size() << ids.join(",");
     if (ids.size() == 1) query->addQueryItem("chat_id", ids.at(0));
     else if (ids.size() > 1) query->addQueryItem("chat_ids", ids.join(","));
     ApiRequest *request = new ApiRequest(this);
-    connect(request, SIGNAL(gotResponse(QJsonObject,ApiRequest::TaskType)),
-            this, SLOT(gotResponse(QJsonObject,ApiRequest::TaskType)));
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
     request->setAccessToken(_accessToken);
-    request->makeApiGetRequest("messages.getChat", new QUrlQuery(), ApiRequest::MESSAGES_GET_CHAT);
+    request->makeApiGetRequest("messages.getChat", query, ApiRequest::MESSAGES_GET_CHAT);
 }
 
 void Messages::getDialogs(int offset) {
@@ -85,17 +86,20 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     }
 
+    case ApiRequest::MESSAGES_GET_CHAT: {
+        QJsonArray chats = value.toArray();
+        qDebug() << chats;
+        QList<QObject*> chatsList;
+        for (int index = 0; index < chats.size(); ++index) {
+            chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
+            qDebug() << qobject_cast<Chat*>(chatsList.last())->title();
+        }
+        emit gotChatsList(chatsList);
+        break;
+    }
+
     default:
         break;
-
-//    case ApiRequest::MESSAGES_GET_CHAT:
-//        QJsonArray chats = value.toArray();
-//        QList<QObject*> chatsList;
-//        for (int index = 0; index < chats.size(); ++index) {
-////            chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
-//        }
-//        emit gotChatsList(chatsList);
-//        break;
     }
 }
 
