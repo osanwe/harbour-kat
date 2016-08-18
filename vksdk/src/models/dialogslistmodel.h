@@ -14,6 +14,8 @@ class DialogsListModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    Q_PROPERTY(int size READ size CONSTANT)
+
 public:
     enum Roles {
         AvatarRole = Qt::UserRole + 1,
@@ -36,6 +38,8 @@ public:
     Q_INVOKABLE void add(Dialog *dialog);
     Q_INVOKABLE void addProfile(Friend *profile);
     Q_INVOKABLE void addChat(Chat *chat);
+
+    int size() const;
 
 private:
     QList<int> _dialogsIds;

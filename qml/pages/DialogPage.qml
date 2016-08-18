@@ -60,11 +60,9 @@ Page {
             geoMap: geoMapUrl
             fwdMessages: fwdMessagesList
 
-//            Component.onCompleted: {
-//                if (index === messagesListView.model.count-1) {
-//                    vksdk.messages.getHistory(historyId, messagesListView.model.count)
-//                }
-//            }
+            Component.onCompleted: {
+                if (index === vksdk.messagesModel.size-1) vksdk.messages.getHistory(historyId, vksdk.messagesModel.size)
+            }
         }
 
         VerticalScrollDecorator {}
@@ -101,38 +99,6 @@ Page {
             onClicked: console.log("attach")
         }
     }
-
-//    Connections {
-//        target: vksdk
-//        onGotMessages: {
-//            for (var index in messages) {
-//                messagesListView.model.append({ id:          messages[index].id,
-//                                                userId:      messages[index].userId,
-//                                                chatId:      messages[index].chatId,
-//                                                fromId:      messages[index].fromId,
-//                                                date:        messages[index].date,
-//                                                chat:        messages[index].chat,
-//                                                readState:   messages[index].readState,
-//                                                out:         messages[index].out,
-//                                                body:        messages[index].body,
-//                                                geoMap:      messages[index].geoMap,
-//                                                geoTile:     messages[index].geoTile,
-//                                                photos:      messages[index].photos,
-//                                                videos:      messages[index].videos,
-//                                                audios:      messages[index].audios,
-//                                                documents:   messages[index].documents,
-//                                                news:        messages[index].news,
-//                                                fwdMessages: messages[index].fwdMessages })
-//            }
-//        }
-//        onGotFriends: {
-//            for (var index in friends) {
-//                var id = friends[index].id + ''
-//                profiles[id] = friends[index]
-//            }
-//            messagesListView.returnToBounds()
-//        }
-//    }
 
     Component.onCompleted: {
         vksdk.messagesModel.clear()

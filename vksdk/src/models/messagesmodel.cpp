@@ -108,3 +108,7 @@ void MessagesModel::addProfile(Friend *profile) {
     emit dataChanged(startIndex, endIndex);
 }
 
+int MessagesModel::size() const {
+    return _messages.size();
+}
+

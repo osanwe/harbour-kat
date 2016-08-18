@@ -105,15 +105,21 @@ void DialogsListModel::addProfile(Friend *profile) {
     if (_profiles.contains(profile->id())) return;
     _profiles[profile->id()] = profile;
 
-    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
-    emit dataChanged(index, index);
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_dialogsIds.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
 }
 
 void DialogsListModel::addChat(Chat *chat) {
     if (_chats.contains(chat->id())) return;
     _chats[chat->id()] = chat;
 
-    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
-    emit dataChanged(index, index);
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_dialogsIds.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
+}
+
+int DialogsListModel::size() const {
+    return _dialogsIds.size();
 }
 
