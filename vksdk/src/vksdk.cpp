@@ -183,7 +183,13 @@ void VkSDK::gotUserProfile(User *user) {
 }
 
 void VkSDK::gotUsersList(QList<QObject *> usersList) {
-    emit gotFriends(QVariant::fromValue(usersList));
+    if (_usersIds.size() > 0) {
+        _usersIds.clear();
+        foreach (QObject *object, usersList) {
+            Friend *user = qobject_cast<Friend*>(object);
+            _dialogsListModel->addProfile(user);
+        }
+    } else emit gotFriends(QVariant::fromValue(usersList));
 }
 
 void VkSDK::gotVideoObject(Video *video)
@@ -211,7 +217,11 @@ void VkSDK::gotChatsList(QList<QObject *> chatsList) {
 }
 
 void VkSDK::gotDialogList(QList<Dialog *> dialogsList) {
-    foreach (Dialog *dialog, dialogsList) _dialogsListModel->add(dialog);
+    foreach (Dialog *dialog, dialogsList) {
+        _dialogsListModel->add(dialog);
+        if (!dialog->isChat()) _usersIds.append(QString("%1").arg(dialog->lastMessage()->userId()));
+    }
+    _users->get(_usersIds);
 //    _dialogs = dialogsList;
 //    foreach (Dialog *dialog, dialogsList) {
 ////        if (dialog->isChat()) _chatsIds.append(dialog->lastMessage()->chatId());

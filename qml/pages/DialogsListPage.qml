@@ -28,6 +28,7 @@ Page {
     SilicaListView {
         id: dialogsList
         anchors.fill: parent
+        clip: true
 
         model: vksdk.dialogsListModel
 
@@ -53,6 +54,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 automaticCheck: false
                 checked: unread
+                visible: unread && !isOut
             }
 
             Image {
@@ -62,6 +64,7 @@ Page {
                 anchors.leftMargin: Theme.horizontalPageMargin
                 width: Theme.iconSizeMedium
                 height: Theme.iconSizeMedium
+                source: avatar
             }
 
             Column {
@@ -81,14 +84,17 @@ Page {
                         height: name.height
                         width: height
                         automaticCheck: false
+                        visible: !isChat
                     }
 
                     Label {
-                        id: title
+                        id: name
                         width: parent.width - isOnline.width - Theme.paddingMedium
-                        color: dialogItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                        color: dialogItem.highlighted || (unread && !isOut) ? Theme.highlightColor :
+                                                                              Theme.primaryColor
                         font.bold: true
                         truncationMode: TruncationMode.Fade
+                        text: dialogTitle
                     }
                 }
 

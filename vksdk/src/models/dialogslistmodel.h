@@ -5,6 +5,9 @@
 #include <QList>
 
 #include "../objects/dialog.h"
+#include "../objects/friend.h"
+
+#include <QDebug>
 
 class DialogsListModel : public QAbstractListModel
 {
@@ -18,6 +21,7 @@ public:
         IdRole,
         IsChatRole,
         UnreadRole,
+        IsOutRole,
     };
 
     explicit DialogsListModel(QObject *parent = 0);
@@ -27,10 +31,12 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE void add(Dialog *dialog);
+    Q_INVOKABLE void addProfile(Friend *profile);
 
 private:
     QList<int> _dialogsIds;
     QHash<int, Dialog*> _dialogs;
+    QHash<int, Friend*> _profiles;
 };
 
 #endif // DIALOGSLISTMODEL_H
