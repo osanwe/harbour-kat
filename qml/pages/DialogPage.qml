@@ -86,7 +86,10 @@ Page {
 
             EnterKey.enabled: text.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-            EnterKey.onClicked: {}
+            EnterKey.onClicked: {
+                vksdk.messages.send(historyId, text)
+                text = ""
+            }
         }
 
 

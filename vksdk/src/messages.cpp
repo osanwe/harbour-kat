@@ -61,6 +61,17 @@ void Messages::getHistory(int peerId, int offset) {
     request->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
 }
 
+void Messages::send(int peerId, QString text) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("peer_id", QString("%1").arg(peerId));
+    query->addQueryItem("message", QString("%1").arg(text));
+    ApiRequest *request = new ApiRequest(this);
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+    request->setAccessToken(_accessToken);
+    request->makeApiGetRequest("messages.send", query, ApiRequest::MESSAGES_SEND);
+}
+
 void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::MESSAGES_GET_HISTORY: {
