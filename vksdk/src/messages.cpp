@@ -44,8 +44,8 @@ void Messages::getDialogs(int offset) {
     QUrlQuery *query = new QUrlQuery();
     query->addQueryItem("offset", QString("%1").arg(offset));
     ApiRequest *request = new ApiRequest(this);
-    connect(request, SIGNAL(gotResponse(QJsonObject,ApiRequest::TaskType)),
-            this, SLOT(gotResponse(QJsonObject,ApiRequest::TaskType)));
+    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
     request->setAccessToken(_accessToken);
     request->makeApiGetRequest("messages.getDialogs", query, ApiRequest::MESSAGES_GET_DIALOGS);
 }
@@ -73,6 +73,18 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     }
 
+    case ApiRequest::MESSAGES_GET_DIALOGS: {
+        QJsonObject object = value.toObject();
+        if (object.contains("unread_dialogs")) emit gotUnreadDialogsCounter(object.value("unread_dialogs").toInt());
+        QJsonArray dialogs = value.toObject().value("items").toArray();
+        QList<QObject*> dialogsList;
+        for (int index = 0; index < dialogs.size(); ++index) {
+            dialogsList.append(Dialog::fromJsonObject(dialogs.at(index).toObject()));
+        }
+        emit gotDialogsList(dialogsList);
+        break;
+    }
+
     default:
         break;
 
@@ -83,15 +95,6 @@ void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
 ////            chatsList.append(Chat::fromJsonObject(chats.at(index).toObject()));
 //        }
 //        emit gotChatsList(chatsList);
-//        break;
-
-//    case ApiRequest::MESSAGES_GET_DIALOGS:
-//        QJsonArray dialogs = value.toObject().value("items").toArray();
-//        QList<QObject*> dialogsList;
-//        for (int index = 0; index < dialogs.size(); ++index) {
-//            dialogsList.append(Dialog::fromJsonObject(dialogs.at(index).toObject()));
-//        }
-//        emit gotDialogsList(dialogsList);
 //        break;
     }
 }

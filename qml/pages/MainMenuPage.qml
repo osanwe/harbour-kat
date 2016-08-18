@@ -143,6 +143,7 @@ Page {
                 menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
             }
         }
+        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
     }
 
     Component.onCompleted: {
@@ -150,7 +151,7 @@ Page {
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.longPoll.getLongPollServer()
         vksdk.users.getSelfProfile()
-//        vksdk.messages.getDialogs()
+        vksdk.messages.getDialogs()
     }
 }
 

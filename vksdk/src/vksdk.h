@@ -91,6 +91,7 @@ signals:
     void gotMessages(QVariant messages);
     void gotSelfProfile();
     void gotProfile(User *user);
+    void gotUnreadCounter(int value);
     void gotVideo(Video *video);
     void gotWallpost(News *wallpost);
     void newsfeedModelChanged();
@@ -100,6 +101,7 @@ public slots:
     void gotMessagesList(QList<QObject*> messagesList);
     void gotMutualFriendsIds(QVariantList ids);
     void gotNewsfeed(QList<News*> items, QList<User*> profiles, QList<Group *> groups, QString nextFrom);
+    void gotUnreadDialogsCounter(int value);
     void gotUserProfile(User *user);
     void gotUsersList(QList<QObject*> usersList);
     void gotVideoObject(Video *video);

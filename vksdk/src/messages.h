@@ -57,6 +57,7 @@ signals:
     void gotChatsList(QList<QObject*> chatsList);
     void gotDialogsList(QList<QObject*> dialogsList);
     void gotMessagesList(QList<QObject*> messagesList);
+    void gotUnreadDialogsCounter(int value);
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);
