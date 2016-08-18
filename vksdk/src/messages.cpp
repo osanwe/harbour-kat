@@ -61,10 +61,11 @@ void Messages::getHistory(int peerId, int offset) {
     request->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
 }
 
-void Messages::send(int peerId, QString text) {
+void Messages::send(int peerId, QString text, QString attachmentsList) {
     QUrlQuery *query = new QUrlQuery();
     query->addQueryItem("peer_id", QString("%1").arg(peerId));
-    query->addQueryItem("message", QString("%1").arg(text));
+    if (!text.isEmpty()) query->addQueryItem("message", QString("%1").arg(text));
+    if (!attachmentsList.isEmpty()) query->addQueryItem("attachments", attachmentsList);
     ApiRequest *request = new ApiRequest(this);
     connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));

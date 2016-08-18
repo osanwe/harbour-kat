@@ -52,7 +52,7 @@ public:
     Q_INVOKABLE void getChat(QStringList ids);
     Q_INVOKABLE void getDialogs(int offset = 0);
     Q_INVOKABLE void getHistory(int peerId, int offset = 0);
-    Q_INVOKABLE void send(int peerId, QString text);
+    Q_INVOKABLE void send(int peerId, QString text, QString attachmentsList);
 
 signals:
     void gotChatsList(QList<QObject*> chatsList);

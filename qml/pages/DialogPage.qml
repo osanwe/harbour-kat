@@ -31,6 +31,8 @@ Page {
     property var historyId
     property var profiles
 
+    property string attachmentsList: ""
+
     SilicaListView {
         id: messagesListView
         anchors.left: parent.left
@@ -75,7 +77,6 @@ Page {
         anchors.bottom: parent.bottom
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.rightMargin: Theme.horizontalPageMargin
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
         spacing: Theme.paddingMedium
 
         TextField {
@@ -84,11 +85,12 @@ Page {
             placeholderText: qsTr("Your message")
             label: qsTr("Your message")
 
-            EnterKey.enabled: text.length > 0
+            EnterKey.enabled: text.length > 0 || attachmentsList.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
             EnterKey.onClicked: {
-                vksdk.messages.send(historyId, text)
+                vksdk.messages.send(historyId, text, attachmentsList)
                 text = ""
+                attachmentsList = ""
             }
         }
 
@@ -99,7 +101,43 @@ Page {
             height: Theme.iconSizeMedium
             icon.source: "image://theme/icon-m-attach"
 
-            onClicked: console.log("attach")
+            BusyIndicator {
+                id: attachmentsBusy
+                anchors.fill: parent
+                size: BusyIndicatorSize.Medium
+                running: false
+            }
+
+            Label {
+                id: attachmentsCounter
+                anchors.verticalCenter: parent.top
+                anchors.left: parent.left
+                anchors.leftMargin: text === "10" ? 0 : Theme.paddingSmall
+                anchors.verticalCenterOffset: Theme.paddingSmall
+                font.bold: true
+                font.pixelSize: Theme.fontSizeTiny
+                color: Theme.highlightColor
+                text: {
+                    var attachmentsCount = attachmentsList.split(',').length - 1
+                    return attachmentsCount > 0 ? attachmentsCount : ""
+                }
+            }
+
+            onClicked: {
+                var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+                imagePicker.selectedContentChanged.connect(function () {
+                    attachmentsBusy.running = true
+                    vksdk.photos.attachImage(imagePicker.selectedContent, "MESSAGE", 0)
+                })
+            }
+        }
+    }
+
+    Connections {
+        target: vksdk.photos
+        onImageUploaded: {
+            attachmentsList += imageName + ","
+            attachmentsBusy.running = false;
         }
     }
 

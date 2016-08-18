@@ -34,6 +34,7 @@
 #include "longpoll.h"
 #include "messages.h"
 #include "newsfeed.h"
+#include "photos.h"
 #include "users.h"
 #include "videos.h"
 #include "wall.h"
@@ -62,6 +63,7 @@ class VkSDK : public QObject
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
+    Q_PROPERTY(Photos* photos READ photos CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
     Q_PROPERTY(Videos* videos READ videos CONSTANT)
     Q_PROPERTY(Wall* wall READ wall CONSTANT)
@@ -84,6 +86,7 @@ public:
     LongPoll* longPoll() const;
     Messages* messages() const;
     Newsfeed* newsfeed() const;
+    Photos* photos() const;
     Users* users() const;
     Videos* videos() const;
     Wall* wall() const;
@@ -126,6 +129,7 @@ private:
     LongPoll *_longPoll;
     Messages *_messages;
     Newsfeed *_newsfeed;
+    Photos *_photos;
     Users *_users;
     Videos *_videos;
     Wall *_wall;

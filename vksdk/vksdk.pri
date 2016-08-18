@@ -23,7 +23,8 @@ HEADERS += \
     $$PWD/src/models/newsfeedmodel.h \
     $$PWD/src/objects/group.h \
     $$PWD/src/likes.h \
-    $$PWD/src/models/messagesmodel.h
+    $$PWD/src/models/messagesmodel.h \
+    $$PWD/src/photos.h
 
 SOURCES += \
     $$PWD/src/apirequest.cpp \
@@ -50,4 +51,5 @@ SOURCES += \
     $$PWD/src/models/newsfeedmodel.cpp \
     $$PWD/src/objects/group.cpp \
     $$PWD/src/likes.cpp \
-    $$PWD/src/models/messagesmodel.cpp
+    $$PWD/src/models/messagesmodel.cpp \
+    $$PWD/src/photos.cpp

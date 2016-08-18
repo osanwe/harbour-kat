@@ -27,6 +27,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _longPoll = new LongPoll(this);
     _messages = new Messages(this);
     _newsfeed = new Newsfeed(this);
+    _photos = new Photos(this);
     _users = new Users(this);
     _videos = new Videos(this);
     _wall = new Wall(this);
@@ -64,6 +65,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
+    qRegisterMetaType<Photos*>("Photos*");
     qRegisterMetaType<Users*>("Users*");
     qRegisterMetaType<Videos*>("Videos*");
     qRegisterMetaType<Wall*>("Wall*");
@@ -77,6 +79,7 @@ VkSDK::~VkSDK() {
     delete _longPoll;
     delete _messages;
     delete _newsfeed;
+    delete _photos;
     delete _users;
     delete _videos;
     delete _wall;
@@ -93,6 +96,7 @@ void VkSDK::setAccessTocken(QString value) {
     _longPoll->setAccessToken(value);
     _messages->setAccessToken(value);
     _newsfeed->setAccessToken(value);
+    _photos->setAccessToken(value);
     _users->setAccessToken(value);
     _videos->setAccessToken(value);
     _wall->setAccessToken(value);
@@ -125,6 +129,11 @@ Messages *VkSDK::messages() const {
 
 Newsfeed *VkSDK::newsfeed() const {
     return _newsfeed;
+}
+
+Photos *VkSDK::photos() const
+{
+    return _photos;
 }
 
 Users *VkSDK::users() const {
