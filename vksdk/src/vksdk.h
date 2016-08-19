@@ -30,6 +30,9 @@
 //#include <QVariantList>
 
 #include "authorization.h"
+#include "objects/user.h"
+#include "requests/apirequest.h"
+#include "requests/users.h"
 
 //#include "friends.h"
 //#include "likes.h"
@@ -37,7 +40,6 @@
 //#include "messages.h"
 //#include "newsfeed.h"
 //#include "photos.h"
-//#include "users.h"
 //#include "videos.h"
 //#include "wall.h"
 //#include "models/dialogslistmodel.h"
@@ -51,7 +53,6 @@
 //#include "objects/news.h"
 //#include "objects/photo.h"
 //#include "objects/friend.h"
-//#include "objects/user.h"
 //#include "objects/video.h"
 
 class VkSDK : public QObject
@@ -59,6 +60,8 @@ class VkSDK : public QObject
     Q_OBJECT
 
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
+
+    Q_PROPERTY(Users* users READ users CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
@@ -68,7 +71,6 @@ class VkSDK : public QObject
 //    Q_PROPERTY(Messages* messages READ messages CONSTANT)
 //    Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
 //    Q_PROPERTY(Photos* photos READ photos CONSTANT)
-//    Q_PROPERTY(Users* users READ users CONSTANT)
 //    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 //    Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
@@ -83,6 +85,10 @@ public:
     Q_INVOKABLE void setAccessTocken(QString value);
     Q_INVOKABLE void setUserId(int value);
 
+    Authorization *auth() const;
+
+    Users* users() const;
+
 //    User* selfProfile() const;
 
 //    Friends* friends() const;
@@ -91,7 +97,6 @@ public:
 //    Messages* messages() const;
 //    Newsfeed* newsfeed() const;
 //    Photos* photos() const;
-//    Users* users() const;
 //    Videos* videos() const;
 //    Wall* wall() const;
 
@@ -99,19 +104,19 @@ public:
 //    MessagesModel* messagesModel() const;
 //    NewsfeedModel* newsfeedModel() const;
 
-    Authorization *auth() const;
-
 signals:
+    void gotProfile(User *user);
+//    void gotSelfProfile();
     //    void gotFriends(QVariant friends);
 //    void gotMessages(QVariant messages);
-//    void gotSelfProfile();
-//    void gotProfile(User *user);
 //    void gotUnreadCounter(int value);
 //    void gotVideo(Video *video);
 //    void gotWallpost(News *wallpost);
 //    void newsfeedModelChanged();
 
 public slots:
+    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
+
 //    void gotDialogList(QList<Dialog*> dialogsList);
 //    void gotFriendsList(QList<QObject*> friendsList);
 //    void gotMessagesList(QList<QObject*> messagesList);
@@ -129,7 +134,13 @@ private:
     QString _accessToken;
     int _userId;
 
+    ApiRequest *_api;
     Authorization *_auth;
+
+    Users *_users;
+
+    User* parseUserProfile(QJsonArray array);
+
 //    User *_selfProfile;
 
 //    Friends *_friends;
@@ -138,7 +149,6 @@ private:
 //    Messages *_messages;
 //    Newsfeed *_newsfeed;
 //    Photos *_photos;
-//    Users *_users;
 //    Videos *_videos;
 //    Wall *_wall;
 

@@ -37,8 +37,8 @@
 #include <QUrlQuery>
 #include <QVariant>
 
-#include "objects/dialog.h"
-#include "objects/message.h"
+//#include "objects/dialog.h"
+//#include "objects/message.h"
 
 #include <QDebug>
 

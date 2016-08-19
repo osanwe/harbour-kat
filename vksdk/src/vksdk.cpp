@@ -22,8 +22,20 @@
 #include "vksdk.h"
 
 VkSDK::VkSDK(QObject *parent) : QObject(parent) {
+    // basic:
+    _api = new ApiRequest(this);
     _auth = new Authorization(this);
     qRegisterMetaType<Authorization*>("Authorization*");
+    connect(_api, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
+            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+
+    // requests:
+    _users = new Users(this);
+    _users->setApi(_api);
+    qRegisterMetaType<Users*>("Users*");
+
+    // objects:
+    qRegisterMetaType<User*>("User*");
 
 //    _friends = new Friends(this);
 //    _likes = new Likes(this);
@@ -31,7 +43,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    _messages = new Messages(this);
 //    _newsfeed = new Newsfeed(this);
 //    _photos = new Photos(this);
-//    _users = new Users(this);
 //    _videos = new Videos(this);
 //    _wall = new Wall(this);
 
@@ -56,7 +67,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<News*>("News*");
 //    qRegisterMetaType<Photo*>("Photo*");
 //    qRegisterMetaType<Friend*>("Friend*");
-//    qRegisterMetaType<User*>("User*");
 //    qRegisterMetaType<Video*>("Video*");
 
 //    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
@@ -69,13 +79,15 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<Messages*>("Messages*");
 //    qRegisterMetaType<Newsfeed*>("Newsfeed*");
 //    qRegisterMetaType<Photos*>("Photos*");
-//    qRegisterMetaType<Users*>("Users*");
 //    qRegisterMetaType<Videos*>("Videos*");
 //    qRegisterMetaType<Wall*>("Wall*");
 }
 
 VkSDK::~VkSDK() {
+    delete _api;
     delete _auth;
+
+    delete _users;
 
 //    delete _selfProfile;
 
@@ -85,7 +97,6 @@ VkSDK::~VkSDK() {
 //    delete _messages;
 //    delete _newsfeed;
 //    delete _photos;
-//    delete _users;
 //    delete _videos;
 //    delete _wall;
 
@@ -95,14 +106,15 @@ VkSDK::~VkSDK() {
 }
 
 void VkSDK::setAccessTocken(QString value) {
-    _accessToken = value;
+    _api->setAccessToken(value);
+//    _accessToken = value;
+//    _users->setAccessToken(value);
 //    _friends->setAccessToken(value);
 //    _likes->setAccessToken(value);
 //    _longPoll->setAccessToken(value);
 //    _messages->setAccessToken(value);
 //    _newsfeed->setAccessToken(value);
 //    _photos->setAccessToken(value);
-//    _users->setAccessToken(value);
 //    _videos->setAccessToken(value);
 //    _wall->setAccessToken(value);
 }
@@ -113,6 +125,24 @@ void VkSDK::setUserId(int value) {
 
 Authorization *VkSDK::auth() const {
     return _auth;
+}
+
+Users *VkSDK::users() const {
+    return _users;
+}
+
+void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
+    switch (type) {
+    case ApiRequest::USERS_GET:
+        emit gotProfile(parseUserProfile(value.toArray()));
+        break;
+    default:
+        break;
+    }
+}
+
+User* VkSDK::parseUserProfile(QJsonArray array) {
+    return array.size() == 1 ? User::fromJsonObject(array.at(0).toObject()) : new User();
 }
 
 //User *VkSDK::selfProfile() const {
@@ -143,10 +173,6 @@ Authorization *VkSDK::auth() const {
 //Photos *VkSDK::photos() const
 //{
 //    return _photos;
-//}
-
-//Users *VkSDK::users() const {
-//    return _users;
 //}
 
 //Videos *VkSDK::videos() const

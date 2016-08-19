@@ -36,10 +36,10 @@ Page {
      *  The function does initial actions for showing menu and additional information.
      */
     function init() {
-//        busyIndicator.running = true
+        busyIndicator.running = true
         for (var index in menuItems) menuList.model.append(menuItems[index])
+        vksdk.users.getSelfProfile()
 //        vksdk.longPoll.getLongPollServer()
-//        vksdk.users.getSelfProfile()
 //        vksdk.messages.getDialogs()
     }
 
@@ -152,16 +152,16 @@ Page {
 //        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
 //    }
 
-//    Connections {
-//        target: vksdk
-//        onGotSelfProfile: {
-//            if (status === PageStatus.Active) {
-//                busyIndicator.running = false
-//                menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
-//            }
-//        }
+    Connections {
+        target: vksdk
+        onGotProfile: {
+            if (status === PageStatus.Active) {
+                busyIndicator.running = false
+                menuList.headerItem.title = user.firstName + " " + user.lastName
+            }
+        }
 //        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
-//    }
+    }
 
     Component.onCompleted: init()
 }
