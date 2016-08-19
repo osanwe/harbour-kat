@@ -22,21 +22,17 @@
 #ifndef VKSDK_H
 #define VKSDK_H
 
-//#include <QList>
 #include <QObject>
-//#include <QString>
-//#include <QStringList>
-//#include <QVariant>
-//#include <QVariantList>
 
 #include "authorization.h"
 #include "objects/user.h"
 #include "models/dialogslistmodel.h"
+#include "models/friendslistmodel.h"
 #include "requests/apirequest.h"
+#include "requests/friends.h"
 #include "requests/messages.h"
 #include "requests/users.h"
 
-//#include "friends.h"
 //#include "likes.h"
 //#include "longpoll.h"
 //#include "newsfeed.h"
@@ -61,14 +57,15 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
 
+    Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
 
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
+    Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
-//    Q_PROPERTY(Friends* friends READ friends CONSTANT)
 //    Q_PROPERTY(Likes* likes READ likes CONSTANT)
 //    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 //    Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
@@ -88,14 +85,15 @@ public:
 
     Authorization *auth() const;
 
+    Friends* friends() const;
     Messages* messages() const;
     Users* users() const;
 
     DialogsListModel* dialogsListModel() const;
+    FriendsListModel* friendsListModel() const;
 
 //    User* selfProfile() const;
 
-//    Friends* friends() const;
 //    Likes *likes() const;
 //    LongPoll* longPoll() const;
 //    Newsfeed* newsfeed() const;
@@ -139,22 +137,25 @@ private:
     ApiRequest *_api;
     Authorization *_auth;
 
+    Friends *_friends;
     Messages *_messages;
     Users *_users;
 
     DialogsListModel *_dialogsListModel;
+    FriendsListModel *_friendsListModel;
 
     QStringList _usersIds;
     QStringList _chatsIds;
 
     void parseChatsInfo(QJsonArray array);
     void parseDialogsInfo(QJsonObject object);
+    void parseEntireFriendsList(QJsonArray array);
     void parseFriendsInfo(QJsonArray array);
+    void parseLimitedFriendsList(QJsonArray array);
     User* parseUserProfile(QJsonArray array);
 
 //    User *_selfProfile;
 
-//    Friends *_friends;
 //    Likes *_likes;
 //    LongPoll *_longPoll;
 //    Newsfeed *_newsfeed;

@@ -30,10 +30,13 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
 
     // requests:
+    _friends = new Friends(this);
     _messages = new Messages(this);
     _users = new Users(this);
+    _friends->setApi(_api);
     _messages->setApi(_api);
     _users->setApi(_api);
+    qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
 
@@ -42,9 +45,10 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
     //models:
     _dialogsListModel = new DialogsListModel(this);
+    _friendsListModel = new FriendsListModel(this);
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
+    qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
 
-//    _friends = new Friends(this);
 //    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
 //    _newsfeed = new Newsfeed(this);
@@ -54,18 +58,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
 //    _messagesModel = new MessagesModel(this);
 //    _newsfeedModel = new NewsfeedModel(this);
-
-//    connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
-//    connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
-//    connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
-//    connect(_messages, SIGNAL(gotDialogsList(QList<Dialog*>)), this, SLOT(gotDialogList(QList<Dialog*>)));
-//    connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
-//    connect(_messages, SIGNAL(gotUnreadDialogsCounter(int)), this, SLOT(gotUnreadDialogsCounter(int)));
-//    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)));
-//    connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
-//    connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
-//    connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
-//    connect(_wall, SIGNAL(gotWallpost(News*)), this, SLOT(gotWallpostObject(News*)));
 
 //    qRegisterMetaType<Audio*>("Audio*");
 //    qRegisterMetaType<Document*>("Document*");
@@ -77,7 +69,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<MessagesModel*>("MessagesModel*");
 //    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
-//    qRegisterMetaType<Friends*>("Friends*");
 //    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
 //    qRegisterMetaType<Newsfeed*>("Newsfeed*");
@@ -90,14 +81,15 @@ VkSDK::~VkSDK() {
     delete _api;
     delete _auth;
 
+    delete _friends;
     delete _messages;
     delete _users;
 
     delete _dialogsListModel;
+    delete _friendsListModel;
 
 //    delete _selfProfile;
 
-//    delete _friends;
 //    delete _likes;
 //    delete _longPoll;
 //    delete _newsfeed;
@@ -111,16 +103,6 @@ VkSDK::~VkSDK() {
 
 void VkSDK::setAccessTocken(QString value) {
     _api->setAccessToken(value);
-//    _accessToken = value;
-//    _users->setAccessToken(value);
-//    _friends->setAccessToken(value);
-//    _likes->setAccessToken(value);
-//    _longPoll->setAccessToken(value);
-//    _messages->setAccessToken(value);
-//    _newsfeed->setAccessToken(value);
-//    _photos->setAccessToken(value);
-//    _videos->setAccessToken(value);
-//    _wall->setAccessToken(value);
 }
 
 void VkSDK::setUserId(int value) {
@@ -129,6 +111,10 @@ void VkSDK::setUserId(int value) {
 
 Authorization *VkSDK::auth() const {
     return _auth;
+}
+
+Friends *VkSDK::friends() const {
+    return _friends;
 }
 
 Messages *VkSDK::messages() const {
@@ -143,8 +129,19 @@ DialogsListModel *VkSDK::dialogsListModel() const {
     return _dialogsListModel;
 }
 
+FriendsListModel *VkSDK::friendsListModel() const {
+    return _friendsListModel;
+}
+
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
+    case ApiRequest::FRIENDS_GET:
+        parseEntireFriendsList(value.toObject().value("items").toArray());
+        break;
+    case ApiRequest::FRIENDS_GET_MUTUAL:
+    case ApiRequest::FRIENDS_GET_ONLINE:
+        parseLimitedFriendsList(value.toArray());
+        break;
     case ApiRequest::MESSAGES_GET_CHAT:
         parseChatsInfo(value.toArray());
         break;
@@ -188,12 +185,34 @@ void VkSDK::parseDialogsInfo(QJsonObject object) {
     } else _messages->getChat(_chatsIds);
 }
 
-void VkSDK::parseFriendsInfo(QJsonArray array) {
-    _usersIds.clear();
+void VkSDK::parseEntireFriendsList(QJsonArray array) {
     for (int index = 0; index < array.size(); ++index) {
         Friend *profile = Friend::fromJsonObject(array.at(index).toObject());
-        _dialogsListModel->addProfile(profile);
+        _friendsListModel->add(profile);
     }
+}
+
+void VkSDK::parseFriendsInfo(QJsonArray array) {
+    if (!_usersIds.empty()) {
+        _usersIds.clear();
+        for (int index = 0; index < array.size(); ++index) {
+            Friend *profile = Friend::fromJsonObject(array.at(index).toObject());
+            _dialogsListModel->addProfile(profile);
+        }
+    } else {
+        for (int index = 0; index < array.size(); ++index) {
+            Friend *profile = Friend::fromJsonObject(array.at(index).toObject());
+            _friendsListModel->add(profile);
+        }
+    }
+}
+
+void VkSDK::parseLimitedFriendsList(QJsonArray array) {
+    QStringList ids;
+    for (int index = 0; index < array.size(); ++index) {
+        ids.append(QString::number(array.at(index).toInt()));
+    }
+    _users->getUsersByIds(ids);
 }
 
 User *VkSDK::parseUserProfile(QJsonArray array) {
@@ -202,10 +221,6 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
 
 //User *VkSDK::selfProfile() const {
 //    return _selfProfile;
-//}
-
-//Friends *VkSDK::friends() const {
-//    return _friends;
 //}
 
 //Likes *VkSDK::likes() const

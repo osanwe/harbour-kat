@@ -33,7 +33,8 @@ Page {
     SilicaListView {
         id: friendsListView
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
+
+        model: vksdk.friendsListModel
 
         header: PageHeader {
             title: type === 1 ? qsTr("Friends") : type === 2 ? qsTr("Online friends") :
@@ -42,36 +43,32 @@ Page {
 
         delegate: UserListItem {
             isUser: true
-            avatarSource: model.modelData.photo50
-            onlineStatus: model.modelData.online
-            titleText: model.modelData.firstName + " " + modelData.lastName
-            bodyText: model.modelData.status
+            avatarSource: avatar
+            onlineStatus: online
+            titleText: name
+            bodyText: status
 
-//            onClicked: vksdk.users.getUserProfile(model.modelData.id)
-            onClicked: pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: model.modelData.id })
+            onClicked: pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: id })
         }
 
         VerticalScrollDecorator {}
     }
 
-    Connections {
-        target: vksdk
-        onGotFriends: friendsListView.model = friends
-//        onGotProfile: pageStack.push(Qt.resolvedUrl("ProfilePage.qml"), { profile: user })
-    }
-
-    Component.onCompleted: switch (type) {
-                           case 1:
-                               vksdk.friends.get(userId)
-                               break;
-
-                           case 2:
-                               vksdk.friends.getOnline(userId)
-                               break;
-
-                           case 3:
-                               vksdk.friends.getMutual(userId)
-                               break;
-                           }
+    onStatusChanged: if (status === PageStatus.Active) {
+                         vksdk.friendsListModel.clear()
+                         switch (type) {
+                         case 1:
+                             vksdk.friends.get(userId)
+                             break;
+                         case 2:
+                             vksdk.friends.getOnline(userId)
+                             break;
+                         case 3:
+                             vksdk.friends.getMutual(userId)
+                             break;
+                         default:
+                             break;
+                         }
+                     }
 }
 

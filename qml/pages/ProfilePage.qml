@@ -160,22 +160,22 @@ Page {
                             }
                         }
 
-//                        onClicked: switch (item.index) {
-//                                   case 6:
-//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-//                                                      { userId: profile.id, type: 1 })
-//                                       break;
+                        onClicked: switch (item.index) {
+                                   case 6:
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 1 })
+                                       break;
 
-//                                   case 7:
-//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-//                                                      { userId: profile.id, type: 2 })
-//                                       break;
+                                   case 7:
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 2 })
+                                       break;
 
-//                                   case 8:
-//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-//                                                      { userId: profile.id, type: 3 })
-//                                       break;
-//                                   }
+                                   case 8:
+                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                                      { userId: profile.id, type: 3 })
+                                       break;
+                                   }
                     }
                 }
             }

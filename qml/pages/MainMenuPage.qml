@@ -62,7 +62,9 @@ Page {
         case 2: // Dialogs page
             pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
             break
-        case 3:
+        case 3: // Friends page
+            pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"), { userId: settings.userId(),
+                                                                        type:   1 })
             break
         }
     }
