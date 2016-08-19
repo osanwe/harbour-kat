@@ -54,6 +54,11 @@ CoverBackground {
         }
     }
 
+    Connections {
+        target: vksdk
+        onGotUnreadCounter: messagesCounter.text = value
+    }
+
 //    Connections {
 //        target: vksdk.longPoll
 //        onUnreadDialogsCounterUpdated: messagesCounter.text = value

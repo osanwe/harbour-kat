@@ -30,23 +30,28 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
 
     // requests:
+    _messages = new Messages(this);
     _users = new Users(this);
+    _messages->setApi(_api);
     _users->setApi(_api);
+    qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Users*>("Users*");
 
     // objects:
     qRegisterMetaType<User*>("User*");
 
+    //models:
+    _dialogsListModel = new DialogsListModel(this);
+    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
+
 //    _friends = new Friends(this);
 //    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
-//    _messages = new Messages(this);
 //    _newsfeed = new Newsfeed(this);
 //    _photos = new Photos(this);
 //    _videos = new Videos(this);
 //    _wall = new Wall(this);
 
-//    _dialogsListModel = new DialogsListModel(this);
 //    _messagesModel = new MessagesModel(this);
 //    _newsfeedModel = new NewsfeedModel(this);
 
@@ -69,14 +74,12 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<Friend*>("Friend*");
 //    qRegisterMetaType<Video*>("Video*");
 
-//    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
 //    qRegisterMetaType<MessagesModel*>("MessagesModel*");
 //    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
 //    qRegisterMetaType<Friends*>("Friends*");
 //    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
-//    qRegisterMetaType<Messages*>("Messages*");
 //    qRegisterMetaType<Newsfeed*>("Newsfeed*");
 //    qRegisterMetaType<Photos*>("Photos*");
 //    qRegisterMetaType<Videos*>("Videos*");
@@ -87,20 +90,21 @@ VkSDK::~VkSDK() {
     delete _api;
     delete _auth;
 
+    delete _messages;
     delete _users;
+
+    delete _dialogsListModel;
 
 //    delete _selfProfile;
 
 //    delete _friends;
 //    delete _likes;
 //    delete _longPoll;
-//    delete _messages;
 //    delete _newsfeed;
 //    delete _photos;
 //    delete _videos;
 //    delete _wall;
 
-//    delete _dialogsListModel;
 //    delete _messagesModel;
 //    delete _newsfeedModel;
 }
@@ -127,21 +131,72 @@ Authorization *VkSDK::auth() const {
     return _auth;
 }
 
+Messages *VkSDK::messages() const {
+    return _messages;
+}
+
 Users *VkSDK::users() const {
     return _users;
 }
 
+DialogsListModel *VkSDK::dialogsListModel() const {
+    return _dialogsListModel;
+}
+
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
+    case ApiRequest::MESSAGES_GET_CHAT:
+        parseChatsInfo(value.toArray());
+        break;
+    case ApiRequest::MESSAGES_GET_DIALOGS:
+        parseDialogsInfo(value.toObject());
+        break;
     case ApiRequest::USERS_GET:
         emit gotProfile(parseUserProfile(value.toArray()));
+        break;
+    case ApiRequest::USERS_GET_FRIENDS:
+        parseFriendsInfo(value.toArray());
         break;
     default:
         break;
     }
 }
 
-User* VkSDK::parseUserProfile(QJsonArray array) {
+void VkSDK::parseChatsInfo(QJsonArray array) {
+    _chatsIds.clear();
+    for (int index = 0; index < array.size(); ++index) {
+        Chat *chat = Chat::fromJsonObject(array.at(index).toObject());
+        foreach (QVariant user, chat->users()) _usersIds.append(user.toString());
+        _dialogsListModel->addChat(chat);
+    }
+    _usersIds.removeDuplicates();
+    _users->getUsersByIds(_usersIds);
+}
+
+void VkSDK::parseDialogsInfo(QJsonObject object) {
+    if (object.contains("unread_dialogs")) emit gotUnreadCounter(object.value("unread_dialogs").toInt());
+    QJsonArray dialogs = object.value("items").toArray();
+    for (int index = 0; index < dialogs.size(); ++index) {
+        Dialog *dialog = Dialog::fromJsonObject(dialogs.at(index).toObject());
+        if (dialog->isChat()) _chatsIds.append(QString::number(dialog->lastMessage()->chatId()));
+        else _usersIds.append(QString::number(dialog->lastMessage()->userId()));
+        _dialogsListModel->add(dialog);
+    }
+    if (_chatsIds.empty()) {
+        _usersIds.removeDuplicates();
+        _users->getUsersByIds(_usersIds);
+    } else _messages->getChat(_chatsIds);
+}
+
+void VkSDK::parseFriendsInfo(QJsonArray array) {
+    _usersIds.clear();
+    for (int index = 0; index < array.size(); ++index) {
+        Friend *profile = Friend::fromJsonObject(array.at(index).toObject());
+        _dialogsListModel->addProfile(profile);
+    }
+}
+
+User *VkSDK::parseUserProfile(QJsonArray array) {
     return array.size() == 1 ? User::fromJsonObject(array.at(0).toObject()) : new User();
 }
 
@@ -162,10 +217,6 @@ User* VkSDK::parseUserProfile(QJsonArray array) {
 //    return _longPoll;
 //}
 
-//Messages *VkSDK::messages() const {
-//    return _messages;
-//}
-
 //Newsfeed *VkSDK::newsfeed() const {
 //    return _newsfeed;
 //}
@@ -183,10 +234,6 @@ User* VkSDK::parseUserProfile(QJsonArray array) {
 //Wall *VkSDK::wall() const
 //{
 //    return _wall;
-//}
-
-//DialogsListModel *VkSDK::dialogsListModel() const {
-//    return _dialogsListModel;
 //}
 
 //MessagesModel *VkSDK::messagesModel() const {

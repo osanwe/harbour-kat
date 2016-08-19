@@ -86,7 +86,7 @@ private:
     const QString API_VERSION = "5.53";
 
     QString _accessToken;
-    TaskType _currentTaskType;
+    QHash<QString, TaskType> _history;
 
     QNetworkAccessManager *_manager;
 };

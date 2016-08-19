@@ -31,18 +31,18 @@
 
 #include "authorization.h"
 #include "objects/user.h"
+#include "models/dialogslistmodel.h"
 #include "requests/apirequest.h"
+#include "requests/messages.h"
 #include "requests/users.h"
 
 //#include "friends.h"
 //#include "likes.h"
 //#include "longpoll.h"
-//#include "messages.h"
 //#include "newsfeed.h"
 //#include "photos.h"
 //#include "videos.h"
 //#include "wall.h"
-//#include "models/dialogslistmodel.h"
 //#include "models/messagesmodel.h"
 //#include "models/newsfeedmodel.h"
 //#include "objects/audio.h"
@@ -61,20 +61,21 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
 
+    Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
+
+    Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
 //    Q_PROPERTY(Friends* friends READ friends CONSTANT)
 //    Q_PROPERTY(Likes* likes READ likes CONSTANT)
 //    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
-//    Q_PROPERTY(Messages* messages READ messages CONSTANT)
 //    Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
 //    Q_PROPERTY(Photos* photos READ photos CONSTANT)
 //    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 //    Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
-//    Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel)
 //    Q_PROPERTY(MessagesModel* messagesModel READ messagesModel)
 //    Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel)
 
@@ -87,29 +88,30 @@ public:
 
     Authorization *auth() const;
 
+    Messages* messages() const;
     Users* users() const;
+
+    DialogsListModel* dialogsListModel() const;
 
 //    User* selfProfile() const;
 
 //    Friends* friends() const;
 //    Likes *likes() const;
 //    LongPoll* longPoll() const;
-//    Messages* messages() const;
 //    Newsfeed* newsfeed() const;
 //    Photos* photos() const;
 //    Videos* videos() const;
 //    Wall* wall() const;
 
-//    DialogsListModel* dialogsListModel() const;
 //    MessagesModel* messagesModel() const;
 //    NewsfeedModel* newsfeedModel() const;
 
 signals:
     void gotProfile(User *user);
+    void gotUnreadCounter(int value);
 //    void gotSelfProfile();
     //    void gotFriends(QVariant friends);
 //    void gotMessages(QVariant messages);
-//    void gotUnreadCounter(int value);
 //    void gotVideo(Video *video);
 //    void gotWallpost(News *wallpost);
 //    void newsfeedModelChanged();
@@ -137,8 +139,17 @@ private:
     ApiRequest *_api;
     Authorization *_auth;
 
+    Messages *_messages;
     Users *_users;
 
+    DialogsListModel *_dialogsListModel;
+
+    QStringList _usersIds;
+    QStringList _chatsIds;
+
+    void parseChatsInfo(QJsonArray array);
+    void parseDialogsInfo(QJsonObject object);
+    void parseFriendsInfo(QJsonArray array);
     User* parseUserProfile(QJsonArray array);
 
 //    User *_selfProfile;
@@ -146,18 +157,14 @@ private:
 //    Friends *_friends;
 //    Likes *_likes;
 //    LongPoll *_longPoll;
-//    Messages *_messages;
 //    Newsfeed *_newsfeed;
 //    Photos *_photos;
 //    Videos *_videos;
 //    Wall *_wall;
 
-//    DialogsListModel *_dialogsListModel;
 //    MessagesModel *_messagesModel;
 //    NewsfeedModel *_newsfeedModel;
 
-//    QStringList _usersIds;
-//    QStringList _chatsIds;
 //    QStringList _chatUsersIds;
 //    QList<QObject*> _dialogs;
 

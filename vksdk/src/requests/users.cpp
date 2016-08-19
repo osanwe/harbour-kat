@@ -40,22 +40,13 @@ void Users::getUserProfile(int id) {
     if (id != 0) query->addQueryItem("user_ids", QString("%1").arg(id));
     query->addQueryItem("fields", "bdate,can_write_private_message,city,counters,online,photo_50,photo_200,photo_max_orig,relation,sex,status,verified");
     _api->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET);
-//    ApiRequest *request = new ApiRequest();
-//    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
-//            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
-//    request->setAccessToken(_accessToken);
-//    request->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET);
 }
 
 void Users::getUsersByIds(QStringList ids) {
-//    QUrlQuery *query = new QUrlQuery();
-//    query->addQueryItem("user_ids", ids.join(","));
-//    query->addQueryItem("fields", "photo_50,online,status");
-//    ApiRequest *request = new ApiRequest();
-//    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
-//            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
-//    request->setAccessToken(_accessToken);
-//    request->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET_FRIENDS);
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("user_ids", ids.join(","));
+    query->addQueryItem("fields", "photo_50,online,status");
+    _api->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET_FRIENDS);
 }
 
 //void Users::gotResponse(QJsonValue value, ApiRequest::TaskType type) {

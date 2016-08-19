@@ -39,8 +39,8 @@ Page {
         busyIndicator.running = true
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.users.getSelfProfile()
+        vksdk.messages.getDialogs()
 //        vksdk.longPoll.getLongPollServer()
-//        vksdk.messages.getDialogs()
     }
 
     /**
@@ -59,7 +59,8 @@ Page {
             break
         case 1:
             break
-        case 2:
+        case 2: // Dialogs page
+            pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
             break
         case 3:
             break
@@ -176,7 +177,7 @@ Page {
                 menuList.headerItem.title = user.firstName + " " + user.lastName
             }
         }
-//        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
+        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
     }
 
     Component.onCompleted: init()

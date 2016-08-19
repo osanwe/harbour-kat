@@ -31,12 +31,11 @@ ApiRequest::~ApiRequest() {
 }
 
 void ApiRequest::makeApiGetRequest(QString method, QUrlQuery *query, TaskType type) {
-    _currentTaskType = type;
     query->addQueryItem("access_token", _accessToken);
     query->addQueryItem("v", API_VERSION);
     QUrl url(API_URL + method);
     url.setQuery(query->query());
-    qDebug() << url.toString();
+    _history[url.toString()] = type;
     _manager->get(QNetworkRequest(url));
 }
 
@@ -52,6 +51,10 @@ void ApiRequest::setAccessToken(QString token) {
 void ApiRequest::finished(QNetworkReply *reply) {
     QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
     QJsonValue jObj = jDoc.object().value("response");
-    emit gotResponse(jObj, _currentTaskType);
+    QString requestedUrl = reply->url().toString();
+    if (_history.contains(requestedUrl)) {
+        emit gotResponse(jObj, _history[requestedUrl]);
+        _history.remove(requestedUrl);
+    }
     reply->deleteLater();
 }

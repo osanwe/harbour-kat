@@ -107,12 +107,12 @@ Page {
                                                               Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
                     maximumLineCount: 1
-                    text: (hasAttachments ? qsTr("[Attachments] ") : "") + preview.replace('\n', ' ')
+                    text: preview.replace('\n', ' ')
                 }
             }
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("DialogPage.qml"), { chat: isChat,
-                                                                              historyId: id })
+//            onClicked: pageContainer.push(Qt.resolvedUrl("DialogPage.qml"), { chat: isChat,
+//                                                                              historyId: id })
 
             Component.onCompleted:
                 if (index == vksdk.dialogsListModel.size-1) vksdk.messages.getDialogs(vksdk.dialogsListModel.size)

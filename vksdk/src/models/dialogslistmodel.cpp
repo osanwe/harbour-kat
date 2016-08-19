@@ -16,6 +16,10 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
     int chatId = dialog->lastMessage()->chatId();
 
     switch (role) {
+    case IdRole:
+        if (dialog->isChat()) return QVariant(dialog->lastMessage()->chatId());
+        return QVariant(dialog->lastMessage()->userId());
+
     case AvatarRole: {
         QStringList avatarUrls;
         if (dialog->isChat()) {
@@ -43,21 +47,16 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
             return QVariant(_profiles[profileId]->firstName() + " " + _profiles[profileId]->lastName());
         }
 
-    case PreviewRole:
-        return QVariant(dialog->lastMessage()->body());
-
-    case IdRole:
-        if (dialog->isChat()) return QVariant(dialog->lastMessage()->chatId());
-        return QVariant(dialog->lastMessage()->userId());
-
-    case IsChatRole:
-        return QVariant(dialog->isChat());
+    case PreviewRole: {
+        QString attachments = dialog->lastMessage()->hasAttachments() ? "[ 📎 ] " : "";
+        return QVariant(QString("%1%2").arg(attachments).arg(dialog->lastMessage()->body()));
+    }
 
     case UnreadRole:
         return QVariant(dialog->unread());
 
-    case IsOutRole:
-        return QVariant(dialog->lastMessage()->out());
+    case IsChatRole:
+        return QVariant(dialog->isChat());
 
     case IsOnlineRole:
         if (dialog->isChat()) return QVariant();
@@ -66,8 +65,8 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
             return QVariant(_profiles[profileId]->online());
         }
 
-    case HasAttachmentsRole:
-        return QVariant(dialog->lastMessage()->hasAttachments());
+    case IsOutRole:
+        return QVariant(dialog->lastMessage()->out());
 
     default:
         return QVariant();
@@ -76,15 +75,14 @@ QVariant DialogsListModel::data(const QModelIndex &index, int role) const {
 
 QHash<int, QByteArray> DialogsListModel::roleNames() const {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
+    roles[IdRole] = "id";
     roles[AvatarRole] = "avatar";
     roles[TitleRole] = "dialogTitle";
     roles[PreviewRole] = "preview";
-    roles[IdRole] = "id";
-    roles[IsChatRole] = "isChat";
     roles[UnreadRole] = "unread";
-    roles[IsOutRole] = "isOut";
+    roles[IsChatRole] = "isChat";
     roles[IsOnlineRole] = "online";
-    roles[HasAttachmentsRole] = "hasAttachments";
+    roles[IsOutRole] = "isOut";
     return roles;
 }
 

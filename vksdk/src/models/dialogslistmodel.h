@@ -18,15 +18,14 @@ class DialogsListModel : public QAbstractListModel
 
 public:
     enum Roles {
-        AvatarRole = Qt::UserRole + 1,
+        IdRole = Qt::UserRole + 1,
+        AvatarRole,
         TitleRole,
         PreviewRole,
-        IdRole,
-        IsChatRole,
         UnreadRole,
-        IsOutRole,
+        IsChatRole,
         IsOnlineRole,
-        HasAttachmentsRole,
+        IsOutRole,
     };
 
     explicit DialogsListModel(QObject *parent = 0);

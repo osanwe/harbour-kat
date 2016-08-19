@@ -33,11 +33,11 @@
 #include <QStringList>
 #include <QVariant>
 
-#include "audio.h"
-#include "document.h"
-#include "news.h"
-#include "photo.h"
-#include "video.h"
+//#include "audio.h"
+//#include "document.h"
+//#include "news.h"
+//#include "photo.h"
+//#include "video.h"
 
 #include <QDebug>
 
@@ -56,11 +56,11 @@ class Message : public QObject
     Q_PROPERTY(QString body READ body CONSTANT)
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
-    Q_PROPERTY(QVariant audios READ audios CONSTANT)
-    Q_PROPERTY(QVariant documents READ documents CONSTANT)
-    Q_PROPERTY(QVariant news READ news CONSTANT)
-    Q_PROPERTY(QVariant photos READ photos CONSTANT)
-    Q_PROPERTY(QVariant videos READ videos CONSTANT)
+//    Q_PROPERTY(QVariant audios READ audios CONSTANT)
+//    Q_PROPERTY(QVariant documents READ documents CONSTANT)
+//    Q_PROPERTY(QVariant news READ news CONSTANT)
+//    Q_PROPERTY(QVariant photos READ photos CONSTANT)
+//    Q_PROPERTY(QVariant videos READ videos CONSTANT)
     Q_PROPERTY(QVariant fwdMessages READ fwdMessages CONSTANT)
 
 public:
@@ -95,25 +95,25 @@ public:
     QString body() const;
     void setBody(const QString &body);
 
-    QVariant photos() const;
-    QList<QObject *> photosList() const;
-    void addPhoto(Photo *photo);
+//    QVariant photos() const;
+//    QList<QObject *> photosList() const;
+//    void addPhoto(Photo *photo);
 
-    QVariant audios() const;
-    QList<QObject *> audiosList() const;
-    void addAudio(Audio *audio);
+//    QVariant audios() const;
+//    QList<QObject *> audiosList() const;
+//    void addAudio(Audio *audio);
 
-    QVariant documents() const;
-    QList<QObject *> documentsList() const;
-    void addDocument(Document *document);
+//    QVariant documents() const;
+//    QList<QObject *> documentsList() const;
+//    void addDocument(Document *document);
 
-    QVariant news() const;
-    QList<QObject *> newsList() const;
-    void addNews(News *news);
+//    QVariant news() const;
+//    QList<QObject *> newsList() const;
+//    void addNews(News *news);
 
-    QVariant videos() const;
-    QList<QObject *> videosList() const;
-    void addVideo(Video *video);
+//    QVariant videos() const;
+//    QList<QObject *> videosList() const;
+//    void addVideo(Video *video);
 
     QVariant fwdMessages() const;
     QList<QObject*> fwdMessagesList() const;
@@ -126,6 +126,7 @@ public:
     void setGeoMap(double lat, double lon);
 
     bool hasAttachments() const;
+    void setHasAttachments(bool hasAttachments);
 
 private:
     int _id = 0;
@@ -136,14 +137,15 @@ private:
     bool _chat;
     bool _readState;
     bool _out;
+    bool _hasAttachments = false;
     QString _body;
     QString _geoTile;
     QString _geoMap;
-    QList<QObject*> _audios;
-    QList<QObject*> _documents;
-    QList<QObject*> _news;
-    QList<QObject*> _photos;
-    QList<QObject*> _videos;
+//    QList<QObject*> _audios;
+//    QList<QObject*> _documents;
+//    QList<QObject*> _news;
+//    QList<QObject*> _photos;
+//    QList<QObject*> _videos;
     QList<QObject*> _fwdMessages;
 };
 
