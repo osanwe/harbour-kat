@@ -33,20 +33,20 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
     case BodyRole:
         return QVariant(message->body());
 
-    case PhotosRole:
-        return message->photos();
+//    case PhotosRole:
+//        return message->photos();
 
-    case VideosRole:
-        return message->videos();
+//    case VideosRole:
+//        return message->videos();
 
-    case AudiosRole:
-        return message->audios();
+//    case AudiosRole:
+//        return message->audios();
 
-    case DocumentsRole:
-        return message->documents();
+//    case DocumentsRole:
+//        return message->documents();
 
-    case NewsRole:
-        return message->news();
+//    case NewsRole:
+//        return message->news();
 
     case GeoTileRole:
         return QVariant(message->geoTile());
@@ -84,6 +84,7 @@ QHash<int, QByteArray> MessagesModel::roleNames() const {
 void MessagesModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _messages.size());
     _messages.clear();
+    _profiles.clear();
     endRemoveRows();
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));

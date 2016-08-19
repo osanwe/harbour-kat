@@ -57,17 +57,10 @@ Page {
             MenuItem {
                 visible: profile.canWritePrivateMessage
                 text: qsTr("Go to dialog")
-//                onClicked: {
-//                    // TODO: Profiles must provide the model
-//                    var userId = profile.id + ''
-//                    var selfId = vksdk.selfProfile.id + ''
-//                    var profiles = new Object
-//                    profiles[userId] = profile
-//                    profiles[selfId] = vksdk.selfProfile
-//                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { chat: false,
-//                                                                       historyId: profile.id,
-//                                                                       profiles:  profiles })
-//                }
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { chat: false,
+                                                                       historyId: profile.id })
+                }
             }
         }
 

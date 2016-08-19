@@ -45,14 +45,10 @@ void Messages::getDialogs(int offset) {
 }
 
 void Messages::getHistory(int peerId, int offset) {
-//    QUrlQuery *query = new QUrlQuery();
-//    query->addQueryItem("peer_id", QString("%1").arg(peerId));
-//    query->addQueryItem("offset", QString("%1").arg(offset));
-//    ApiRequest *request = new ApiRequest(this);
-//    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
-//            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
-//    request->setAccessToken(_accessToken);
-//    request->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("peer_id", QString("%1").arg(peerId));
+    query->addQueryItem("offset", QString("%1").arg(offset));
+    _api->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
 }
 
 void Messages::send(int peerId, QString text, QString attachmentsList) {

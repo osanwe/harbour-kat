@@ -87,11 +87,11 @@ Page {
 
             EnterKey.enabled: text.length > 0 || attachmentsList.length > 0
             EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-            EnterKey.onClicked: {
-                vksdk.messages.send(historyId, text, attachmentsList)
-                text = ""
-                attachmentsList = ""
-            }
+//            EnterKey.onClicked: {
+//                vksdk.messages.send(historyId, text, attachmentsList)
+//                text = ""
+//                attachmentsList = ""
+//            }
         }
 
 
@@ -123,23 +123,23 @@ Page {
                 }
             }
 
-            onClicked: {
-                var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
-                imagePicker.selectedContentChanged.connect(function () {
-                    attachmentsBusy.running = true
-                    vksdk.photos.attachImage(imagePicker.selectedContent, "MESSAGE", 0)
-                })
-            }
+//            onClicked: {
+//                var imagePicker = pageStack.push("Sailfish.Pickers.ImagePickerPage")
+//                imagePicker.selectedContentChanged.connect(function () {
+//                    attachmentsBusy.running = true
+//                    vksdk.photos.attachImage(imagePicker.selectedContent, "MESSAGE", 0)
+//                })
+//            }
         }
     }
 
-    Connections {
-        target: vksdk.photos
-        onImageUploaded: {
-            attachmentsList += imageName + ","
-            attachmentsBusy.running = false;
-        }
-    }
+//    Connections {
+//        target: vksdk.photos
+//        onImageUploaded: {
+//            attachmentsList += imageName + ","
+//            attachmentsBusy.running = false;
+//        }
+//    }
 
     Component.onCompleted: {
         vksdk.messagesModel.clear()

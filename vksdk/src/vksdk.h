@@ -28,6 +28,7 @@
 #include "objects/user.h"
 #include "models/dialogslistmodel.h"
 #include "models/friendslistmodel.h"
+#include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
 #include "requests/apirequest.h"
 #include "requests/friends.h"
@@ -40,7 +41,6 @@
 //#include "photos.h"
 //#include "videos.h"
 //#include "wall.h"
-//#include "models/messagesmodel.h"
 //#include "objects/audio.h"
 //#include "objects/chat.h"
 //#include "objects/dialog.h"
@@ -64,6 +64,7 @@ class VkSDK : public QObject
 
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
     Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
+    Q_PROPERTY(MessagesModel* messagesModel READ messagesModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
@@ -73,8 +74,6 @@ class VkSDK : public QObject
 //    Q_PROPERTY(Photos* photos READ photos CONSTANT)
 //    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 //    Q_PROPERTY(Wall* wall READ wall CONSTANT)
-
-//    Q_PROPERTY(MessagesModel* messagesModel READ messagesModel)
 
 public:
     explicit VkSDK(QObject *parent = 0);
@@ -92,6 +91,7 @@ public:
 
     DialogsListModel* dialogsListModel() const;
     FriendsListModel* friendsListModel() const;
+    MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
 
 //    User* selfProfile() const;
@@ -101,8 +101,6 @@ public:
 //    Photos* photos() const;
 //    Videos* videos() const;
 //    Wall* wall() const;
-
-//    MessagesModel* messagesModel() const;
 
 signals:
     void gotProfile(User *user);
@@ -144,8 +142,10 @@ private:
 
     DialogsListModel *_dialogsListModel;
     FriendsListModel *_friendsListModel;
+    MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
 
+    QStringList _chatUsersIds;
     QStringList _usersIds;
     QStringList _chatsIds;
 
@@ -154,6 +154,7 @@ private:
     void parseEntireFriendsList(QJsonArray array);
     void parseFriendsInfo(QJsonArray array);
     void parseLimitedFriendsList(QJsonArray array);
+    void parseMessages(QJsonArray array);
     void parseNewsfeed(QJsonObject object);
     User* parseUserProfile(QJsonArray array);
 
@@ -165,9 +166,6 @@ private:
 //    Videos *_videos;
 //    Wall *_wall;
 
-//    MessagesModel *_messagesModel;
-
-//    QStringList _chatUsersIds;
 //    QList<QObject*> _dialogs;
 
 //    QStringList _getIdsFromMessages(QList<QObject*> messages);
