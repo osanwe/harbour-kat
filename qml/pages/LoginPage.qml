@@ -35,13 +35,13 @@ Page {
         id: loginWebView
 
         anchors.fill: parent
-        url: authorization.buildAuthUrl()
+        url: vksdk.auth.authUrl
 
-        onUrlChanged: authorization.tryToGetAccessToken(url)
+        onUrlChanged: vksdk.auth.tryToGetAccessToken(url)
     }
 
     Connections {
-        target: authorization
+        target: vksdk.auth
         onAuthorized: {
             vksdk.setAccessTocken(accessToken)
             vksdk.setUserId(userId)
@@ -54,7 +54,7 @@ Page {
         onError: {
             loginNotification.previewBody = errorMessage
             loginNotification.publish()
-            loginWebView.url = authorization.buildAuthUrl()
+            loginWebView.url = vksdk.auth.authUrl
         }
     }
 }

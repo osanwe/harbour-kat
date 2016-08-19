@@ -33,11 +33,14 @@ class Authorization : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString authUrl READ authUrl CONSTANT)
+
 public:
     explicit Authorization(QObject *parent = 0);
     ~Authorization();
 
-    Q_INVOKABLE QString buildAuthUrl();
+    QString authUrl();
+
     Q_INVOKABLE void tryToGetAccessToken(QString url);
 
 signals:

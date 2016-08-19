@@ -24,7 +24,7 @@
 
 #include <QObject>
 #include <QSettings>
-#include <QString>
+#include <QStandardPaths>
 
 class SettingsWrapper : public QObject
 {

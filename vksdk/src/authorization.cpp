@@ -21,11 +21,17 @@
 
 #include "authorization.h"
 
-Authorization::Authorization(QObject *parent) : QObject(parent) {}
+Authorization::Authorization(QObject *parent) : QObject(parent)
+{}
 
-Authorization::~Authorization() {}
+Authorization::~Authorization()
+{}
 
-QString Authorization::buildAuthUrl() {
+/**
+ * @brief The function builds URL for authorization.
+ * @return The URL for authorization.
+ */
+QString Authorization::authUrl() {
     QUrl url("https://oauth.vk.com/authorize");
     QUrlQuery query;
     query.addQueryItem("client_id", "4803503");
@@ -39,6 +45,11 @@ QString Authorization::buildAuthUrl() {
     return url.toString();
 }
 
+/**
+ * @brief The function checks is a current URL is final. If true, get access token and user id
+ *        or error code and error message.
+ * @param url - URL for checking.
+ */
 void Authorization::tryToGetAccessToken(QString url) {
     QUrlQuery query(QUrl(url).fragment());
     if (query.hasQueryItem("access_token")) {

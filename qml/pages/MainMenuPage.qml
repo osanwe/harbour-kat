@@ -32,6 +32,26 @@ Page {
         { itemText: qsTr("Friends"),   counter: 0 },
     ]
 
+    /**
+     *  The function does initial actions for showing menu and additional information.
+     */
+    function init() {
+//        busyIndicator.running = true
+        for (var index in menuItems) menuList.model.append(menuItems[index])
+//        vksdk.longPoll.getLongPollServer()
+//        vksdk.users.getSelfProfile()
+//        vksdk.messages.getDialogs()
+    }
+
+    /**
+     * The function removes access token and user id from the config file.
+     */
+    function logout() {
+        settings.removeAccessToken()
+        settings.removeUserId()
+        pageContainer.replace(Qt.resolvedUrl("LoginPage.qml"))
+    }
+
     BusyIndicator {
        id: busyIndicator
        anchors.centerIn: parent
@@ -52,10 +72,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Logout")
-                onClicked: {
-                    settings.removeAccessToken()
-                    pageContainer.replace(Qt.resolvedUrl("LoginPage.qml"))
-                }
+                onClicked: logout()
             }
 
 //            MenuItem {
@@ -109,49 +126,43 @@ Page {
             onClicked: {
                 switch (index) {
                 case 0:
-                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
-                                   { profileId: vksdk.selfProfile.id })
+//                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
+//                                   { profileId: vksdk.selfProfile.id })
                     break;
 
                 case 1:
-                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
+//                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
                     break;
 
                 case 2:
-                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
+//                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
                     break;
 
                 case 3:
-                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                       { userId: vksdk.selfProfile.id, type: 1 })
+//                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+//                                       { userId: vksdk.selfProfile.id, type: 1 })
                     break;
                 }
             }
         }
     }
 
-    Connections {
-        target: vksdk.longPoll
-        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
-    }
+//    Connections {
+//        target: vksdk.longPoll
+//        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
+//    }
 
-    Connections {
-        target: vksdk
-        onGotSelfProfile: {
-            if (status === PageStatus.Active) {
-                busyIndicator.running = false
-                menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
-            }
-        }
-        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
-    }
+//    Connections {
+//        target: vksdk
+//        onGotSelfProfile: {
+//            if (status === PageStatus.Active) {
+//                busyIndicator.running = false
+//                menuList.headerItem.title = vksdk.selfProfile.firstName + " " + vksdk.selfProfile.lastName
+//            }
+//        }
+//        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
+//    }
 
-    Component.onCompleted: {
-        busyIndicator.running = true
-        for (var index in menuItems) menuList.model.append(menuItems[index])
-        vksdk.longPoll.getLongPollServer()
-        vksdk.users.getSelfProfile()
-        vksdk.messages.getDialogs()
-    }
+    Component.onCompleted: init()
 }
 

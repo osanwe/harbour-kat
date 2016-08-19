@@ -22,243 +22,252 @@
 #include "vksdk.h"
 
 VkSDK::VkSDK(QObject *parent) : QObject(parent) {
-    _friends = new Friends(this);
-    _likes = new Likes(this);
-    _longPoll = new LongPoll(this);
-    _messages = new Messages(this);
-    _newsfeed = new Newsfeed(this);
-    _photos = new Photos(this);
-    _users = new Users(this);
-    _videos = new Videos(this);
-    _wall = new Wall(this);
+    _auth = new Authorization(this);
+    qRegisterMetaType<Authorization*>("Authorization*");
 
-    _dialogsListModel = new DialogsListModel(this);
-    _messagesModel = new MessagesModel(this);
-    _newsfeedModel = new NewsfeedModel(this);
+//    _friends = new Friends(this);
+//    _likes = new Likes(this);
+//    _longPoll = new LongPoll(this);
+//    _messages = new Messages(this);
+//    _newsfeed = new Newsfeed(this);
+//    _photos = new Photos(this);
+//    _users = new Users(this);
+//    _videos = new Videos(this);
+//    _wall = new Wall(this);
 
-    connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
-    connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
-    connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
-    connect(_messages, SIGNAL(gotDialogsList(QList<Dialog*>)), this, SLOT(gotDialogList(QList<Dialog*>)));
-    connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
-    connect(_messages, SIGNAL(gotUnreadDialogsCounter(int)), this, SLOT(gotUnreadDialogsCounter(int)));
-    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)));
-    connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
-    connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
-    connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
-    connect(_wall, SIGNAL(gotWallpost(News*)), this, SLOT(gotWallpostObject(News*)));
+//    _dialogsListModel = new DialogsListModel(this);
+//    _messagesModel = new MessagesModel(this);
+//    _newsfeedModel = new NewsfeedModel(this);
 
-    qRegisterMetaType<Audio*>("Audio*");
-    qRegisterMetaType<Document*>("Document*");
-    qRegisterMetaType<News*>("News*");
-    qRegisterMetaType<Photo*>("Photo*");
-    qRegisterMetaType<Friend*>("Friend*");
-    qRegisterMetaType<User*>("User*");
-    qRegisterMetaType<Video*>("Video*");
+//    connect(_friends, SIGNAL(gotFriendsList(QList<QObject*>)), this, SLOT(gotFriendsList(QList<QObject*>)));
+//    connect(_friends, SIGNAL(gotMutualFriendsIds(QVariantList)), this, SLOT(gotMutualFriendsIds(QVariantList)));
+//    connect(_messages, SIGNAL(gotChatsList(QList<QObject*>)), this, SLOT(gotChatsList(QList<QObject*>)));
+//    connect(_messages, SIGNAL(gotDialogsList(QList<Dialog*>)), this, SLOT(gotDialogList(QList<Dialog*>)));
+//    connect(_messages, SIGNAL(gotMessagesList(QList<QObject*>)), this, SLOT(gotMessagesList(QList<QObject*>)));
+//    connect(_messages, SIGNAL(gotUnreadDialogsCounter(int)), this, SLOT(gotUnreadDialogsCounter(int)));
+//    connect(_newsfeed, SIGNAL(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)), this, SLOT(gotNewsfeed(QList<News*>,QList<User*>,QList<Group*>,QString)));
+//    connect(_users, SIGNAL(gotUserProfile(User*)), this, SLOT(gotUserProfile(User*)));
+//    connect(_users, SIGNAL(gotUsersList(QList<QObject*>)), this, SLOT(gotUsersList(QList<QObject*>)));
+//    connect(_videos, SIGNAL(gotVideo(Video*)), this, SLOT(gotVideoObject(Video*)));
+//    connect(_wall, SIGNAL(gotWallpost(News*)), this, SLOT(gotWallpostObject(News*)));
 
-    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
-    qRegisterMetaType<MessagesModel*>("MessagesModel*");
-    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
+//    qRegisterMetaType<Audio*>("Audio*");
+//    qRegisterMetaType<Document*>("Document*");
+//    qRegisterMetaType<News*>("News*");
+//    qRegisterMetaType<Photo*>("Photo*");
+//    qRegisterMetaType<Friend*>("Friend*");
+//    qRegisterMetaType<User*>("User*");
+//    qRegisterMetaType<Video*>("Video*");
 
-    qRegisterMetaType<Friends*>("Friends*");
-    qRegisterMetaType<Likes*>("Likes*");
-    qRegisterMetaType<LongPoll*>("LongPoll*");
-    qRegisterMetaType<Messages*>("Messages*");
-    qRegisterMetaType<Newsfeed*>("Newsfeed*");
-    qRegisterMetaType<Photos*>("Photos*");
-    qRegisterMetaType<Users*>("Users*");
-    qRegisterMetaType<Videos*>("Videos*");
-    qRegisterMetaType<Wall*>("Wall*");
+//    qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
+//    qRegisterMetaType<MessagesModel*>("MessagesModel*");
+//    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
+
+//    qRegisterMetaType<Friends*>("Friends*");
+//    qRegisterMetaType<Likes*>("Likes*");
+//    qRegisterMetaType<LongPoll*>("LongPoll*");
+//    qRegisterMetaType<Messages*>("Messages*");
+//    qRegisterMetaType<Newsfeed*>("Newsfeed*");
+//    qRegisterMetaType<Photos*>("Photos*");
+//    qRegisterMetaType<Users*>("Users*");
+//    qRegisterMetaType<Videos*>("Videos*");
+//    qRegisterMetaType<Wall*>("Wall*");
 }
 
 VkSDK::~VkSDK() {
-    delete _selfProfile;
+    delete _auth;
 
-    delete _friends;
-    delete _likes;
-    delete _longPoll;
-    delete _messages;
-    delete _newsfeed;
-    delete _photos;
-    delete _users;
-    delete _videos;
-    delete _wall;
+//    delete _selfProfile;
 
-    delete _dialogsListModel;
-    delete _messagesModel;
-    delete _newsfeedModel;
+//    delete _friends;
+//    delete _likes;
+//    delete _longPoll;
+//    delete _messages;
+//    delete _newsfeed;
+//    delete _photos;
+//    delete _users;
+//    delete _videos;
+//    delete _wall;
+
+//    delete _dialogsListModel;
+//    delete _messagesModel;
+//    delete _newsfeedModel;
 }
 
 void VkSDK::setAccessTocken(QString value) {
     _accessToken = value;
-    _friends->setAccessToken(value);
-    _likes->setAccessToken(value);
-    _longPoll->setAccessToken(value);
-    _messages->setAccessToken(value);
-    _newsfeed->setAccessToken(value);
-    _photos->setAccessToken(value);
-    _users->setAccessToken(value);
-    _videos->setAccessToken(value);
-    _wall->setAccessToken(value);
+//    _friends->setAccessToken(value);
+//    _likes->setAccessToken(value);
+//    _longPoll->setAccessToken(value);
+//    _messages->setAccessToken(value);
+//    _newsfeed->setAccessToken(value);
+//    _photos->setAccessToken(value);
+//    _users->setAccessToken(value);
+//    _videos->setAccessToken(value);
+//    _wall->setAccessToken(value);
 }
 
 void VkSDK::setUserId(int value) {
     _userId = value;
 }
 
-User *VkSDK::selfProfile() const {
-    return _selfProfile;
+Authorization *VkSDK::auth() const {
+    return _auth;
 }
 
-Friends *VkSDK::friends() const {
-    return _friends;
-}
+//User *VkSDK::selfProfile() const {
+//    return _selfProfile;
+//}
 
-Likes *VkSDK::likes() const
-{
-    return _likes;
-}
+//Friends *VkSDK::friends() const {
+//    return _friends;
+//}
 
-LongPoll *VkSDK::longPoll() const {
-    return _longPoll;
-}
+//Likes *VkSDK::likes() const
+//{
+//    return _likes;
+//}
 
-Messages *VkSDK::messages() const {
-    return _messages;
-}
+//LongPoll *VkSDK::longPoll() const {
+//    return _longPoll;
+//}
 
-Newsfeed *VkSDK::newsfeed() const {
-    return _newsfeed;
-}
+//Messages *VkSDK::messages() const {
+//    return _messages;
+//}
 
-Photos *VkSDK::photos() const
-{
-    return _photos;
-}
+//Newsfeed *VkSDK::newsfeed() const {
+//    return _newsfeed;
+//}
 
-Users *VkSDK::users() const {
-    return _users;
-}
+//Photos *VkSDK::photos() const
+//{
+//    return _photos;
+//}
 
-Videos *VkSDK::videos() const
-{
-    return _videos;
-}
+//Users *VkSDK::users() const {
+//    return _users;
+//}
 
-Wall *VkSDK::wall() const
-{
-    return _wall;
-}
+//Videos *VkSDK::videos() const
+//{
+//    return _videos;
+//}
 
-DialogsListModel *VkSDK::dialogsListModel() const {
-    return _dialogsListModel;
-}
+//Wall *VkSDK::wall() const
+//{
+//    return _wall;
+//}
 
-MessagesModel *VkSDK::messagesModel() const {
-    return _messagesModel;
-}
+//DialogsListModel *VkSDK::dialogsListModel() const {
+//    return _dialogsListModel;
+//}
 
-NewsfeedModel* VkSDK::newsfeedModel() const {
-    return _newsfeedModel;
-}
+//MessagesModel *VkSDK::messagesModel() const {
+//    return _messagesModel;
+//}
 
-void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
-    emit gotFriends(QVariant::fromValue(friendsList));
-}
+//NewsfeedModel* VkSDK::newsfeedModel() const {
+//    return _newsfeedModel;
+//}
 
-void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
-    foreach (QObject *object, messagesList) {
-        Message *message = qobject_cast<Message*>(object);
-        _messagesModel->add(message);
-        _chatUsersIds.append(QString("%1").arg(message->fromId()));
-    }
-    _users->get(_chatUsersIds);
-}
+//void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
+//    emit gotFriends(QVariant::fromValue(friendsList));
+//}
 
-void VkSDK::gotMutualFriendsIds(QVariantList ids) {
-    QStringList sIds;
-    foreach (QVariant id, ids) sIds.append(id.toString());
-    _users->get(sIds);
-}
+//void VkSDK::gotMessagesList(QList<QObject *> messagesList) {
+//    foreach (QObject *object, messagesList) {
+//        Message *message = qobject_cast<Message*>(object);
+//        _messagesModel->add(message);
+//        _chatUsersIds.append(QString("%1").arg(message->fromId()));
+//    }
+//    _users->get(_chatUsersIds);
+//}
 
-void VkSDK::gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups, QString nextFrom)
-{
-    foreach (News *item, items) _newsfeedModel->addNews(item);
-    foreach (User *user, profiles) _newsfeedModel->addUser(user);
-    foreach (Group *group, groups) _newsfeedModel->addGroup(group);
-    _newsfeedModel->setNextFrom(nextFrom);
-    //    emit newsfeedModelChanged();
-}
+//void VkSDK::gotMutualFriendsIds(QVariantList ids) {
+//    QStringList sIds;
+//    foreach (QVariant id, ids) sIds.append(id.toString());
+//    _users->get(sIds);
+//}
 
-void VkSDK::gotUnreadDialogsCounter(int value) {
-    emit gotUnreadCounter(value);
-}
+//void VkSDK::gotNewsfeed(QList<News *> items, QList<User *> profiles, QList<Group *> groups, QString nextFrom)
+//{
+//    foreach (News *item, items) _newsfeedModel->addNews(item);
+//    foreach (User *user, profiles) _newsfeedModel->addUser(user);
+//    foreach (Group *group, groups) _newsfeedModel->addGroup(group);
+//    _newsfeedModel->setNextFrom(nextFrom);
+//    //    emit newsfeedModelChanged();
+//}
 
-void VkSDK::gotUserProfile(User *user) {
-    if (user->id() == _userId) {
-        _selfProfile = user;
-        emit gotSelfProfile();
-    } else emit gotProfile(user);
-}
+//void VkSDK::gotUnreadDialogsCounter(int value) {
+//    emit gotUnreadCounter(value);
+//}
 
-void VkSDK::gotUsersList(QList<QObject *> usersList) {
-    if (_usersIds.size() > 0) {
-        _usersIds.clear();
-        foreach (QObject *object, usersList) {
-            Friend *user = qobject_cast<Friend*>(object);
-            _dialogsListModel->addProfile(user);
-        }
-    } else if (_chatUsersIds.size() > 0) {
-        _chatUsersIds.clear();
-        foreach (QObject *object, usersList) {
-            Friend *user = qobject_cast<Friend*>(object);
-            _messagesModel->addProfile(user);
-        }
-    } else emit gotFriends(QVariant::fromValue(usersList));
-}
+//void VkSDK::gotUserProfile(User *user) {
+//    if (user->id() == _userId) {
+//        _selfProfile = user;
+//        emit gotSelfProfile();
+//    } else emit gotProfile(user);
+//}
 
-void VkSDK::gotVideoObject(Video *video)
-{
-    emit gotVideo(video);
-}
+//void VkSDK::gotUsersList(QList<QObject *> usersList) {
+//    if (_usersIds.size() > 0) {
+//        _usersIds.clear();
+//        foreach (QObject *object, usersList) {
+//            Friend *user = qobject_cast<Friend*>(object);
+//            _dialogsListModel->addProfile(user);
+//        }
+//    } else if (_chatUsersIds.size() > 0) {
+//        _chatUsersIds.clear();
+//        foreach (QObject *object, usersList) {
+//            Friend *user = qobject_cast<Friend*>(object);
+//            _messagesModel->addProfile(user);
+//        }
+//    } else emit gotFriends(QVariant::fromValue(usersList));
+//}
 
-void VkSDK::gotWallpostObject(News *wallpost)
-{
-    emit gotWallpost(wallpost);
-}
+//void VkSDK::gotVideoObject(Video *video)
+//{
+//    emit gotVideo(video);
+//}
 
-void VkSDK::gotChatsList(QList<QObject *> chatsList) {
-    _chatsIds.clear();
-    foreach (QObject *object, chatsList) {
-        Chat *chat = qobject_cast<Chat*>(object);
-        foreach (QVariant user, chat->users()) {
-            if (!_usersIds.contains(user.toString())) _usersIds.append(user.toString());
-        }
-        _dialogsListModel->addChat(chat);
-    }
-    _users->get(_usersIds);
-}
+//void VkSDK::gotWallpostObject(News *wallpost)
+//{
+//    emit gotWallpost(wallpost);
+//}
 
-void VkSDK::gotDialogList(QList<Dialog *> dialogsList) {
-    foreach (Dialog *dialog, dialogsList) {
-        _dialogsListModel->add(dialog);
-        if (dialog->isChat()) _chatsIds.append(QString("%1").arg(dialog->lastMessage()->chatId()));
-        else _usersIds.append(QString("%1").arg(dialog->lastMessage()->userId()));
-    }
-    if (_chatsIds.empty()) _users->get(_usersIds);
-    else _messages->getChat(_chatsIds);
-}
+//void VkSDK::gotChatsList(QList<QObject *> chatsList) {
+//    _chatsIds.clear();
+//    foreach (QObject *object, chatsList) {
+//        Chat *chat = qobject_cast<Chat*>(object);
+//        foreach (QVariant user, chat->users()) {
+//            if (!_usersIds.contains(user.toString())) _usersIds.append(user.toString());
+//        }
+//        _dialogsListModel->addChat(chat);
+//    }
+//    _users->get(_usersIds);
+//}
 
-QStringList VkSDK::_getIdsFromMessages(QList<QObject *> messages) {
-    QStringList ids;
-    for (int index = 0; index < messages.size(); ++index) {
-        Message *msg = qobject_cast<Message*>(messages.at(index));
-        QString id = QString("%1").arg(msg->fromId());
-        if (!ids.contains(id) && id != "0") {
-            ids.append(id);
-        }
-        if (!msg->fwdMessagesList().isEmpty()) ids += _getIdsFromMessages(msg->fwdMessagesList());
-    }
-    return ids;
-}
+//void VkSDK::gotDialogList(QList<Dialog *> dialogsList) {
+//    foreach (Dialog *dialog, dialogsList) {
+//        _dialogsListModel->add(dialog);
+//        if (dialog->isChat()) _chatsIds.append(QString("%1").arg(dialog->lastMessage()->chatId()));
+//        else _usersIds.append(QString("%1").arg(dialog->lastMessage()->userId()));
+//    }
+//    if (_chatsIds.empty()) _users->get(_usersIds);
+//    else _messages->getChat(_chatsIds);
+//}
+
+//QStringList VkSDK::_getIdsFromMessages(QList<QObject *> messages) {
+//    QStringList ids;
+//    for (int index = 0; index < messages.size(); ++index) {
+//        Message *msg = qobject_cast<Message*>(messages.at(index));
+//        QString id = QString("%1").arg(msg->fromId());
+//        if (!ids.contains(id) && id != "0") {
+//            ids.append(id);
+//        }
+//        if (!msg->fwdMessagesList().isEmpty()) ids += _getIdsFromMessages(msg->fwdMessagesList());
+//    }
+//    return ids;
+//}
 
