@@ -52,6 +52,20 @@ Page {
         pageContainer.replace(Qt.resolvedUrl("LoginPage.qml"))
     }
 
+    function openSubPage(menuItemIndex) {
+        switch (menuItemIndex) {
+        case 0: // Self profile page
+            pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: settings.userId() })
+            break
+        case 1:
+            break
+        case 2:
+            break
+        case 3:
+            break
+        }
+    }
+
     BusyIndicator {
        id: busyIndicator
        anchors.centerIn: parent
@@ -123,27 +137,29 @@ Page {
                 }
             }
 
-            onClicked: {
-                switch (index) {
-                case 0:
-//                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
-//                                   { profileId: vksdk.selfProfile.id })
-                    break;
+            onClicked: openSubPage(index)
 
-                case 1:
-//                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
-                    break;
+//            onClicked: {
+//                switch (index) {
+//                case 0:
+////                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
+////                                   { profileId: vksdk.selfProfile.id })
+//                    break;
 
-                case 2:
-//                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
-                    break;
+//                case 1:
+////                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
+//                    break;
 
-                case 3:
-//                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-//                                       { userId: vksdk.selfProfile.id, type: 1 })
-                    break;
-                }
-            }
+//                case 2:
+////                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
+//                    break;
+
+//                case 3:
+////                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+////                                       { userId: vksdk.selfProfile.id, type: 1 })
+//                    break;
+//                }
+//            }
         }
     }
 

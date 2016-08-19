@@ -52,23 +52,22 @@ Page {
         contentHeight: content.height + header.height
 
         PullDownMenu {
-            visible: (profile.id !== vksdk.selfProfile.id) &&
-                     (profile.canWritePrivateMessage)
+            visible: (profile.id !== settings.userId()) && (profile.canWritePrivateMessage)
 
             MenuItem {
                 visible: profile.canWritePrivateMessage
                 text: qsTr("Go to dialog")
-                onClicked: {
-                    // TODO: Profiles must provide the model
-                    var userId = profile.id + ''
-                    var selfId = vksdk.selfProfile.id + ''
-                    var profiles = new Object
-                    profiles[userId] = profile
-                    profiles[selfId] = vksdk.selfProfile
-                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { chat: false,
-                                                                       historyId: profile.id,
-                                                                       profiles:  profiles })
-                }
+//                onClicked: {
+//                    // TODO: Profiles must provide the model
+//                    var userId = profile.id + ''
+//                    var selfId = vksdk.selfProfile.id + ''
+//                    var profiles = new Object
+//                    profiles[userId] = profile
+//                    profiles[selfId] = vksdk.selfProfile
+//                    pageStack.push(Qt.resolvedUrl("DialogPage.qml"), { chat: false,
+//                                                                       historyId: profile.id,
+//                                                                       profiles:  profiles })
+//                }
             }
         }
 
@@ -103,8 +102,8 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
-                                                  { imagesModel: [profile.photoMaxOrig] })
+//                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
+//                                                  { imagesModel: [profile.photoMaxOrig] })
                     }
                 }
 
@@ -161,22 +160,22 @@ Page {
                             }
                         }
 
-                        onClicked: switch (item.index) {
-                                   case 6:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 1 })
-                                       break;
+//                        onClicked: switch (item.index) {
+//                                   case 6:
+//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+//                                                      { userId: profile.id, type: 1 })
+//                                       break;
 
-                                   case 7:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 2 })
-                                       break;
+//                                   case 7:
+//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+//                                                      { userId: profile.id, type: 2 })
+//                                       break;
 
-                                   case 8:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 3 })
-                                       break;
-                                   }
+//                                   case 8:
+//                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+//                                                      { userId: profile.id, type: 3 })
+//                                       break;
+//                                   }
                     }
                 }
             }
@@ -279,12 +278,6 @@ Page {
         onGotProfile: {
             if (profileId === user.id) {
                 profile = user
-                generateCountersModel()
-            }
-        }
-        onGotSelfProfile: {
-            if (profileId === vksdk.selfProfile.id) {
-                profile = vksdk.selfProfile
                 generateCountersModel()
             }
         }
