@@ -16,6 +16,7 @@ HEADERS += \
     $$PWD/src/requests/friends.h \
     $$PWD/src/requests/messages.h \
     $$PWD/src/requests/newsfeed.h \
+    $$PWD/src/requests/photos.h \
     $$PWD/src/requests/users.h \
 #    $$PWD/src/longpoll.h \
 #    $$PWD/src/requests/videos.h \
@@ -25,7 +26,6 @@ HEADERS += \
 #    $$PWD/src/objects/photo.h \
 #    $$PWD/src/objects/video.h \
 #    $$PWD/src/requests/likes.h \
-#    $$PWD/src/requests/photos.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -45,6 +45,7 @@ SOURCES += \
     $$PWD/src/requests/friends.cpp \
     $$PWD/src/requests/messages.cpp \
     $$PWD/src/requests/newsfeed.cpp \
+    $$PWD/src/requests/photos.cpp \
     $$PWD/src/requests/users.cpp \
 #    $$PWD/src/longpoll.cpp \
 #    $$PWD/src/requests/videos.cpp \
@@ -54,4 +55,3 @@ SOURCES += \
 #    $$PWD/src/objects/photo.cpp \
 #    $$PWD/src/objects/video.cpp \
 #    $$PWD/src/requests/likes.cpp \
-#    $$PWD/src/requests/photos.cpp

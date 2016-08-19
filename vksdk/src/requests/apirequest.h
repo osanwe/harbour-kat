@@ -33,6 +33,8 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QHttpMultiPart>
+#include <QObject>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QVariant>
@@ -64,6 +66,7 @@ public:
         PHOTOS_GET_WALL_UPLOAD_SERVER,
         PHOTOS_SAVE_MESSAGES_PHOTO,
         PHOTOS_SAVE_WALL_PHOTO,
+        PHOTOS_UPLOAD_TO_SERVER,
         USERS_GET,
         USERS_GET_FRIENDS,
         VIDEO_GET,
@@ -71,7 +74,7 @@ public:
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
-    void makePostRequest(QUrl url, QUrlQuery query, QByteArray body);
+    void makePostRequest(QUrl url, QUrlQuery *query, QHttpMultiPart *multipart, TaskType type);
 
     void setAccessToken(QString token);
 

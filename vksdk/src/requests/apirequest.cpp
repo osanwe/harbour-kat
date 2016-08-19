@@ -36,12 +36,14 @@ void ApiRequest::makeApiGetRequest(QString method, QUrlQuery *query, TaskType ty
     QUrl url(API_URL + method);
     url.setQuery(query->query());
     _history[url.toString()] = type;
+    qDebug() << url;
     _manager->get(QNetworkRequest(url));
 }
 
-void ApiRequest::makePostRequest(QUrl url, QUrlQuery query, QByteArray body) {
-    if (!query.isEmpty()) url.setQuery(query);
-    _manager->post(QNetworkRequest(url), body);
+void ApiRequest::makePostRequest(QUrl url, QUrlQuery *query, QHttpMultiPart *multipart, TaskType type) {
+    if (!query->isEmpty()) url.setQuery(query->query());
+    _history[url.toString()] = type;
+    _manager->post(QNetworkRequest(url), multipart);
 }
 
 void ApiRequest::setAccessToken(QString token) {
@@ -49,10 +51,11 @@ void ApiRequest::setAccessToken(QString token) {
 }
 
 void ApiRequest::finished(QNetworkReply *reply) {
-    QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
-    QJsonValue jObj = jDoc.object().value("response");
     QString requestedUrl = reply->url().toString();
     if (_history.contains(requestedUrl)) {
+        QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
+        QJsonValue jObj = jDoc.object().value("response");
+        if (_history[requestedUrl] == PHOTOS_UPLOAD_TO_SERVER) jObj = jDoc.object();
         emit gotResponse(jObj, _history[requestedUrl]);
         _history.remove(requestedUrl);
     }

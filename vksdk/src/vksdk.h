@@ -34,11 +34,11 @@
 #include "requests/friends.h"
 #include "requests/messages.h"
 #include "requests/newsfeed.h"
+#include "requests/photos.h"
 #include "requests/users.h"
 
 //#include "likes.h"
 //#include "longpoll.h"
-//#include "photos.h"
 //#include "videos.h"
 //#include "wall.h"
 //#include "objects/audio.h"
@@ -60,6 +60,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
+    Q_PROPERTY(Photos* photos READ photos CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
 
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
@@ -71,7 +72,6 @@ class VkSDK : public QObject
 
 //    Q_PROPERTY(Likes* likes READ likes CONSTANT)
 //    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
-//    Q_PROPERTY(Photos* photos READ photos CONSTANT)
 //    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 //    Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
@@ -87,6 +87,7 @@ public:
     Friends* friends() const;
     Messages* messages() const;
     Newsfeed* newsfeed() const;
+    Photos* photos() const;
     Users* users() const;
 
     DialogsListModel* dialogsListModel() const;
@@ -94,17 +95,19 @@ public:
     MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
 
+    Q_INVOKABLE void attachPhotoToMessage(QString path);
+
 //    User* selfProfile() const;
 
 //    Likes *likes() const;
 //    LongPoll* longPoll() const;
-//    Photos* photos() const;
 //    Videos* videos() const;
 //    Wall* wall() const;
 
 signals:
     void gotProfile(User *user);
     void gotUnreadCounter(int value);
+    void savedPhoto(QString name);
 //    void gotSelfProfile();
     //    void gotFriends(QVariant friends);
 //    void gotMessages(QVariant messages);
@@ -138,6 +141,7 @@ private:
     Friends *_friends;
     Messages *_messages;
     Newsfeed *_newsfeed;
+    Photos *_photos;
     Users *_users;
 
     DialogsListModel *_dialogsListModel;
@@ -145,6 +149,7 @@ private:
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
 
+    QString _pathToPhoto;
     QStringList _chatUsersIds;
     QStringList _usersIds;
     QStringList _chatsIds;
@@ -156,13 +161,15 @@ private:
     void parseLimitedFriendsList(QJsonArray array);
     void parseMessages(QJsonArray array);
     void parseNewsfeed(QJsonObject object);
+    void parseSavedPhotoData(QJsonArray array);
+    void parseUploadedPhotoData(QJsonObject object);
+    void parseUploadServerData(QJsonObject object);
     User* parseUserProfile(QJsonArray array);
 
 //    User *_selfProfile;
 
 //    Likes *_likes;
 //    LongPoll *_longPoll;
-//    Photos *_photos;
 //    Videos *_videos;
 //    Wall *_wall;
 

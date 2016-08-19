@@ -33,14 +33,17 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _friends = new Friends(this);
     _messages = new Messages(this);
     _newsfeed = new Newsfeed(this);
+    _photos = new Photos(this);
     _users = new Users(this);
     _friends->setApi(_api);
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
+    _photos->setApi(_api);
     _users->setApi(_api);
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
+    qRegisterMetaType<Photos*>("Photos*");
     qRegisterMetaType<Users*>("Users*");
 
     // objects:
@@ -58,7 +61,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
 //    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
-//    _photos = new Photos(this);
 //    _videos = new Videos(this);
 //    _wall = new Wall(this);
 
@@ -71,7 +73,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
 //    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
-//    qRegisterMetaType<Photos*>("Photos*");
 //    qRegisterMetaType<Videos*>("Videos*");
 //    qRegisterMetaType<Wall*>("Wall*");
 }
@@ -83,6 +84,7 @@ VkSDK::~VkSDK() {
     delete _friends;
     delete _messages;
     delete _newsfeed;
+    delete _photos;
     delete _users;
 
     delete _dialogsListModel;
@@ -94,7 +96,6 @@ VkSDK::~VkSDK() {
 
 //    delete _likes;
 //    delete _longPoll;
-//    delete _photos;
 //    delete _videos;
 //    delete _wall;
 }
@@ -117,6 +118,10 @@ Friends *VkSDK::friends() const {
 
 Messages *VkSDK::messages() const {
     return _messages;
+}
+
+Photos *VkSDK::photos() const {
+    return _photos;
 }
 
 Newsfeed *VkSDK::newsfeed() const {
@@ -143,6 +148,11 @@ NewsfeedModel* VkSDK::newsfeedModel() const {
     return _newsfeedModel;
 }
 
+void VkSDK::attachPhotoToMessage(QString path) {
+    _pathToPhoto = path;
+    _photos->getMessagesUploadServer();
+}
+
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::FRIENDS_GET:
@@ -160,6 +170,15 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::MESSAGES_GET_HISTORY:
         parseMessages(value.toObject().value("items").toArray());
+        break;
+    case ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER:
+        parseUploadServerData(value.toObject());
+        break;
+    case ApiRequest::PHOTOS_SAVE_MESSAGES_PHOTO:
+        parseSavedPhotoData(value.toArray());
+        break;
+    case ApiRequest::PHOTOS_UPLOAD_TO_SERVER:
+        parseUploadedPhotoData(value.toObject());
         break;
     case ApiRequest::NEWSFEED_GET:
         parseNewsfeed(value.toObject());
@@ -271,6 +290,26 @@ void VkSDK::parseNewsfeed(QJsonObject object) {
     _newsfeedModel->setNextFrom(nextFrom);
 }
 
+void VkSDK::parseSavedPhotoData(QJsonArray array) {
+    QJsonObject photo = array.at(0).toObject();
+    emit savedPhoto(QString("photo%1_%2").arg(QString::number(photo.value("owner_id").toInt()))
+                                         .arg(QString::number(photo.value("id").toInt())));
+}
+
+void VkSDK::parseUploadedPhotoData(QJsonObject object) {
+    QString server = QString::number(object.value("server").toInt());
+    QString photo = object.value("photo").toString();
+    QString hash = object.value("hash").toString();
+    _photos->saveMessagesPhoto(photo, server, hash);
+}
+
+void VkSDK::parseUploadServerData(QJsonObject object) {
+    QString uploadUrl = object.value("upload_url").toString();
+    QString albumId = QString::number(object.value("album_id").toInt());
+    QString userId = QString::number(object.value("user_id").toInt());
+    _photos->uploadPhotoToServer(uploadUrl, albumId, userId, _pathToPhoto);
+}
+
 User *VkSDK::parseUserProfile(QJsonArray array) {
     return array.size() == 1 ? User::fromJsonObject(array.at(0).toObject()) : new User();
 }
@@ -286,11 +325,6 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
 
 //LongPoll *VkSDK::longPoll() const {
 //    return _longPoll;
-//}
-
-//Photos *VkSDK::photos() const
-//{
-//    return _photos;
 //}
 
 //Videos *VkSDK::videos() const
