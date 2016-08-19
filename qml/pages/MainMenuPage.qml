@@ -57,7 +57,8 @@ Page {
         case 0: // Self profile page
             pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: settings.userId() })
             break
-        case 1:
+        case 1: // Newsfeed page
+            pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
             break
         case 2: // Dialogs page
             pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))

@@ -8,10 +8,10 @@
 #include <QStringList>
 #include <QVariant>
 
-#include "audio.h"
-#include "document.h"
-#include "photo.h"
-#include "video.h"
+//#include "audio.h"
+//#include "document.h"
+//#include "photo.h"
+//#include "video.h"
 
 #include <QDebug>
 
@@ -32,10 +32,10 @@ class News : public QObject
     Q_PROPERTY(QString text READ text CONSTANT)
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
-    Q_PROPERTY(QVariant audios READ audios CONSTANT)
-    Q_PROPERTY(QVariant documents READ documents CONSTANT)
-    Q_PROPERTY(QVariant photos READ photos CONSTANT)
-    Q_PROPERTY(QVariant videos READ videos CONSTANT)
+//    Q_PROPERTY(QVariant audios READ audios CONSTANT)
+//    Q_PROPERTY(QVariant documents READ documents CONSTANT)
+//    Q_PROPERTY(QVariant photos READ photos CONSTANT)
+//    Q_PROPERTY(QVariant videos READ videos CONSTANT)
     Q_PROPERTY(QString copyText READ copyText CONSTANT)
     Q_PROPERTY(News* repost READ repost CONSTANT)
 
@@ -69,21 +69,21 @@ public:
     QString geoMap() const;
     void setGeoMap(double lat, double lon);
 
-    QVariant audios() const;
-    QList<QObject *> audiosList() const;
-    void addAudio(Audio *audio);
+//    QVariant audios() const;
+//    QList<QObject *> audiosList() const;
+//    void addAudio(Audio *audio);
 
-    QVariant documents() const;
-    QList<QObject *> documentsList() const;
-    void addDocument(Document *document);
+//    QVariant documents() const;
+//    QList<QObject *> documentsList() const;
+//    void addDocument(Document *document);
 
-    QVariant photos() const;
-    QList<QObject *> photosList() const;
-    void addPhoto(Photo *photo);
+//    QVariant photos() const;
+//    QList<QObject *> photosList() const;
+//    void addPhoto(Photo *photo);
 
-    QVariant videos() const;
-    QList<QObject *> videosList() const;
-    void addVideo(Video *video);
+//    QVariant videos() const;
+//    QList<QObject *> videosList() const;
+//    void addVideo(Video *video);
 
     QString copyText() const;
     void setCopyText(const QString &copyText);
@@ -120,10 +120,10 @@ private:
     QString _text;
     QString _geoTile;
     QString _geoMap;
-    QList<QObject*> _audios;
-    QList<QObject*> _documents;
-    QList<QObject*> _photos;
-    QList<QObject*> _videos;
+//    QList<QObject*> _audios;
+//    QList<QObject*> _documents;
+//    QList<QObject*> _photos;
+//    QList<QObject*> _videos;
     QString _copyText;
     QJsonObject _repost;
 };

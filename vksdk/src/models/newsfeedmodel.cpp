@@ -3,9 +3,6 @@
 NewsfeedModel::NewsfeedModel(QObject *parent) : QAbstractListModel(parent)
 {}
 
-NewsfeedModel::~NewsfeedModel()
-{}
-
 int NewsfeedModel::rowCount(const QModelIndex &parent) const {
     if (parent.isValid()) return 0;
     return _newsfeed.size();
@@ -103,8 +100,23 @@ Qt::ItemFlags NewsfeedModel::flags(const QModelIndex &index) const {
     return QAbstractListModel::flags(index) | Qt::ItemIsEnabled;
 }
 
+void NewsfeedModel::clear() {
+    beginRemoveRows(QModelIndex(), 0, _newsfeed.size());
+    _newsfeed.clear();
+    _profiles.clear();
+    _groups.clear();
+    _nextFrom.clear();
+    endRemoveRows();
+
+    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
+    emit dataChanged(index, index);
+}
+
 void NewsfeedModel::addGroup(Group *group) {
-    _groups.append(group);
+    if (_groups.contains(group->id())) return;
+
+    _groups[group->id()] = group;
+
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
 }
@@ -113,12 +125,16 @@ void NewsfeedModel::addNews(News *news) {
     beginInsertRows(QModelIndex(), _newsfeed.size(), _newsfeed.size());
     _newsfeed.append(news);
     endInsertRows();
+
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
 }
 
 void NewsfeedModel::addUser(User *user) {
-    _profiles.append(user);
+    if (_profiles.contains(user->id())) return;
+
+    _profiles[user->id()] = user;
+
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
 }
@@ -137,18 +153,23 @@ QString NewsfeedModel::next() const {
 
 QString NewsfeedModel::_getAvatarSource(const int id) const {
     if (id > 0) {
-        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
+//        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
+        if (_profiles.contains(id)) return _profiles[id]->photo50();
     } else if (id < 0) {
-        foreach (Group *group, _groups) if (id == group->id()) return group->photo50();
+//        foreach (Group *group, _groups) if (id == group->id()) return group->photo50();
+        if (_groups.contains(id)) return _groups[id]->photo50();
     }
     return "image://theme/icon-m-person";
 }
 
 QString NewsfeedModel::_getTitle(const int id) const {
     if (id > 0) {
-        foreach (User *user, _profiles) if (id == user->id()) return QString("%1 %2").arg(user->firstName()).arg(user->lastName());
+        if (_profiles.contains(id))
+            return QString("%1 %2").arg(_profiles[id]->firstName()).arg(_profiles[id]->lastName());
+//        foreach (User *user, _profiles) if (id == user->id()) return QString("%1 %2").arg(user->firstName()).arg(user->lastName());
     } else if (id < 0) {
-        foreach (Group *group, _groups) if (id == group->id()) return group->name();
+        if (_groups.contains(id)) return _groups[id]->name();
+//        foreach (Group *group, _groups) if (id == group->id()) return group->name();
     }
     return "";
 }

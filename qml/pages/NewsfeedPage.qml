@@ -93,20 +93,20 @@ Page {
                 }
             }
 
-            menu: ContextMenu {
+//            menu: ContextMenu {
 
-                MenuItem {
-                    text: qsTr("Like")
-                    onClicked: {
-                        vksdk.likes.addPost(sourceId, postId)
-                        isLiked = true
-                        likesCount += 1
-                    }
-                }
-            }
+//                MenuItem {
+//                    text: qsTr("Like")
+//                    onClicked: {
+//                        vksdk.likes.addPost(sourceId, postId)
+//                        isLiked = true
+//                        likesCount += 1
+//                    }
+//                }
+//            }
 
-            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
-                                          { name: title, wallpost: wallpost })
+//            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
+//                                          { name: title, wallpost: wallpost })
 
             Component.onCompleted: {
                 if (index === vksdk.newsfeedModel.size-1) vksdk.newsfeed.get(vksdk.newsfeedModel.next)
@@ -116,6 +116,9 @@ Page {
         VerticalScrollDecorator {}
     }
 
-    Component.onCompleted: vksdk.newsfeed.get()
+    Component.onCompleted: {
+        vksdk.newsfeedModel.clear()
+        vksdk.newsfeed.get()
+    }
 }
 

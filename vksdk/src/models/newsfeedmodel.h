@@ -2,14 +2,14 @@
 #define NEWSFEEDMODEL_H
 
 #include <QAbstractListModel>
-#include <QObject>
-#include <QList>
+//#include <QObject>
+//#include <QList>
 
 #include "../objects/group.h"
 #include "../objects/news.h"
 #include "../objects/user.h"
 
-#include <QDebug>
+//#include <QDebug>
 
 class NewsfeedModel : public QAbstractListModel
 {
@@ -36,7 +36,6 @@ public:
     };
 
     explicit NewsfeedModel(QObject *parent = 0);
-    ~NewsfeedModel();
 
     virtual int rowCount(const QModelIndex &parent) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
@@ -44,6 +43,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    Q_INVOKABLE void clear();
     Q_INVOKABLE void addGroup(Group *group);
     Q_INVOKABLE void addNews(News *news);
     Q_INVOKABLE void addUser(User *user);
@@ -54,8 +54,10 @@ public:
 
 private:
     QList<News *> _newsfeed;
-    QList<User *> _profiles;
-    QList<Group *> _groups;
+    QHash<int, User*> _profiles;
+    QHash<int, Group*> _groups;
+//    QList<User *> _profiles;
+//    QList<Group *> _groups;
     QString _nextFrom;
 
     QString _getAvatarSource(const int id) const;

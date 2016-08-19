@@ -17,12 +17,12 @@ HEADERS += \
 #    $$PWD/src/requests/wall.h \
 #    $$PWD/src/objects/audio.h \
 #    $$PWD/src/objects/document.h \
-#    $$PWD/src/objects/news.h \
+    $$PWD/src/objects/news.h \
 #    $$PWD/src/objects/photo.h \
 #    $$PWD/src/objects/video.h \
-#    $$PWD/src/requests/newsfeed.h \
-#    $$PWD/src/models/newsfeedmodel.h \
-#    $$PWD/src/objects/group.h \
+    $$PWD/src/requests/newsfeed.h \
+    $$PWD/src/models/newsfeedmodel.h \
+    $$PWD/src/objects/group.h \
 #    $$PWD/src/requests/likes.h \
 #    $$PWD/src/models/messagesmodel.h \
 #    $$PWD/src/requests/photos.h
@@ -46,12 +46,12 @@ SOURCES += \
 #    $$PWD/src/requests/wall.cpp \
 #    $$PWD/src/objects/audio.cpp \
 #    $$PWD/src/objects/document.cpp \
-#    $$PWD/src/objects/news.cpp \
+    $$PWD/src/objects/news.cpp \
 #    $$PWD/src/objects/photo.cpp \
 #    $$PWD/src/objects/video.cpp \
-#    $$PWD/src/requests/newsfeed.cpp \
-#    $$PWD/src/models/newsfeedmodel.cpp \
-#    $$PWD/src/objects/group.cpp \
+    $$PWD/src/requests/newsfeed.cpp \
+    $$PWD/src/models/newsfeedmodel.cpp \
+    $$PWD/src/objects/group.cpp \
 #    $$PWD/src/requests/likes.cpp \
 #    $$PWD/src/models/messagesmodel.cpp \
 #    $$PWD/src/requests/photos.cpp

@@ -32,12 +32,15 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     // requests:
     _friends = new Friends(this);
     _messages = new Messages(this);
+    _newsfeed = new Newsfeed(this);
     _users = new Users(this);
     _friends->setApi(_api);
     _messages->setApi(_api);
+    _newsfeed->setApi(_api);
     _users->setApi(_api);
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Messages*>("Messages*");
+    qRegisterMetaType<Newsfeed*>("Newsfeed*");
     qRegisterMetaType<Users*>("Users*");
 
     // objects:
@@ -46,18 +49,18 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     //models:
     _dialogsListModel = new DialogsListModel(this);
     _friendsListModel = new FriendsListModel(this);
+    _newsfeedModel = new NewsfeedModel(this);
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
+    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
 //    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
-//    _newsfeed = new Newsfeed(this);
 //    _photos = new Photos(this);
 //    _videos = new Videos(this);
 //    _wall = new Wall(this);
 
 //    _messagesModel = new MessagesModel(this);
-//    _newsfeedModel = new NewsfeedModel(this);
 
 //    qRegisterMetaType<Audio*>("Audio*");
 //    qRegisterMetaType<Document*>("Document*");
@@ -67,11 +70,9 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<Video*>("Video*");
 
 //    qRegisterMetaType<MessagesModel*>("MessagesModel*");
-//    qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
 //    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
-//    qRegisterMetaType<Newsfeed*>("Newsfeed*");
 //    qRegisterMetaType<Photos*>("Photos*");
 //    qRegisterMetaType<Videos*>("Videos*");
 //    qRegisterMetaType<Wall*>("Wall*");
@@ -83,22 +84,22 @@ VkSDK::~VkSDK() {
 
     delete _friends;
     delete _messages;
+    delete _newsfeed;
     delete _users;
 
     delete _dialogsListModel;
     delete _friendsListModel;
+    delete _newsfeedModel;
 
 //    delete _selfProfile;
 
 //    delete _likes;
 //    delete _longPoll;
-//    delete _newsfeed;
 //    delete _photos;
 //    delete _videos;
 //    delete _wall;
 
 //    delete _messagesModel;
-//    delete _newsfeedModel;
 }
 
 void VkSDK::setAccessTocken(QString value) {
@@ -121,6 +122,10 @@ Messages *VkSDK::messages() const {
     return _messages;
 }
 
+Newsfeed *VkSDK::newsfeed() const {
+    return _newsfeed;
+}
+
 Users *VkSDK::users() const {
     return _users;
 }
@@ -131,6 +136,10 @@ DialogsListModel *VkSDK::dialogsListModel() const {
 
 FriendsListModel *VkSDK::friendsListModel() const {
     return _friendsListModel;
+}
+
+NewsfeedModel* VkSDK::newsfeedModel() const {
+    return _newsfeedModel;
 }
 
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
@@ -147,6 +156,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::MESSAGES_GET_DIALOGS:
         parseDialogsInfo(value.toObject());
+        break;
+    case ApiRequest::NEWSFEED_GET:
+        parseNewsfeed(value.toObject());
         break;
     case ApiRequest::USERS_GET:
         emit gotProfile(parseUserProfile(value.toArray()));
@@ -215,6 +227,26 @@ void VkSDK::parseLimitedFriendsList(QJsonArray array) {
     _users->getUsersByIds(ids);
 }
 
+void VkSDK::parseNewsfeed(QJsonObject object) {
+    QJsonArray posts = object.value("items").toArray();
+    QJsonArray profiles = object.value("profiles").toArray();
+    QJsonArray groups = object.value("groups").toArray();
+    QString nextFrom = object.value("next_from").toString();
+    for (int index = 0; index < posts.size(); ++index) {
+        News *post = News::fromJsonObject(posts.at(index).toObject());
+        _newsfeedModel->addNews(post);
+    }
+    for (int index = 0; index < profiles.size(); ++index) {
+        User *profile = User::fromJsonObject(profiles.at(index).toObject());
+        _newsfeedModel->addUser(profile);
+    }
+    for (int index = 0; index < groups.size(); ++index) {
+        Group *group = Group::fromJsonObject(groups.at(index).toObject());
+        _newsfeedModel->addGroup(group);
+    }
+    _newsfeedModel->setNextFrom(nextFrom);
+}
+
 User *VkSDK::parseUserProfile(QJsonArray array) {
     return array.size() == 1 ? User::fromJsonObject(array.at(0).toObject()) : new User();
 }
@@ -230,10 +262,6 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
 
 //LongPoll *VkSDK::longPoll() const {
 //    return _longPoll;
-//}
-
-//Newsfeed *VkSDK::newsfeed() const {
-//    return _newsfeed;
 //}
 
 //Photos *VkSDK::photos() const
@@ -253,10 +281,6 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
 
 //MessagesModel *VkSDK::messagesModel() const {
 //    return _messagesModel;
-//}
-
-//NewsfeedModel* VkSDK::newsfeedModel() const {
-//    return _newsfeedModel;
 //}
 
 //void VkSDK::gotFriendsList(QList<QObject *> friendsList) {

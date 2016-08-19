@@ -28,19 +28,19 @@
 #include "objects/user.h"
 #include "models/dialogslistmodel.h"
 #include "models/friendslistmodel.h"
+#include "models/newsfeedmodel.h"
 #include "requests/apirequest.h"
 #include "requests/friends.h"
 #include "requests/messages.h"
+#include "requests/newsfeed.h"
 #include "requests/users.h"
 
 //#include "likes.h"
 //#include "longpoll.h"
-//#include "newsfeed.h"
 //#include "photos.h"
 //#include "videos.h"
 //#include "wall.h"
 //#include "models/messagesmodel.h"
-//#include "models/newsfeedmodel.h"
 //#include "objects/audio.h"
 //#include "objects/chat.h"
 //#include "objects/dialog.h"
@@ -59,22 +59,22 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
+    Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
 
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
     Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
+    Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
 //    Q_PROPERTY(Likes* likes READ likes CONSTANT)
 //    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
-//    Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
 //    Q_PROPERTY(Photos* photos READ photos CONSTANT)
 //    Q_PROPERTY(Videos* videos READ videos CONSTANT)
 //    Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
 //    Q_PROPERTY(MessagesModel* messagesModel READ messagesModel)
-//    Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel)
 
 public:
     explicit VkSDK(QObject *parent = 0);
@@ -87,22 +87,22 @@ public:
 
     Friends* friends() const;
     Messages* messages() const;
+    Newsfeed* newsfeed() const;
     Users* users() const;
 
     DialogsListModel* dialogsListModel() const;
     FriendsListModel* friendsListModel() const;
+    NewsfeedModel* newsfeedModel() const;
 
 //    User* selfProfile() const;
 
 //    Likes *likes() const;
 //    LongPoll* longPoll() const;
-//    Newsfeed* newsfeed() const;
 //    Photos* photos() const;
 //    Videos* videos() const;
 //    Wall* wall() const;
 
 //    MessagesModel* messagesModel() const;
-//    NewsfeedModel* newsfeedModel() const;
 
 signals:
     void gotProfile(User *user);
@@ -139,10 +139,12 @@ private:
 
     Friends *_friends;
     Messages *_messages;
+    Newsfeed *_newsfeed;
     Users *_users;
 
     DialogsListModel *_dialogsListModel;
     FriendsListModel *_friendsListModel;
+    NewsfeedModel *_newsfeedModel;
 
     QStringList _usersIds;
     QStringList _chatsIds;
@@ -152,19 +154,18 @@ private:
     void parseEntireFriendsList(QJsonArray array);
     void parseFriendsInfo(QJsonArray array);
     void parseLimitedFriendsList(QJsonArray array);
+    void parseNewsfeed(QJsonObject object);
     User* parseUserProfile(QJsonArray array);
 
 //    User *_selfProfile;
 
 //    Likes *_likes;
 //    LongPoll *_longPoll;
-//    Newsfeed *_newsfeed;
 //    Photos *_photos;
 //    Videos *_videos;
 //    Wall *_wall;
 
 //    MessagesModel *_messagesModel;
-//    NewsfeedModel *_newsfeedModel;
 
 //    QStringList _chatUsersIds;
 //    QList<QObject*> _dialogs;
