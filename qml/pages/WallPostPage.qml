@@ -38,7 +38,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Like")
-                onClicked: vksdk.likes(sourceId, id)
+                onClicked: vksdk.likes.addPost(wallpost.sourceId, wallpost.id)
             }
         }
 

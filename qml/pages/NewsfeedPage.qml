@@ -93,17 +93,17 @@ Page {
                 }
             }
 
-//            menu: ContextMenu {
+            menu: ContextMenu {
 
-//                MenuItem {
-//                    text: qsTr("Like")
-//                    onClicked: {
-//                        vksdk.likes.addPost(sourceId, postId)
-//                        isLiked = true
-//                        likesCount += 1
-//                    }
-//                }
-//            }
+                MenuItem {
+                    text: qsTr("Like")
+                    onClicked: {
+                        vksdk.likes.addPost(sourceId, postId)
+                        isLiked = true
+                        likesCount += 1
+                    }
+                }
+            }
 
             onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
                                           { name: title, wallpost: wallpost })

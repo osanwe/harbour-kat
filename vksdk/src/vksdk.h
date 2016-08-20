@@ -34,6 +34,7 @@
 #include "models/newsfeedmodel.h"
 #include "requests/apirequest.h"
 #include "requests/friends.h"
+#include "requests/likes.h"
 #include "requests/messages.h"
 #include "requests/newsfeed.h"
 #include "requests/photos.h"
@@ -41,7 +42,6 @@
 #include "requests/videos.h"
 #include "requests/wall.h"
 
-//#include "likes.h"
 //#include "longpoll.h"
 //#include "objects/audio.h"
 //#include "objects/chat.h"
@@ -58,6 +58,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
 
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
+    Q_PROPERTY(Likes* likes READ likes CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
     Q_PROPERTY(Photos* photos READ photos CONSTANT)
@@ -72,7 +73,6 @@ class VkSDK : public QObject
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
-//    Q_PROPERTY(Likes* likes READ likes CONSTANT)
 //    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 
 public:
@@ -85,6 +85,7 @@ public:
     Authorization *auth() const;
 
     Friends* friends() const;
+    Likes *likes() const;
     Messages* messages() const;
     Newsfeed* newsfeed() const;
     Photos* photos() const;
@@ -101,7 +102,6 @@ public:
 
 //    User* selfProfile() const;
 
-//    Likes *likes() const;
 //    LongPoll* longPoll() const;
 
 signals:
@@ -139,6 +139,7 @@ private:
     Authorization *_auth;
 
     Friends *_friends;
+    Likes *_likes;
     Messages *_messages;
     Newsfeed *_newsfeed;
     Photos *_photos;
@@ -172,7 +173,6 @@ private:
 
 //    User *_selfProfile;
 
-//    Likes *_likes;
 //    LongPoll *_longPoll;
 
 //    QList<QObject*> _dialogs;

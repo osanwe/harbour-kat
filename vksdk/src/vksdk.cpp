@@ -31,6 +31,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
     // requests:
     _friends = new Friends(this);
+    _likes = new Likes(this);
     _messages = new Messages(this);
     _newsfeed = new Newsfeed(this);
     _photos = new Photos(this);
@@ -38,6 +39,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos = new Videos(this);
     _wall = new Wall(this);
     _friends->setApi(_api);
+    _likes->setApi(_api);
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
     _photos->setApi(_api);
@@ -45,6 +47,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos->setApi(_api);
     _wall->setApi(_api);
     qRegisterMetaType<Friends*>("Friends*");
+    qRegisterMetaType<Likes*>("Likes*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
     qRegisterMetaType<Photos*>("Photos*");
@@ -66,7 +69,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<MessagesModel*>("MessagesModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
-//    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
 
 //    qRegisterMetaType<Audio*>("Audio*");
@@ -75,7 +77,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<Friend*>("Friend*");
 //    qRegisterMetaType<Video*>("Video*");
 
-//    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
 }
 
@@ -84,6 +85,7 @@ VkSDK::~VkSDK() {
     delete _auth;
 
     delete _friends;
+    delete _likes;
     delete _messages;
     delete _newsfeed;
     delete _photos;
@@ -98,7 +100,6 @@ VkSDK::~VkSDK() {
 
 //    delete _selfProfile;
 
-//    delete _likes;
 //    delete _longPoll;
 }
 
@@ -116,6 +117,10 @@ Authorization *VkSDK::auth() const {
 
 Friends *VkSDK::friends() const {
     return _friends;
+}
+
+Likes *VkSDK::likes() const {
+    return _likes;
 }
 
 Messages *VkSDK::messages() const {
@@ -340,11 +345,6 @@ News *VkSDK::parseWallpost(QJsonArray array) {
 
 //User *VkSDK::selfProfile() const {
 //    return _selfProfile;
-//}
-
-//Likes *VkSDK::likes() const
-//{
-//    return _likes;
 //}
 
 //LongPoll *VkSDK::longPoll() const {
