@@ -95,8 +95,8 @@ Page {
 
                     MouseArea {
                         anchors.fill: parent
-//                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
-//                                                  { imagesModel: [profile.photoMaxOrig] })
+                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
+                                                  { imagesModel: [profile.photoMaxOrig] })
                     }
                 }
 
@@ -276,6 +276,10 @@ Page {
         }
     }
 
-    Component.onCompleted: vksdk.users.getUserProfile(profileId)
+    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+
+    Component.onCompleted: {
+        vksdk.users.getUserProfile(profileId)
+    }
 }
 

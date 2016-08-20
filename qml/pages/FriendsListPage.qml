@@ -55,6 +55,7 @@ Page {
     }
 
     onStatusChanged: if (status === PageStatus.Active) {
+                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                          vksdk.friendsListModel.clear()
                          switch (type) {
                          case 1:

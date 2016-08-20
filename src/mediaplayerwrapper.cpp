@@ -16,6 +16,7 @@ MediaPlayerWrapper::~MediaPlayerWrapper() {
 
 void MediaPlayerWrapper::setPlaylist(QVariantList audios, int index) {
     _audios.clear();
+    _model->clear();
     QMediaPlaylist *_playlist = new QMediaPlaylist();
     foreach (QVariant audio, audios) {
         Audio *_audio = (Audio*)audio.value<QObject*>();
@@ -58,6 +59,7 @@ qint64 MediaPlayerWrapper::position() {
 }
 
 int MediaPlayerWrapper::currentIndex() const {
+    if (_player->playlist() == NULL) return -1;
     return _player->playlist()->currentIndex();
 }
 
@@ -66,17 +68,17 @@ int MediaPlayerWrapper::size() const {
 }
 
 qint64 MediaPlayerWrapper::duration() {
-    if (_player->playlist()->isEmpty()) return 0;
+    if (_player->playlist() == NULL) return 0;
     return _audios.at(_player->playlist()->currentIndex())->duration();
 }
 
 QString MediaPlayerWrapper::author() {
-    if (_player->playlist()->isEmpty()) return "";
+    if (_player->playlist() == NULL) return "";
     return _audios.at(_player->playlist()->currentIndex())->artist();
 }
 
 QString MediaPlayerWrapper::title() {
-    if (_player->playlist()->isEmpty()) return "";
+    if (_player->playlist() == NULL) return "";
     return _audios.at(_player->playlist()->currentIndex())->title();
 }
 

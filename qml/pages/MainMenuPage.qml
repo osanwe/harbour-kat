@@ -183,6 +183,8 @@ Page {
         onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
     }
 
+    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+
     Component.onCompleted: init()
 }
 

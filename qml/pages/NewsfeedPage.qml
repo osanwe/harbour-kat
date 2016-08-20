@@ -116,6 +116,8 @@ Page {
         VerticalScrollDecorator {}
     }
 
+    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+
     Component.onCompleted: {
         vksdk.newsfeedModel.clear()
         vksdk.newsfeed.get()
