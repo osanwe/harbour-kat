@@ -1,28 +1,24 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Column {
+Row {
+    spacing: Theme.paddingMedium
 
-    spacing: Theme.paddingLarge
+    Rectangle {
+        width: 1
+        height: repost.height
+        color: Theme.primaryColor
+    }
 
-            Row {
-                width: content.width
-                spacing: Theme.paddingMedium
+    Loader {
+        id: repost
+        property var _wallpost: rwallpost
+        property var _repost: rwallpost.repost
+        width: parent.width - Theme.paddingMedium
+        active: rwallpost.id !== 0
+        source: "WallPostView.qml"
+    }
 
-                Rectangle {
-                    width: 1
-                    height: repost.height
-                    color: Theme.primaryColor
-                }
-
-                Loader {
-                    id: repost
-                    property var _wallpost: rwallpost
-                    property var _repost: rwallpost.repost
-                    width: parent.width - Theme.paddingMedium
-                    active: rwallpost.id !== 0
-                    source: "WallPostView.qml"
-                }
-            }
+    Component.onCompleted: console.log(rwallpost.id)
 }
 

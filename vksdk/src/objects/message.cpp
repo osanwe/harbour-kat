@@ -49,7 +49,6 @@ Message *Message::fromJsonObject(QJsonObject object) {
     if (object.contains("attachments")) {
         message->setHasAttachments(true);
         QJsonArray attachments = object.value("attachments").toArray();
-        qDebug() << attachments;
         for (int index = 0; index < attachments.size(); ++index) {
             QJsonObject attachment = attachments.at(index).toObject();
             if (attachment.value("type").toString() == "gift") {

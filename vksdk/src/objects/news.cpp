@@ -9,7 +9,8 @@ News::~News()
 News *News::fromJsonObject(QJsonObject object) {
 //    qDebug() << object;
     News *news = new News();
-    if (object.contains("post_id")) news->setId(object.value("post_id").toInt());
+//    if (object.contains("post_id")) news->setId(object.value("post_id").toInt());
+    if (object.contains("id")) news->setId(object.value("id").toInt());
     if (object.contains("source_id")) news->setSourceId(object.value("source_id").toInt());
     if (object.contains("to_id")) news->setToId(object.value("to_id").toInt());
     if (object.contains("from_id")) news->setFromId(object.value("from_id").toInt());

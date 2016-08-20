@@ -78,12 +78,12 @@ Column {
     }
 
     Loader {
-        property var rwallpost: _wallpost.repost
+        property var rwallpost: _repost
         width: parent.width - Theme.paddingSmall
-        active: _repost !== 0
+        active: _repost.id !== 0
         source: "RepostView.qml"
     }
 
-//    Component.onCompleted: console.log(_wallpost.photos, _wallpost.photos.length)
+    Component.onCompleted: console.log(_wallpost.repost.id)
 }
 
