@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import org.nemomobile.notifications 1.0
 
 ApplicationWindow
 {
@@ -44,6 +45,28 @@ ApplicationWindow
             return Qt.createComponent(Qt.resolvedUrl("pages/MainMenuPage.qml"))
         } else {
             return Qt.createComponent(Qt.resolvedUrl("pages/LoginPage.qml"))
+        }
+    }
+
+    Notification {
+        id: commonNotification
+        category: "harbour-kat"
+        remoteActions: [
+            { "name":    "default",
+              "service": "nothing",
+              "path":    "nothing",
+              "iface":   "nothing",
+              "method":  "nothing" }
+        ]
+    }
+
+    Connections {
+        target: vksdk
+        onGotNewMessage: {
+            commonNotification.body = preview
+            commonNotification.previewBody = preview
+            commonNotification.close()
+            commonNotification.publish()
         }
     }
 }

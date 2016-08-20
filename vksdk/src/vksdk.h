@@ -104,6 +104,7 @@ public:
 //    User* selfProfile() const;
 
 signals:
+    void gotNewMessage(QString preview);
     void gotProfile(User *user);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
@@ -116,6 +117,7 @@ signals:
 
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);
+    void _gotNewMessage(int id);
 
 //    void gotDialogList(QList<Dialog*> dialogsList);
 //    void gotFriendsList(QList<QObject*> friendsList);
@@ -163,6 +165,7 @@ private:
     void parseFriendsInfo(QJsonArray array);
     void parseLimitedFriendsList(QJsonArray array);
     void parseMessages(QJsonArray array);
+    void parseNewMessage(QJsonObject object);
     void parseNewsfeed(QJsonObject object);
     void parseSavedPhotoData(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);

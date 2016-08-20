@@ -90,15 +90,7 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
         qDebug() << update;
         switch (update.at(0).toInt()) {
         case 4:
-//            qDebug() << "--------------";
-//            qDebug() << "The message was sent";
-//            qDebug() << "\tflags:" << update.at(1).toInt();
-//            qDebug() << "\tfrom:" << update.at(2).toInt();
-//            qDebug() << "\ttimestamp:" << update.at(3).toInt();
-//            qDebug() << "\tsubject" << update.at(4).toString();
-//            qDebug() << "\ttext:" << update.at(5).toString();
-//            qDebug() << "\tattachments:" << update.at(6).toArray();
-//            qDebug() << "--------------";
+            emit gotNewMessage(update.at(1).toInt());
             break;
 
         case 6:

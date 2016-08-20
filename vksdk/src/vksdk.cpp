@@ -29,8 +29,10 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_api, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
 
-    // requests:
     _longPoll = new LongPoll(this);
+    connect(_longPoll, SIGNAL(gotNewMessage(int)), this, SLOT(_gotNewMessage(int)));
+
+    // requests:
     _friends = new Friends(this);
     _likes = new Likes(this);
     _messages = new Messages(this);
@@ -181,6 +183,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::FRIENDS_GET_ONLINE:
         parseLimitedFriendsList(value.toArray());
         break;
+    case ApiRequest::MESSAGES_GET_BY_ID:
+        parseNewMessage(value.toObject().value("items").toArray().at(0).toObject());
+        break;
     case ApiRequest::MESSAGES_GET_CHAT:
         parseChatsInfo(value.toArray());
         break;
@@ -217,6 +222,10 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     default:
         break;
     }
+}
+
+void VkSDK::_gotNewMessage(int id) {
+    _messages->getById(id);
 }
 
 void VkSDK::parseChatsInfo(QJsonArray array) {
@@ -293,6 +302,15 @@ void VkSDK::parseMessages(QJsonArray array) {
     };
     _chatUsersIds.removeDuplicates();
     _users->getUsersByIds(_chatUsersIds);
+}
+
+void VkSDK::parseNewMessage(QJsonObject object) {
+    Message *message = Message::fromJsonObject(object);
+    // Show notification
+    QString preview = message->hasAttachments() ? "[ 📎 ] " : "" + message->body();
+    emit gotNewMessage(preview);
+    // Update dialogs
+    // Update chat
 }
 
 void VkSDK::parseNewsfeed(QJsonObject object) {

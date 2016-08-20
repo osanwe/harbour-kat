@@ -31,6 +31,12 @@ void Messages::setApi(ApiRequest *api) {
     _api = api;
 }
 
+void Messages::getById(int id) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("message_ids", QString::number(id));
+    _api->makeApiGetRequest("messages.getById", query, ApiRequest::MESSAGES_GET_BY_ID);
+}
+
 void Messages::getChat(QStringList ids) {
     QUrlQuery *query = new QUrlQuery();
     if (ids.size() == 1) query->addQueryItem("chat_id", ids.at(0));

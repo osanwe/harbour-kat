@@ -48,6 +48,7 @@ public:
     Q_INVOKABLE void getLongPollServer();
 
 signals:
+    void gotNewMessage(int id);
     void unreadDialogsCounterUpdated(int value);
 
 public slots:

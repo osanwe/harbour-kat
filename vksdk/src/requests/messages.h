@@ -51,6 +51,7 @@ public:
 //    void setAccessToken(QString value);
     void setApi(ApiRequest *api);
 
+    Q_INVOKABLE void getById(int id);
     Q_INVOKABLE void getChat(QStringList ids);
     Q_INVOKABLE void getDialogs(int offset = 0);
     Q_INVOKABLE void getHistory(int peerId, int offset = 0);
