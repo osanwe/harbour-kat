@@ -312,11 +312,12 @@ void VkSDK::parseMessages(QJsonArray array) {
 
 void VkSDK::parseNewMessage(QJsonObject object) {
     Message *message = Message::fromJsonObject(object);
-    // Show notification
-    _messagePreview = (message->hasAttachments() ? "[ 📎 ] " : "") + message->body();
-    _users->getUserProfile(message->userId());
     // Update dialogs
     // Update chat
+    // Show notification
+    if (message->out()) return;
+    _messagePreview = (message->hasAttachments() ? "[ 📎 ] " : "") + message->body();
+    _users->getUserProfile(message->userId());
 }
 
 void VkSDK::parseNewsfeed(QJsonObject object) {
