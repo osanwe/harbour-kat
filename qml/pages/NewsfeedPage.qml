@@ -105,8 +105,8 @@ Page {
 //                }
 //            }
 
-//            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
-//                                          { name: title, wallpost: wallpost })
+            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
+                                          { name: title, wallpost: wallpost })
 
             Component.onCompleted: {
                 if (index === vksdk.newsfeedModel.size-1) vksdk.newsfeed.get(vksdk.newsfeedModel.next)

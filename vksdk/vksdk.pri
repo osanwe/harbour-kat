@@ -18,9 +18,9 @@ HEADERS += \
     $$PWD/src/requests/newsfeed.h \
     $$PWD/src/requests/photos.h \
     $$PWD/src/requests/users.h \
+    $$PWD/src/requests/wall.h \
 #    $$PWD/src/longpoll.h \
 #    $$PWD/src/requests/videos.h \
-#    $$PWD/src/requests/wall.h \
 #    $$PWD/src/objects/audio.h \
 #    $$PWD/src/objects/document.h \
 #    $$PWD/src/objects/photo.h \
@@ -47,9 +47,9 @@ SOURCES += \
     $$PWD/src/requests/newsfeed.cpp \
     $$PWD/src/requests/photos.cpp \
     $$PWD/src/requests/users.cpp \
+    $$PWD/src/requests/wall.cpp \
 #    $$PWD/src/longpoll.cpp \
 #    $$PWD/src/requests/videos.cpp \
-#    $$PWD/src/requests/wall.cpp \
 #    $$PWD/src/objects/audio.cpp \
 #    $$PWD/src/objects/document.cpp \
 #    $$PWD/src/objects/photo.cpp \

@@ -35,16 +35,19 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _newsfeed = new Newsfeed(this);
     _photos = new Photos(this);
     _users = new Users(this);
+    _wall = new Wall(this);
     _friends->setApi(_api);
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
     _photos->setApi(_api);
     _users->setApi(_api);
+    _wall->setApi(_api);
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
     qRegisterMetaType<Photos*>("Photos*");
     qRegisterMetaType<Users*>("Users*");
+    qRegisterMetaType<Wall*>("Wall*");
 
     // objects:
     qRegisterMetaType<User*>("User*");
@@ -62,7 +65,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    _likes = new Likes(this);
 //    _longPoll = new LongPoll(this);
 //    _videos = new Videos(this);
-//    _wall = new Wall(this);
 
 //    qRegisterMetaType<Audio*>("Audio*");
 //    qRegisterMetaType<Document*>("Document*");
@@ -74,7 +76,6 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    qRegisterMetaType<Likes*>("Likes*");
 //    qRegisterMetaType<LongPoll*>("LongPoll*");
 //    qRegisterMetaType<Videos*>("Videos*");
-//    qRegisterMetaType<Wall*>("Wall*");
 }
 
 VkSDK::~VkSDK() {
@@ -86,6 +87,7 @@ VkSDK::~VkSDK() {
     delete _newsfeed;
     delete _photos;
     delete _users;
+    delete _wall;
 
     delete _dialogsListModel;
     delete _friendsListModel;
@@ -97,7 +99,6 @@ VkSDK::~VkSDK() {
 //    delete _likes;
 //    delete _longPoll;
 //    delete _videos;
-//    delete _wall;
 }
 
 void VkSDK::setAccessTocken(QString value) {
@@ -126,6 +127,10 @@ Photos *VkSDK::photos() const {
 
 Newsfeed *VkSDK::newsfeed() const {
     return _newsfeed;
+}
+
+Wall *VkSDK::wall() const {
+    return _wall;
 }
 
 Users *VkSDK::users() const {
@@ -188,6 +193,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::USERS_GET_FRIENDS:
         parseFriendsInfo(value.toArray());
+        break;
+    case ApiRequest::WALL_GET_BY_ID:
+        emit gotWallpost(parseWallpost(value.toObject().value("items").toArray()));
         break;
     default:
         break;
@@ -314,6 +322,10 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
     return array.size() == 1 ? User::fromJsonObject(array.at(0).toObject()) : new User();
 }
 
+News *VkSDK::parseWallpost(QJsonArray array) {
+    return array.size() == 1 ? News::fromJsonObject(array.at(0).toObject()) : new News();
+}
+
 //User *VkSDK::selfProfile() const {
 //    return _selfProfile;
 //}
@@ -330,11 +342,6 @@ User *VkSDK::parseUserProfile(QJsonArray array) {
 //Videos *VkSDK::videos() const
 //{
 //    return _videos;
-//}
-
-//Wall *VkSDK::wall() const
-//{
-//    return _wall;
 //}
 
 //void VkSDK::gotFriendsList(QList<QObject *> friendsList) {
