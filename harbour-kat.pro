@@ -65,7 +65,6 @@ DISTFILES += \
     qml/views/GeoItem.qml \
     qml/views/PhotosView.qml \
     qml/views/VideosView.qml \
-    qml/pages/VideoPlayer.qml \
     qml/views/AudiosView.qml \
     qml/views/DocumentsView.qml \
     qml/views/NewsView.qml \
@@ -74,5 +73,6 @@ DISTFILES += \
     qml/views/RepostView.qml \
     qml/pages/NewsfeedPage.qml \
     qml/views/DialogImage.qml \
-    qml/pages/AudioPlayerPage.qml
+    qml/pages/AudioPlayerPage.qml \
+    qml/pages/VideoPlayerPage.qml
 

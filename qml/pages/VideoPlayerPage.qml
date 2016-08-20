@@ -38,9 +38,8 @@ Page {
     Video {
         id: videoView
         anchors.fill: parent
-        autoPlay: true
         fillMode: VideoOutput.PreserveAspectFit
-//        source: url
+        autoPlay: true
 
         MouseArea {
             anchors.fill: parent
@@ -75,7 +74,6 @@ Page {
         id: videoProgressBar
         anchors.bottom: parent.bottom
         width: parent.width
-//        maximumValue: duration
         value: videoView.position / 1000
         visible: false
     }
@@ -90,7 +88,5 @@ Page {
 
     onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
 
-    Component.onCompleted: {
-        vksdk.videos.get(ownerId, videoId)
-    }
+    Component.onCompleted: vksdk.videos.get(ownerId, videoId)
 }
