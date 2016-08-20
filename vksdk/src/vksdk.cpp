@@ -50,6 +50,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Wall*>("Wall*");
 
     // objects:
+    qRegisterMetaType<Audio*>("Audio*");
     qRegisterMetaType<News*>("News*");
     qRegisterMetaType<User*>("User*");
 

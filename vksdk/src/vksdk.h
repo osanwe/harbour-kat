@@ -25,6 +25,7 @@
 #include <QObject>
 
 #include "authorization.h"
+#include "objects/audio.h"
 #include "objects/news.h"
 #include "objects/user.h"
 #include "models/dialogslistmodel.h"

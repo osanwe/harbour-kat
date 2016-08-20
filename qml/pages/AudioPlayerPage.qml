@@ -4,6 +4,28 @@ import Sailfish.Silica 1.0
 
 Page {
 
+    SilicaListView {
+        id: playlist
+        anchors.fill: parent
+        anchors.topMargin: Theme.paddingLarge
+        anchors.bottomMargin: audioPlayer.height
+        clip: true
+        model: player.model
+        delegate: MediaListItem {
+            width: parent.width
+            height: childrenRect.height
+
+            duration: _duration
+            title: _title
+            subtitle: _subtitle
+            playing: _playing
+
+            onClicked: player.jumpTo(index)
+        }
+
+        VerticalScrollDecorator {}
+    }
+
     MediaPlayerControlsPanel {
         id: audioPlayer
         active: true
@@ -24,6 +46,13 @@ Page {
         onRepeatClicked: {}
         onShuffleClicked: {}
         onAddToPlaylist: {}
+    }
+
+    Connections {
+        target: player
+        onMediaChanged: {
+            player.model.setPlayingIndex(player.currentIndex);
+        }
     }
 }
 
