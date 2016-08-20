@@ -87,6 +87,7 @@ void LongPoll::doLongPollRequest() {
 void LongPoll::parseLongPollUpdates(QJsonArray updates) {
     for (int index = 0; index < updates.size(); ++index) {
         QJsonArray update = updates.at(index).toArray();
+        qDebug() << update;
         switch (update.at(0).toInt()) {
         case 4:
 //            qDebug() << "--------------";

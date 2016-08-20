@@ -40,7 +40,6 @@ Page {
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.users.getSelfProfile()
         vksdk.messages.getDialogs()
-//        vksdk.longPoll.getLongPollServer()
     }
 
     /**
@@ -167,10 +166,10 @@ Page {
         }
     }
 
-//    Connections {
-//        target: vksdk.longPoll
-//        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
-//    }
+    Connections {
+        target: vksdk.longPoll
+        onUnreadDialogsCounterUpdated: menuList.model.setProperty(2, "counter", value)
+    }
 
     Connections {
         target: vksdk
@@ -180,7 +179,10 @@ Page {
                 menuList.headerItem.title = user.firstName + " " + user.lastName
             }
         }
-        onGotUnreadCounter: menuList.model.setProperty(2, "counter", value)
+        onGotUnreadCounter: {
+            menuList.model.setProperty(2, "counter", value)
+            vksdk.longPoll.getLongPollServer()
+        }
     }
 
     onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))

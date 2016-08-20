@@ -25,6 +25,7 @@
 #include <QObject>
 
 #include "authorization.h"
+#include "longpoll.h"
 #include "objects/news.h"
 #include "objects/user.h"
 #include "objects/video.h"
@@ -42,7 +43,6 @@
 #include "requests/videos.h"
 #include "requests/wall.h"
 
-//#include "longpoll.h"
 //#include "objects/audio.h"
 //#include "objects/chat.h"
 //#include "objects/dialog.h"
@@ -56,6 +56,7 @@ class VkSDK : public QObject
     Q_OBJECT
 
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
+    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Likes* likes READ likes CONSTANT)
@@ -73,7 +74,6 @@ class VkSDK : public QObject
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
-//    Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 
 public:
     explicit VkSDK(QObject *parent = 0);
@@ -83,6 +83,7 @@ public:
     Q_INVOKABLE void setUserId(int value);
 
     Authorization *auth() const;
+    LongPoll* longPoll() const;
 
     Friends* friends() const;
     Likes *likes() const;
@@ -101,8 +102,6 @@ public:
     Q_INVOKABLE void attachPhotoToMessage(QString path);
 
 //    User* selfProfile() const;
-
-//    LongPoll* longPoll() const;
 
 signals:
     void gotProfile(User *user);
@@ -137,6 +136,7 @@ private:
 
     ApiRequest *_api;
     Authorization *_auth;
+    LongPoll *_longPoll;
 
     Friends *_friends;
     Likes *_likes;
@@ -172,8 +172,6 @@ private:
     News* parseWallpost(QJsonArray array);
 
 //    User *_selfProfile;
-
-//    LongPoll *_longPoll;
 
 //    QList<QObject*> _dialogs;
 

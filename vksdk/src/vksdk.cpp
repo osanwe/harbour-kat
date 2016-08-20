@@ -30,6 +30,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
 
     // requests:
+    _longPoll = new LongPoll(this);
     _friends = new Friends(this);
     _likes = new Likes(this);
     _messages = new Messages(this);
@@ -38,6 +39,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _users = new Users(this);
     _videos = new Videos(this);
     _wall = new Wall(this);
+//    _longPoll->setApi(_api);
     _friends->setApi(_api);
     _likes->setApi(_api);
     _messages->setApi(_api);
@@ -46,6 +48,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _users->setApi(_api);
     _videos->setApi(_api);
     _wall->setApi(_api);
+    qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Likes*>("Likes*");
     qRegisterMetaType<Messages*>("Messages*");
@@ -69,20 +72,18 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<MessagesModel*>("MessagesModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
-//    _longPoll = new LongPoll(this);
 
 //    qRegisterMetaType<Audio*>("Audio*");
 //    qRegisterMetaType<Document*>("Document*");
 //    qRegisterMetaType<Photo*>("Photo*");
 //    qRegisterMetaType<Friend*>("Friend*");
 //    qRegisterMetaType<Video*>("Video*");
-
-//    qRegisterMetaType<LongPoll*>("LongPoll*");
 }
 
 VkSDK::~VkSDK() {
     delete _api;
     delete _auth;
+    delete _longPoll;
 
     delete _friends;
     delete _likes;
@@ -99,12 +100,11 @@ VkSDK::~VkSDK() {
     delete _newsfeedModel;
 
 //    delete _selfProfile;
-
-//    delete _longPoll;
 }
 
 void VkSDK::setAccessTocken(QString value) {
     _api->setAccessToken(value);
+    _longPoll->setAccessToken(value);
 }
 
 void VkSDK::setUserId(int value) {
@@ -113,6 +113,10 @@ void VkSDK::setUserId(int value) {
 
 Authorization *VkSDK::auth() const {
     return _auth;
+}
+
+LongPoll *VkSDK::longPoll() const {
+    return _longPoll;
 }
 
 Friends *VkSDK::friends() const {
@@ -345,10 +349,6 @@ News *VkSDK::parseWallpost(QJsonArray array) {
 
 //User *VkSDK::selfProfile() const {
 //    return _selfProfile;
-//}
-
-//LongPoll *VkSDK::longPoll() const {
-//    return _longPoll;
 //}
 
 //void VkSDK::gotFriendsList(QList<QObject *> friendsList) {

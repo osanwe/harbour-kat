@@ -56,13 +56,19 @@ CoverBackground {
 
     Connections {
         target: vksdk
-        onGotUnreadCounter: messagesCounter.text = value
+        onGotUnreadCounter: {
+            console.log("onGotUnreadCounter", value)
+            messagesCounter.text = value
+        }
     }
 
-//    Connections {
-//        target: vksdk.longPoll
-//        onUnreadDialogsCounterUpdated: messagesCounter.text = value
-//    }
+    Connections {
+        target: vksdk.longPoll
+        onUnreadDialogsCounterUpdated: {
+            console.log("onUnreadDialogsCounterUpdated", value)
+            messagesCounter.text = value
+        }
+    }
 }
 
 
