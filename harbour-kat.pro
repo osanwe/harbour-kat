@@ -74,5 +74,6 @@ DISTFILES += \
     qml/pages/NewsfeedPage.qml \
     qml/views/DialogImage.qml \
     qml/pages/AudioPlayerPage.qml \
-    qml/pages/VideoPlayerPage.qml
+    qml/pages/VideoPlayerPage.qml \
+    qml/pages/AboutPage.qml
 
