@@ -48,33 +48,34 @@ Message *Message::fromJsonObject(QJsonObject object) {
     }
     if (object.contains("attachments")) {
         message->setHasAttachments(true);
-//        QJsonArray attachments = object.value("attachments").toArray();
-//        for (int index = 0; index < attachments.size(); ++index) {
-//            QJsonObject attachment = attachments.at(index).toObject();
-//            if (attachment.value("type").toString() == "gift") {
-//                //
-//            } else if (attachment.value("type").toString() == "photo") {
-//                message->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
-//            } else if (attachment.value("type").toString() == "video") {
-//                message->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
-//            } else if (attachment.value("type").toString() == "audio") {
-//                message->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
-//            } else if (attachment.value("type").toString() == "doc") {
-//                message->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
-//            } else if (attachment.value("type").toString() == "wall") {
-//                message->addNews(News::fromJsonObject(attachment.value("wall").toObject()));
-//            } else if (attachment.value("type").toString() == "wall_reply") {
-//                //
-//            } else if (attachment.value("type").toString() == "sticker") {
-//                //
-//            } else if (attachment.value("type").toString() == "link") {
-//                //
-//            } else if (attachment.value("type").toString() == "market") {
-//                //
-//            } else if (attachment.value("type").toString() == "market_album") {
-//                //
-//            }
-//        }
+        QJsonArray attachments = object.value("attachments").toArray();
+        qDebug() << attachments;
+        for (int index = 0; index < attachments.size(); ++index) {
+            QJsonObject attachment = attachments.at(index).toObject();
+            if (attachment.value("type").toString() == "gift") {
+                //
+            } else if (attachment.value("type").toString() == "photo") {
+                message->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
+            } else if (attachment.value("type").toString() == "video") {
+                message->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
+            } else if (attachment.value("type").toString() == "audio") {
+                message->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
+            } else if (attachment.value("type").toString() == "doc") {
+                message->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
+            } else if (attachment.value("type").toString() == "wall") {
+                message->addNews(News::fromJsonObject(attachment.value("wall").toObject()));
+            } else if (attachment.value("type").toString() == "wall_reply") {
+                //
+            } else if (attachment.value("type").toString() == "sticker") {
+                //
+            } else if (attachment.value("type").toString() == "link") {
+                //
+            } else if (attachment.value("type").toString() == "market") {
+                //
+            } else if (attachment.value("type").toString() == "market_album") {
+                //
+            }
+        }
     }
     if (object.contains("fwd_messages")) {
         QJsonArray fwds = object.value("fwd_messages").toArray();
@@ -166,80 +167,80 @@ void Message::setBody(const QString &body)
     _body = body;
 }
 
-//QVariant Message::audios() const
-//{
-//    return QVariant::fromValue(_audios);
-//}
+QVariant Message::audios() const
+{
+    return QVariant::fromValue(_audios);
+}
 
-//QList<QObject *> Message::audiosList() const
-//{
-//    return _audios;
-//}
+QList<QObject *> Message::audiosList() const
+{
+    return _audios;
+}
 
-//void Message::addAudio(Audio *audio)
-//{
-//    _audios.append(audio);
-//}
+void Message::addAudio(Audio *audio)
+{
+    _audios.append(audio);
+}
 
-//QVariant Message::documents() const
-//{
-//    return QVariant::fromValue(_documents);
-//}
+QVariant Message::documents() const
+{
+    return QVariant::fromValue(_documents);
+}
 
-//QList<QObject *> Message::documentsList() const
-//{
-//    return _documents;
-//}
+QList<QObject *> Message::documentsList() const
+{
+    return _documents;
+}
 
-//void Message::addDocument(Document *document)
-//{
-//    _documents.append(document);
-//}
+void Message::addDocument(Document *document)
+{
+    _documents.append(document);
+}
 
-//QVariant Message::news() const
-//{
-//    return QVariant::fromValue(_news);
-//}
+QVariant Message::news() const
+{
+    return QVariant::fromValue(_news);
+}
 
-//QList<QObject *> Message::newsList() const
-//{
-//    return _news;
-//}
+QList<QObject *> Message::newsList() const
+{
+    return _news;
+}
 
-//void Message::addNews(News *news)
-//{
-//    _news.append(news);
-//}
+void Message::addNews(News *news)
+{
+    _news.append(news);
+}
 
-//QVariant Message::photos() const
-//{
-//    return QVariant::fromValue(_photos);
-//}
+QVariant Message::photos() const
+{
+    return QVariant::fromValue(_photos);
+}
 
-//QList<QObject *> Message::photosList() const
-//{
-//    return _photos;
-//}
+QList<QObject *> Message::photosList() const
+{
+    return _photos;
+}
 
-//void Message::addPhoto(Photo *photo)
-//{
-//    _photos.append(photo);
-//}
+void Message::addPhoto(Photo *photo)
+{
+    _photos.append(photo);
+}
 
-//QVariant Message::videos() const
-//{
-//    return QVariant::fromValue(_videos);
-//}
+QVariant Message::videos() const
+{
+    return QVariant::fromValue(_videos);
+}
 
-//QList<QObject *> Message::videosList() const
-//{
-//    return _videos;
-//}
+QList<QObject *> Message::videosList() const
+{
+    return _videos;
+}
 
-//void Message::addVideo(Video *video)
-//{
-//    _videos.append(video);
-//}
+void Message::addVideo(Video *video)
+{
+    _videos.append(video);
+}
 
 QVariant Message::fwdMessages() const
 {

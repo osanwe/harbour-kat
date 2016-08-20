@@ -42,43 +42,43 @@ News *News::fromJsonObject(QJsonObject object) {
         news->setGeoMap(coords.at(0).toDouble(), coords.at(1).toDouble());
         news->setGeoTile(coords.at(0).toDouble(), coords.at(1).toDouble());
     }
-//    if (object.contains("attachments")) {
-//        QJsonArray attachments = object.value("attachments").toArray();
-//        for (int index = 0; index < attachments.size(); ++index) {
-//            QJsonObject attachment = attachments.at(index).toObject();
-//            if (attachment.value("type").toString() == "photo") {
-//                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
-//            } else if (attachment.value("type").toString() == "posted_photo") {
-//                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
-//            } else if (attachment.value("type").toString() == "video") {
-//                news->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
-//            } else if (attachment.value("type").toString() == "audio") {
-//                news->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
-//            } else if (attachment.value("type").toString() == "doc") {
-//                news->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
-//            } else if (attachment.value("type").toString() == "graffiti") {
-//                //
-//            } else if (attachment.value("type").toString() == "link") {
-//                //
-//            } else if (attachment.value("type").toString() == "note") {
-//                //
-//            } else if (attachment.value("type").toString() == "app") {
-//                //
-//            } else if (attachment.value("type").toString() == "poll") {
-//                //
-//            } else if (attachment.value("type").toString() == "page") {
-//                //
-//            } else if (attachment.value("type").toString() == "album") {
-//                //
-//            } else if (attachment.value("type").toString() == "photos_list") {
-//                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
-//            } else if (attachment.value("type").toString() == "market") {
-//                //
-//            } else if (attachment.value("type").toString() == "market_album") {
-//                //
-//            }
-//        }
-//    }
+    if (object.contains("attachments")) {
+        QJsonArray attachments = object.value("attachments").toArray();
+        for (int index = 0; index < attachments.size(); ++index) {
+            QJsonObject attachment = attachments.at(index).toObject();
+            if (attachment.value("type").toString() == "photo") {
+                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
+            } else if (attachment.value("type").toString() == "posted_photo") {
+                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
+            } else if (attachment.value("type").toString() == "video") {
+                news->addVideo(Video::fromJsonObject(attachment.value("video").toObject()));
+            } else if (attachment.value("type").toString() == "audio") {
+                news->addAudio(Audio::fromJsonObject(attachment.value("audio").toObject()));
+            } else if (attachment.value("type").toString() == "doc") {
+                news->addDocument(Document::fromJsonObject(attachment.value("doc").toObject()));
+            } else if (attachment.value("type").toString() == "graffiti") {
+                //
+            } else if (attachment.value("type").toString() == "link") {
+                //
+            } else if (attachment.value("type").toString() == "note") {
+                //
+            } else if (attachment.value("type").toString() == "app") {
+                //
+            } else if (attachment.value("type").toString() == "poll") {
+                //
+            } else if (attachment.value("type").toString() == "page") {
+                //
+            } else if (attachment.value("type").toString() == "album") {
+                //
+            } else if (attachment.value("type").toString() == "photos_list") {
+                news->addPhoto(Photo::fromJsonObject(attachment.value("photo").toObject()));
+            } else if (attachment.value("type").toString() == "market") {
+                //
+            } else if (attachment.value("type").toString() == "market_album") {
+                //
+            }
+        }
+    }
     return news;
 }
 
@@ -89,7 +89,6 @@ int News::id() const
 
 void News::setId(int id)
 {
-    qDebug() << QString("setId(%1)").arg(id);
     _id = id;
 }
 
@@ -163,65 +162,65 @@ void News::setGeoMap(double lat, double lon)
     _geoMap = QString("http://www.openstreetmap.org/?mlat=%1&mlon=%2&zoom=19").arg(lat).arg(lon);
 }
 
-//QVariant News::audios() const
-//{
-//    return QVariant::fromValue(_audios);
-//}
+QVariant News::audios() const
+{
+    return QVariant::fromValue(_audios);
+}
 
-//QList<QObject *> News::audiosList() const
-//{
-//    return _audios;
-//}
+QList<QObject *> News::audiosList() const
+{
+    return _audios;
+}
 
-//void News::addAudio(Audio *audio)
-//{
-//    _audios.append(audio);
-//}
+void News::addAudio(Audio *audio)
+{
+    _audios.append(audio);
+}
 
-//QVariant News::documents() const
-//{
-//    return QVariant::fromValue(_documents);
-//}
+QVariant News::documents() const
+{
+    return QVariant::fromValue(_documents);
+}
 
-//QList<QObject *> News::documentsList() const
-//{
-//    return _documents;
-//}
+QList<QObject *> News::documentsList() const
+{
+    return _documents;
+}
 
-//void News::addDocument(Document *document)
-//{
-//    _documents.append(document);
-//}
+void News::addDocument(Document *document)
+{
+    _documents.append(document);
+}
 
-//QVariant News::photos() const
-//{
-//    return QVariant::fromValue(_photos);
-//}
+QVariant News::photos() const
+{
+    return QVariant::fromValue(_photos);
+}
 
-//QList<QObject *> News::photosList() const
-//{
-//    return _photos;
-//}
+QList<QObject *> News::photosList() const
+{
+    return _photos;
+}
 
-//void News::addPhoto(Photo *photo)
-//{
-//    _photos.append(photo);
-//}
+void News::addPhoto(Photo *photo)
+{
+    _photos.append(photo);
+}
 
-//QVariant News::videos() const
-//{
-//    return QVariant::fromValue(_videos);
-//}
+QVariant News::videos() const
+{
+    return QVariant::fromValue(_videos);
+}
 
-//QList<QObject *> News::videosList() const
-//{
-//    return _videos;
-//}
+QList<QObject *> News::videosList() const
+{
+    return _videos;
+}
 
-//void News::addVideo(Video *video)
-//{
-//    _videos.append(video);
-//}
+void News::addVideo(Video *video)
+{
+    _videos.append(video);
+}
 
 QString News::copyText() const
 {

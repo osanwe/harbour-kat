@@ -30,7 +30,7 @@ Column {
 
     Repeater {
         id: messagesRepeater
-        model: messages
+        model: messages.length
 
         Row {
             width: fwdColumn.width
@@ -53,12 +53,13 @@ Column {
                 Label {
                     width: parent.width
                     horizontalAlignment: Text.AlignLeft
-                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor: Theme.secondaryColor
+                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor :
+                                                                           Theme.secondaryColor
                     font.bold: true
                     font.pixelSize: Theme.fontSizeSmall
                     LayoutMirroring.enabled: isOut
-                    text: profiles[messagesRepeater.model.get(index).userId].firstName + " " +
-                          profiles[messagesRepeater.model.get(index).userId].lastName
+                    text: profiles[messages[index].userId].firstName + " " +
+                          profiles[messages[index].userId].lastName
                     visible: text !== ""
                 }
 
@@ -66,10 +67,11 @@ Column {
                     id: datetime
                     width: parent.width
                     horizontalAlignment: Text.AlignLeft
-                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor: Theme.secondaryColor
+                    color: messageItem.highlighted || (!isRead && isOut) ? Theme.secondaryHighlightColor :
+                                                                           Theme.secondaryColor
                     font.pixelSize: Theme.fontSizeTiny
                     LayoutMirroring.enabled: isOut
-                    text: convertUnixtimeToString(messagesRepeater.model.get(index).date)
+                    text: convertUnixtimeToString(messages[index].date)
                     visible: text !== ""
                 }
 
@@ -82,21 +84,21 @@ Column {
                     linkColor: messageItem.highlighted ? Theme.primaryColor : Theme.highlightColor
                     LayoutMirroring.enabled: isOut
                     visible: text !== ""
-                    text: messagesRepeater.model.get(index).body
+                    text: messages[index].body
 
                     onLinkActivated: Qt.openUrlExternally(link)
                 }
 
                 AttachmentsView {
                     width: parent.width
-                    ageoMap: messagesRepeater.model.get(index).geoMap
-                    ageoTile: messagesRepeater.model.get(index).geoTile
-                    aphotos: messagesRepeater.model.get(index).photos
-                    avideos: messagesRepeater.model.get(index).videos
-                    aaudios: messagesRepeater.model.get(index).audios
-                    adocuments: messagesRepeater.model.get(index).documents
-                    anews: messagesRepeater.model.get(index).news
-                    amessages: messagesRepeater.model.get(index).fwdMessages
+                    ageoMap: messages[index].geoMap
+                    ageoTile: messages[index].geoTile
+                    aphotos: messages[index].photos
+                    avideos: messages[index].videos
+                    aaudios: messages[index].audios
+                    adocuments: messages[index].documents
+                    anews: messages[index].news
+                    amessages: messages[index].fwdMessages
                 }
             }
         }
