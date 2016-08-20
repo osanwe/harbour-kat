@@ -68,20 +68,21 @@ Item {
                 }
 
                 onClicked: {
-                    var urls = []
-                    var idx = 0
-                    while (idx < audios.count) {
-                        urls[idx] = audios[idx].url
-                        idx++
-                    }
-                    player.setPlaylist(urls, index)
-                    audioPlayer.playing = true
-                    audioPlayer.showControls()
-                    audioPlayer._audios = audios
-                    audioPlayer._index = index
-                    audioPlayer.author = audios[index].artist
-                    audioPlayer.title = audios[index].title
-                    audioPlayer.duration = audios[index].duration
+//                    var urls = []
+//                    var idx = 0
+//                    while (idx < audios.count) {
+//                        urls[idx] = audios[idx].url
+//                        idx++
+//                    }
+                    player.setPlaylist(audios, index)
+                    pageContainer.pushAttached(Qt.resolvedUrl("../pages/AudioPlayerPage.qml"))
+//                    audioPlayer.playing = true
+//                    audioPlayer.showControls()
+//                    audioPlayer._audios = audios
+//                    audioPlayer._index = index
+//                    audioPlayer.author = audios[index].artist
+//                    audioPlayer.title = audios[index].title
+//                    audioPlayer.duration = audios[index].duration
                 }
             }
         }
