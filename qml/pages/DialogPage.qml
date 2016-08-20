@@ -297,6 +297,11 @@ Page {
 //                }
             }
         }
+
+        TouchInteractionHint {
+            direction: TouchInteraction.Up
+            Component.onCompleted: start()
+        }
     }
 
     Connections {
