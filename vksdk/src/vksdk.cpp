@@ -208,7 +208,13 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         parseNewsfeed(value.toObject());
         break;
     case ApiRequest::USERS_GET:
-        emit gotProfile(parseUserProfile(value.toArray()));
+        if (_messagePreview.isEmpty()) emit gotProfile(parseUserProfile(value.toArray()));
+        else {
+            emit gotNewMessage(QString("%1 %2").arg(parseUserProfile(value.toArray())->firstName())
+                                               .arg(parseUserProfile(value.toArray())->lastName()),
+                               _messagePreview);
+            _messagePreview.clear();
+        }
         break;
     case ApiRequest::USERS_GET_FRIENDS:
         parseFriendsInfo(value.toArray());
@@ -307,8 +313,8 @@ void VkSDK::parseMessages(QJsonArray array) {
 void VkSDK::parseNewMessage(QJsonObject object) {
     Message *message = Message::fromJsonObject(object);
     // Show notification
-    QString preview = message->hasAttachments() ? "[ 📎 ] " : "" + message->body();
-    emit gotNewMessage(preview);
+    _messagePreview = (message->hasAttachments() ? "[ 📎 ] " : "") + message->body();
+    _users->getUserProfile(message->userId());
     // Update dialogs
     // Update chat
 }

@@ -63,6 +63,8 @@ ApplicationWindow
     Connections {
         target: vksdk
         onGotNewMessage: {
+            commonNotification.summary = name
+            commonNotification.previewSummary = name
             commonNotification.body = preview
             commonNotification.previewBody = preview
             commonNotification.close()

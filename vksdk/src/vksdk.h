@@ -104,7 +104,7 @@ public:
 //    User* selfProfile() const;
 
 signals:
-    void gotNewMessage(QString preview);
+    void gotNewMessage(QString name, QString preview);
     void gotProfile(User *user);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
@@ -154,6 +154,7 @@ private:
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
 
+    QString _messagePreview;
     QString _pathToPhoto;
     QStringList _chatUsersIds;
     QStringList _usersIds;
