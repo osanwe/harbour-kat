@@ -312,8 +312,11 @@ void VkSDK::parseMessages(QJsonArray array) {
 
 void VkSDK::parseNewMessage(QJsonObject object) {
     Message *message = Message::fromJsonObject(object);
+    if (message->chat()) message->setFromId(message->userId());
+    else message->setFromId(message->out() ? 0 : message->userId());
     // Update dialogs
     // Update chat
+    _messagesModel->addToBegin(message);
     // Show notification
     if (message->out()) return;
     _messagePreview = (message->hasAttachments() ? "[ 📎 ] " : "") + message->body();

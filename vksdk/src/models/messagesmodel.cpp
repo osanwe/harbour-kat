@@ -100,6 +100,19 @@ void MessagesModel::add(Message *message) {
     emit dataChanged(index, index);
 }
 
+void MessagesModel::addToBegin(Message *message) {
+    if (_messages.isEmpty()) return;
+    if (message->chat() && _messages.at(0)->chatId() != message->chatId()) return;
+    if (!message->chat() && _messages.at(0)->userId() != message->userId()) return;
+
+    beginInsertRows(QModelIndex(), 0, 0);
+    _messages.insert(0, message);
+    endInsertRows();
+
+    QModelIndex index = createIndex(0, _messages.size(), static_cast<void *>(0));
+    emit dataChanged(index, index);
+}
+
 void MessagesModel::addProfile(Friend *profile) {
     if (_profiles.contains(profile->id())) return;
     _profiles[profile->id()] = profile;

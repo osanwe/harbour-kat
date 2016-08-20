@@ -39,6 +39,7 @@ public:
 
     Q_INVOKABLE void clear();
     Q_INVOKABLE void add(Message *message);
+    Q_INVOKABLE void addToBegin(Message *message);
     Q_INVOKABLE void addProfile(Friend *profile);
 
     int size() const;

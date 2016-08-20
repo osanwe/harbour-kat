@@ -40,6 +40,7 @@ Page {
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.users.getSelfProfile()
         vksdk.messages.getDialogs()
+        vksdk.longPoll.getLongPollServer()
     }
 
     /**
@@ -181,7 +182,6 @@ Page {
         }
         onGotUnreadCounter: {
             menuList.model.setProperty(2, "counter", value)
-            vksdk.longPoll.getLongPollServer()
         }
     }
 
