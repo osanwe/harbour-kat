@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE void add(Dialog *dialog);
     Q_INVOKABLE void addProfile(Friend *profile);
     Q_INVOKABLE void addChat(Chat *chat);
+    Q_INVOKABLE void update(Message *message);
 
     int size() const;
 

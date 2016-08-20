@@ -315,6 +315,7 @@ void VkSDK::parseNewMessage(QJsonObject object) {
     if (message->chat()) message->setFromId(message->userId());
     else message->setFromId(message->out() ? 0 : message->userId());
     // Update dialogs
+    _dialogsListModel->update(message);
     // Update chat
     _messagesModel->addToBegin(message);
     // Show notification

@@ -117,6 +117,35 @@ void DialogsListModel::addChat(Chat *chat) {
     emit dataChanged(startIndex, endIndex);
 }
 
+void DialogsListModel::update(Message *message) {
+    if (_dialogsIds.isEmpty()) return;
+
+    int id = 0;
+    if (message->chat()) id = message->chatId();
+    else id = message->userId();
+
+    if (_dialogs.contains(id)) {
+        if (_dialogsIds.indexOf(id) != 0) {
+            beginMoveRows(QModelIndex(), _dialogsIds.indexOf(id), _dialogsIds.indexOf(id), QModelIndex(), 0);
+            _dialogsIds.removeOne(id);
+            _dialogsIds.insert(0, id);
+            endMoveRows();
+        }
+    } else {
+        beginInsertRows(QModelIndex(), 0, 0);
+        _dialogsIds.insert(0, id);
+        _dialogs[id] = new Dialog();
+        _dialogs[id]->setIsChat(message->chatId() != 0);
+        endInsertRows();
+    }
+    _dialogs[id]->setUnread(!message->readState());
+    _dialogs[id]->setLastMessage(message);
+
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_dialogsIds.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
+}
+
 int DialogsListModel::size() const {
     return _dialogsIds.size();
 }
