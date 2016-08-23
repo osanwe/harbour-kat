@@ -90,6 +90,7 @@ Item {
                 width: messageItem.width - avatar.width - Theme.paddingMedium - 2 * Theme.horizontalPageMargin
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.Wrap
+                textFormat: Text.StyledText
                 color: messageItem.highlighted || (!isRead && isOut) ? Theme.highlightColor : Theme.primaryColor
                 linkColor: messageItem.highlighted ? Theme.primaryColor : Theme.highlightColor
                 LayoutMirroring.enabled: isOut

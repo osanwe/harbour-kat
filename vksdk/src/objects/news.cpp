@@ -138,9 +138,10 @@ QString News::text() const
     return _text;
 }
 
-void News::setText(const QString &text)
+void News::setText(QString text)
 {
-    _text = text;
+    _text = text.replace(QRegExp("((?:https?|ftp)://\\S+)"), "<a href=\"\\1\">\\1</a>")
+                .replace("\n", "<br>");
 }
 
 QString News::geoTile() const

@@ -93,7 +93,7 @@ public:
     void setOut(bool out);
 
     QString body() const;
-    void setBody(const QString &body);
+    void setBody(QString body);
 
     QVariant photos() const;
     QList<QObject *> photosList() const;

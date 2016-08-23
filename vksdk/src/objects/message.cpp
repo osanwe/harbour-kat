@@ -161,9 +161,10 @@ QString Message::body() const
     return _body;
 }
 
-void Message::setBody(const QString &body)
+void Message::setBody(QString body)
 {
-    _body = body;
+    _body = body.replace(QRegExp("((?:https?|ftp)://\\S+)"), QString("<a href=\"\\1\">\\1</a>"))
+                .replace("\n", "<br>");
 }
 
 QVariant Message::audios() const

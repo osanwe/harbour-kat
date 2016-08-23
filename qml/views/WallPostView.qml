@@ -60,6 +60,7 @@ Column {
     Label {
         width: parent.width
         wrapMode: Text.WordWrap
+        textFormat: Text.StyledText
         truncationMode: TruncationMode.Fade
         maximumLineCount: isFeed ? 5 : _wallpost.text.length
         text: _wallpost.text

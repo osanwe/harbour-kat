@@ -61,7 +61,7 @@ public:
     void setDate(int date);
 
     QString text() const;
-    void setText(const QString &text);
+    void setText(QString text);
 
     QString geoTile() const;
     void setGeoTile(double lat, double lon);
