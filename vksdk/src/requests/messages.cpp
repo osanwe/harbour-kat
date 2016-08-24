@@ -57,6 +57,12 @@ void Messages::getHistory(int peerId, int offset) {
     _api->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
 }
 
+void Messages::markAsRead(int peerId) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("peer_id", QString::number(peerId));
+    _api->makeApiGetRequest("messages.markAsRead", query, ApiRequest::MESSAGES_MARK_AS_READ);
+}
+
 void Messages::send(int peerId, QString text, QString attachmentsList) {
     QUrlQuery *query = new QUrlQuery();
     query->addQueryItem("peer_id", QString("%1").arg(peerId));
