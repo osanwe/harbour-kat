@@ -28,6 +28,7 @@ Chat::Chat(QObject *parent) : QObject(parent)
 
 Chat *Chat::fromJsonObject(QJsonObject object)
 {
+    qDebug() << object;
     Chat *chat = new Chat();
     chat->setId(object.value("id").toInt());
     chat->setTitle(object.value("title").toString());
@@ -36,12 +37,12 @@ Chat *Chat::fromJsonObject(QJsonObject object)
     return chat;
 }
 
-int Chat::id() const
+qint64 Chat::id() const
 {
-    return _id;
+    return _id + 2000000000;
 }
 
-void Chat::setId(int id)
+void Chat::setId(qint64 id)
 {
     _id = id;
 }

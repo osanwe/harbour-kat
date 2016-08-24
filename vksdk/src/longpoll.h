@@ -50,6 +50,7 @@ public:
 signals:
     void gotNewMessage(int id);
     void unreadDialogsCounterUpdated(int value);
+    void readMessages(qint64 peerId, qint64 localId, bool out);
 
 public slots:
     void finished(QNetworkReply *reply);

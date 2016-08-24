@@ -94,12 +94,15 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
             break;
 
         case 6:
+            emit readMessages(update.at(1).toInt(), update.at(2).toInt(), false);
+            break;
         case 7:
 //            qDebug() << "--------------";
 //            qDebug() << "Messages were readed";
 //            qDebug() << update;
 ////            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
 //            qDebug() << "--------------";
+            emit readMessages(update.at(1).toInt(), update.at(2).toInt(), true);
             break;
 
         case 8:

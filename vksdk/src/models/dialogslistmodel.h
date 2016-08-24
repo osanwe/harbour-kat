@@ -14,7 +14,7 @@ class DialogsListModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(int size READ size CONSTANT)
+    Q_PROPERTY(qint64 size READ size CONSTANT)
 
 public:
     enum Roles {
@@ -37,15 +37,16 @@ public:
     Q_INVOKABLE void add(Dialog *dialog);
     Q_INVOKABLE void addProfile(Friend *profile);
     Q_INVOKABLE void addChat(Chat *chat);
+    Q_INVOKABLE void readMessages(qint64 peerId, qint64 localId, bool out);
     Q_INVOKABLE void update(Message *message);
 
-    int size() const;
+    qint64 size() const;
 
 private:
-    QList<int> _dialogsIds;
-    QHash<int, Chat*> _chats;
-    QHash<int, Dialog*> _dialogs;
-    QHash<int, Friend*> _profiles;
+    QList<qint64> _dialogsIds;
+    QHash<qint64, Chat*> _chats;
+    QHash<qint64, Dialog*> _dialogs;
+    QHash<qint64, Friend*> _profiles;
 };
 
 #endif // DIALOGSLISTMODEL_H

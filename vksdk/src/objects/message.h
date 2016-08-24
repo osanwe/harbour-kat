@@ -46,11 +46,11 @@ class Message : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int id READ id CONSTANT)
-    Q_PROPERTY(int userId READ userId CONSTANT)
-    Q_PROPERTY(int chatId READ chatId CONSTANT)
-    Q_PROPERTY(int fromId READ fromId CONSTANT)
-    Q_PROPERTY(int date READ date CONSTANT)
+    Q_PROPERTY(qint64 id READ id CONSTANT)
+    Q_PROPERTY(qint64 userId READ userId CONSTANT)
+    Q_PROPERTY(qint64 chatId READ chatId CONSTANT)
+    Q_PROPERTY(qint64 fromId READ fromId CONSTANT)
+    Q_PROPERTY(qint64 date READ date CONSTANT)
     Q_PROPERTY(bool chat READ chat CONSTANT)
     Q_PROPERTY(bool readState READ readState CONSTANT)
     Q_PROPERTY(bool out READ out CONSTANT)
@@ -70,20 +70,20 @@ public:
 
     static Message* fromJsonObject(QJsonObject object);
 
-    int id() const;
-    void setId(int id);
+    qint64 id() const;
+    void setId(qint64 id);
 
-    int userId() const;
-    void setUserId(int userId);
+    qint64 userId() const;
+    void setUserId(qint64 userId);
 
-    int chatId() const;
-    void setChatId(int chatId);
+    qint64 chatId() const;
+    void setChatId(qint64 chatId);
 
-    int fromId() const;
-    void setFromId(int fromId);
+    qint64 fromId() const;
+    void setFromId(qint64 fromId);
 
-    int date() const;
-    void setDate(int date);
+    qint64 date() const;
+    void setDate(qint64 date);
 
     bool chat() const;
     void setChat(bool chat);
@@ -135,11 +135,11 @@ public:
     void setHasAttachments(bool hasAttachments);
 
 private:
-    int _id = 0;
-    int _userId = 0;
-    int _chatId = 0;
-    int _fromId = 0;
-    int _date = 0;
+    qint64 _id = 0;
+    qint64 _userId = 0;
+    qint64 _chatId = 0;
+    qint64 _fromId = 0;
+    qint64 _date = 0;
     bool _chat;
     bool _readState;
     bool _out;

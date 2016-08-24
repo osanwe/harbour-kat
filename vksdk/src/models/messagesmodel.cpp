@@ -126,6 +126,17 @@ void MessagesModel::addProfile(Friend *profile) {
     emit dataChanged(startIndex, endIndex);
 }
 
+void MessagesModel::readMessages(qint64 peerId, qint64 localId, bool out) {
+    if (_messages.at(0)->chat() && _messages.at(0)->chatId() != peerId) return;
+    if (!_messages.at(0)->chat() && _messages.at(0)->userId() != peerId) return;
+    foreach (Message *message, _messages) {
+        if (message->id() <= localId && message->out() == out) message->setReadState(true);
+    }
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_messages.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
+}
+
 int MessagesModel::size() const {
     return _messages.size();
 }

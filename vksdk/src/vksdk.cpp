@@ -31,6 +31,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 
     _longPoll = new LongPoll(this);
     connect(_longPoll, SIGNAL(gotNewMessage(int)), this, SLOT(_gotNewMessage(int)));
+    connect(_longPoll, SIGNAL(readMessages(qint64,qint64,bool)), this, SLOT(_readMessages(qint64,qint64,bool)));
 
     // requests:
     _friends = new Friends(this);
@@ -234,6 +235,11 @@ void VkSDK::_gotNewMessage(int id) {
     _messages->getById(id);
 }
 
+void VkSDK::_readMessages(qint64 peerId, qint64 localId, bool out) {
+    _dialogsListModel->readMessages(peerId, localId, out);
+    _messagesModel->readMessages(peerId, localId, out);
+}
+
 void VkSDK::parseChatsInfo(QJsonArray array) {
     _chatsIds.clear();
     for (int index = 0; index < array.size(); ++index) {
@@ -250,7 +256,7 @@ void VkSDK::parseDialogsInfo(QJsonObject object) {
     QJsonArray dialogs = object.value("items").toArray();
     for (int index = 0; index < dialogs.size(); ++index) {
         Dialog *dialog = Dialog::fromJsonObject(dialogs.at(index).toObject());
-        if (dialog->isChat()) _chatsIds.append(QString::number(dialog->lastMessage()->chatId()));
+        if (dialog->isChat()) _chatsIds.append(QString::number(dialog->lastMessage()->chatId() - 2000000000));
         else _usersIds.append(QString::number(dialog->lastMessage()->userId()));
         _dialogsListModel->add(dialog);
     }

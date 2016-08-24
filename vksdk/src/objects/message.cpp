@@ -49,7 +49,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
     if (object.contains("attachments")) {
         message->setHasAttachments(true);
         QJsonArray attachments = object.value("attachments").toArray();
-        for (int index = 0; index < attachments.size(); ++index) {
+        for (qint64 index = 0; index < attachments.size(); ++index) {
             QJsonObject attachment = attachments.at(index).toObject();
             if (attachment.value("type").toString() == "gift") {
                 //
@@ -78,7 +78,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
     }
     if (object.contains("fwd_messages")) {
         QJsonArray fwds = object.value("fwd_messages").toArray();
-        for (int index = 0; index < fwds.size(); ++index) {
+        for (qint64 index = 0; index < fwds.size(); ++index) {
             QJsonObject fwd = fwds.at(index).toObject();
             message->addFwdMessages(Message::fromJsonObject(fwd));
         }
@@ -86,52 +86,52 @@ Message *Message::fromJsonObject(QJsonObject object) {
     return message;
 }
 
-int Message::id() const
+qint64 Message::id() const
 {
     return _id;
 }
 
-void Message::setId(int id)
+void Message::setId(qint64 id)
 {
     _id = id;
 }
 
-int Message::userId() const
+qint64 Message::userId() const
 {
     return _userId;
 }
 
-void Message::setUserId(int userId)
+void Message::setUserId(qint64 userId)
 {
     _userId = userId;
 }
 
-int Message::chatId() const
+qint64 Message::chatId() const
 {
-    return _chatId;
+    return _chatId + 2000000000;
 }
 
-void Message::setChatId(int chatId)
+void Message::setChatId(qint64 chatId)
 {
     _chatId = chatId;
 }
 
-int Message::fromId() const
+qint64 Message::fromId() const
 {
     return _fromId;
 }
 
-void Message::setFromId(int fromId)
+void Message::setFromId(qint64 fromId)
 {
     _fromId = fromId;
 }
 
-int Message::date() const
+qint64 Message::date() const
 {
     return _date;
 }
 
-void Message::setDate(int date)
+void Message::setDate(qint64 date)
 {
     _date = date;
 }

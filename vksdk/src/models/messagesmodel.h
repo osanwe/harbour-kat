@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE void add(Message *message);
     Q_INVOKABLE void addToBegin(Message *message);
     Q_INVOKABLE void addProfile(Friend *profile);
+    Q_INVOKABLE void readMessages(qint64 peerId, qint64 localId, bool out);
 
     int size() const;
 

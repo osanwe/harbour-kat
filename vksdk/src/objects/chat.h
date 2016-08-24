@@ -28,6 +28,8 @@
 #include <QString>
 #include <QVariantList>
 
+#include <QDebug>
+
 class Chat : public QObject
 {
     Q_OBJECT
@@ -36,8 +38,8 @@ public:
 
     static Chat* fromJsonObject(QJsonObject object);
 
-    int id() const;
-    void setId(int id);
+    qint64 id() const;
+    void setId(qint64 id);
 
     QString title() const;
     void setTitle(const QString &title);
@@ -49,7 +51,7 @@ public:
     void setUsers(const QVariantList &users);
 
 private:
-    int _id;
+    qint64 _id;
     QString _title;
     QString _photo;
     QVariantList _users;

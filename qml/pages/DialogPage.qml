@@ -320,7 +320,6 @@ Page {
 
     Component.onCompleted: {
         vksdk.messagesModel.clear()
-        if (chat) historyId += 2000000000
         vksdk.messages.getHistory(historyId)
     }
 }

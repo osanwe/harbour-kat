@@ -118,6 +118,7 @@ signals:
 public slots:
     void gotResponse(QJsonValue value, ApiRequest::TaskType type);
     void _gotNewMessage(int id);
+    void _readMessages(qint64 peerId, qint64 localId, bool out);
 
 //    void gotDialogList(QList<Dialog*> dialogsList);
 //    void gotFriendsList(QList<QObject*> friendsList);
