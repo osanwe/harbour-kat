@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE void getHistory(int peerId, int offset = 0);
     Q_INVOKABLE void markAsRead(int peerId);
     Q_INVOKABLE void send(int peerId, QString text, QString attachmentsList);
+    Q_INVOKABLE void setActivity(int peerId);
 
 //signals:
 //    void gotChatsList(QList<QObject*> chatsList);

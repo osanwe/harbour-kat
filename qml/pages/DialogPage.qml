@@ -89,6 +89,8 @@ Page {
                 placeholderText: qsTr("Your message")
                 label: qsTr("Your message")
 
+                onTextChanged: vksdk.messages.setActivity(historyId)
+
                 EnterKey.enabled: text.length > 0 || attachmentsList.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 EnterKey.onClicked: {

@@ -32,6 +32,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _longPoll = new LongPoll(this);
     connect(_longPoll, SIGNAL(gotNewMessage(int)), this, SLOT(_gotNewMessage(int)));
     connect(_longPoll, SIGNAL(readMessages(qint64,qint64,bool)), this, SLOT(_readMessages(qint64,qint64,bool)));
+    connect(_longPoll, SIGNAL(userTyping(qint64,qint64)), this, SLOT(_userTyping(qint64,qint64)));
 
     // requests:
     _friends = new Friends(this);
@@ -238,6 +239,10 @@ void VkSDK::_gotNewMessage(int id) {
 void VkSDK::_readMessages(qint64 peerId, qint64 localId, bool out) {
     _dialogsListModel->readMessages(peerId, localId, out);
     _messagesModel->readMessages(peerId, localId, out);
+}
+
+void VkSDK::_userTyping(qint64 userId, qint64 chatId) {
+    //
 }
 
 void VkSDK::parseChatsInfo(QJsonArray array) {

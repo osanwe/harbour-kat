@@ -92,42 +92,27 @@ void LongPoll::parseLongPollUpdates(QJsonArray updates) {
         case 4:
             emit gotNewMessage(update.at(1).toInt());
             break;
-
         case 6:
             emit readMessages(update.at(1).toInt(), update.at(2).toInt(), false);
             break;
         case 7:
-//            qDebug() << "--------------";
-//            qDebug() << "Messages were readed";
-//            qDebug() << update;
-////            qDebug() << "\tfrom" + update.at(1).toInt() << "to" << update.at(2).toInt();
-//            qDebug() << "--------------";
             emit readMessages(update.at(1).toInt(), update.at(2).toInt(), true);
             break;
-
         case 8:
 //            qDebug() << "--------------";
 //            qDebug() << "User" << update.at(1).toInt() << "is online";
 //            qDebug() << "--------------";
             break;
-
         case 9:
 //            qDebug() << "--------------";
 //            qDebug() << "User" << update.at(1).toInt() << "is offline";
 //            qDebug() << "--------------";
             break;
-
         case 61:
-//            qDebug() << "--------------";
-//            qDebug() << "User" << update.at(1).toInt() << "typing...";
-//            qDebug() << "--------------";
+            emit userTyping(update.at(1).toInt(), 0);
             break;
-
         case 62:
-//            qDebug() << "--------------";
-//            qDebug() << "User" << update.at(1).toInt() << "typing...";
-//            qDebug() << "\tin" << update.at(2).toInt();
-//            qDebug() << "--------------";
+            emit userTyping(update.at(1).toInt(), update.at(2).toInt());
             break;
 
         case 80:

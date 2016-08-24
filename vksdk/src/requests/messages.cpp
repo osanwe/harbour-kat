@@ -71,6 +71,13 @@ void Messages::send(int peerId, QString text, QString attachmentsList) {
     _api->makeApiGetRequest("messages.send", query, ApiRequest::MESSAGES_SEND);
 }
 
+void Messages::setActivity(int peerId) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("peer_id", QString::number(peerId));
+    query->addQueryItem("type", "typing");
+    _api->makeApiGetRequest("messages.setActivity", query, ApiRequest::MESSAGES_SET_ACTIVITY);
+}
+
 //void Messages::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
 //    switch (type) {
 //    case ApiRequest::MESSAGES_GET_HISTORY: {
