@@ -68,7 +68,7 @@ Message *Message::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "sticker") {
                 //
             } else if (attachment.value("type").toString() == "link") {
-                //
+                message->addLink(Link::fromJsonObject(attachment.value("link").toObject()));
             } else if (attachment.value("type").toString() == "market") {
                 //
             } else if (attachment.value("type").toString() == "market_album") {
@@ -195,6 +195,21 @@ QList<QObject *> Message::documentsList() const
 void Message::addDocument(Document *document)
 {
     _documents.append(document);
+}
+
+QVariant Message::links() const
+{
+    return QVariant::fromValue(_links);
+}
+
+QList<QObject *> Message::linksList() const
+{
+    return _links;
+}
+
+void Message::addLink(Link *link)
+{
+    _links.append(link);
 }
 
 QVariant Message::news() const

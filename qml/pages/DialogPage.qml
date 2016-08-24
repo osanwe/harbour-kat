@@ -60,6 +60,7 @@ Page {
                 videos: videosList
                 audios: audiosList
                 documents: documentsList
+                links: linksList
                 news: newsList
                 geoTile: geoTileUrl
                 geoMap: geoMapUrl

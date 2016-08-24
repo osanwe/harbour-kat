@@ -45,6 +45,9 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
     case DocumentsRole:
         return message->documents();
 
+    case LinksRole:
+        return message->links();
+
     case NewsRole:
         return message->news();
 
@@ -74,6 +77,7 @@ QHash<int, QByteArray> MessagesModel::roleNames() const {
     roles[VideosRole] = "videosList";
     roles[AudiosRole] = "audiosList";
     roles[DocumentsRole] = "documentsList";
+    roles[LinksRole] = "linksList";
     roles[NewsRole] = "newsList";
     roles[GeoTileRole] = "geoTileUrl";
     roles[GeoMapRole] = "geoMapUrl";

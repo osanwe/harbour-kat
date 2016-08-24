@@ -97,6 +97,7 @@ Column {
                     avideos: messages[index].videos
                     aaudios: messages[index].audios
                     adocuments: messages[index].documents
+                    alinks: messages[indes].links
                     anews: messages[index].news
                     amessages: messages[index].fwdMessages
                 }

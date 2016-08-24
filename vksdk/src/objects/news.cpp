@@ -60,7 +60,7 @@ News *News::fromJsonObject(QJsonObject object) {
             } else if (attachment.value("type").toString() == "graffiti") {
                 //
             } else if (attachment.value("type").toString() == "link") {
-                //
+                news->addLink(Link::fromJsonObject(attachment.value("link").toObject()));
             } else if (attachment.value("type").toString() == "note") {
                 //
             } else if (attachment.value("type").toString() == "app") {
@@ -192,6 +192,21 @@ QList<QObject *> News::documentsList() const
 void News::addDocument(Document *document)
 {
     _documents.append(document);
+}
+
+QVariant News::links() const
+{
+    return QVariant::fromValue(_links);
+}
+
+QList<QObject *> News::linksList() const
+{
+    return _links;
+}
+
+void News::addLink(Link *link)
+{
+    _links.append(link);
 }
 
 QVariant News::photos() const

@@ -64,6 +64,7 @@ Column {
         truncationMode: TruncationMode.Fade
         maximumLineCount: isFeed ? 5 : _wallpost.text.length
         text: _wallpost.text
+        linkColor: Theme.highlightColor
         visible: _wallpost.text.length !== 0
     }
 
@@ -76,6 +77,7 @@ Column {
         avideos: _wallpost.videos
         aaudios: _wallpost.audios
         adocuments: _wallpost.documents
+        alinks: _wallpost.links
     }
 
     Loader {

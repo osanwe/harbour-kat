@@ -25,6 +25,7 @@ public:
         VideosRole,
         AudiosRole,
         DocumentsRole,
+        LinksRole,
         NewsRole,
         GeoTileRole,
         GeoMapRole,

@@ -26,6 +26,7 @@ HEADERS += \
     $$PWD/src/requests/users.h \
     $$PWD/src/requests/videos.h \
     $$PWD/src/requests/wall.h \
+    $$PWD/src/objects/link.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -55,3 +56,4 @@ SOURCES += \
     $$PWD/src/requests/users.cpp \
     $$PWD/src/requests/videos.cpp \
     $$PWD/src/requests/wall.cpp \
+    $$PWD/src/objects/link.cpp

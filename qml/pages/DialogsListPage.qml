@@ -105,6 +105,7 @@ Page {
                     width: parent.width
                     color: dialogItem.highlighted || unread ? Theme.secondaryHighlightColor :
                                                               Theme.secondaryColor
+                    linkColor: dialogItem.highlighted ? Theme.primaryColor : Theme.highlightColor
                     truncationMode: TruncationMode.Fade
                     maximumLineCount: 1
                     text: preview.replace('\n', ' ')

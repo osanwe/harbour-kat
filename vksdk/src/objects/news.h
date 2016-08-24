@@ -10,6 +10,7 @@
 
 #include "audio.h"
 #include "document.h"
+#include "link.h"
 #include "photo.h"
 #include "video.h"
 
@@ -34,6 +35,7 @@ class News : public QObject
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
     Q_PROPERTY(QVariant audios READ audios CONSTANT)
     Q_PROPERTY(QVariant documents READ documents CONSTANT)
+    Q_PROPERTY(QVariant links READ links CONSTANT)
     Q_PROPERTY(QVariant photos READ photos CONSTANT)
     Q_PROPERTY(QVariant videos READ videos CONSTANT)
     Q_PROPERTY(QString copyText READ copyText CONSTANT)
@@ -76,6 +78,10 @@ public:
     QVariant documents() const;
     QList<QObject *> documentsList() const;
     void addDocument(Document *document);
+
+    QVariant links() const;
+    QList<QObject *> linksList() const;
+    void addLink(Link *link);
 
     QVariant photos() const;
     QList<QObject *> photosList() const;
@@ -122,6 +128,7 @@ private:
     QString _geoMap;
     QList<QObject*> _audios;
     QList<QObject*> _documents;
+    QList<QObject*> _links;
     QList<QObject*> _photos;
     QList<QObject*> _videos;
     QString _copyText;

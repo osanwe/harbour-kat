@@ -34,6 +34,7 @@ Item {
     property var videos
     property var audios
     property var documents
+    property var links
     property var news
     property var geoTile
     property var geoMap
@@ -108,6 +109,7 @@ Item {
                 avideos: videos
                 aaudios: audios
                 adocuments: documents
+                alinks: links
                 anews: news
                 amessages: fwdMessages
             }
