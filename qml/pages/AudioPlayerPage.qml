@@ -70,6 +70,7 @@ Page {
         target: player
         onMediaChanged: {
             player.model.setPlayingIndex(player.currentIndex);
+            playlist.positionViewAtIndex(player.currentIndex, ListView.Center)
         }
     }
 
