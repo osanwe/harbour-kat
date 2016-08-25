@@ -7,10 +7,12 @@ Page {
     SilicaListView {
         id: playlist
         anchors.fill: parent
-        anchors.topMargin: Theme.paddingLarge
         anchors.bottomMargin: audioPlayer.height
         clip: true
         model: player.model
+        header: PageHeader {
+            title: qsTr("Audios")
+        }
         delegate: MediaListItem {
             width: parent.width
             height: childrenRect.height
@@ -21,6 +23,14 @@ Page {
             playing: _playing
 
             onClicked: player.jumpTo(index)
+        }
+
+        PullDownMenu {
+
+            MenuItem {
+                text: qsTr("My audios")
+                onClicked: vksdk.audios.get()
+            }
         }
 
         VerticalScrollDecorator {}
