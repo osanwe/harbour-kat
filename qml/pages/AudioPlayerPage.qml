@@ -53,7 +53,11 @@ Page {
         onPreviousClicked: if (player.currentIndex > 0) player.prev()
         onNextClicked: if (player.currentIndex < player.size-1) player.next()
         onSliderReleased: player.seekTo(value)
-        onRepeatClicked: {}
+        onRepeatClicked: {
+            player.repeat = !player.repeat
+            repeat = player.repeat ? MediaPlayerControls.RepeatTrack :
+                                     MediaPlayerControls.NoRepeat
+        }
         onShuffleClicked: {
             player.shuffle = !player.shuffle
             shuffle = player.shuffle ? MediaPlayerControls.ShuffleTracks :

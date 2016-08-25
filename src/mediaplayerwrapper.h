@@ -28,6 +28,7 @@ class MediaPlayerWrapper : public QObject
     Q_PROPERTY(QString title READ title NOTIFY mediaChanged)
     Q_PROPERTY(PlaylistModel* model READ model CONSTANT)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle)
+    Q_PROPERTY(bool repeat READ repeat WRITE setRepeat)
 
 public:
     explicit MediaPlayerWrapper(QObject *parent = 0);
@@ -53,6 +54,9 @@ public:
     bool shuffle() const;
     void setShuffle(bool shuffle);
 
+    bool repeat() const;
+    void setRepeat(bool repeat);
+
 signals:
     void mediaChanged();
     void playlistChanged(QVariantList audios);
@@ -69,6 +73,8 @@ private:
     QList<Audio*> _audios;
     PlaylistModel *_model;
     bool _shuffle;
+    bool _repeat;
+    int _currIndex;
 };
 
 #endif // MEDIAPLAYERWRAPPER_H

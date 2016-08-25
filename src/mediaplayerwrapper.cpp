@@ -89,7 +89,11 @@ QString MediaPlayerWrapper::title() {
 }
 
 void MediaPlayerWrapper::_mediaChanged(QMediaContent content) {
-    emit mediaChanged();
+    if (repeat()) _player->playlist()->setCurrentIndex(_currIndex);
+    else {
+        _currIndex = _player->playlist()->currentIndex();
+        emit mediaChanged();
+    }
 }
 
 void MediaPlayerWrapper::_positionChanged(qint64 pos) {
@@ -98,6 +102,16 @@ void MediaPlayerWrapper::_positionChanged(qint64 pos) {
 
 void MediaPlayerWrapper::_stateChanged(QMediaPlayer::State state) {
     emit stateChanged();
+}
+
+bool MediaPlayerWrapper::repeat() const
+{
+    return _repeat;
+}
+
+void MediaPlayerWrapper::setRepeat(bool repeat)
+{
+    _repeat = repeat;
 }
 
 bool MediaPlayerWrapper::shuffle() const
