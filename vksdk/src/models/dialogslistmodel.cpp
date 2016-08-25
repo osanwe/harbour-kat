@@ -110,7 +110,6 @@ void DialogsListModel::addProfile(Friend *profile) {
 }
 
 void DialogsListModel::addChat(Chat *chat) {
-    qDebug() << "addChat(" << chat->id() << ")";
     if (_chats.contains(chat->id())) return;
     _chats[chat->id()] = chat;
 

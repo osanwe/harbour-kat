@@ -35,6 +35,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_longPoll, SIGNAL(userTyping(qint64,qint64)), this, SLOT(_userTyping(qint64,qint64)));
 
     // requests:
+    _audios = new Audios(this);
     _friends = new Friends(this);
     _likes = new Likes(this);
     _messages = new Messages(this);
@@ -44,6 +45,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos = new Videos(this);
     _wall = new Wall(this);
 //    _longPoll->setApi(_api);
+    _audios->setApi(_api);
     _friends->setApi(_api);
     _likes->setApi(_api);
     _messages->setApi(_api);
@@ -53,6 +55,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos->setApi(_api);
     _wall->setApi(_api);
     qRegisterMetaType<LongPoll*>("LongPoll*");
+    qRegisterMetaType<Audios*>("Audios*");
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Likes*>("Likes*");
     qRegisterMetaType<Messages*>("Messages*");
@@ -89,6 +92,7 @@ VkSDK::~VkSDK() {
     delete _auth;
     delete _longPoll;
 
+    delete _audios;
     delete _friends;
     delete _likes;
     delete _messages;
@@ -121,6 +125,10 @@ Authorization *VkSDK::auth() const {
 
 LongPoll *VkSDK::longPoll() const {
     return _longPoll;
+}
+
+Audios *VkSDK::audios() const {
+    return _audios;
 }
 
 Friends *VkSDK::friends() const {
@@ -178,6 +186,9 @@ void VkSDK::attachPhotoToMessage(QString path) {
 
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
+    case ApiRequest::AUDIO_GET:
+        parseAudiosList(value.toObject().value("items").toArray());
+        break;
     case ApiRequest::FRIENDS_GET:
         parseEntireFriendsList(value.toObject().value("items").toArray());
         break;
@@ -243,6 +254,15 @@ void VkSDK::_readMessages(qint64 peerId, qint64 localId, bool out) {
 
 void VkSDK::_userTyping(qint64 userId, qint64 chatId) {
     //
+}
+
+void VkSDK::parseAudiosList(QJsonArray array) {
+    QVariantList audios;
+    for (int index = 0; index < array.size(); ++index) {
+//        qDebug() << index << array.at(index);
+        audios.append(QVariant::fromValue(Audio::fromJsonObject(array.at(index).toObject())));
+    }
+    emit gotUserAudios(audios);
 }
 
 void VkSDK::parseChatsInfo(QJsonArray array) {

@@ -19,15 +19,18 @@ void MediaPlayerWrapper::setPlaylist(QVariantList audios, int index) {
     _model->clear();
     QMediaPlaylist *_playlist = new QMediaPlaylist();
     foreach (QVariant audio, audios) {
+//        qDebug() << audio;
         Audio *_audio = (Audio*)audio.value<QObject*>();
         _playlist->addMedia(QUrl(_audio->url()));
         _audios.append(_audio);
         _model->add(_audio);
     }
     _player->setPlaylist(_playlist);
-    _playlist->setCurrentIndex(index);
-    _model->setPlayingIndex(index);
-    _player->play();
+    if (index != -1) {
+        _playlist->setCurrentIndex(index);
+        _model->setPlayingIndex(index);
+        _player->play();
+    }
 }
 
 void MediaPlayerWrapper::play() {

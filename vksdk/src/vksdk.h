@@ -34,6 +34,7 @@
 #include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
 #include "requests/apirequest.h"
+#include "requests/audios.h"
 #include "requests/friends.h"
 #include "requests/likes.h"
 #include "requests/messages.h"
@@ -58,6 +59,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 
+    Q_PROPERTY(Audios* audios READ audios CONSTANT)
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Likes* likes READ likes CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
@@ -85,6 +87,7 @@ public:
     Authorization *auth() const;
     LongPoll* longPoll() const;
 
+    Audios* audios() const;
     Friends* friends() const;
     Likes *likes() const;
     Messages* messages() const;
@@ -108,6 +111,7 @@ signals:
     void gotProfile(User *user);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
+    void gotUserAudios(QVariantList audios);
     void gotWallpost(News *wallpost);
     void savedPhoto(QString name);
 //    void gotSelfProfile();
@@ -142,6 +146,7 @@ private:
     Authorization *_auth;
     LongPoll *_longPoll;
 
+    Audios *_audios;
     Friends *_friends;
     Likes *_likes;
     Messages *_messages;
@@ -162,6 +167,7 @@ private:
     QStringList _usersIds;
     QStringList _chatsIds;
 
+    void parseAudiosList(QJsonArray array);
     void parseChatsInfo(QJsonArray array);
     void parseDialogsInfo(QJsonObject object);
     void parseEntireFriendsList(QJsonArray array);

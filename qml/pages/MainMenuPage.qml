@@ -40,6 +40,7 @@ Page {
         for (var index in menuItems) menuList.model.append(menuItems[index])
         vksdk.users.getSelfProfile()
         vksdk.messages.getDialogs()
+        vksdk.audios.get()
         vksdk.longPoll.getLongPollServer()
     }
 

@@ -54,5 +54,13 @@ Page {
             player.model.setPlayingIndex(player.currentIndex);
         }
     }
+
+    Connections {
+        target: vksdk
+        onGotUserAudios: {
+//            console.log(audios.length)
+            player.setPlaylist(audios, -1)
+        }
+    }
 }
 
