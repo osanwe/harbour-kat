@@ -72,8 +72,9 @@ private:
     QMediaPlayer *_player;
     QList<Audio*> _audios;
     PlaylistModel *_model;
-    bool _shuffle;
-    bool _repeat;
+    bool _shuffle = false;
+    bool _repeat = false;
+    bool _shuffleNow = false;
     int _currIndex;
 };
 

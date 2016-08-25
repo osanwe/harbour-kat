@@ -91,6 +91,10 @@ QString MediaPlayerWrapper::title() {
 void MediaPlayerWrapper::_mediaChanged(QMediaContent content) {
     if (repeat()) _player->playlist()->setCurrentIndex(_currIndex);
     else {
+        if (_shuffle && _shuffleNow) {
+            _shuffleNow = false;
+            _player->playlist()->setCurrentIndex(qrand() % _audios.size());
+        } else _shuffleNow = true;
         _currIndex = _player->playlist()->currentIndex();
         emit mediaChanged();
     }
@@ -122,6 +126,7 @@ bool MediaPlayerWrapper::shuffle() const
 void MediaPlayerWrapper::setShuffle(bool shuffle)
 {
     _shuffle = shuffle;
+    _shuffleNow = true;
 }
 
 PlaylistModel *MediaPlayerWrapper::model() const {
