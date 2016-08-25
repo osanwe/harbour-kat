@@ -1,6 +1,8 @@
 #ifndef MEDIAPLAYERWRAPPER_H
 #define MEDIAPLAYERWRAPPER_H
 
+#include <time.h>
+
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QObject>
@@ -25,6 +27,7 @@ class MediaPlayerWrapper : public QObject
     Q_PROPERTY(QString author READ author NOTIFY mediaChanged)
     Q_PROPERTY(QString title READ title NOTIFY mediaChanged)
     Q_PROPERTY(PlaylistModel* model READ model CONSTANT)
+    Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle)
 
 public:
     explicit MediaPlayerWrapper(QObject *parent = 0);
@@ -47,6 +50,9 @@ public:
 
     PlaylistModel *model() const;
 
+    bool shuffle() const;
+    void setShuffle(bool shuffle);
+
 signals:
     void mediaChanged();
     void playlistChanged(QVariantList audios);
@@ -62,6 +68,7 @@ private:
     QMediaPlayer *_player;
     QList<Audio*> _audios;
     PlaylistModel *_model;
+    bool _shuffle;
 };
 
 #endif // MEDIAPLAYERWRAPPER_H

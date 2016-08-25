@@ -1,6 +1,7 @@
 #include "mediaplayerwrapper.h"
 
 MediaPlayerWrapper::MediaPlayerWrapper(QObject *parent) : QObject(parent) {
+    qsrand(time(NULL));
     _player = new QMediaPlayer(this);
     _model = new PlaylistModel(this);
     connect(_player, SIGNAL(currentMediaChanged(QMediaContent)), this, SLOT(_mediaChanged(QMediaContent)));
@@ -42,11 +43,13 @@ void MediaPlayerWrapper::pause() {
 }
 
 void MediaPlayerWrapper::next() {
-    _player->playlist()->next();
+    if (_shuffle) _player->playlist()->setCurrentIndex(qrand() % _audios.size());
+    else _player->playlist()->next();
 }
 
 void MediaPlayerWrapper::prev() {
-    _player->playlist()->previous();
+    if (_shuffle) _player->playlist()->setCurrentIndex(qrand() % _audios.size());
+    else _player->playlist()->previous();
 }
 
 void MediaPlayerWrapper::seekTo(int value) {
@@ -95,6 +98,16 @@ void MediaPlayerWrapper::_positionChanged(qint64 pos) {
 
 void MediaPlayerWrapper::_stateChanged(QMediaPlayer::State state) {
     emit stateChanged();
+}
+
+bool MediaPlayerWrapper::shuffle() const
+{
+    return _shuffle;
+}
+
+void MediaPlayerWrapper::setShuffle(bool shuffle)
+{
+    _shuffle = shuffle;
 }
 
 PlaylistModel *MediaPlayerWrapper::model() const {
