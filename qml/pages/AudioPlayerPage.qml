@@ -7,11 +7,17 @@ Page {
     SilicaListView {
         id: playlist
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.height
+        anchors.bottomMargin: Qt.inputMethod.visible ? 0 : audioPlayer.height
         clip: true
+        currentIndex: -1
         model: player.model
-        header: PageHeader {
-            title: qsTr("Audios")
+        header: SearchField {
+            width: parent.width
+            placeholderText: qsTr("Search audio...")
+            onTextChanged: {
+                if (text.length !== 0) vksdk.audios.search(text)
+                else vksdk.audios.get()
+            }
         }
         delegate: MediaListItem {
             width: parent.width

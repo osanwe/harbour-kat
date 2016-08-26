@@ -187,6 +187,7 @@ void VkSDK::attachPhotoToMessage(QString path) {
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::AUDIO_GET:
+    case ApiRequest::AUDIO_SEARCH:
         parseAudiosList(value.toObject().value("items").toArray());
         break;
     case ApiRequest::FRIENDS_GET:
@@ -258,8 +259,8 @@ void VkSDK::_userTyping(qint64 userId, qint64 chatId) {
 
 void VkSDK::parseAudiosList(QJsonArray array) {
     QVariantList audios;
+    qDebug() << array.size() << array;
     for (int index = 0; index < array.size(); ++index) {
-//        qDebug() << index << array.at(index);
         audios.append(QVariant::fromValue(Audio::fromJsonObject(array.at(index).toObject())));
     }
     emit gotUserAudios(audios);

@@ -59,7 +59,7 @@ public:
 
 signals:
     void mediaChanged();
-    void playlistChanged(QVariantList audios);
+    void playlistChanged();
     void positionChanged(qint64 position);
     void stateChanged();
 

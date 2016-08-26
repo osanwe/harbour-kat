@@ -54,6 +54,7 @@ public:
 
     enum TaskType {
         AUDIO_GET,
+        AUDIO_SEARCH,
         FRIENDS_GET,
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,

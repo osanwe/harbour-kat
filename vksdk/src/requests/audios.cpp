@@ -16,3 +16,14 @@ void Audios::get(qint64 ownerId, int count) {
     query->addQueryItem("count", QString::number(count));
     _api->makeApiGetRequest("audio.get", query, ApiRequest::AUDIO_GET);
 }
+
+void Audios::search(QString _query) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("q", _query);
+    query->addQueryItem("auto_complete", "1");
+    query->addQueryItem("lyrics", "0");
+    query->addQueryItem("performer_only", "0");
+    query->addQueryItem("sort", "2");
+    query->addQueryItem("count", "300");
+    _api->makeApiGetRequest("audio.search", query, ApiRequest::AUDIO_SEARCH);
+}

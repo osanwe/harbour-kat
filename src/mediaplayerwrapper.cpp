@@ -20,7 +20,6 @@ void MediaPlayerWrapper::setPlaylist(QVariantList audios, int index) {
     _model->clear();
     QMediaPlaylist *_playlist = new QMediaPlaylist();
     foreach (QVariant audio, audios) {
-//        qDebug() << audio;
         Audio *_audio = (Audio*)audio.value<QObject*>();
         _playlist->addMedia(QUrl(_audio->url()));
         _audios.append(_audio);

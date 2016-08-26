@@ -14,6 +14,7 @@ public:
     ~Audios();
 
     Q_INVOKABLE void get(qint64 ownerId = 0, int count = 6000);
+    Q_INVOKABLE void search(QString query);
 
     void setApi(ApiRequest *api);
 
