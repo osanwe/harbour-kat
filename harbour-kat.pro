@@ -23,6 +23,11 @@ QT += multimedia
 
 include("vksdk/vksdk.pri")
 
+HEADERS += \
+    src/settingswrapper.h \
+    src/mediaplayerwrapper.h \
+    src/playlistmodel.h
+
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
@@ -41,14 +46,8 @@ OTHER_FILES += \
     LICENSE \
     README.md
 
-#CONFIG += sailfishapp_i18n
-#TRANSLATIONS += \
-#    translations/harbour-kat-en.ts
-
-HEADERS += \
-    src/settingswrapper.h \
-    src/mediaplayerwrapper.h \
-    src/playlistmodel.h
+CONFIG += sailfishapp_i18n
+TRANSLATIONS += translations/harbour-kat-ru.ts
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
