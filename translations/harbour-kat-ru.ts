@@ -69,11 +69,6 @@
 <context>
     <name>DialogsListPage</name>
     <message>
-        <location filename="../qml/pages/DialogsListPage.qml" line="40"/>
-        <source>New message</source>
-        <translation>Новое сообщение</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/DialogsListPage.qml" line="45"/>
         <source>Dialogs</source>
         <translation>Сообщения</translation>

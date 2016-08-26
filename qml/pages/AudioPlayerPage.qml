@@ -70,6 +70,8 @@ Page {
                                        MediaPlayerControls.NoShuffle
         }
         onAddToPlaylist: vksdk.audios.add(player.ownerId, player.audioId)
+
+        onOpenChanged: open = true
     }
 
     Connections {

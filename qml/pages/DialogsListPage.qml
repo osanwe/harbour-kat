@@ -34,12 +34,12 @@ Page {
 
         model: vksdk.dialogsListModel
 
-        PullDownMenu {
+//        PullDownMenu {
 
-            MenuItem {
-                text: qsTr("New message")
-            }
-        }
+//            MenuItem {
+//                text: qsTr("New message")
+//            }
+//        }
 
         header: PageHeader {
             title: qsTr("Dialogs")
