@@ -26,6 +26,8 @@ class MediaPlayerWrapper : public QObject
     Q_PROPERTY(qint64 duration READ duration NOTIFY mediaChanged)
     Q_PROPERTY(QString author READ author NOTIFY mediaChanged)
     Q_PROPERTY(QString title READ title NOTIFY mediaChanged)
+    Q_PROPERTY(qint64 ownerId READ ownerId CONSTANT)
+    Q_PROPERTY(qint64 audioId READ audioId CONSTANT)
     Q_PROPERTY(PlaylistModel* model READ model CONSTANT)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle)
     Q_PROPERTY(bool repeat READ repeat WRITE setRepeat)
@@ -48,6 +50,8 @@ public:
     qint64 duration();
     QString author();
     QString title();
+    qint64 ownerId();
+    qint64 audioId();
 
     PlaylistModel *model() const;
 

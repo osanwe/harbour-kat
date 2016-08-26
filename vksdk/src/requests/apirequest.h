@@ -53,6 +53,7 @@ public:
     ~ApiRequest();
 
     enum TaskType {
+        AUDIO_ADD,
         AUDIO_GET,
         AUDIO_SEARCH,
         FRIENDS_GET,

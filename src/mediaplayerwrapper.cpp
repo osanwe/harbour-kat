@@ -87,6 +87,14 @@ QString MediaPlayerWrapper::title() {
     return _audios.at(_player->playlist()->currentIndex())->title();
 }
 
+qint64 MediaPlayerWrapper::ownerId() {
+    return _audios.at(_player->playlist()->currentIndex())->ownerId();
+}
+
+qint64 MediaPlayerWrapper::audioId() {
+    return _audios.at(_player->playlist()->currentIndex())->id();
+}
+
 void MediaPlayerWrapper::_mediaChanged(QMediaContent content) {
     if (repeat()) _player->playlist()->setCurrentIndex(_currIndex);
     else {

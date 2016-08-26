@@ -13,10 +13,11 @@ public:
     explicit Audios(QObject *parent = 0);
     ~Audios();
 
+    void setApi(ApiRequest *api);
+
+    Q_INVOKABLE void add(qint64 ownerId, qint64 audioId);
     Q_INVOKABLE void get(qint64 ownerId = 0, int count = 6000);
     Q_INVOKABLE void search(QString query);
-
-    void setApi(ApiRequest *api);
 
 private:
     ApiRequest *_api;

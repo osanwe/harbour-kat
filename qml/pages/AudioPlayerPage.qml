@@ -69,7 +69,7 @@ Page {
             shuffle = player.shuffle ? MediaPlayerControls.ShuffleTracks :
                                        MediaPlayerControls.NoShuffle
         }
-        onAddToPlaylist: {}
+        onAddToPlaylist: vksdk.audios.add(player.ownerId, player.audioId)
     }
 
     Connections {

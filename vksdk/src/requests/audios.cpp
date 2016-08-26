@@ -10,6 +10,13 @@ void Audios::setApi(ApiRequest *api) {
     _api = api;
 }
 
+void Audios::add(qint64 ownerId, qint64 audioId) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("owner_id", QString::number(ownerId));
+    query->addQueryItem("audio_id", QString::number(audioId));
+    _api->makeApiGetRequest("audio.add", query, ApiRequest::AUDIO_ADD);
+}
+
 void Audios::get(qint64 ownerId, int count) {
     QUrlQuery *query = new QUrlQuery();
     if (ownerId != 0) query->addQueryItem("owner_id", QString::number(ownerId));
