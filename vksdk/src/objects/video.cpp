@@ -121,3 +121,7 @@ QString Video::video() const
     return _mp4240;
 }
 
+bool Video::external() {
+    return !_external.isEmpty();
+}
+

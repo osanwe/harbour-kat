@@ -259,7 +259,6 @@ void VkSDK::_userTyping(qint64 userId, qint64 chatId) {
 
 void VkSDK::parseAudiosList(QJsonArray array) {
     QVariantList audios;
-    qDebug() << array.size() << array;
     for (int index = 0; index < array.size(); ++index) {
         audios.append(QVariant::fromValue(Audio::fromJsonObject(array.at(index).toObject())));
     }

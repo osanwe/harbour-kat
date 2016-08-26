@@ -17,6 +17,7 @@ class Video : public QObject
     Q_PROPERTY(QString title READ title CONSTANT)
     Q_PROPERTY(QString photo READ photo CONSTANT)
     Q_PROPERTY(QString video READ video CONSTANT)
+    Q_PROPERTY(bool external READ external CONSTANT)
 
 public:
     explicit Video(QObject *parent = 0);
@@ -46,6 +47,8 @@ public:
     void setMp4720(const QString &mp4720);
     void setExternal(const QString &external);
     QString video() const;
+
+    bool external();
 
 private:
     int _id;

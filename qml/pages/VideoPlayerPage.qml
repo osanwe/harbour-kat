@@ -48,6 +48,12 @@ Page {
                 videoProgressBar.visible = !videoProgressBar.visible
             }
         }
+
+        ViewPlaceholder {
+            id: placeholder
+            text: qsTr("The video is loading...")
+            enabled: true
+        }
     }
 
     Image {
@@ -81,8 +87,14 @@ Page {
     Connections {
         target: vksdk
         onGotVideo: {
-            videoView.source = video.video
-            videoProgressBar.maximumValue = video.duration
+            if (video.external) {
+                placeholder.text = qsTr("The video is opened in a browser")
+                Qt.openUrlExternally(video.video)
+            } else {
+                placeholder.enabled = false
+                videoView.source = video.video
+                videoProgressBar.maximumValue = video.duration
+            }
         }
     }
 
