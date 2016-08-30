@@ -13,10 +13,12 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
 
     switch (role) {
     case AvatarRole:
-        return QVariant(_getAvatarSource(_newsfeed.at(index.row())->sourceId()));
+        if (_newsfeed.at(index.row())->sourceId() == 0) return QVariant(_getAvatarSource(_newsfeed.at(index.row())->fromId()));
+        else return QVariant(_getAvatarSource(_newsfeed.at(index.row())->sourceId()));
 
     case TitleRole:
-        return QVariant(_getTitle(_newsfeed.at(index.row())->sourceId()));
+        if (_newsfeed.at(index.row())->sourceId() == 0) return QVariant(_getTitle(_newsfeed.at(index.row())->fromId()));
+        else return QVariant(_getTitle(_newsfeed.at(index.row())->sourceId()));
 
     case TextRole:
         return QVariant(_newsfeed.at(index.row())->text());
@@ -49,7 +51,8 @@ QVariant NewsfeedModel::data(const QModelIndex &index, int role) const {
         return QVariant(_newsfeed.at(index.row())->id());
 
     case SourceIdRole:
-        return QVariant(_newsfeed.at(index.row())->sourceId());
+        if (_newsfeed.at(index.row())->sourceId() == 0) return QVariant(_newsfeed.at(index.row())->fromId());
+        else return QVariant(_newsfeed.at(index.row())->sourceId());
 
     default:
         return QVariant();
@@ -117,8 +120,9 @@ void NewsfeedModel::addGroup(Group *group) {
 
     _groups[group->id()] = group;
 
-    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
-    emit dataChanged(index, index);
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_newsfeed.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
 }
 
 void NewsfeedModel::addNews(News *news) {
@@ -135,8 +139,9 @@ void NewsfeedModel::addUser(User *user) {
 
     _profiles[user->id()] = user;
 
-    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
-    emit dataChanged(index, index);
+    QModelIndex startIndex = createIndex(0, 0, static_cast<void *>(0));
+    QModelIndex endIndex = createIndex(_newsfeed.size(), 0, static_cast<void *>(0));
+    emit dataChanged(startIndex, endIndex);
 }
 
 void NewsfeedModel::setNextFrom(QString value) {

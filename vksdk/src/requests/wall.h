@@ -15,6 +15,7 @@ public:
 
     void setApi(ApiRequest *api);
 
+    Q_INVOKABLE void get(int ownerId, int offset = 0);
     Q_INVOKABLE void getById(int ownerId, int id);
 
 private:

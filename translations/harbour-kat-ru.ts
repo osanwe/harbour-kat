@@ -269,6 +269,16 @@
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="252"/>
+        <source>Like</source>
+        <translation type="unfinished">Мне нравится</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="270"/>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VideoPlayerPage</name>

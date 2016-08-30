@@ -74,6 +74,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _friendsListModel = new FriendsListModel(this);
     _messagesModel = new MessagesModel(this);
     _newsfeedModel = new NewsfeedModel(this);
+    _wallModel = new NewsfeedModel(this);
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
     qRegisterMetaType<MessagesModel*>("MessagesModel*");
@@ -106,6 +107,7 @@ VkSDK::~VkSDK() {
     delete _friendsListModel;
     delete _messagesModel;
     delete _newsfeedModel;
+    delete _wallModel;
 
 //    delete _selfProfile;
 }
@@ -179,6 +181,10 @@ NewsfeedModel* VkSDK::newsfeedModel() const {
     return _newsfeedModel;
 }
 
+NewsfeedModel *VkSDK::wallModel() const {
+    return _wallModel;
+}
+
 void VkSDK::attachPhotoToMessage(QString path) {
     _pathToPhoto = path;
     _photos->getMessagesUploadServer();
@@ -219,7 +225,7 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         parseUploadedPhotoData(value.toObject());
         break;
     case ApiRequest::NEWSFEED_GET:
-        parseNewsfeed(value.toObject());
+        parseNewsfeed(value.toObject(), false);
         break;
     case ApiRequest::USERS_GET:
         if (_messagePreview.isEmpty()) emit gotProfile(parseUserProfile(value.toArray()));
@@ -235,6 +241,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::VIDEO_GET:
         emit gotVideo(parseVideoInfo(value.toObject().value("items").toArray()));
+        break;
+    case ApiRequest::WALL_GET:
+        parseNewsfeed(value.toObject(), true);
         break;
     case ApiRequest::WALL_GET_BY_ID:
         emit gotWallpost(parseWallpost(value.toObject().value("items").toArray()));
@@ -357,24 +366,27 @@ void VkSDK::parseNewMessage(QJsonObject object) {
     _users->getUserProfile(message->userId());
 }
 
-void VkSDK::parseNewsfeed(QJsonObject object) {
+void VkSDK::parseNewsfeed(QJsonObject object, bool isWall) {
     QJsonArray posts = object.value("items").toArray();
     QJsonArray profiles = object.value("profiles").toArray();
     QJsonArray groups = object.value("groups").toArray();
     QString nextFrom = object.value("next_from").toString();
     for (int index = 0; index < posts.size(); ++index) {
         News *post = News::fromJsonObject(posts.at(index).toObject());
-        _newsfeedModel->addNews(post);
+        if (isWall) _wallModel->addNews(post);
+        else _newsfeedModel->addNews(post);
     }
     for (int index = 0; index < profiles.size(); ++index) {
         User *profile = User::fromJsonObject(profiles.at(index).toObject());
-        _newsfeedModel->addUser(profile);
+        if (isWall) _wallModel->addUser(profile);
+        else _newsfeedModel->addUser(profile);
     }
     for (int index = 0; index < groups.size(); ++index) {
         Group *group = Group::fromJsonObject(groups.at(index).toObject());
-        _newsfeedModel->addGroup(group);
+        if (isWall) _wallModel->addGroup(group);
+        else _newsfeedModel->addGroup(group);
     }
-    _newsfeedModel->setNextFrom(nextFrom);
+    if (!isWall) _newsfeedModel->setNextFrom(nextFrom);
 }
 
 void VkSDK::parseSavedPhotoData(QJsonArray array) {

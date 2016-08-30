@@ -190,9 +190,85 @@ Page {
                 id: wallButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Wall") + " (0)"
+                text: qsTr("Wall")
+            }
 
-                onClicked: {}
+            Repeater {
+                id: walllist
+                model: vksdk.wallModel
+                delegate: ListItem {
+                    id: newsfeedItem
+                    width: parent.width
+                    contentHeight: wallcontent.height + Theme.paddingLarge
+        //            height: content.height + Theme.paddingLarge
+
+                    Item {
+                        id: wallcontent
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.leftMargin: Theme.horizontalPageMargin
+                        anchors.rightMargin: Theme.horizontalPageMargin
+                        height: childrenRect.height
+
+                        Image {
+                            id: avatar
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            width: Theme.iconSizeMedium
+                            height: Theme.iconSizeMedium
+                            source: avatarSource
+                        }
+
+                        Column {
+                            anchors.left: avatar.right
+                            anchors.right: parent.right
+                            anchors.leftMargin: Theme.paddingMedium
+                            spacing: Theme.paddingSmall
+
+                            Label {
+                                width: parent.width
+                                color: newsfeedItem.highlighted ? Theme.secondaryColor : Theme.secondaryHighlightColor
+                                font.bold: true
+                                font.pixelSize: Theme.fontSizeTiny
+                                truncationMode: TruncationMode.Fade
+                                text: title
+                            }
+
+                            Loader {
+                                property var _wallpost: wallpost
+                                property var _repost: wallpost.repost
+                                property bool isFeed: true
+                                width: parent.width
+                                active: true
+                                source: "../views/WallPostView.qml"
+                            }
+                        }
+                    }
+
+                    menu: ContextMenu {
+
+                        MenuItem {
+                            text: qsTr("Like")
+                            onClicked: {
+                                vksdk.likes.addPost(sourceId, postId)
+                                isLiked = true
+                                likesCount += 1
+                            }
+                        }
+                    }
+
+                    onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
+                                                  { name: title, wallpost: wallpost })
+                }
+            }
+        }
+
+        PushUpMenu {
+
+            MenuItem {
+                text: qsTr("Load more")
+                onClicked: vksdk.wall.get(profileId, walllist.count)
             }
         }
 
@@ -209,10 +285,14 @@ Page {
         }
     }
 
-    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+    onStatusChanged: {
+        if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+    }
 
     Component.onCompleted: {
         vksdk.users.getUserProfile(profileId)
+        vksdk.wallModel.clear()
+        vksdk.wall.get(profileId)
     }
 }
 

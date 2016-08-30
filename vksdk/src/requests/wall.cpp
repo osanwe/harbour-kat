@@ -10,23 +10,18 @@ void Wall::setApi(ApiRequest *api) {
     _api = api;
 }
 
+void Wall::get(int ownerId, int offset) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("owner_id", QString::number(ownerId));
+    query->addQueryItem("count", "20");
+    query->addQueryItem("extended", "1");
+    query->addQueryItem("fields", "photo_50");
+    if (offset != 0) query->addQueryItem("offset", QString::number(offset));
+    _api->makeApiGetRequest("wall.get", query, ApiRequest::WALL_GET);
+}
+
 void Wall::getById(int ownerId, int id) {
     QUrlQuery *query = new QUrlQuery();
     query->addQueryItem("posts", QString("%1_%2").arg(ownerId).arg(id));
     _api->makeApiGetRequest("wall.getById", query, ApiRequest::WALL_GET_BY_ID);
 }
-
-//void Wall::gotResponse(QJsonValue value, ApiRequest::TaskType type)
-//{
-//    switch (type) {
-//    case ApiRequest::WALL_GET_BY_ID: {
-//        QJsonArray items = value.toObject().value("items").toArray();
-//        emit gotWallpost(News::fromJsonObject(items.at(0).toObject()));
-//        break;
-//    }
-
-//    default:
-//        break;
-//    }
-//}
-

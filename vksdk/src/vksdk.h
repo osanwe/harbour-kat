@@ -73,6 +73,7 @@ class VkSDK : public QObject
     Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
     Q_PROPERTY(MessagesModel* messagesModel READ messagesModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
+    Q_PROPERTY(NewsfeedModel* wallModel READ wallModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
@@ -101,6 +102,7 @@ public:
     FriendsListModel* friendsListModel() const;
     MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
+    NewsfeedModel* wallModel() const;
 
     Q_INVOKABLE void attachPhotoToMessage(QString path);
 
@@ -160,6 +162,7 @@ private:
     FriendsListModel *_friendsListModel;
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
+    NewsfeedModel *_wallModel;
 
     QString _messagePreview;
     QString _pathToPhoto;
@@ -175,7 +178,7 @@ private:
     void parseLimitedFriendsList(QJsonArray array);
     void parseMessages(QJsonArray array);
     void parseNewMessage(QJsonObject object);
-    void parseNewsfeed(QJsonObject object);
+    void parseNewsfeed(QJsonObject object, bool isWall);
     void parseSavedPhotoData(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);
     void parseUploadServerData(QJsonObject object);
