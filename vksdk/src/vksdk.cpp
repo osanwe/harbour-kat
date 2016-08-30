@@ -386,7 +386,8 @@ void VkSDK::parseNewsfeed(QJsonObject object, bool isWall) {
         if (isWall) _wallModel->addGroup(group);
         else _newsfeedModel->addGroup(group);
     }
-    if (!isWall) _newsfeedModel->setNextFrom(nextFrom);
+    if (isWall) _wallModel->setCount(object.value("count").toInt());
+    else _newsfeedModel->setNextFrom(nextFrom);
 }
 
 void VkSDK::parseSavedPhotoData(QJsonArray array) {

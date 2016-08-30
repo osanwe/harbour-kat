@@ -46,7 +46,6 @@ Page {
 
     SilicaFlickable {
         anchors.fill: parent
-        anchors.bottomMargin: Theme.paddingLarge
         contentHeight: content.height + header.height
 
         PullDownMenu {
@@ -190,7 +189,8 @@ Page {
                 id: wallButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Wall")
+                text: qsTr("Wall") + " (" + vksdk.wallModel.count + ")"
+                isopen: true
             }
 
             Repeater {
@@ -265,6 +265,7 @@ Page {
         }
 
         PushUpMenu {
+            visible: walllist.count !== vksdk.wallModel.count
 
             MenuItem {
                 text: qsTr("Load more")

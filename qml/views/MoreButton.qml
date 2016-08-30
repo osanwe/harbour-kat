@@ -26,6 +26,7 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     id: morePanel
 
+    property bool isopen: false
     property alias text: moreLabel.text
     property int horizontalMargin: Theme.horizontalPageMargin
     property alias busy: busyIndicator.running
@@ -56,7 +57,7 @@ BackgroundItem {
             verticalCenter: parent.verticalCenter
         }
         visible: morePanel.enabled && !busy
-        source: "image://theme/icon-m-right?"
+        source: (isopen ? "image://theme/icon-m-down?" : "image://theme/icon-m-right?")
                 + (morePanel.highlighted ? Theme.highlightColor : Theme.primaryColor)
     }
 

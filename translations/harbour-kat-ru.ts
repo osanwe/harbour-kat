@@ -230,12 +230,12 @@
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="171"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="170"/>
         <source>Friends</source>
         <translation type="unfinished">Друзья</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="181"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="180"/>
         <source>Audios</source>
         <translation>Аудиозаписи</translation>
     </message>
@@ -260,12 +260,12 @@
         <translation>Заметки</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="57"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="56"/>
         <source>Go to dialog</source>
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="193"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="192"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
@@ -275,7 +275,7 @@
         <translation type="unfinished">Мне нравится</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="270"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="271"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>

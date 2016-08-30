@@ -156,9 +156,18 @@ QString NewsfeedModel::next() const {
     return _nextFrom;
 }
 
+int NewsfeedModel::count() const {
+    return _count;
+}
+
+void NewsfeedModel::setCount(int count) {
+    _count = count;
+    emit countChanged();
+}
+
 QString NewsfeedModel::_getAvatarSource(const int id) const {
     if (id > 0) {
-//        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
+        //        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
         if (_profiles.contains(id)) return _profiles[id]->photo50();
     } else if (id < 0) {
 //        foreach (Group *group, _groups) if (id == group->id()) return group->photo50();

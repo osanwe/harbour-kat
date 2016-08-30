@@ -17,6 +17,7 @@ class NewsfeedModel : public QAbstractListModel
 
     Q_PROPERTY(int size READ size CONSTANT)
     Q_PROPERTY(QString next READ next CONSTANT)
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
 
 public:
     enum Roles {
@@ -52,6 +53,12 @@ public:
     int size() const;
     QString next() const;
 
+    int count() const;
+    void setCount(int count);
+
+signals:
+    void countChanged();
+
 private:
     QList<News *> _newsfeed;
     QHash<int, User*> _profiles;
@@ -59,6 +66,7 @@ private:
 //    QList<User *> _profiles;
 //    QList<Group *> _groups;
     QString _nextFrom;
+    int _count;
 
     QString _getAvatarSource(const int id) const;
     QString _getTitle(const int id) const;
