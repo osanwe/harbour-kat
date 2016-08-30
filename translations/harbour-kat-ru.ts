@@ -57,7 +57,7 @@
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="95"/>
         <source>Birthday:</source>
-        <translation type="unfinished">День рождения:</translation>
+        <translation>День рождения:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="113"/>
@@ -97,22 +97,22 @@
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="155"/>
         <source>City:</source>
-        <translation type="unfinished">Город:</translation>
+        <translation>Город:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="170"/>
         <source>Gender:</source>
-        <translation type="unfinished">Пол:</translation>
+        <translation>Пол:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="174"/>
         <source>Female</source>
-        <translation type="unfinished">Женский</translation>
+        <translation>Женский</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="174"/>
         <source>Male</source>
-        <translation type="unfinished">Мужской</translation>
+        <translation>Мужской</translation>
     </message>
 </context>
 <context>
@@ -159,7 +159,7 @@
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="60"/>
         <source>All friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Все друзья</translation>
     </message>
 </context>
 <context>
@@ -239,7 +239,7 @@
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="170"/>
         <source>Friends</source>
-        <translation type="unfinished">Друзья</translation>
+        <translation>Друзья</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="180"/>
@@ -274,17 +274,17 @@
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="192"/>
         <source>Wall</source>
-        <translation type="unfinished"></translation>
+        <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="252"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="254"/>
         <source>Like</source>
-        <translation type="unfinished">Мне нравится</translation>
+        <translation>Мне нравится</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="271"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="274"/>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить больше</translation>
     </message>
 </context>
 <context>
