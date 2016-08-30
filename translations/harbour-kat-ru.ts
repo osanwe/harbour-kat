@@ -265,7 +265,7 @@
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="190"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="193"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>

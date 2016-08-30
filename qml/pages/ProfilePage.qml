@@ -180,7 +180,10 @@ Page {
                 height: Theme.itemSizeMedium
                 text: qsTr("Audios") + " (" + profile.audiosCounter + ")"
 
-                onClicked: {}
+                onClicked: {
+                    vksdk.audios.get(profileId)
+                    pageContainer.navigateForward()
+                }
             }
 
             MoreButton {
