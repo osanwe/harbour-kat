@@ -34,6 +34,39 @@ Page {
         id: friendsListView
         anchors.fill: parent
 
+        PullDownMenu {
+
+            MenuItem {
+                text: qsTr("Mutual friends")
+                visible: type !== 3 && userId !== settings.userId()
+                onClicked: {
+                    type = 3
+                    vksdk.friendsListModel.clear()
+                    vksdk.friends.getMutual(userId)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Online friends")
+                visible: type !== 2
+                onClicked: {
+                    type = 2
+                    vksdk.friendsListModel.clear()
+                    vksdk.friends.getOnline(userId)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("All friends")
+                visible: type !== 1
+                onClicked: {
+                    type = 1
+                    vksdk.friendsListModel.clear()
+                    vksdk.friends.get(userId)
+                }
+            }
+        }
+
         model: vksdk.friendsListModel
 
         header: PageHeader {

@@ -288,12 +288,12 @@ Page {
 
     onStatusChanged: {
         if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+        vksdk.wallModel.clear()
+        vksdk.wall.get(profileId)
     }
 
     Component.onCompleted: {
         vksdk.users.getUserProfile(profileId)
-        vksdk.wallModel.clear()
-        vksdk.wall.get(profileId)
     }
 }
 

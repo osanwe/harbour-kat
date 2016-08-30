@@ -140,19 +140,26 @@
 <context>
     <name>FriendsListPage</name>
     <message>
-        <location filename="../qml/pages/FriendsListPage.qml" line="40"/>
+        <location filename="../qml/pages/FriendsListPage.qml" line="73"/>
         <source>Friends</source>
         <translation>Друзья</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FriendsListPage.qml" line="40"/>
+        <location filename="../qml/pages/FriendsListPage.qml" line="50"/>
+        <location filename="../qml/pages/FriendsListPage.qml" line="73"/>
         <source>Online friends</source>
         <translation>Друзья онлайн</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FriendsListPage.qml" line="41"/>
+        <location filename="../qml/pages/FriendsListPage.qml" line="40"/>
+        <location filename="../qml/pages/FriendsListPage.qml" line="74"/>
         <source>Mutual friends</source>
         <translation>Общие друзья</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FriendsListPage.qml" line="60"/>
+        <source>All friends</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
