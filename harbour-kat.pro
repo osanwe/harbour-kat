@@ -75,5 +75,8 @@ DISTFILES += \
     qml/pages/AudioPlayerPage.qml \
     qml/pages/VideoPlayerPage.qml \
     qml/pages/AboutPage.qml \
-    qml/views/LinksView.qml
+    qml/views/LinksView.qml \
+    qml/views/MoreButton.qml \
+    qml/views/CollapsedView.qml \
+    qml/views/BoxBackground.qml
 

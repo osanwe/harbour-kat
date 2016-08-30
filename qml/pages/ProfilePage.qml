@@ -22,6 +22,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../views"
+
 Page {
     id: profilePage
 
@@ -31,13 +33,9 @@ Page {
     property var counters: [
         { index: 0, title: qsTr("Photos"), counter: profile.photosCounter },
         { index: 1, title: qsTr("Videos"), counter: profile.videosCounter },
-        { index: 2, title: qsTr("Audios"), counter: profile.audiosCounter },
         { index: 3, title: qsTr("Groups"), counter: profile.groupsCounter },
         { index: 4, title: qsTr("Pages"), counter: profile.pagesCounter },
         { index: 5, title: qsTr("Followers"), counter: profile.followersCounter },
-        { index: 6, title: qsTr("Friends"), counter: profile.friendsCounter },
-        { index: 7, title: qsTr("Online friends"), counter: profile.onlineFriendsCounter },
-        { index: 8, title: qsTr("Mutual Friends"), counter: profile.mutualFriendsCounter },
         { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
     ]
 
@@ -80,12 +78,10 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: header.bottom
-            anchors.leftMargin: Theme.horizontalPageMargin
-            anchors.rightMargin: Theme.horizontalPageMargin
-            spacing: Theme.paddingLarge
 
             Row {
-                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2 * Theme.horizontalPageMargin
                 spacing: Theme.paddingLarge
 
                 Image {
@@ -112,154 +108,88 @@ Page {
                 }
             }
 
-            Flow {
+            CollapsedView {
+                id: profileInfo
                 width: parent.width
-
-                Repeater {
-                    id: countersGrid
-                    model: ListModel {}
-
-                    delegate: BackgroundItem {
-                        id: counterItem
-
-                        property var item: model.modelData ? model.modelData : model
-
-                        width: Theme.itemSizeMedium + 2 * Theme.paddingMedium
-                        height: Theme.itemSizeMedium + 2 * Theme.paddingMedium
-                        visible: item.counter > 0
-
-                        Column {
-                            anchors.fill: parent
-                            anchors.leftMargin: Theme.paddingMedium
-                            anchors.rightMargin: Theme.paddingMedium
-                            anchors.topMargin: Theme.paddingMedium
-                            anchors.bottomMargin: Theme.paddingMedium
-
-                            Label {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                width: parent.width
-                                truncationMode: TruncationMode.Fade
-                                font.bold: true
-                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                                text: item.title
-                            }
-
-                            Label {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                width: parent.width
-                                truncationMode: TruncationMode.Fade
-                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                                text: item.counter
-                            }
-                        }
-
-                        onClicked: switch (item.index) {
-                                   case 6:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 1 })
-                                       break;
-
-                                   case 7:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 2 })
-                                       break;
-
-                                   case 8:
-                                       pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                                      { userId: profile.id, type: 3 })
-                                       break;
-                                   }
-                    }
-                }
+                bdate: profile.bdate
+                relation: profile.relation
+                relationPartnerName: profile.relationPartnerName
+                relationPartnerId: profile.relationPartnerId
+                city: profile.city
+                sex: profile.sex
             }
 
-            Row {
+//            Flow {
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                width: parent.width - 2 * Theme.horizontalPageMargin
+
+//                Repeater {
+//                    id: countersGrid
+//                    model: ListModel {}
+
+//                    delegate: BackgroundItem {
+//                        id: counterItem
+
+//                        property var item: model.modelData ? model.modelData : model
+
+//                        width: Theme.itemSizeMedium + Theme.paddingMedium
+//                        height: Theme.itemSizeMedium + Theme.paddingMedium
+//                        visible: item.counter > 0
+
+//                        Column {
+//                            anchors.fill: parent
+//                            anchors.leftMargin: Theme.paddingMedium
+//                            anchors.rightMargin: Theme.paddingMedium
+//                            anchors.topMargin: Theme.paddingMedium
+//                            anchors.bottomMargin: Theme.paddingMedium
+
+//                            Label {
+//                                anchors.horizontalCenter: parent.horizontalCenter
+//                                width: parent.width
+//                                truncationMode: TruncationMode.Fade
+//                                font.bold: true
+//                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+//                                text: item.title
+//                            }
+
+//                            Label {
+//                                anchors.horizontalCenter: parent.horizontalCenter
+//                                width: parent.width
+//                                truncationMode: TruncationMode.Fade
+//                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+//                                text: item.counter
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+            MoreButton {
+                id: friendsButton
                 width: parent.width
-                spacing: Theme.paddingSmall
-                visible: profile.sex !== 0
+                height: Theme.itemSizeMedium
+                text: qsTr("Friends") + " (" + profile.friendsCounter + ")"
 
-                Label {
-                    font.bold: true
-                    text: qsTr("Gender:")
-                }
-
-                Label {
-                    text: profile.sex === 1 ? qsTr("Female") : qsTr("Male")
-                }
+                onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                              { userId: profile.id, type: 1 })
             }
 
-            Row {
+            MoreButton {
+                id: audiosButton
                 width: parent.width
-                spacing: Theme.paddingSmall
-                visible: profile.bdate !== ""
+                height: Theme.itemSizeMedium
+                text: qsTr("Audios") + " (" + profile.audiosCounter + ")"
 
-                Label {
-                    font.bold: true
-                    text: qsTr("Birthday:")
-                }
-
-                Label {
-                    text: profile.bdate
-                }
+                onClicked: {}
             }
 
-            Row {
+            MoreButton {
+                id: wallButton
                 width: parent.width
-                spacing: Theme.paddingSmall
-                visible: profile.city !== ""
+                height: Theme.itemSizeMedium
+                text: qsTr("Wall") + " (0)"
 
-                Label {
-                    font.bold: true
-                    text: qsTr("City:")
-                }
-
-                Label {
-                    text: profile.city
-                }
-            }
-
-            Row {
-                width: parent.width
-                spacing: Theme.paddingSmall
-                visible: profile.relation !== 0
-
-                Label {
-                    font.bold: true
-                    text: switch (profile.relation) {
-                          case 1:
-                              return qsTr("Single")
-
-                          case 2:
-                              return qsTr("In a relationship")
-
-                          case 3:
-                              return qsTr("Engaged")
-
-                          case 4:
-                              return qsTr("Married")
-
-                          case 5:
-                              return qsTr("It's complicated")
-
-                          case 6:
-                              return qsTr("Actively searching")
-
-                          case 7:
-                              return qsTr("In love")
-                          }
-                }
-
-                Label {
-                    font.underline: true
-                    color: Theme.highlightColor
-                    text: profile.relationPartnerName
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: pageContainer.replace(Qt.resolvedUrl("ProfilePage.qml"),
-                                                         { profileId: profile.relationPartnerId } )
-                    }
-                }
+                onClicked: {}
             }
         }
 
