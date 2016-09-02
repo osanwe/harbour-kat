@@ -87,7 +87,7 @@ private:
 //    QList<User *> _profiles;
 //    QList<Group *> _groups;
     QString _nextFrom;
-    int _count;
+    int _count = 0;
 
     QString _getAvatarSource(const int id) const;
     QString _getTitle(const int id) const;

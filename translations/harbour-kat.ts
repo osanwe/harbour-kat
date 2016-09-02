@@ -95,22 +95,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="155"/>
+        <location filename="../qml/views/CollapsedView.qml" line="157"/>
         <source>City:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="170"/>
+        <location filename="../qml/views/CollapsedView.qml" line="172"/>
         <source>Gender:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="174"/>
+        <location filename="../qml/views/CollapsedView.qml" line="176"/>
         <source>Female</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="174"/>
+        <location filename="../qml/views/CollapsedView.qml" line="176"/>
         <source>Male</source>
         <translation type="unfinished"></translation>
     </message>
@@ -277,12 +277,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="252"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="303"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="271"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="218"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>

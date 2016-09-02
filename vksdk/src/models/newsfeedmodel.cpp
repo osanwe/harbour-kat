@@ -133,10 +133,12 @@ void NewsfeedModel::clear() {
     _profiles.clear();
     _groups.clear();
     _nextFrom.clear();
+    _count = 0;
     endRemoveRows();
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
     emit dataChanged(index, index);
+    emit countChanged();
 }
 
 void NewsfeedModel::addGroup(Group *group) {

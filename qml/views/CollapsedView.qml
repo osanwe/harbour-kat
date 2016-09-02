@@ -139,8 +139,10 @@ BackgroundItem {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: pageContainer.replace(Qt.resolvedUrl("../pages/ProfilePage.qml"),
-                                                         { profileId: relationPartnerId } )
+                        onClicked: {
+                            pageContainer.replace(Qt.resolvedUrl("../pages/ProfilePage.qml"),
+                                                  { profileId: relationPartnerId } )
+                        }
                     }
                 }
             }

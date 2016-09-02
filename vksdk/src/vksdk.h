@@ -22,6 +22,7 @@
 #ifndef VKSDK_H
 #define VKSDK_H
 
+#include <QtConcurrent/QtConcurrent>
 #include <QObject>
 
 #include "authorization.h"

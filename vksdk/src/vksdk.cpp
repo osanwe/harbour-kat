@@ -28,6 +28,9 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Authorization*>("Authorization*");
     connect(_api, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
             this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+//    connect(_api, &ApiRequest::gotResponse,
+//            [this] (QJsonValue value, ApiRequest::TaskType type) { QtConcurrent::run(this, &VkSDK::gotResponse, value, type); });
+//            [this] (QJsonValue value, ApiRequest::TaskType type) { gotResponse(value, type); });
 
     _longPoll = new LongPoll(this);
     connect(_longPoll, SIGNAL(gotNewMessage(int)), this, SLOT(_gotNewMessage(int)));
