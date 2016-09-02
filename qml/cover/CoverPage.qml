@@ -46,13 +46,13 @@ CoverBackground {
         }
     }
 
-    CoverActionList {
-        id: coverAction
+//    CoverActionList {
+//        id: coverAction
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-new"
-        }
-    }
+//        CoverAction {
+//            iconSource: "image://theme/icon-cover-new"
+//        }
+//    }
 
     Connections {
         target: vksdk
