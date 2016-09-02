@@ -277,12 +277,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="254"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="252"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="274"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="271"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
