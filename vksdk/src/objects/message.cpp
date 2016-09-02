@@ -21,7 +21,24 @@
 
 #include "message.h"
 
-Message::Message(QObject *parent) : QObject(parent) {
+Message::Message(QObject *parent) : QObject(parent)
+{}
+
+Message::~Message() {
+    qDeleteAll(_audios);
+    qDeleteAll(_documents);
+    qDeleteAll(_links);
+    qDeleteAll(_news);
+    qDeleteAll(_photos);
+    qDeleteAll(_videos);
+    qDeleteAll(_fwdMessages);
+    _audios.clear();
+    _documents.clear();
+    _links.clear();
+    _news.clear();
+    _photos.clear();
+    _videos.clear();
+    _fwdMessages.clear();
 }
 
 Message *Message::fromJsonObject(QJsonObject object) {

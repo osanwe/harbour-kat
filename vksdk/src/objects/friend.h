@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QString>
 
+#include <QDebug>
+
 class Friend : public QObject
 {
     Q_OBJECT
@@ -39,6 +41,7 @@ class Friend : public QObject
 
 public:
     explicit Friend(QObject *parent = 0);
+    ~Friend();
 
     static Friend* fromJsonObject(QJsonObject object);
 

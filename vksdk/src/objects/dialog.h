@@ -35,6 +35,7 @@ class Dialog : public QObject
 
 public:
     explicit Dialog(QObject *parent = 0);
+    ~Dialog();
 
     static Dialog *fromJsonObject(QJsonObject object);
 

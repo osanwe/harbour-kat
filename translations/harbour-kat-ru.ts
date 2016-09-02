@@ -4,37 +4,37 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="26"/>
+        <location filename="../qml/pages/AboutPage.qml" line="30"/>
         <source>The unofficial client for vk.com, distributed under the terms of the GNU GPLv3.</source>
         <translation>Неофициальный клиент для vk.com, распространяемый по лицензии GNU GPL v3.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="27"/>
+        <location filename="../qml/pages/AboutPage.qml" line="31"/>
         <source>You can contact or help with links listed below:</source>
         <translation>Вы можете связаться с разработчиками или помочь проекту по ссылкам ниже.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="28"/>
+        <location filename="../qml/pages/AboutPage.qml" line="32"/>
         <source>VK page</source>
         <translation>ВКонтакте</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="29"/>
+        <location filename="../qml/pages/AboutPage.qml" line="33"/>
         <source>GitHub</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="30"/>
+        <location filename="../qml/pages/AboutPage.qml" line="34"/>
         <source>Donate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="31"/>
+        <location filename="../qml/pages/AboutPage.qml" line="35"/>
         <source>Ósanwe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="32"/>
+        <location filename="../qml/pages/AboutPage.qml" line="36"/>
         <source>Nostariel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -42,12 +42,12 @@
 <context>
     <name>AudioPlayerPage</name>
     <message>
-        <location filename="../qml/pages/AudioPlayerPage.qml" line="16"/>
+        <location filename="../qml/pages/AudioPlayerPage.qml" line="37"/>
         <source>Search audio...</source>
         <translation>Поиск аудиозаписей...</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AudioPlayerPage.qml" line="37"/>
+        <location filename="../qml/pages/AudioPlayerPage.qml" line="58"/>
         <source>My audios</source>
         <translation>Мои аудиозаписи</translation>
     </message>

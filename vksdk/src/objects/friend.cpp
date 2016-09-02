@@ -22,9 +22,10 @@
 #include "friend.h"
 
 Friend::Friend(QObject *parent) : QObject(parent)
-{
+{}
 
-}
+Friend::~Friend()
+{}
 
 Friend *Friend::fromJsonObject(QJsonObject object) {
     Friend *frnd = new Friend();

@@ -187,7 +187,14 @@ Page {
         }
     }
 
-    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+    onStatusChanged: if (status === PageStatus.Active) {
+                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+                         vksdk.dialogsListModel.clear()
+                         vksdk.friendsListModel.clear()
+                         vksdk.messagesModel.clear()
+                         vksdk.newsfeedModel.clear()
+                         vksdk.wallModel.clear()
+                     }
 
     Component.onCompleted: init()
 }

@@ -67,6 +67,7 @@ class Message : public QObject
 
 public:
     explicit Message(QObject *parent = 0);
+    ~Message();
 
     static Message* fromJsonObject(QJsonObject object);
 

@@ -63,6 +63,7 @@ QHash<int, QByteArray> FriendsListModel::roleNames() const {
 void FriendsListModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _ids.size());
     _ids.clear();
+    qDeleteAll(_profiles);
     _profiles.clear();
     endRemoveRows();
 

@@ -35,6 +35,7 @@ class Chat : public QObject
     Q_OBJECT
 public:
     explicit Chat(QObject *parent = 0);
+    ~Chat();
 
     static Chat* fromJsonObject(QJsonObject object);
 

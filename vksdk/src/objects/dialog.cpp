@@ -25,6 +25,10 @@ Dialog::Dialog(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Message*>("Message*");
 }
 
+Dialog::~Dialog() {
+    delete _lastMessage;
+}
+
 Dialog *Dialog::fromJsonObject(QJsonObject object) {
     Dialog *dialog = new Dialog();
     dialog->setLastMessage(Message::fromJsonObject(object.value("message").toObject()));

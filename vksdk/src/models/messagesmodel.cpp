@@ -108,6 +108,8 @@ QHash<int, QByteArray> MessagesModel::roleNames() const {
 
 void MessagesModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _messages.size());
+    qDeleteAll(_messages);
+    qDeleteAll(_profiles);
     _messages.clear();
     _profiles.clear();
     endRemoveRows();

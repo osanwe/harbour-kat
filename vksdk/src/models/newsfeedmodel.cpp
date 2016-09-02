@@ -126,6 +126,9 @@ Qt::ItemFlags NewsfeedModel::flags(const QModelIndex &index) const {
 
 void NewsfeedModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _newsfeed.size());
+    qDeleteAll(_newsfeed);
+    qDeleteAll(_profiles);
+    qDeleteAll(_groups);
     _newsfeed.clear();
     _profiles.clear();
     _groups.clear();

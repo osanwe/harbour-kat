@@ -24,8 +24,18 @@
 News::News(QObject *parent) : QObject(parent)
 {}
 
-News::~News()
-{}
+News::~News() {
+    qDeleteAll(_audios);
+    qDeleteAll(_documents);
+    qDeleteAll(_links);
+    qDeleteAll(_photos);
+    qDeleteAll(_videos);
+    _audios.clear();
+    _documents.clear();
+    _links.clear();
+    _photos.clear();
+    _videos.clear();
+}
 
 News *News::fromJsonObject(QJsonObject object) {
 //    qDebug() << object;
