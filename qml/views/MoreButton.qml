@@ -28,26 +28,51 @@ BackgroundItem {
 
     property bool isopen: false
     property alias text: moreLabel.text
+    property alias counter: moreCounter.text
     property int horizontalMargin: Theme.horizontalPageMargin
     property alias busy: busyIndicator.running
 
     height: Theme.itemSizeSmall
 
-    Label {
-        id: moreLabel
+    Row {
+        spacing: Theme.paddingMedium
         anchors {
-            left: parent.left
-            leftMargin: Theme.horizontalPageMargin
-            right: (morePanel.enabled || busy) ? moreImage.left : parent.right
-            rightMargin: (morePanel.enabled || busy) ? Theme.paddingMedium : horizontalMargin
+            right: parent.right
+            rightMargin: Theme.horizontalPageMargin
+            left: /*(morePanel.enabled || busy) ?*/ moreImage.right /*: parent.right*/
+            leftMargin: /*(morePanel.enabled || busy) ?*/ Theme.paddingMedium /*: horizontalMargin*/
             verticalCenter: parent.verticalCenter
         }
-        horizontalAlignment: Text.AlignRight
-        truncationMode: TruncationMode.Fade
-        color: (morePanel.highlighted || !morePanel.enabled)
-               ? Theme.highlightColor
-               : Theme.primaryColor
+        LayoutMirroring.enabled: true
+
+        Label {
+            id: moreLabel
+            color: (morePanel.highlighted || !morePanel.enabled)
+                   ? Theme.highlightColor
+                   : Theme.primaryColor
+        }
+
+        Label {
+            id: moreCounter
+            color: Theme.secondaryColor
+        }
     }
+
+//    Label {
+//        id: moreLabel
+//        anchors {
+//            left: parent.left
+//            leftMargin: Theme.horizontalPageMargin
+//            right: (morePanel.enabled || busy) ? moreImage.left : parent.right
+//            rightMargin: (morePanel.enabled || busy) ? Theme.paddingMedium : horizontalMargin
+//            verticalCenter: parent.verticalCenter
+//        }
+//        horizontalAlignment: Text.AlignRight
+//        truncationMode: TruncationMode.Fade
+//        color: (morePanel.highlighted || !morePanel.enabled)
+//               ? Theme.highlightColor
+//               : Theme.primaryColor
+//    }
 
     Image {
         id: moreImage

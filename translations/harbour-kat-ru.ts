@@ -255,12 +255,12 @@
         <translation>Друзья</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="133"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="134"/>
         <source>Audios</source>
         <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="145"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="147"/>
         <source>Groups</source>
         <translation>Сообщенства</translation>
     </message>
@@ -280,17 +280,17 @@
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="155"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="158"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="266"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="270"/>
         <source>Like</source>
         <translation type="unfinished">Мне нравится</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="181"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="185"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>

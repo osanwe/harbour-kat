@@ -120,7 +120,8 @@ Page {
                 id: friendsButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Friends") + " (" + profile.friendsCounter + ")"
+                text: qsTr("Friends") /*+ " (" + profile.friendsCounter + ")"*/
+                counter: profile.friendsCounter
 
                 onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
                                               { userId: profile.id, type: 1 })
@@ -130,7 +131,8 @@ Page {
                 id: audiosButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Audios") + " (" + profile.audiosCounter + ")"
+                text: qsTr("Audios") /*+ " (" + profile.audiosCounter + ")"*/
+                counter: profile.audiosCounter
 
                 onClicked: {
                     vksdk.audios.get(profileId)
@@ -142,7 +144,8 @@ Page {
                 id: groupsButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Groups") + " (" + profile.groupsCounter + ")"
+                text: qsTr("Groups") /*+ " (" + profile.groupsCounter + ")"*/
+                counter: profile.groupsCounter
 
                 onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
                                               { userId: profile.id })
@@ -152,7 +155,8 @@ Page {
                 id: wallButton
                 width: parent.width
                 height: Theme.itemSizeMedium
-                text: qsTr("Wall") + " (" + vksdk.wallModel.count + ")"
+                text: qsTr("Wall") /*+ " (" + vksdk.wallModel.count + ")"*/
+                counter: vksdk.wallModel.count
                 isopen: true
             }
 
