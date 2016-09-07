@@ -55,62 +55,62 @@
 <context>
     <name>CollapsedView</name>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="95"/>
+        <location filename="../qml/views/CollapsedView.qml" line="105"/>
         <source>Birthday:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="113"/>
+        <location filename="../qml/views/CollapsedView.qml" line="123"/>
         <source>Single</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="116"/>
+        <location filename="../qml/views/CollapsedView.qml" line="126"/>
         <source>In a relationship</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="119"/>
+        <location filename="../qml/views/CollapsedView.qml" line="129"/>
         <source>Engaged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="122"/>
+        <location filename="../qml/views/CollapsedView.qml" line="132"/>
         <source>Married</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="125"/>
+        <location filename="../qml/views/CollapsedView.qml" line="135"/>
         <source>It&apos;s complicated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="128"/>
+        <location filename="../qml/views/CollapsedView.qml" line="138"/>
         <source>Actively searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="131"/>
+        <location filename="../qml/views/CollapsedView.qml" line="141"/>
         <source>In love</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="157"/>
+        <location filename="../qml/views/CollapsedView.qml" line="167"/>
         <source>City:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="172"/>
+        <location filename="../qml/views/CollapsedView.qml" line="182"/>
         <source>Gender:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="176"/>
+        <location filename="../qml/views/CollapsedView.qml" line="186"/>
         <source>Female</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="176"/>
+        <location filename="../qml/views/CollapsedView.qml" line="186"/>
         <source>Male</source>
         <translation type="unfinished"></translation>
     </message>
@@ -159,6 +159,54 @@
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="60"/>
         <source>All friends</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GroupProfilePage</name>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="99"/>
+        <source>Members</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="106"/>
+        <source>Photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="114"/>
+        <source>Audios</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="122"/>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="130"/>
+        <source>Topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="138"/>
+        <source>Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="147"/>
+        <source>Wall</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="174"/>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="254"/>
+        <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

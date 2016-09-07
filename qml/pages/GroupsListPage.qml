@@ -45,7 +45,7 @@ Page {
             titleText: name
             bodyText: status
 
-//            onClicked: pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"), { profileId: id })
+            onClicked: pageContainer.push(Qt.resolvedUrl("GroupProfilePage.qml"), { groupId: id })
         }
 
         VerticalScrollDecorator {}

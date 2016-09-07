@@ -72,6 +72,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Wall*>("Wall*");
 
     // objects:
+    qRegisterMetaType<Group*>("Group*");
     qRegisterMetaType<News*>("News*");
     qRegisterMetaType<User*>("User*");
 
@@ -223,6 +224,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::GROUPS_GET:
         parseGroupsList(value.toObject().value("items").toArray());
+        break;
+    case ApiRequest::GROUPS_GET_BY_ID:
+        emit gotGroup(Group::fromJsonObject(value.toArray().at(0).toObject()));
         break;
     case ApiRequest::MESSAGES_GET_BY_ID:
         parseNewMessage(value.toObject().value("items").toArray().at(0).toObject());

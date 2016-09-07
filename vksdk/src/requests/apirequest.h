@@ -81,6 +81,7 @@ public:
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,
         GROUPS_GET,
+        GROUPS_GET_BY_ID,
         LIKES_ADD,
         MESSAGES_GET_BY_ID,
         MESSAGES_GET_CHAT,

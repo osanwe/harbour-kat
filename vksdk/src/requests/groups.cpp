@@ -19,3 +19,10 @@ void Groups::get(int userId, int offset) {
     _api->makeApiGetRequest("groups.get", query, ApiRequest::GROUPS_GET);
 }
 
+void Groups::getById(int groupId) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("group_id", QString::number(abs(groupId)));
+    query->addQueryItem("fields", "description,members_count,counters,status");
+    _api->makeApiGetRequest("groups.getById", query, ApiRequest::GROUPS_GET_BY_ID);
+}
+

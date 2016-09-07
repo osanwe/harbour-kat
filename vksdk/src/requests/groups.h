@@ -16,6 +16,7 @@ public:
     void setApi(ApiRequest *api);
 
     Q_INVOKABLE void get(int userId = 0, int offset = 0);
+    Q_INVOKABLE void getById(int groupId);
 
 private:
     ApiRequest *_api;

@@ -27,6 +27,7 @@
 
 #include "authorization.h"
 #include "longpoll.h"
+#include "objects/group.h"
 #include "objects/news.h"
 #include "objects/user.h"
 #include "objects/video.h"
@@ -116,6 +117,7 @@ public:
 //    User* selfProfile() const;
 
 signals:
+    void gotGroup(Group *grp);
     void gotNewMessage(QString name, QString preview);
     void gotProfile(User *user);
     void gotUnreadCounter(int value);

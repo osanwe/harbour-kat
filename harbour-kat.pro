@@ -79,5 +79,6 @@ DISTFILES += \
     qml/views/MoreButton.qml \
     qml/views/CollapsedView.qml \
     qml/views/BoxBackground.qml \
-    qml/pages/GroupsListPage.qml
+    qml/pages/GroupsListPage.qml \
+    qml/pages/GroupProfilePage.qml
 

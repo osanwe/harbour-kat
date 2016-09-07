@@ -30,9 +30,19 @@ Group *Group::fromJsonObject(QJsonObject object)
     if (object.contains("id")) group->setId(object.value("id").toInt());
     if (object.contains("name")) group->setName(object.value("name").toString());
     if (object.contains("status")) group->setStatus(object.value("status").toString());
+    if (object.contains("description")) group->setDescription(object.value("description").toString());
     if (object.contains("photo_50")) group->setPhoto50(object.value("photo_50").toString());
     if (object.contains("photo_100")) group->setPhoto100(object.value("photo_100").toString());
     if (object.contains("photo_200")) group->setPhoto200(object.value("photo_200").toString());
+    if (object.contains("members_count")) group->setMembersCount(object.value("members_count").toInt());
+    if (object.contains("counters")) {
+        QJsonObject counters = object.value("counters").toObject();
+        if (counters.contains("photos")) group->setPhotosCount(counters.value("photos").toInt());
+        if (counters.contains("audios")) group->setAudiosCount(counters.value("audios").toInt());
+        if (counters.contains("videos")) group->setVideosCount(counters.value("videos").toInt());
+        if (counters.contains("topics")) group->setTopicsCount(counters.value("topics").toInt());
+        if (counters.contains("docs")) group->setDocsCount(counters.value("docs").toInt());
+    }
     return group;
 }
 
@@ -94,5 +104,75 @@ QString Group::status() const
 void Group::setStatus(const QString &status)
 {
     _status = status;
+}
+
+QString Group::description() const
+{
+    return _description;
+}
+
+void Group::setDescription(const QString &description)
+{
+    _description = description;
+}
+
+int Group::photosCount() const
+{
+    return _photosCount;
+}
+
+void Group::setPhotosCount(int photosCount)
+{
+    _photosCount = photosCount;
+}
+
+int Group::audiosCount() const
+{
+    return _audiosCount;
+}
+
+void Group::setAudiosCount(int audiosCount)
+{
+    _audiosCount = audiosCount;
+}
+
+int Group::videosCount() const
+{
+    return _videosCount;
+}
+
+void Group::setVideosCount(int videosCount)
+{
+    _videosCount = videosCount;
+}
+
+int Group::topicsCount() const
+{
+    return _topicsCount;
+}
+
+void Group::setTopicsCount(int topicsCount)
+{
+    _topicsCount = topicsCount;
+}
+
+int Group::docsCount() const
+{
+    return _docsCount;
+}
+
+void Group::setDocsCount(int docsCount)
+{
+    _docsCount = docsCount;
+}
+
+int Group::membersCount() const
+{
+    return _membersCount;
+}
+
+void Group::setMembersCount(int membersCount)
+{
+    _membersCount = membersCount;
 }
 

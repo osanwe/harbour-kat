@@ -26,12 +26,13 @@ import Sailfish.Silica 1.0
 BackgroundItem {
     id: detailsBackground
 
-    property var bdate
-    property var relation
-    property var relationPartnerName
-    property var relationPartnerId
-    property var city
-    property var sex
+    property var bdate: ""
+    property var relation: ""
+    property var relationPartnerName: ""
+    property var relationPartnerId: ""
+    property var city: ""
+    property var sex: ""
+    property var description: ""
 
     property int horizontalMargin: Theme.horizontalPageMargin
 
@@ -72,7 +73,8 @@ BackgroundItem {
 
         height: opened
                 ? expandedDetails.height
-                : birthdayInfo.height + relationshipInfo.height
+                : descriptionLabel.visible ? (3 * Theme.fontSizeMedium)
+                                           : (birthdayInfo.height + relationshipInfo.height)
 
         Behavior on height {
             NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
@@ -83,6 +85,14 @@ BackgroundItem {
 
             width: parent.width
             anchors.top: lblSummary.bottom
+
+            Label {
+                id: descriptionLabel
+                width: parent.width
+                visible: description !== ""
+                wrapMode: Text.WordWrap
+                text: description
+            }
 
             Row {
                 id: birthdayInfo
@@ -165,7 +175,7 @@ BackgroundItem {
             Row {
                 width: parent.width
                 spacing: Theme.paddingSmall
-                visible: sex !== 0
+                visible: sex !== 0 && sex !== ""
 
                 Label {
                     font.bold: true

@@ -132,63 +132,7 @@ Page {
                 text: item.counter === 0 ? "" : item.counter
             }
 
-//            Row {
-//                anchors {
-//                    left: parent.left
-//                    right: parent.right
-//                    verticalCenter: parent.verticalCenter
-//                    leftMargin: Theme.horizontalPageMargin
-//                    rightMargin: Theme.horizontalPageMargin
-//                }
-//                spacing: Theme.paddingMedium
-
-//                Label {
-//                    text: item.itemText
-//                    color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-//                }
-
-//                Rectangle {
-//                    width: menuItemCounter.width < menuItemCounter.height ?
-//                               menuItemCounter.height :
-//                               menuItemCounter.width + 2 * Theme.paddingSmall
-//                    height: menuItemCounter.height
-//                    radius: 10
-//                    color: menuItem.highlighted ? Theme.primaryColor : Theme.highlightColor
-//                    visible: item.counter !== 0
-
-//                    Label {
-//                        id: menuItemCounter
-//                        anchors.centerIn: parent
-//                        font.bold: true
-//                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-//                        text: item.counter
-//                    }
-//                }
-//            }
-
             onClicked: openSubPage(index)
-
-//            onClicked: {
-//                switch (index) {
-//                case 0:
-////                    pageContainer.push(Qt.resolvedUrl("ProfilePage.qml"),
-////                                   { profileId: vksdk.selfProfile.id })
-//                    break;
-
-//                case 1:
-////                    pageContainer.push(Qt.resolvedUrl("NewsfeedPage.qml"))
-//                    break;
-
-//                case 2:
-////                    pageContainer.push(Qt.resolvedUrl("DialogsListPage.qml"))
-//                    break;
-
-//                case 3:
-////                    pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-////                                       { userId: vksdk.selfProfile.id, type: 1 })
-//                    break;
-//                }
-//            }
         }
     }
 

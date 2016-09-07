@@ -34,9 +34,17 @@ class Group : public QObject
 
     Q_PROPERTY(int id READ id CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString status READ status CONSTANT)
+    Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(QString photo50 READ photo50 CONSTANT)
     Q_PROPERTY(QString photo100 READ photo100 CONSTANT)
     Q_PROPERTY(QString photo200 READ photo200 CONSTANT)
+    Q_PROPERTY(int membersCount READ membersCount CONSTANT)
+    Q_PROPERTY(int photosCount READ photosCount CONSTANT)
+    Q_PROPERTY(int audiosCount READ audiosCount CONSTANT)
+    Q_PROPERTY(int videosCount READ videosCount CONSTANT)
+    Q_PROPERTY(int topicsCount READ topicsCount CONSTANT)
+    Q_PROPERTY(int docsCount READ docsCount CONSTANT)
 
 public:
     explicit Group(QObject *parent = 0);
@@ -61,13 +69,41 @@ public:
     QString status() const;
     void setStatus(const QString &status);
 
+    QString description() const;
+    void setDescription(const QString &description);
+
+    int photosCount() const;
+    void setPhotosCount(int photosCount);
+
+    int audiosCount() const;
+    void setAudiosCount(int audiosCount);
+
+    int videosCount() const;
+    void setVideosCount(int videosCount);
+
+    int topicsCount() const;
+    void setTopicsCount(int topicsCount);
+
+    int docsCount() const;
+    void setDocsCount(int docsCount);
+
+    int membersCount() const;
+    void setMembersCount(int membersCount);
+
 private:
     int _id;
     QString _name;
     QString _status;
+    QString _description;
     QString _photo50;
     QString _photo100;
     QString _photo200;
+    int _membersCount = 0;
+    int _photosCount = 0;
+    int _audiosCount = 0;
+    int _videosCount = 0;
+    int _topicsCount = 0;
+    int _docsCount = 0;
 };
 
 #endif // GROUP_H
