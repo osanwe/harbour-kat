@@ -58,9 +58,13 @@ public:
     QString photo200() const;
     void setPhoto200(const QString &photo200);
 
+    QString status() const;
+    void setStatus(const QString &status);
+
 private:
     int _id;
     QString _name;
+    QString _status;
     QString _photo50;
     QString _photo100;
     QString _photo200;

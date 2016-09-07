@@ -40,6 +40,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     // requests:
     _audios = new Audios(this);
     _friends = new Friends(this);
+    _groups = new Groups(this);
     _likes = new Likes(this);
     _messages = new Messages(this);
     _newsfeed = new Newsfeed(this);
@@ -50,6 +51,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    _longPoll->setApi(_api);
     _audios->setApi(_api);
     _friends->setApi(_api);
+    _groups->setApi(_api);
     _likes->setApi(_api);
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
@@ -60,6 +62,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Audios*>("Audios*");
     qRegisterMetaType<Friends*>("Friends*");
+    qRegisterMetaType<Groups*>("Groups*");
     qRegisterMetaType<Likes*>("Likes*");
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
@@ -75,11 +78,13 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     //models:
     _dialogsListModel = new DialogsListModel(this);
     _friendsListModel = new FriendsListModel(this);
+    _groupsListModel = new GroupsListModel(this);
     _messagesModel = new MessagesModel(this);
     _newsfeedModel = new NewsfeedModel(this);
     _wallModel = new NewsfeedModel(this);
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
+    qRegisterMetaType<GroupsListModel*>("GroupsListModel*");
     qRegisterMetaType<MessagesModel*>("MessagesModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
 
@@ -98,6 +103,7 @@ VkSDK::~VkSDK() {
 
     delete _audios;
     delete _friends;
+    delete _groups;
     delete _likes;
     delete _messages;
     delete _newsfeed;
@@ -108,6 +114,7 @@ VkSDK::~VkSDK() {
 
     delete _dialogsListModel;
     delete _friendsListModel;
+    delete _groupsListModel;
     delete _messagesModel;
     delete _newsfeedModel;
     delete _wallModel;
@@ -138,6 +145,10 @@ Audios *VkSDK::audios() const {
 
 Friends *VkSDK::friends() const {
     return _friends;
+}
+
+Groups *VkSDK::groups() const {
+    return _groups;
 }
 
 Likes *VkSDK::likes() const {
@@ -176,6 +187,10 @@ FriendsListModel *VkSDK::friendsListModel() const {
     return _friendsListModel;
 }
 
+GroupsListModel *VkSDK::groupsListModel() const {
+    return _groupsListModel;
+}
+
 MessagesModel *VkSDK::messagesModel() const {
     return _messagesModel;
 }
@@ -205,6 +220,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::FRIENDS_GET_MUTUAL:
     case ApiRequest::FRIENDS_GET_ONLINE:
         parseLimitedFriendsList(value.toArray());
+        break;
+    case ApiRequest::GROUPS_GET:
+        parseGroupsList(value.toObject().value("items").toArray());
         break;
     case ApiRequest::MESSAGES_GET_BY_ID:
         parseNewMessage(value.toObject().value("items").toArray().at(0).toObject());
@@ -330,6 +348,13 @@ void VkSDK::parseFriendsInfo(QJsonArray array) {
             Friend *profile = Friend::fromJsonObject(array.at(index).toObject());
             _friendsListModel->add(profile);
         }
+    }
+}
+
+void VkSDK::parseGroupsList(QJsonArray array) {
+    if (array.size() == 0) return;
+    foreach (QJsonValue value, array) {
+        _groupsListModel->add(Group::fromJsonObject(value.toObject()));
     }
 }
 

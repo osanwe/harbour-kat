@@ -32,11 +32,13 @@
 #include "objects/video.h"
 #include "models/dialogslistmodel.h"
 #include "models/friendslistmodel.h"
+#include "models/groupslistmodel.h"
 #include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
 #include "requests/apirequest.h"
 #include "requests/audios.h"
 #include "requests/friends.h"
+#include "requests/groups.h"
 #include "requests/likes.h"
 #include "requests/messages.h"
 #include "requests/newsfeed.h"
@@ -62,6 +64,7 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Audios* audios READ audios CONSTANT)
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
+    Q_PROPERTY(Groups* groups READ groups CONSTANT)
     Q_PROPERTY(Likes* likes READ likes CONSTANT)
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
@@ -72,6 +75,7 @@ class VkSDK : public QObject
 
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
     Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
+    Q_PROPERTY(GroupsListModel* groupsListModel READ groupsListModel CONSTANT)
     Q_PROPERTY(MessagesModel* messagesModel READ messagesModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* wallModel READ wallModel CONSTANT)
@@ -91,6 +95,7 @@ public:
 
     Audios* audios() const;
     Friends* friends() const;
+    Groups* groups() const;
     Likes *likes() const;
     Messages* messages() const;
     Newsfeed* newsfeed() const;
@@ -101,6 +106,7 @@ public:
 
     DialogsListModel* dialogsListModel() const;
     FriendsListModel* friendsListModel() const;
+    GroupsListModel* groupsListModel() const;
     MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
     NewsfeedModel* wallModel() const;
@@ -151,6 +157,7 @@ private:
 
     Audios *_audios;
     Friends *_friends;
+    Groups *_groups;
     Likes *_likes;
     Messages *_messages;
     Newsfeed *_newsfeed;
@@ -161,6 +168,7 @@ private:
 
     DialogsListModel *_dialogsListModel;
     FriendsListModel *_friendsListModel;
+    GroupsListModel *_groupsListModel;
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
     NewsfeedModel *_wallModel;
@@ -176,6 +184,7 @@ private:
     void parseDialogsInfo(QJsonObject object);
     void parseEntireFriendsList(QJsonArray array);
     void parseFriendsInfo(QJsonArray array);
+    void parseGroupsList(QJsonArray array);
     void parseLimitedFriendsList(QJsonArray array);
     void parseMessages(QJsonArray array);
     void parseNewMessage(QJsonObject object);

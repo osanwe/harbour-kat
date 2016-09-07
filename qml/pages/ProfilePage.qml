@@ -33,8 +33,6 @@ Page {
     property var counters: [
         { index: 0, title: qsTr("Photos"), counter: profile.photosCounter },
         { index: 1, title: qsTr("Videos"), counter: profile.videosCounter },
-        { index: 3, title: qsTr("Groups"), counter: profile.groupsCounter },
-        { index: 4, title: qsTr("Pages"), counter: profile.pagesCounter },
         { index: 5, title: qsTr("Followers"), counter: profile.followersCounter },
         { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
     ]
@@ -118,51 +116,6 @@ Page {
                 sex: profile.sex
             }
 
-//            Flow {
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                width: parent.width - 2 * Theme.horizontalPageMargin
-
-//                Repeater {
-//                    id: countersGrid
-//                    model: ListModel {}
-
-//                    delegate: BackgroundItem {
-//                        id: counterItem
-
-//                        property var item: model.modelData ? model.modelData : model
-
-//                        width: Theme.itemSizeMedium + Theme.paddingMedium
-//                        height: Theme.itemSizeMedium + Theme.paddingMedium
-//                        visible: item.counter > 0
-
-//                        Column {
-//                            anchors.fill: parent
-//                            anchors.leftMargin: Theme.paddingMedium
-//                            anchors.rightMargin: Theme.paddingMedium
-//                            anchors.topMargin: Theme.paddingMedium
-//                            anchors.bottomMargin: Theme.paddingMedium
-
-//                            Label {
-//                                anchors.horizontalCenter: parent.horizontalCenter
-//                                width: parent.width
-//                                truncationMode: TruncationMode.Fade
-//                                font.bold: true
-//                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-//                                text: item.title
-//                            }
-
-//                            Label {
-//                                anchors.horizontalCenter: parent.horizontalCenter
-//                                width: parent.width
-//                                truncationMode: TruncationMode.Fade
-//                                color: counterItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-//                                text: item.counter
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
             MoreButton {
                 id: friendsButton
                 width: parent.width
@@ -183,6 +136,16 @@ Page {
                     vksdk.audios.get(profileId)
                     pageContainer.navigateForward()
                 }
+            }
+
+            MoreButton {
+                id: groupsButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Groups") + " (" + profile.groupsCounter + ")"
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
+                                              { userId: profile.id })
             }
 
             MoreButton {

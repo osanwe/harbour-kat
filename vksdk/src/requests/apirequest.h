@@ -80,6 +80,7 @@ public:
         FRIENDS_GET,
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,
+        GROUPS_GET,
         LIKES_ADD,
         MESSAGES_GET_BY_ID,
         MESSAGES_GET_CHAT,

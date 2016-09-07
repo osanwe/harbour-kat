@@ -27,7 +27,9 @@ HEADERS += \
     $$PWD/src/requests/videos.h \
     $$PWD/src/requests/wall.h \
     $$PWD/src/objects/link.h \
-    $$PWD/src/requests/audios.h
+    $$PWD/src/requests/audios.h \
+    $$PWD/src/requests/groups.h \
+    $$PWD/src/models/groupslistmodel.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -58,4 +60,6 @@ SOURCES += \
     $$PWD/src/requests/videos.cpp \
     $$PWD/src/requests/wall.cpp \
     $$PWD/src/objects/link.cpp \
-    $$PWD/src/requests/audios.cpp
+    $$PWD/src/requests/audios.cpp \
+    $$PWD/src/requests/groups.cpp \
+    $$PWD/src/models/groupslistmodel.cpp

@@ -30,6 +30,7 @@ Page {
         { itemText: qsTr("News"),       counter: 0 },
         { itemText: qsTr("Messages"),   counter: 0 },
         { itemText: qsTr("Friends"),   counter: 0 },
+        { itemText: qsTr("Groups"),   counter: 0 },
     ]
 
     /**
@@ -67,6 +68,9 @@ Page {
         case 3: // Friends page
             pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"), { userId: settings.userId(),
                                                                         type:   1 })
+            break
+        case 4: // Groups page
+            pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"), { userId: settings.userId() })
             break
         }
     }
@@ -191,6 +195,7 @@ Page {
                          pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                          vksdk.dialogsListModel.clear()
                          vksdk.friendsListModel.clear()
+                         vksdk.groupsListModel.clear()
                          vksdk.messagesModel.clear()
                          vksdk.newsfeedModel.clear()
                          vksdk.wallModel.clear()

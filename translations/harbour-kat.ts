@@ -124,7 +124,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="163"/>
+        <location filename="../qml/pages/DialogPage.qml" line="168"/>
         <source>Photo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -163,6 +163,14 @@
     </message>
 </context>
 <context>
+    <name>GroupsListPage</name>
+    <message>
+        <location filename="../qml/pages/GroupsListPage.qml" line="39"/>
+        <source>Groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LoginPage</name>
     <message>
         <location filename="../qml/pages/LoginPage.qml" line="51"/>
@@ -193,12 +201,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainMenuPage.qml" line="89"/>
+        <location filename="../qml/pages/MainMenuPage.qml" line="33"/>
+        <source>Groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainMenuPage.qml" line="93"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainMenuPage.qml" line="94"/>
+        <location filename="../qml/pages/MainMenuPage.qml" line="98"/>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
@@ -237,52 +250,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="170"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="123"/>
         <source>Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="180"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="133"/>
         <source>Audios</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="36"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="145"/>
         <source>Groups</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="37"/>
-        <source>Pages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="38"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="36"/>
         <source>Followers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="39"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="37"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="56"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="54"/>
         <source>Go to dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="192"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="155"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="303"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="266"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="218"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="181"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
