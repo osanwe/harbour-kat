@@ -113,39 +113,58 @@ Page {
 
             property var item: model.modelData ? model.modelData : model
 
-            Row {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
-                    leftMargin: Theme.horizontalPageMargin
-                    rightMargin: Theme.horizontalPageMargin
-                }
-                spacing: Theme.paddingMedium
-
-                Label {
-                    text: item.itemText
-                    color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                }
-
-                Rectangle {
-                    width: menuItemCounter.width < menuItemCounter.height ?
-                               menuItemCounter.height :
-                               menuItemCounter.width + 2 * Theme.paddingSmall
-                    height: menuItemCounter.height
-                    radius: 10
-                    color: menuItem.highlighted ? Theme.primaryColor : Theme.highlightColor
-                    visible: item.counter !== 0
-
-                    Label {
-                        id: menuItemCounter
-                        anchors.centerIn: parent
-                        font.bold: true
-                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
-                        text: item.counter
-                    }
-                }
+            Label {
+                anchors.left: parent.left
+                anchors.right: menuItemCounter.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: Theme.horizontalPageMargin
+                color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                text: item.itemText
             }
+
+            Label {
+                id: menuItemCounter
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.horizontalPageMargin
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: Theme.fontSizeLarge
+                color: Theme.highlightColor
+                text: item.counter === 0 ? "" : item.counter
+            }
+
+//            Row {
+//                anchors {
+//                    left: parent.left
+//                    right: parent.right
+//                    verticalCenter: parent.verticalCenter
+//                    leftMargin: Theme.horizontalPageMargin
+//                    rightMargin: Theme.horizontalPageMargin
+//                }
+//                spacing: Theme.paddingMedium
+
+//                Label {
+//                    text: item.itemText
+//                    color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+//                }
+
+//                Rectangle {
+//                    width: menuItemCounter.width < menuItemCounter.height ?
+//                               menuItemCounter.height :
+//                               menuItemCounter.width + 2 * Theme.paddingSmall
+//                    height: menuItemCounter.height
+//                    radius: 10
+//                    color: menuItem.highlighted ? Theme.primaryColor : Theme.highlightColor
+//                    visible: item.counter !== 0
+
+//                    Label {
+//                        id: menuItemCounter
+//                        anchors.centerIn: parent
+//                        font.bold: true
+//                        color: menuItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+//                        text: item.counter
+//                    }
+//                }
+//            }
 
             onClicked: openSubPage(index)
 
