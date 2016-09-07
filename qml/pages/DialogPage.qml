@@ -79,7 +79,7 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            anchors.leftMargin: Theme.horizontalPageMargin
+//            anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
             spacing: Theme.paddingMedium
 
@@ -89,7 +89,12 @@ Page {
                 placeholderText: qsTr("Your message")
                 label: qsTr("Your message")
 
-                onTextChanged: vksdk.messages.setActivity(historyId)
+                onTextChanged: {
+                    if (!typingTimer.running) {
+                        typingTimer.running = true
+                        vksdk.messages.setActivity(historyId)
+                    }
+                }
 
                 EnterKey.enabled: text.length > 0 || attachmentsList.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
@@ -305,6 +310,11 @@ Page {
             direction: TouchInteraction.Up
             Component.onCompleted: start()
         }
+    }
+
+    Timer {
+        id: typingTimer
+        interval: 10000
     }
 
     Connections {
