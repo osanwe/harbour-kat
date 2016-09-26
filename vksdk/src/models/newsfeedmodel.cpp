@@ -126,14 +126,12 @@ Qt::ItemFlags NewsfeedModel::flags(const QModelIndex &index) const {
 
 void NewsfeedModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _newsfeed.size());
-    qDeleteAll(_newsfeed);
-    qDeleteAll(_profiles);
-    qDeleteAll(_groups);
     _newsfeed.clear();
     _profiles.clear();
     _groups.clear();
     _nextFrom.clear();
     _count = 0;
+    _id = 0;
     endRemoveRows();
 
     QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
@@ -189,6 +187,16 @@ int NewsfeedModel::count() const {
 void NewsfeedModel::setCount(int count) {
     _count = count;
     emit countChanged();
+}
+
+int NewsfeedModel::id() const
+{
+    return _id;
+}
+
+void NewsfeedModel::setId(int id)
+{
+    _id = id;
 }
 
 QString NewsfeedModel::_getAvatarSource(const int id) const {

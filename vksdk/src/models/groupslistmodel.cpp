@@ -60,7 +60,6 @@ QHash<int, QByteArray> GroupsListModel::roleNames() const {
 void GroupsListModel::clear() {
     beginRemoveRows(QModelIndex(), 0, _ids.size());
     _ids.clear();
-    qDeleteAll(_groups);
     _groups.clear();
     endRemoveRows();
 

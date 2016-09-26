@@ -205,7 +205,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="254"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="257"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
@@ -333,7 +333,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="270"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="273"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>

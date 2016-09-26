@@ -157,7 +157,7 @@ Page {
     onStatusChanged: if (status === PageStatus.Active) {
                          pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                          vksdk.dialogsListModel.clear()
-                         vksdk.friendsListModel.clear()
+//                         vksdk.friendsListModel.clear()
                          vksdk.groupsListModel.clear()
                          vksdk.messagesModel.clear()
                          vksdk.newsfeedModel.clear()

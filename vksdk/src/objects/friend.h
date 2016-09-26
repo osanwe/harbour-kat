@@ -24,6 +24,7 @@
 
 #include <QJsonObject>
 #include <QObject>
+#include <QScopedPointer>
 #include <QString>
 
 #include <QDebug>

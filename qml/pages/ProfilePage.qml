@@ -203,8 +203,11 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Active) {
             pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
-            vksdk.wallModel.clear()
-            vksdk.wall.get(profileId)
+            if (vksdk.wallModel.id !== profileId) {
+                vksdk.wallModel.clear()
+                vksdk.wallModel.id = profileId
+                vksdk.wall.get(profileId)
+            }
         }
     }
 
