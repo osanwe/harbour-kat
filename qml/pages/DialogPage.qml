@@ -308,7 +308,10 @@ Page {
 
         TouchInteractionHint {
             direction: TouchInteraction.Up
-            Component.onCompleted: start()
+            Component.onCompleted: if (settings.attachmentsHintCounter() < 3) {
+                                       settings.incrementAttachmentsHintCounter()
+                                       start()
+                                   }
         }
     }
 

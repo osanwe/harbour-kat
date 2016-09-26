@@ -42,6 +42,10 @@ void SettingsWrapper::setDefaultPage(QString value) {
     _settings->setValue(DEFAULT_PAGE_KEY, value);
 }
 
+void SettingsWrapper::incrementAttachmentsHintCounter() {
+    _settings->setValue(ATTACHMENTS_HINT, attachmentsHintCounter() + 1);
+}
+
 QString SettingsWrapper::accessToken() {
     return _settings->value(ACCESS_TOKEN_KEY).toString();
 }
@@ -52,6 +56,10 @@ int SettingsWrapper::userId() {
 
 QString SettingsWrapper::defaultPage() {
     return _settings->value(DEFAULT_PAGE_KEY).toString();
+}
+
+int SettingsWrapper::attachmentsHintCounter() {
+    return _settings->value(ATTACHMENTS_HINT, 0).toInt();
 }
 
 void SettingsWrapper::removeAccessToken() {

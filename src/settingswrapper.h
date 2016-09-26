@@ -37,10 +37,12 @@ public:
     Q_INVOKABLE void setAccessToken(QString value);
     Q_INVOKABLE void setUserId(int value);
     Q_INVOKABLE void setDefaultPage(QString value);
+    Q_INVOKABLE void incrementAttachmentsHintCounter();
 
     Q_INVOKABLE QString accessToken();
     Q_INVOKABLE int userId();
     Q_INVOKABLE QString defaultPage();
+    Q_INVOKABLE int attachmentsHintCounter();
 
     Q_INVOKABLE void removeAccessToken();
     Q_INVOKABLE void removeUserId();
@@ -51,6 +53,7 @@ private:
     const QString ACCESS_TOKEN_KEY = "accessToken";
     const QString USER_ID_KEY = "userId";
     const QString DEFAULT_PAGE_KEY = "defaultPage";
+    const QString ATTACHMENTS_HINT = "attachmentsHint";
 };
 
 #endif // SETTINGSWRAPPER_H
