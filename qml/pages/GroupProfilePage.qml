@@ -114,6 +114,11 @@ Page {
                 text: qsTr("Audios")
                 counter: group.audiosCount
                 visible: group.audiosCount !== 0
+
+                onClicked: {
+                    vksdk.audios.get(groupId)
+                    pageContainer.navigateForward()
+                }
             }
 
             MoreButton {

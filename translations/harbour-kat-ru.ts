@@ -167,47 +167,47 @@
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="99"/>
         <source>Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Участники</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="106"/>
         <source>Photos</source>
-        <translation type="unfinished">Фотографии</translation>
+        <translation>Фотографии</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="114"/>
         <source>Audios</source>
-        <translation type="unfinished">Аудиозаписи</translation>
+        <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="122"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
         <source>Videos</source>
-        <translation type="unfinished">Видеозаписи</translation>
+        <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="130"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
         <source>Topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Обсуждения</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="138"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
         <source>Documents</source>
-        <translation type="unfinished"></translation>
+        <translation>Документы</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="147"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
         <source>Wall</source>
-        <translation type="unfinished">Стена</translation>
+        <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="174"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
         <source>Load more</source>
-        <translation type="unfinished">Загрузить больше</translation>
+        <translation>Загрузить больше</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="257"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="262"/>
         <source>Like</source>
-        <translation type="unfinished">Мне нравится</translation>
+        <translation>Мне нравится</translation>
     </message>
 </context>
 <context>
@@ -215,7 +215,7 @@
     <message>
         <location filename="../qml/pages/GroupsListPage.qml" line="39"/>
         <source>Groups</source>
-        <translation type="unfinished">Сообщенства</translation>
+        <translation>Сообщенства</translation>
     </message>
 </context>
 <context>
@@ -251,7 +251,7 @@
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="33"/>
         <source>Groups</source>
-        <translation type="unfinished">Сообщенства</translation>
+        <translation>Сообщества</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="93"/>
@@ -335,7 +335,7 @@
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="273"/>
         <source>Like</source>
-        <translation type="unfinished">Мне нравится</translation>
+        <translation>Мне нравится</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="185"/>

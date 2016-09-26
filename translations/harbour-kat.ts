@@ -180,32 +180,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="122"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="130"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="138"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="147"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="174"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="257"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="262"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
