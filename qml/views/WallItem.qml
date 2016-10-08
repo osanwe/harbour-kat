@@ -45,29 +45,27 @@ ListItem {
             source: _avatarSource
         }
 
-        Column {
+        Label {
+            id: titleLabel
             anchors.left: avatar.right
             anchors.right: parent.right
             anchors.leftMargin: Theme.paddingMedium
-            spacing: Theme.paddingSmall
+            color: wallItem.highlighted ? Theme.secondaryColor : Theme.secondaryHighlightColor
+            font.bold: true
+            font.pixelSize: Theme.fontSizeTiny
+            truncationMode: TruncationMode.Fade
+            text: _title
+        }
 
-            Label {
-                width: parent.width
-                color: wallItem.highlighted ? Theme.secondaryColor : Theme.secondaryHighlightColor
-                font.bold: true
-                font.pixelSize: Theme.fontSizeTiny
-                truncationMode: TruncationMode.Fade
-                text: _title
-            }
-
-            Loader {
-                property var _wallpost: __wallpost
-                property var _repost: wallpost.repost
-                property bool isFeed: true
-                width: parent.width
-                active: true
-                source: "../views/WallPostView.qml"
-            }
+        Loader {
+            property var _wallpost: __wallpost
+            property var _repost: wallpost.repost
+            property bool isFeed: true
+            anchors.top: titleLabel.bottom
+            anchors.topMargin: Theme.paddingSmall
+            width: parent.width
+            active: true
+            source: "../views/WallPostView.qml"
         }
     }
 

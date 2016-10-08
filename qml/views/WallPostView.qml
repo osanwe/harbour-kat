@@ -26,7 +26,10 @@ Column {
     spacing: Theme.paddingSmall
 
     Row {
-        width: parent.width
+//        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: isFeed ? Theme.iconSizeMedium + Theme.paddingMedium : 0
         spacing: Theme.paddingSmall
 
         Label {
@@ -107,7 +110,5 @@ Column {
         active: _repost.id !== 0
         source: "RepostView.qml"
     }
-
-    Component.onCompleted: console.log(_wallpost.repost.id)
 }
 

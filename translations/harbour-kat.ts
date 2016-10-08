@@ -344,7 +344,7 @@
 <context>
     <name>WallItem</name>
     <message>
-        <location filename="../qml/views/WallItem.qml" line="77"/>
+        <location filename="../qml/views/WallItem.qml" line="75"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
