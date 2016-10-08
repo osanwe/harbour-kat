@@ -204,11 +204,6 @@
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="262"/>
-        <source>Like</source>
-        <translation>Мне нравится</translation>
-    </message>
 </context>
 <context>
     <name>GroupsListPage</name>
@@ -279,11 +274,6 @@
         <source>Newsfeed</source>
         <translation>Новости</translation>
     </message>
-    <message>
-        <location filename="../qml/pages/NewsfeedPage.qml" line="99"/>
-        <source>Like</source>
-        <translation>Мне нравится</translation>
-    </message>
 </context>
 <context>
     <name>ProfilePage</name>
@@ -333,11 +323,6 @@
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="273"/>
-        <source>Like</source>
-        <translation>Мне нравится</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/ProfilePage.qml" line="185"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
@@ -354,6 +339,14 @@
         <location filename="../qml/pages/VideoPlayerPage.qml" line="91"/>
         <source>The video is opened in a browser</source>
         <translation>Видеозапись была открыта в браузере...</translation>
+    </message>
+</context>
+<context>
+    <name>WallItem</name>
+    <message>
+        <location filename="../qml/views/WallItem.qml" line="77"/>
+        <source>Like</source>
+        <translation type="unfinished">Мне нравится</translation>
     </message>
 </context>
 <context>

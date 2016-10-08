@@ -43,73 +43,14 @@ Page {
             title: qsTr("Newsfeed")
         }
 
-        delegate: ListItem {
-            id: newsfeedItem
-            width: parent.width
-            contentHeight: content.height + Theme.paddingLarge
-//            height: content.height + Theme.paddingLarge
+        delegate: Component {
 
-            Item {
-                id: content
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: Theme.horizontalPageMargin
-                anchors.rightMargin: Theme.horizontalPageMargin
-                height: childrenRect.height
-
-                Image {
-                    id: avatar
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    width: Theme.iconSizeMedium
-                    height: Theme.iconSizeMedium
-                    source: avatarSource
-                }
-
-                Column {
-                    anchors.left: avatar.right
-                    anchors.right: parent.right
-                    anchors.leftMargin: Theme.paddingMedium
-                    spacing: Theme.paddingSmall
-
-                    Label {
-                        width: parent.width
-                        color: newsfeedItem.highlighted ? Theme.secondaryColor : Theme.secondaryHighlightColor
-                        font.bold: true
-                        font.pixelSize: Theme.fontSizeTiny
-                        truncationMode: TruncationMode.Fade
-                        text: title
-                    }
-
-                    Loader {
-                        property var _wallpost: wallpost
-                        property var _repost: wallpost.repost
-                        property bool isFeed: true
-                        width: parent.width
-                        active: true
-                        source: "../views/WallPostView.qml"
-                    }
-                }
-            }
-
-            menu: ContextMenu {
-
-                MenuItem {
-                    text: qsTr("Like")
-                    onClicked: {
-                        vksdk.likes.addPost(sourceId, postId)
-                        isLiked = true
-                        likesCount += 1
-                    }
-                }
-            }
-
-            onClicked: pageContainer.push(Qt.resolvedUrl("WallPostPage.qml"),
-                                          { name: title, wallpost: wallpost })
-
-            Component.onCompleted: {
-                if (index === vksdk.newsfeedModel.size-1) vksdk.newsfeed.get(vksdk.newsfeedModel.next)
+            Loader {
+                property var _avatarSource: avatarSource
+                property var _title: title
+                property var __wallpost: wallpost
+                width: parent.width
+                source: "../views/WallItem.qml"
             }
         }
 

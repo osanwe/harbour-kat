@@ -80,5 +80,6 @@ DISTFILES += \
     qml/views/CollapsedView.qml \
     qml/views/BoxBackground.qml \
     qml/pages/GroupsListPage.qml \
-    qml/pages/GroupProfilePage.qml
+    qml/pages/GroupProfilePage.qml \
+    qml/views/WallItem.qml
 
