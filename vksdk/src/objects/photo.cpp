@@ -121,20 +121,22 @@ void Photo::setPhoto2560(const QString &photo2560)
 }
 
 QString Photo::photoMinimum() const {
-    if (!_photo75.isEmpty()) return _photo75;
-    if (!_photo130.isEmpty()) return _photo130;
-    if (!_photo604.isEmpty()) return _photo604;
-    if (!_photo807.isEmpty()) return _photo807;
-    if (!_photo1280.isEmpty()) return _photo1280;
-    if (!_photo2560.isEmpty()) return _photo2560;
+    if (!_photo75.isNull() && !_photo75.isEmpty()) return _photo75;
+    if (!_photo130.isNull() && !_photo130.isEmpty()) return _photo130;
+    if (!_photo604.isNull() && !_photo604.isEmpty()) return _photo604;
+    if (!_photo807.isNull() && !_photo807.isEmpty()) return _photo807;
+    if (!_photo1280.isNull() && !_photo1280.isEmpty()) return _photo1280;
+    if (!_photo2560.isNull() && !_photo2560.isEmpty()) return _photo2560;
+    return "";
 }
 
 QString Photo::photoMaximum() const {
-    if (!_photo2560.isEmpty()) return _photo2560;
-    if (!_photo1280.isEmpty()) return _photo1280;
-    if (!_photo807.isEmpty()) return _photo807;
-    if (!_photo604.isEmpty()) return _photo604;
-    if (!_photo130.isEmpty()) return _photo130;
-    if (!_photo75.isEmpty()) return _photo75;
+    if (!_photo2560.isNull() && !_photo2560.isEmpty()) return _photo2560;
+    if (!_photo1280.isNull() && !_photo1280.isEmpty()) return _photo1280;
+    if (!_photo807.isNull() && !_photo807.isEmpty()) return _photo807;
+    if (!_photo604.isNull() && !_photo604.isEmpty()) return _photo604;
+    if (!_photo130.isNull() && !_photo130.isEmpty()) return _photo130;
+    if (!_photo75.isNull() && !_photo75.isEmpty()) return _photo75;
+    return "";
 }
 

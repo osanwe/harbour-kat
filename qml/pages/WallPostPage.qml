@@ -106,6 +106,7 @@ Page {
                 width: parent.width
                 placeholderText: qsTr("Your comment")
                 label: qsTr("Your comment")
+                visible: wallpost.canComment
             }
         }
 

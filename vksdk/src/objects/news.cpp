@@ -57,6 +57,7 @@ News *News::fromJsonObject(QJsonObject object) {
     if (object.contains("comments")) {
         QJsonObject comments = object.value("comments").toObject();
         if (comments.contains("count")) news->setCommentsCount(comments.value("count").toInt());
+        if (comments.contains("can_post")) news->setCanComment(comments.value("can_post").toInt() == 1);
     }
     if (object.contains("likes")) {
         QJsonObject likes = object.value("likes").toObject();
@@ -338,5 +339,15 @@ bool News::userReposted() const
 void News::setUserReposted(bool userReposted)
 {
     _userReposted = userReposted;
+}
+
+bool News::canComment() const
+{
+    return _canComment;
+}
+
+void News::setCanComment(bool canComment)
+{
+    _canComment = canComment;
 }
 

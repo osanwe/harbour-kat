@@ -37,6 +37,7 @@ Item {
                 height: photos.length === 1 ? maximumWidth : maximumWidth / 2
                 fillMode: Image.PreserveAspectCrop
                 source: photos[index].photoMaximum
+//                source: photos[index].photoMinimum
 
                 MouseArea {
                     anchors.fill: parent
@@ -47,6 +48,8 @@ Item {
                                                                                        imagesModel: sources })
                     }
                 }
+
+                Component.onCompleted: console.log(index, photos)
             }
         }
     }

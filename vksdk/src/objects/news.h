@@ -51,6 +51,7 @@ class News : public QObject
     Q_PROPERTY(int repostsCount READ repostsCount CONSTANT)
     Q_PROPERTY(bool userLiked READ userLiked CONSTANT)
     Q_PROPERTY(bool userReposted READ userReposted CONSTANT)
+    Q_PROPERTY(bool canComment READ canComment CONSTANT)
     Q_PROPERTY(QString text READ text CONSTANT)
     Q_PROPERTY(QString geoTile READ geoTile CONSTANT)
     Q_PROPERTY(QString geoMap READ geoMap CONSTANT)
@@ -133,6 +134,9 @@ public:
     bool userReposted() const;
     void setUserReposted(bool userReposted);
 
+    bool canComment() const;
+    void setCanComment(bool canComment);
+
 private:
     int _id = 0;
     int _sourceId = 0;
@@ -144,6 +148,7 @@ private:
     int _repostsCount = 0;
     bool _userLiked;
     bool _userReposted;
+    bool _canComment;
     QString _text;
     QString _geoTile;
     QString _geoMap;
