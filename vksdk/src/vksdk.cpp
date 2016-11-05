@@ -301,7 +301,7 @@ void VkSDK::_readMessages(qint64 peerId, qint64 localId, bool out) {
 }
 
 void VkSDK::_userTyping(qint64 userId, qint64 chatId) {
-    //
+    emit userTyping(userId, chatId);
 }
 
 void VkSDK::parseAudiosList(QJsonArray array) {

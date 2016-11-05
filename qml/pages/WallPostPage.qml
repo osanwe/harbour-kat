@@ -37,6 +37,15 @@ Page {
         PullDownMenu {
 
             MenuItem {
+                text: qsTr("Share")
+                onClicked: {
+                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                    pageStack.push(Qt.resolvedUrl("RepostPage.qml"), { sourceId: sourceId,
+                                                                       postId: wallpost.id })
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Like")
                 onClicked: {
                     var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId

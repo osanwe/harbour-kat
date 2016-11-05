@@ -103,6 +103,7 @@ public:
         WALL_GET,
         WALL_GET_BY_ID,
         WALL_GET_COMMENTS,
+        WALL_REPOST,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);

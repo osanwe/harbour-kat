@@ -79,6 +79,14 @@ ListItem {
                 likesCount += 1
             }
         }
+
+        MenuItem {
+            text: qsTr("Share")
+            onClicked: {
+                pageStack.push(Qt.resolvedUrl("../pages/RepostPage.qml"), { sourceId: sourceId,
+                                                                   postId: wallpost.id })
+            }
+        }
     }
 
     onClicked: pageContainer.push(Qt.resolvedUrl("../pages/WallPostPage.qml"),

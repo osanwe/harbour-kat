@@ -108,13 +108,18 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="89"/>
-        <location filename="../qml/pages/DialogPage.qml" line="90"/>
+        <location filename="../qml/pages/DialogPage.qml" line="84"/>
+        <source>typing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DialogPage.qml" line="107"/>
+        <location filename="../qml/pages/DialogPage.qml" line="108"/>
         <source>Your message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="168"/>
+        <location filename="../qml/pages/DialogPage.qml" line="186"/>
         <source>Photo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,6 +324,19 @@
     </message>
 </context>
 <context>
+    <name>RepostPage</name>
+    <message>
+        <location filename="../qml/pages/RepostPage.qml" line="11"/>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/RepostPage.qml" line="12"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VideoPlayerPage</name>
     <message>
         <location filename="../qml/pages/VideoPlayerPage.qml" line="54"/>
@@ -338,17 +356,27 @@
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/views/WallItem.qml" line="84"/>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WallPostPage</name>
     <message>
         <location filename="../qml/pages/WallPostPage.qml" line="40"/>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/WallPostPage.qml" line="49"/>
         <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/WallPostPage.qml" line="107"/>
-        <location filename="../qml/pages/WallPostPage.qml" line="108"/>
+        <location filename="../qml/pages/WallPostPage.qml" line="116"/>
+        <location filename="../qml/pages/WallPostPage.qml" line="117"/>
         <source>Your comment</source>
         <translation type="unfinished"></translation>
     </message>

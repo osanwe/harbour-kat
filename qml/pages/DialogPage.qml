@@ -41,7 +41,7 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.bottom: newmessagerow.top
+            anchors.bottom: typingLabel.top
             verticalLayoutDirection: ListView.BottomToTop
             clip: true
 
@@ -72,6 +72,24 @@ Page {
             }
 
             VerticalScrollDecorator {}
+        }
+
+        Label {
+            id: typingLabel
+            anchors.bottom: newmessagerow.top
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Theme.fontSizeExtraSmall
+            color: Theme.secondaryColor
+            text: qsTr("typing...")
+            visible: false
+            onVisibleChanged: if (visible) typingLabelTimer.running = true
+
+            Timer {
+                id: typingLabelTimer
+                interval: 10000
+                onTriggered: typingLabel.visible = false
+            }
         }
 
         Row {
@@ -325,6 +343,10 @@ Page {
         onSavedPhoto: {
             attachmentsList += name + ","
             attachmentsBusy.running = false;
+        }
+        onUserTyping: {
+            if (chatId !== 0) { if (chatId === historyId) typingLabel.visible = true }
+            else if (userId === historyId) typingLabel.visible = true
         }
     }
 

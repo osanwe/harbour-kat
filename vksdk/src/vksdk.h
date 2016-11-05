@@ -129,6 +129,7 @@ signals:
     void gotUserAudios(QVariantList audios);
     void gotWallpost(News *wallpost);
     void savedPhoto(QString name);
+    void userTyping(int userId, int chatId);
 //    void gotSelfProfile();
     //    void gotFriends(QVariant friends);
 //    void gotMessages(QVariant messages);
