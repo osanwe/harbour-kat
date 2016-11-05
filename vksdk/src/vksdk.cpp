@@ -77,12 +77,14 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<User*>("User*");
 
     //models:
+    _commentsModel = new CommentsModel(this);
     _dialogsListModel = new DialogsListModel(this);
     _friendsListModel = new FriendsListModel(this);
     _groupsListModel = new GroupsListModel(this);
     _messagesModel = new MessagesModel(this);
     _newsfeedModel = new NewsfeedModel(this);
     _wallModel = new NewsfeedModel(this);
+    qRegisterMetaType<CommentsModel*>("CommentsModel*");
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
     qRegisterMetaType<GroupsListModel*>("GroupsListModel*");
@@ -113,6 +115,7 @@ VkSDK::~VkSDK() {
     delete _videos;
     delete _wall;
 
+    delete _commentsModel;
     delete _dialogsListModel;
     delete _friendsListModel;
     delete _groupsListModel;
@@ -170,6 +173,10 @@ Newsfeed *VkSDK::newsfeed() const {
 
 Wall *VkSDK::wall() const {
     return _wall;
+}
+
+CommentsModel *VkSDK::commentsModel() const {
+    return _commentsModel;
 }
 
 Users *VkSDK::users() const {
@@ -273,6 +280,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::WALL_GET_BY_ID:
         emit gotWallpost(parseWallpost(value.toObject().value("items").toArray()));
         break;
+    case ApiRequest::WALL_GET_COMMENTS:
+        parseComments(value.toObject());
+        break;
     default:
         break;
     }
@@ -310,6 +320,24 @@ void VkSDK::parseChatsInfo(QJsonArray array) {
     }
     _usersIds.removeDuplicates();
     _users->getUsersByIds(_usersIds);
+}
+
+void VkSDK::parseComments(QJsonObject object) {
+    QJsonArray comments = object.value("items").toArray();
+    QJsonArray profiles = object.value("profiles").toArray();
+    QJsonArray groups = object.value("groups").toArray();
+    for (int index = 0; index < comments.size(); ++index) {
+        Comment *comment = Comment::fromJsonObject(comments.at(index).toObject());
+        _commentsModel->addComment(comment);
+    }
+    for (int index = 0; index < profiles.size(); ++index) {
+        User *profile = User::fromJsonObject(profiles.at(index).toObject());
+        _commentsModel->addUser(profile);
+    }
+    for (int index = 0; index < groups.size(); ++index) {
+        Group *group = Group::fromJsonObject(groups.at(index).toObject());
+        _commentsModel->addGroup(group);
+    }
 }
 
 void VkSDK::parseDialogsInfo(QJsonObject object) {

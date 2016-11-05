@@ -31,6 +31,7 @@
 #include "objects/news.h"
 #include "objects/user.h"
 #include "objects/video.h"
+#include "models/commentsmodel.h"
 #include "models/dialogslistmodel.h"
 #include "models/friendslistmodel.h"
 #include "models/groupslistmodel.h"
@@ -74,6 +75,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Videos* videos READ videos CONSTANT)
     Q_PROPERTY(Wall* wall READ wall CONSTANT)
 
+    Q_PROPERTY(CommentsModel* commentsModel READ commentsModel CONSTANT)
     Q_PROPERTY(DialogsListModel* dialogsListModel READ dialogsListModel CONSTANT)
     Q_PROPERTY(FriendsListModel* friendsListModel READ friendsListModel CONSTANT)
     Q_PROPERTY(GroupsListModel* groupsListModel READ groupsListModel CONSTANT)
@@ -105,6 +107,7 @@ public:
     Videos* videos() const;
     Wall* wall() const;
 
+    CommentsModel* commentsModel() const;
     DialogsListModel* dialogsListModel() const;
     FriendsListModel* friendsListModel() const;
     GroupsListModel* groupsListModel() const;
@@ -168,6 +171,7 @@ private:
     Videos *_videos;
     Wall *_wall;
 
+    CommentsModel *_commentsModel;
     DialogsListModel *_dialogsListModel;
     FriendsListModel *_friendsListModel;
     GroupsListModel *_groupsListModel;
@@ -183,6 +187,7 @@ private:
 
     void parseAudiosList(QJsonArray array);
     void parseChatsInfo(QJsonArray array);
+    void parseComments(QJsonObject object);
     void parseDialogsInfo(QJsonObject object);
     void parseEntireFriendsList(QJsonArray array);
     void parseFriendsInfo(QJsonArray array);

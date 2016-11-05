@@ -29,7 +29,9 @@ HEADERS += \
     $$PWD/src/objects/link.h \
     $$PWD/src/requests/audios.h \
     $$PWD/src/requests/groups.h \
-    $$PWD/src/models/groupslistmodel.h
+    $$PWD/src/models/groupslistmodel.h \
+    $$PWD/src/objects/comment.h \
+    $$PWD/src/models/commentsmodel.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -62,4 +64,6 @@ SOURCES += \
     $$PWD/src/objects/link.cpp \
     $$PWD/src/requests/audios.cpp \
     $$PWD/src/requests/groups.cpp \
-    $$PWD/src/models/groupslistmodel.cpp
+    $$PWD/src/models/groupslistmodel.cpp \
+    $$PWD/src/objects/comment.cpp \
+    $$PWD/src/models/commentsmodel.cpp

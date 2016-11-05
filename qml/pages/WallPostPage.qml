@@ -38,7 +38,10 @@ Page {
 
             MenuItem {
                 text: qsTr("Like")
-                onClicked: vksdk.likes.addPost(wallpost.sourceId, wallpost.id)
+                onClicked: {
+                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                    vksdk.likes.addPost(sourceId, wallpost.id)
+                }
             }
         }
 
@@ -54,6 +57,7 @@ Page {
             anchors.top: header.bottom
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
+            spacing: Theme.paddingMedium
 
             Loader {
                 property var _wallpost: wallpost
@@ -63,11 +67,56 @@ Page {
                 active: true
                 source: "../views/WallPostView.qml"
             }
+
+            Column {
+                width: parent.width
+                spacing: Theme.paddingMedium
+
+                Repeater {
+                    model: vksdk.commentsModel
+                    delegate: Item {
+                        width: parent.width
+                        height: childrenRect.height
+
+                        Image {
+                            id: commentAvatar
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            width: Theme.iconSizeSmall
+                            height: Theme.iconSizeSmall
+                            source: avatarSource
+                        }
+
+                        Label {
+                            anchors.top: parent.top
+                            anchors.left: commentAvatar.right
+                            anchors.right: parent.right
+                            anchors.leftMargin: Theme.paddingMedium
+                            font.pixelSize: Theme.fontSizeSmall
+                            wrapMode: Text.WordWrap
+                            text: commentText
+                        }
+
+                        Component.onCompleted: console.log(commentText)
+                    }
+                }
+            }
+
+            TextField {
+                width: parent.width
+                placeholderText: qsTr("Your comment")
+                label: qsTr("Your comment")
+            }
         }
 
         VerticalScrollDecorator {}
     }
 
-    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+    onStatusChanged: if (status === PageStatus.Active) {
+                         vksdk.commentsModel.clear()
+                         var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                         vksdk.wall.getComments(sourceId, wallpost.id)
+                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+                     }
 }
 

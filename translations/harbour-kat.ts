@@ -4,38 +4,28 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="30"/>
+        <location filename="../qml/pages/AboutPage.qml" line="36"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="68"/>
         <source>The unofficial client for vk.com, distributed under the terms of the GNU GPLv3.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="31"/>
-        <source>You can contact or help with links listed below:</source>
+        <location filename="../qml/pages/AboutPage.qml" line="74"/>
+        <source>Homepage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="32"/>
-        <source>VK page</source>
+        <location filename="../qml/pages/AboutPage.qml" line="88"/>
+        <source>Source code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="33"/>
-        <source>GitHub</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="34"/>
+        <location filename="../qml/pages/AboutPage.qml" line="81"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="35"/>
-        <source>Ósanwe</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="36"/>
-        <source>Nostariel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -354,6 +344,12 @@
     <message>
         <location filename="../qml/pages/WallPostPage.qml" line="40"/>
         <source>Like</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/WallPostPage.qml" line="107"/>
+        <location filename="../qml/pages/WallPostPage.qml" line="108"/>
+        <source>Your comment</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
