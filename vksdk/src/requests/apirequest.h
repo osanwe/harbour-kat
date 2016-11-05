@@ -99,6 +99,7 @@ public:
         USERS_GET,
         USERS_GET_FRIENDS,
         VIDEO_GET,
+        WALL_CREATE_COMMENT,
         WALL_GET,
         WALL_GET_BY_ID,
         WALL_GET_COMMENTS,

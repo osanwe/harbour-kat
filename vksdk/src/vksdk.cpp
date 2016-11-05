@@ -274,6 +274,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::VIDEO_GET:
         emit gotVideo(parseVideoInfo(value.toObject().value("items").toArray()));
         break;
+    case ApiRequest::WALL_CREATE_COMMENT:
+        emit commentCreated();
+        break;
     case ApiRequest::WALL_GET:
         parseNewsfeed(value.toObject(), true);
         break;

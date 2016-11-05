@@ -107,10 +107,27 @@ Page {
                 placeholderText: qsTr("Your comment")
                 label: qsTr("Your comment")
                 visible: wallpost.canComment
+
+                EnterKey.enabled: text.length > 0
+                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                EnterKey.onClicked: {
+                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                    vksdk.wall.createComment(sourceId, wallpost.id, text)
+                    text = ""
+                }
             }
         }
 
         VerticalScrollDecorator {}
+    }
+
+    Connections {
+        target: vksdk
+        onCommentCreated: {
+            vksdk.commentsModel.clear()
+            var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+            vksdk.wall.getComments(sourceId, wallpost.id)
+        }
     }
 
     onStatusChanged: if (status === PageStatus.Active) {

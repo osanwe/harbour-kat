@@ -120,6 +120,7 @@ public:
 //    User* selfProfile() const;
 
 signals:
+    void commentCreated();
     void gotGroup(Group *grp);
     void gotNewMessage(QString name, QString preview);
     void gotProfile(User *user);

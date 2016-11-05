@@ -57,3 +57,11 @@ void Wall::getComments(int ownerId, int postId, int offset) {
     if (offset != 0) query->addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("wall.getComments", query, ApiRequest::WALL_GET_COMMENTS);
 }
+
+void Wall::createComment(int ownerId, int postId, QString message) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("owner_id", QString::number(ownerId));
+    query->addQueryItem("post_id", QString::number(postId));
+    query->addQueryItem("message", message);
+    _api->makeApiGetRequest("wall.createComment", query, ApiRequest::WALL_CREATE_COMMENT);
+}
