@@ -25,7 +25,7 @@ import Sailfish.Silica 1.0
 ListItem {
     id: wallItem
     width: parent.width
-    contentHeight: content.height + Theme.paddingLarge
+    contentHeight: content.height + 2 * Theme.paddingLarge
 
     Item {
         id: content

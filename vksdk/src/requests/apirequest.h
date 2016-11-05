@@ -101,6 +101,7 @@ public:
         VIDEO_GET,
         WALL_GET,
         WALL_GET_BY_ID,
+        WALL_GET_COMMENTS,
     };
 
     void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
@@ -116,7 +117,7 @@ public slots:
 
 private:
     const QString API_URL = "https://api.vk.com/method/";
-    const QString API_VERSION = "5.53";
+    const QString API_VERSION = "5.57";
 
     QString _accessToken;
     QHash<QString, TaskType> _history;

@@ -30,6 +30,7 @@ Column {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: isFeed ? Theme.iconSizeMedium + Theme.paddingMedium : 0
+        height: isFeed ? comments.height  + Theme.paddingSmall : comments.height
         spacing: Theme.paddingSmall
 
         Label {

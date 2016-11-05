@@ -38,6 +38,7 @@ public:
 
     Q_INVOKABLE void get(int ownerId, int offset = 0);
     Q_INVOKABLE void getById(int ownerId, int id);
+    Q_INVOKABLE void getComments(int ownerId, int postId, int offset = 0);
 
 private:
     ApiRequest *_api;
