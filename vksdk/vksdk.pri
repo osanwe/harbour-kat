@@ -31,7 +31,8 @@ HEADERS += \
     $$PWD/src/requests/groups.h \
     $$PWD/src/models/groupslistmodel.h \
     $$PWD/src/objects/comment.h \
-    $$PWD/src/models/commentsmodel.h
+    $$PWD/src/models/commentsmodel.h \
+    $$PWD/src/requests/stats.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -66,4 +67,5 @@ SOURCES += \
     $$PWD/src/requests/groups.cpp \
     $$PWD/src/models/groupslistmodel.cpp \
     $$PWD/src/objects/comment.cpp \
-    $$PWD/src/models/commentsmodel.cpp
+    $$PWD/src/models/commentsmodel.cpp \
+    $$PWD/src/requests/stats.cpp

@@ -244,12 +244,12 @@
         <translation>Сообщества</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainMenuPage.qml" line="93"/>
+        <location filename="../qml/pages/MainMenuPage.qml" line="94"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainMenuPage.qml" line="98"/>
+        <location filename="../qml/pages/MainMenuPage.qml" line="99"/>
         <source>Logout</source>
         <translation>Выйти</translation>
     </message>

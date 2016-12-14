@@ -45,6 +45,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _messages = new Messages(this);
     _newsfeed = new Newsfeed(this);
     _photos = new Photos(this);
+    _stats = new Stats(this);
     _users = new Users(this);
     _videos = new Videos(this);
     _wall = new Wall(this);
@@ -56,6 +57,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
     _photos->setApi(_api);
+    _stats->setApi(_api);
     _users->setApi(_api);
     _videos->setApi(_api);
     _wall->setApi(_api);
@@ -67,6 +69,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<Messages*>("Messages*");
     qRegisterMetaType<Newsfeed*>("Newsfeed*");
     qRegisterMetaType<Photos*>("Photos*");
+    qRegisterMetaType<Stats*>("Stats*");
     qRegisterMetaType<Users*>("Users*");
     qRegisterMetaType<Videos*>("Videos*");
     qRegisterMetaType<Wall*>("Wall*");
@@ -111,6 +114,7 @@ VkSDK::~VkSDK() {
     delete _messages;
     delete _newsfeed;
     delete _photos;
+    delete _stats;
     delete _users;
     delete _videos;
     delete _wall;
@@ -165,6 +169,10 @@ Messages *VkSDK::messages() const {
 
 Photos *VkSDK::photos() const {
     return _photos;
+}
+
+Stats *VkSDK::stats() const {
+    return _stats;
 }
 
 Newsfeed *VkSDK::newsfeed() const {

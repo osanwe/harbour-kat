@@ -45,6 +45,7 @@
 #include "requests/messages.h"
 #include "requests/newsfeed.h"
 #include "requests/photos.h"
+#include "requests/stats.h"
 #include "requests/users.h"
 #include "requests/videos.h"
 #include "requests/wall.h"
@@ -71,6 +72,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Messages* messages READ messages CONSTANT)
     Q_PROPERTY(Newsfeed* newsfeed READ newsfeed CONSTANT)
     Q_PROPERTY(Photos* photos READ photos CONSTANT)
+    Q_PROPERTY(Stats* stats READ stats CONSTANT)
     Q_PROPERTY(Users* users READ users CONSTANT)
     Q_PROPERTY(Videos* videos READ videos CONSTANT)
     Q_PROPERTY(Wall* wall READ wall CONSTANT)
@@ -103,6 +105,7 @@ public:
     Messages* messages() const;
     Newsfeed* newsfeed() const;
     Photos* photos() const;
+    Stats* stats() const;
     Users* users() const;
     Videos* videos() const;
     Wall* wall() const;
@@ -169,6 +172,7 @@ private:
     Messages *_messages;
     Newsfeed *_newsfeed;
     Photos *_photos;
+    Stats *_stats;
     Users *_users;
     Videos *_videos;
     Wall *_wall;
