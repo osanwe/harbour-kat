@@ -438,6 +438,7 @@ void VkSDK::parseNewMessage(QJsonObject object) {
     if (message->out()) return;
     _messagePreview = (message->hasAttachments() ? "[ 📎 ] " : "") + message->body();
     _users->getUserProfile(message->userId());
+    qDebug() << "...finished...";
 }
 
 void VkSDK::parseNewsfeed(QJsonObject object, bool isWall) {

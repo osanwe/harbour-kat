@@ -148,6 +148,7 @@ void MessagesModel::addProfile(Friend *profile) {
 }
 
 void MessagesModel::readMessages(qint64 peerId, qint64 localId, bool out) {
+    if (_messages.isEmpty()) return;
     if (_messages.at(0)->chat() && _messages.at(0)->chatId() != peerId) return;
     if (!_messages.at(0)->chat() && _messages.at(0)->userId() != peerId) return;
     foreach (Message *message, _messages) {
