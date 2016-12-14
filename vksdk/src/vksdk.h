@@ -132,6 +132,7 @@ signals:
     void gotUserAudios(QVariantList audios);
     void gotWallpost(News *wallpost);
     void savedPhoto(QString name);
+    void gotStats(QList<int> data);
     void userTyping(int userId, int chatId);
 //    void gotSelfProfile();
     //    void gotFriends(QVariant friends);
@@ -203,6 +204,7 @@ private:
     void parseNewMessage(QJsonObject object);
     void parseNewsfeed(QJsonObject object, bool isWall);
     void parseSavedPhotoData(QJsonArray array);
+    void parseStatistics(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);
     void parseUploadServerData(QJsonObject object);
     User* parseUserProfile(QJsonArray array);

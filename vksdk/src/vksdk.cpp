@@ -265,7 +265,7 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         parseUploadedPhotoData(value.toObject());
         break;
     case ApiRequest::STATS_GET:
-        qDebug() << value;
+        parseStatistics(value.toArray());
         break;
     case ApiRequest::NEWSFEED_GET:
         parseNewsfeed(value.toObject(), false);
@@ -467,7 +467,17 @@ void VkSDK::parseNewsfeed(QJsonObject object, bool isWall) {
 void VkSDK::parseSavedPhotoData(QJsonArray array) {
     QJsonObject photo = array.at(0).toObject();
     emit savedPhoto(QString("photo%1_%2").arg(QString::number(photo.value("owner_id").toInt()))
-                                         .arg(QString::number(photo.value("id").toInt())));
+                    .arg(QString::number(photo.value("id").toInt())));
+}
+
+void VkSDK::parseStatistics(QJsonArray array) {
+    QList<int> data;
+    foreach (QJsonValue val, array) {
+        QJsonObject jObj = val.toObject();
+        data.append(jObj.value("views").toInt());
+        data.append(jObj.value("visitors").toInt());
+    }
+    emit gotStats(data);
 }
 
 void VkSDK::parseUploadedPhotoData(QJsonObject object) {

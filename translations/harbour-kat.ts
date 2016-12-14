@@ -344,13 +344,28 @@
 <context>
     <name>StatisticsPage</name>
     <message>
-        <location filename="../qml/pages/StatisticsPage.qml" line="19"/>
+        <location filename="../qml/pages/StatisticsPage.qml" line="63"/>
+        <source>Statistics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/StatisticsPage.qml" line="69"/>
         <source>Date from:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/StatisticsPage.qml" line="38"/>
+        <location filename="../qml/pages/StatisticsPage.qml" line="88"/>
         <source>Date to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/StatisticsPage.qml" line="137"/>
+        <source>Total views</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/StatisticsPage.qml" line="154"/>
+        <source>Uniqual visitors</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
