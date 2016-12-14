@@ -34,7 +34,7 @@ Page {
         anchors.fill: parent
         contentHeight: content.height + header.height
 
-//        PullDownMenu {
+        PullDownMenu {
 //            visible: (profile.id !== settings.userId()) && (profile.canWritePrivateMessage)
 
 //            MenuItem {
@@ -45,7 +45,12 @@ Page {
 //                                                                       historyId: profile.id })
 //                }
 //            }
-//        }
+
+            MenuItem {
+                text: qsTr("View stats")
+                onClicked: pageStack.push("StatisticsPage.qml", { groupId: groupId })
+            }
+        }
 
         PageHeader {
             id: header

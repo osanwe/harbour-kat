@@ -15,6 +15,7 @@ public:
 
     void setApi(ApiRequest *api);
 
+    Q_INVOKABLE void get(int id, QString from, QString to, bool isGroup = true);
     Q_INVOKABLE void trackVisitor();
 
 private:

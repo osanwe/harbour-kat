@@ -264,6 +264,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::PHOTOS_UPLOAD_TO_SERVER:
         parseUploadedPhotoData(value.toObject());
         break;
+    case ApiRequest::STATS_GET:
+        qDebug() << value;
+        break;
     case ApiRequest::NEWSFEED_GET:
         parseNewsfeed(value.toObject(), false);
         break;

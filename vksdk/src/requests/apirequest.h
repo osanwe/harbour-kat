@@ -96,6 +96,7 @@ public:
         PHOTOS_SAVE_MESSAGES_PHOTO,
         PHOTOS_SAVE_WALL_PHOTO,
         PHOTOS_UPLOAD_TO_SERVER,
+        STATS_GET,
         STATS_TRACK_VISITOR,
         USERS_GET,
         USERS_GET_FRIENDS,
@@ -120,7 +121,7 @@ public slots:
 
 private:
     const QString API_URL = "https://api.vk.com/method/";
-    const QString API_VERSION = "5.57";
+    const QString API_VERSION = "5.60";
 
     QString _accessToken;
     QHash<QString, TaskType> _history;

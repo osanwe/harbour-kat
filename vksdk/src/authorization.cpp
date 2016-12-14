@@ -37,9 +37,9 @@ QString Authorization::authUrl() {
     query.addQueryItem("client_id", "4803503");
     query.addQueryItem("redirect_uri", "https://oauth.vk.com/blank.html");
     query.addQueryItem("display", "mobile");
-    query.addQueryItem("scope", "friends,photos,audio,video,docs,notes,pages,status,wall,groups,messages,notifications,offline");
+    query.addQueryItem("scope", "friends,photos,audio,video,docs,notes,pages,status,wall,groups,messages,notifications,offline,stats");
     query.addQueryItem("response_type", "token");
-    query.addQueryItem("v", "5.53");
+    query.addQueryItem("v", "5.60");
     query.addQueryItem("revoke", "1");
     url.setQuery(query);
     return url.toString();

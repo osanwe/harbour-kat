@@ -160,42 +160,47 @@
 <context>
     <name>GroupProfilePage</name>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="99"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="50"/>
+        <source>View stats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="104"/>
         <source>Members</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="106"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="111"/>
         <source>Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="114"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="119"/>
         <source>Audios</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="132"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="140"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="148"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="157"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="184"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
@@ -333,6 +338,19 @@
     <message>
         <location filename="../qml/pages/RepostPage.qml" line="12"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StatisticsPage</name>
+    <message>
+        <location filename="../qml/pages/StatisticsPage.qml" line="19"/>
+        <source>Date from:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/StatisticsPage.qml" line="38"/>
+        <source>Date to:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

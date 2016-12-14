@@ -82,5 +82,6 @@ DISTFILES += \
     qml/pages/GroupsListPage.qml \
     qml/pages/GroupProfilePage.qml \
     qml/views/WallItem.qml \
-    qml/pages/RepostPage.qml
+    qml/pages/RepostPage.qml \
+    qml/pages/StatisticsPage.qml
 

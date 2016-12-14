@@ -54,9 +54,14 @@ void ApiRequest::finished(QNetworkReply *reply) {
     QString requestedUrl = reply->url().toString();
     if (_history.contains(requestedUrl)) {
         QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
-        QJsonValue jObj = jDoc.object().value("response");
-        if (_history[requestedUrl] == PHOTOS_UPLOAD_TO_SERVER) jObj = jDoc.object();
-        emit gotResponse(jObj, _history[requestedUrl]);
+        QJsonObject jObj = jDoc.object();
+        if (jObj.contains("response")) {
+            QJsonValue jVal = jObj.value("response");
+            if (_history[requestedUrl] == PHOTOS_UPLOAD_TO_SERVER) jVal = jDoc.object();
+            emit gotResponse(jVal, _history[requestedUrl]);
+        } else if (jObj.contains("error")) {
+            qDebug() << "Error in API request!";
+        }
         _history.remove(requestedUrl);
     }
     reply->deleteLater();
