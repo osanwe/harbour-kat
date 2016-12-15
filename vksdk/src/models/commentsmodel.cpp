@@ -82,7 +82,7 @@ void CommentsModel::addUser(User *user) {
 
 QString CommentsModel::_getAvatarSource(const int id) const {
     if (id > 0) {
-        if (_profiles.contains(id)) return _profiles[id]->photo50();
+        if (_profiles.contains(id)) return _profiles[id]->getPhoto50();
     } else if (id < 0) {
         if (_groups.contains(id)) return _groups[id]->photo50();
     }
@@ -92,7 +92,7 @@ QString CommentsModel::_getAvatarSource(const int id) const {
 QString CommentsModel::_getTitle(const int id) const {
     if (id > 0) {
         if (_profiles.contains(id))
-            return QString("%1 %2").arg(_profiles[id]->firstName()).arg(_profiles[id]->lastName());
+            return QString("%1 %2").arg(_profiles[id]->getFirstName()).arg(_profiles[id]->getLastName());
     } else if (id < 0) {
         if (_groups.contains(id)) return _groups[id]->name();
     }

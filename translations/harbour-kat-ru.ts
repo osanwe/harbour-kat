@@ -45,62 +45,87 @@
 <context>
     <name>CollapsedView</name>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="105"/>
+        <location filename="../qml/views/CollapsedView.qml" line="115"/>
         <source>Birthday:</source>
         <translation>День рождения:</translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="123"/>
+        <location filename="../qml/views/CollapsedView.qml" line="133"/>
         <source>Single</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="126"/>
+        <location filename="../qml/views/CollapsedView.qml" line="136"/>
         <source>In a relationship</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="129"/>
+        <location filename="../qml/views/CollapsedView.qml" line="139"/>
         <source>Engaged</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="132"/>
+        <location filename="../qml/views/CollapsedView.qml" line="142"/>
         <source>Married</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="135"/>
+        <location filename="../qml/views/CollapsedView.qml" line="145"/>
         <source>It&apos;s complicated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="138"/>
+        <location filename="../qml/views/CollapsedView.qml" line="148"/>
         <source>Actively searching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="141"/>
+        <location filename="../qml/views/CollapsedView.qml" line="151"/>
         <source>In love</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="167"/>
+        <location filename="../qml/views/CollapsedView.qml" line="206"/>
         <source>City:</source>
         <translation>Город:</translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="182"/>
+        <location filename="../qml/views/CollapsedView.qml" line="221"/>
+        <source>Country:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/views/CollapsedView.qml" line="236"/>
+        <source>Home town:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/views/CollapsedView.qml" line="251"/>
+        <source>Mobile phone:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/views/CollapsedView.qml" line="266"/>
+        <source>Home phone:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/views/CollapsedView.qml" line="281"/>
+        <source>Site:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/views/CollapsedView.qml" line="191"/>
         <source>Gender:</source>
         <translation>Пол:</translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="186"/>
+        <location filename="../qml/views/CollapsedView.qml" line="195"/>
         <source>Female</source>
         <translation>Женский</translation>
     </message>
     <message>
-        <location filename="../qml/views/CollapsedView.qml" line="186"/>
+        <location filename="../qml/views/CollapsedView.qml" line="195"/>
         <source>Male</source>
         <translation>Мужской</translation>
     </message>
@@ -278,83 +303,67 @@
 <context>
     <name>ProfilePage</name>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="34"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="216"/>
         <source>Photos</source>
         <translation>Фотографии</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="35"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="225"/>
         <source>Videos</source>
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="36"/>
-        <source>Followers</source>
-        <translation>Подписчики</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="37"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="255"/>
         <source>Notes</source>
         <translation>Заметки</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="54"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="47"/>
         <source>Open in browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="59"/>
-        <source>Remove from blacklist</source>
+        <location filename="../qml/pages/ProfilePage.qml" line="310"/>
+        <source>The user is baned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="59"/>
-        <source>Add to blacklist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="64"/>
-        <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="64"/>
-        <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="73"/>
-        <location filename="../qml/pages/ProfilePage.qml" line="75"/>
-        <source>Add to friends</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="77"/>
-        <source>Cancel friend request</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="79"/>
-        <source>Remove from friends</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="87"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="80"/>
         <source>Go to dialog</source>
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="245"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="125"/>
+        <source>Last seen: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="204"/>
+        <source>Friends</source>
+        <translation type="unfinished">Друзья</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="234"/>
+        <source>Audios</source>
+        <translation type="unfinished">Аудиозаписи</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="243"/>
+        <source>Groups</source>
+        <translation type="unfinished">Сообщества</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="264"/>
+        <source>Wall</source>
+        <translation type="unfinished">Стена</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="309"/>
         <source>The user is deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="246"/>
-        <source>The user was baned</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="229"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="293"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>

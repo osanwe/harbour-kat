@@ -28,10 +28,20 @@ BackgroundItem {
 
     property var bdate: ""
     property var relation: ""
-    property var relationPartnerName: ""
     property var relationPartnerId: ""
-    property var city: ""
+    property var relationPartnerName: ""
+    property var occupationId: ""
+    property var occupationType: ""
+    property var occupationName: ""
+
     property var sex: ""
+    property var city: ""
+    property var country: ""
+    property var homeTown: ""
+    property var mobilePhone: ""
+    property var homePhone: ""
+    property var site: ""
+
     property var description: ""
 
     property int horizontalMargin: Theme.horizontalPageMargin
@@ -74,7 +84,7 @@ BackgroundItem {
         height: opened
                 ? expandedDetails.height
                 : descriptionLabel.visible ? (3 * Theme.fontSizeMedium)
-                                           : (birthdayInfo.height + relationshipInfo.height)
+                                           : (birthdayInfo.height + relationshipInfo.height + occupationInfo.height)
 
         Behavior on height {
             NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
@@ -158,6 +168,35 @@ BackgroundItem {
             }
 
             Row {
+                id: occupationInfo
+                width: parent.width
+                visible: occupationName !== ""
+
+                Label {
+                    width: parent.width
+                    text: occupationName
+                    truncationMode: TruncationMode.Fade
+                }
+            }
+
+            // --------------
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: sex !== 0 && sex !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Gender:")
+                }
+
+                Label {
+                    text: sex === 1 ? qsTr("Female") : qsTr("Male")
+                }
+            }
+
+            Row {
                 width: parent.width
                 spacing: Theme.paddingSmall
                 visible: city !== ""
@@ -175,18 +214,77 @@ BackgroundItem {
             Row {
                 width: parent.width
                 spacing: Theme.paddingSmall
-                visible: sex !== 0 && sex !== ""
+                visible: country !== ""
 
                 Label {
                     font.bold: true
-                    text: qsTr("Gender:")
+                    text: qsTr("Country:")
                 }
 
                 Label {
-                    text: sex === 1 ? qsTr("Female") : qsTr("Male")
+                    text: country
                 }
             }
 
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: homeTown !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Home town:")
+                }
+
+                Label {
+                    text: homeTown
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: mobilePhone !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Mobile phone:")
+                }
+
+                Label {
+                    text: mobilePhone
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: homePhone !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Home phone:")
+                }
+
+                Label {
+                    text: homePhone
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: Theme.paddingSmall
+                visible: site !== ""
+
+                Label {
+                    font.bold: true
+                    text: qsTr("Site:")
+                }
+
+                Label {
+                    text: site
+                }
+            }
         }
 
     }

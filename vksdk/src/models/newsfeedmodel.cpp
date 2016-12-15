@@ -202,7 +202,7 @@ void NewsfeedModel::setId(int id)
 QString NewsfeedModel::_getAvatarSource(const int id) const {
     if (id > 0) {
         //        foreach (User *user, _profiles) if (id == user->id()) return user->photo50();
-        if (_profiles.contains(id)) return _profiles[id]->photo50();
+        if (_profiles.contains(id)) return _profiles[id]->getPhoto50();
     } else if (id < 0) {
 //        foreach (Group *group, _groups) if (id == group->id()) return group->photo50();
         if (_groups.contains(id)) return _groups[id]->photo50();
@@ -213,7 +213,7 @@ QString NewsfeedModel::_getAvatarSource(const int id) const {
 QString NewsfeedModel::_getTitle(const int id) const {
     if (id > 0) {
         if (_profiles.contains(id))
-            return QString("%1 %2").arg(_profiles[id]->firstName()).arg(_profiles[id]->lastName());
+            return QString("%1 %2").arg(_profiles[id]->getFirstName()).arg(_profiles[id]->getLastName());
 //        foreach (User *user, _profiles) if (id == user->id()) return QString("%1 %2").arg(user->firstName()).arg(user->lastName());
     } else if (id < 0) {
         if (_groups.contains(id)) return _groups[id]->name();

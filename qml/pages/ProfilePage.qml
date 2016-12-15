@@ -30,13 +30,6 @@ Page {
     property var profileId
     property var profile
 
-    property var counters: [
-        { index: 0, title: qsTr("Photos"), counter: profile.photosCounter },
-        { index: 1, title: qsTr("Videos"), counter: profile.videosCounter },
-        { index: 5, title: qsTr("Followers"), counter: profile.followersCounter },
-        { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
-    ]
-
     ViewPlaceholder {
         id: systemMessage
         enabled: false
@@ -55,32 +48,32 @@ Page {
                 onClicked: Qt.openUrlExternally("https://m.vk.com/" + profile.domain)
             }
 
-            MenuItem {
-                text: profile.blacklisted ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
-                onClicked: console.log("...banning...")
-            }
+//            MenuItem {
+//                text: profile.blacklisted ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
+//                onClicked: console.log("...banning...")
+//            }
 
-            MenuItem {
-                text: profile.isFavorite ? qsTr("Remove from favorites") : qsTr("Add to favorites")
-                onClicked: console.log("...favoriting...")
-            }
+//            MenuItem {
+//                text: profile.isFavorite ? qsTr("Remove from favorites") : qsTr("Add to favorites")
+//                onClicked: console.log("...favoriting...")
+//            }
 
-            MenuItem {
-                text: {
-                    switch (profile.friendStatus) {
-                    case 0:
-                        if (!profile.canSendFriendRequest) visible = false
-                        return qsTr("Add to friends")
-                    case 2:
-                        return qsTr("Add to friends")
-                    case 1:
-                        return qsTr("Cancel friend request")
-                    case 3:
-                        return qsTr("Remove from friends")
-                    }
-                }
-                onClicked: console.log("...friending...")
-            }
+//            MenuItem {
+//                text: {
+//                    switch (profile.friendStatus) {
+//                    case 0:
+//                        if (!profile.canSendFriendRequest) visible = false
+//                        return qsTr("Add to friends")
+//                    case 2:
+//                        return qsTr("Add to friends")
+//                    case 1:
+//                        return qsTr("Cancel friend request")
+//                    case 3:
+//                        return qsTr("Remove from friends")
+//                    }
+//                }
+//                onClicked: console.log("...friending...")
+//            }
 
             MenuItem {
                 visible: profile.canWritePrivateMessage
@@ -94,25 +87,59 @@ Page {
 
         PageHeader {
             id: header
-            title: "Имя Отчество\nФамилия (Фамилия)"
+            title: profile.firstName + " " + profile.lastName
+            description: {
+                if (!profile.online) {
+                    var date = new Date(profile.lastSeenTime * 1000)
+                    var day = "0" + date.getDate()
+                    var month = "0" + date.getMonth()
+                    var year = date.getFullYear()
+                    var hours = "0" + date.getHours()
+                    var minutes = "0" + date.getMinutes()
+                    var datetime = day.substr(-2) + "." + month.substr(-2) + "." + year + " " +
+                            hours.substr(-2) + ":" + minutes.substr(-2)
+                    var platform = ""
+                    switch (profile.lastSeenPlatform) {
+                    case 1:
+                        platform = "Mobile"
+                        break;
+                    case 2:
+                        platform = "iPhone"
+                        break;
+                    case 3:
+                        platform = "iPad"
+                        break;
+                    case 4:
+                        platform = "Android"
+                        break;
+                    case 5:
+                        platform = "Windows Phone"
+                        break;
+                    case 6:
+                        platform = "Windows 8"
+                        break;
+                    case 7:
+                        platform = "Web"
+                        break;
+                    }
+                    return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                } else return ""
+            }
 
-            Column {
+            Switch {
                 anchors.verticalCenter: parent.verticalCenter
-
-                Switch {
-                    id: onlineStatusView
-                    automaticCheck: false
-//                    checked: profile.online
-                }
-
-                Image {
-                    width: onlineStatusView.width
-                    height: onlineStatusView.width
-                    source: "image://theme/icon-s-installed"
-                    visible: profile.verified
-                }
+                automaticCheck: false
+                checked: profile.online
             }
         }
+
+//        Image {
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            width: Theme.iconSizeSmall
+//            height: Theme.iconSizeSmall
+//            source: "image://theme/icon-s-installed"
+//            visible: profile.verified
+//        }
 
         Column {
             id: content
@@ -120,106 +147,143 @@ Page {
             anchors.right: parent.right
             anchors.top: header.bottom
 
-//            Row {
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                width: parent.width - 2 * Theme.horizontalPageMargin
-//                spacing: Theme.paddingLarge
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                spacing: Theme.paddingLarge
 
-//                Image {
-//                    width: Theme.iconSizeExtraLarge
-//                    height: Theme.iconSizeExtraLarge
-//                    source: profile.photo200
+                Image {
+                    width: Theme.iconSizeExtraLarge
+                    height: Theme.iconSizeExtraLarge
+                    source: profile.photo200
 
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
-//                                                  { imagesModel: [profile.photoMaxOrig] })
-//                    }
-//                }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
+                                                  { imagesModel: [profile.photoMaxOrig] })
+                    }
+                }
 
-//                Label {
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
-//                    color: Theme.secondaryColor
-//                    maximumLineCount: 4
-//                    wrapMode: Text.WordWrap
-//                    truncationMode: TruncationMode.Fade
-//                    font.pixelSize: Theme.fontSizeExtraSmall
-//                    text: profile.status
-//                }
-//            }
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
+                    color: Theme.secondaryColor
+                    maximumLineCount: 4
+                    wrapMode: Text.WordWrap
+                    truncationMode: TruncationMode.Fade
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    text: profile.status
+                }
+            }
 
-//            CollapsedView {
-//                id: profileInfo
-//                width: parent.width
-//                bdate: profile.bdate
-//                relation: profile.relation
-//                relationPartnerName: profile.relationPartnerName
-//                relationPartnerId: profile.relationPartnerId
-//                city: profile.city
-//                sex: profile.sex
-//            }
+            CollapsedView {
+                id: profileInfo
+                width: parent.width
 
-//            MoreButton {
-//                id: friendsButton
-//                width: parent.width
-//                height: Theme.itemSizeMedium
-//                text: qsTr("Friends") /*+ " (" + profile.friendsCounter + ")"*/
-//                counter: profile.friendsCounter
+                bdate: profile.bdate
+                relation: profile.relation
+                relationPartnerId: profile.relationPartnerId
+                relationPartnerName: profile.relationPartnerFirstName + " " + profile.relationPartnerLastName
+                occupationId: profile.occupationId
+                occupationType: profile.occupationType
+                occupationName: profile.occupationName
 
-//                onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-//                                              { userId: profile.id, type: 1 })
-//            }
+                sex: profile.sex
+                city: profile.cityTitle
+                country: profile.countryTitle
+                homeTown: profile.homeTown
+                mobilePhone: profile.contactsMobilePhone
+                homePhone: profile.contactsHomePhone
+                site: profile.site
+            }
 
-//            MoreButton {
-//                id: audiosButton
-//                width: parent.width
-//                height: Theme.itemSizeMedium
-//                text: qsTr("Audios") /*+ " (" + profile.audiosCounter + ")"*/
-//                counter: profile.audiosCounter
+            MoreButton {
+                id: friendsButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Friends")
+                counter: profile.counterFriends
+                visible: profile.counterFriends > 0
 
-//                onClicked: {
-//                    vksdk.audios.get(profileId)
-//                    pageContainer.navigateForward()
-//                }
-//            }
+                onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+                                              { userId: profile.id, type: 1 })
+            }
 
-//            MoreButton {
-//                id: groupsButton
-//                width: parent.width
-//                height: Theme.itemSizeMedium
-//                text: qsTr("Groups") /*+ " (" + profile.groupsCounter + ")"*/
-//                counter: profile.groupsCounter
+            MoreButton {
+                id: photosButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Photos")
+                counter: profile.counterPhotos
+                visible: profile.counterPhotos > 0
+            }
 
-//                onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
-//                                              { userId: profile.id })
-//            }
+            MoreButton {
+                id: videosButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Videos")
+                counter: profile.counterVideos
+                visible: profile.counterVideos > 0
+            }
 
-//            MoreButton {
-//                id: wallButton
-//                width: parent.width
-//                height: Theme.itemSizeMedium
-//                text: qsTr("Wall") /*+ " (" + vksdk.wallModel.count + ")"*/
-//                counter: vksdk.wallModel.count
-//                isopen: true
-//            }
+            MoreButton {
+                id: audiosButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Audios")
+                counter: profile.counterAudios
+                visible: profile.counterAudios > 0
+            }
 
-//            ListView {
-//                id: walllist
-//                width: parent.width
-//                height: contentHeight
-//                model: vksdk.wallModel
-//                delegate: Component {
+            MoreButton {
+                id: groupsButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Groups")
+                counter: profile.counterGroups
+                visible: profile.counterGroups > 0
 
-//                    Loader {
-//                        property var _avatarSource: avatarSource
-//                        property var _title: title
-//                        property var __wallpost: wallpost
-//                        width: parent.width
-//                        source: "../views/WallItem.qml"
-//                    }
-//                }
-//            }
+                onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
+                                              { userId: profile.id })
+            }
+
+            MoreButton {
+                id: notesButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Notes")
+                counter: profile.counterNotes
+                visible: profile.counterNotes > 0
+            }
+
+            MoreButton {
+                id: wallButton
+                width: parent.width
+                height: Theme.itemSizeMedium
+                text: qsTr("Wall")
+                counter: vksdk.wallModel.count
+                visible: vksdk.wallModel.count > 0
+                isopen: true
+            }
+
+            ListView {
+                id: walllist
+                width: parent.width
+                height: contentHeight
+                model: vksdk.wallModel
+                visible: vksdk.wallModel.count > 0
+                delegate: Component {
+
+                    Loader {
+                        property var _avatarSource: avatarSource
+                        property var _title: title
+                        property var __wallpost: wallpost
+                        width: parent.width
+                        source: "../views/WallItem.qml"
+                    }
+                }
+            }
         }
 
         PushUpMenu {
@@ -243,7 +307,7 @@ Page {
                     userDataView.visible = false
                     systemMessage.enabled = true
                     if (profile.deactivated === "deleted") systemMessage.text = qsTr("The user is deleted")
-                    else if (profile.deactivated === "banned") systemMessage.text = qsTr("The user was baned")
+                    else if (profile.deactivated === "banned") systemMessage.text = qsTr("The user is baned")
                 }
             }
         }

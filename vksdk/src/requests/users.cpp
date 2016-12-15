@@ -38,7 +38,12 @@ void Users::getSelfProfile() {
 void Users::getUserProfile(int id) {
     QUrlQuery *query = new QUrlQuery();
     if (id != 0) query->addQueryItem("user_ids", QString("%1").arg(id));
-    query->addQueryItem("fields", "bdate,can_write_private_message,city,counters,online,photo_50,photo_200,photo_max_orig,relation,sex,status,verified");
+    query->addQueryItem("fields", "blacklisted,blacklisted_by_me,can_post,can_see_all_posts,"
+                                  "can_see_audio,can_send_friend_request,can_write_private_message,"
+                                  "domain,exports,friend_status,is_favorite,is_hidden_from_feed,"
+                                  "photo_max_orig,verified,nickname,maiden_name,online,photo_50,"
+                                  "photo_200,status,last_seen,bdate,relation,occupation,"
+                                  "connections,counters,sex,city,country,home_town,contacts,site");
     _api->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET);
 }
 

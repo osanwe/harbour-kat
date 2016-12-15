@@ -273,8 +273,8 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::USERS_GET:
         if (_messagePreview.isEmpty()) emit gotProfile(parseUserProfile(value.toArray()));
         else {
-            emit gotNewMessage(QString("%1 %2").arg(parseUserProfile(value.toArray())->firstName())
-                                               .arg(parseUserProfile(value.toArray())->lastName()),
+            emit gotNewMessage(QString("%1 %2").arg(parseUserProfile(value.toArray())->getFirstName())
+                                               .arg(parseUserProfile(value.toArray())->getLastName()),
                                _messagePreview);
             _messagePreview.clear();
         }
