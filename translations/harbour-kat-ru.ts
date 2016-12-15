@@ -215,27 +215,27 @@
         <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="132"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
         <source>Videos</source>
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="140"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
         <source>Topics</source>
         <translation>Обсуждения</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="148"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
         <source>Documents</source>
         <translation>Документы</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="157"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="184"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>

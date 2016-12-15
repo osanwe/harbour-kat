@@ -143,7 +143,7 @@ Page {
                          vksdk.commentsModel.clear()
                          var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
                          vksdk.wall.getComments(sourceId, wallpost.id)
-                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+//                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                      }
 }
 

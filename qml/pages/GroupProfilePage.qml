@@ -119,11 +119,6 @@ Page {
                 text: qsTr("Audios")
                 counter: group.audiosCount
                 visible: group.audiosCount !== 0
-
-                onClicked: {
-                    vksdk.audios.get(groupId)
-                    pageContainer.navigateForward()
-                }
             }
 
             MoreButton {
@@ -196,7 +191,7 @@ Page {
 
     onStatusChanged: {
         if (status === PageStatus.Active) {
-            pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+//            pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
             if (vksdk.wallModel.id !== groupId) {
                 vksdk.wallModel.clear()
                 vksdk.wallModel.id = groupId

@@ -69,7 +69,7 @@ Page {
         text: (flick.currentIndex + 1) + ' / ' + imagesModel.length
     }
 
-    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+//    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
 
     Component.onCompleted: {
         for (var index in imagesModel) flick.model.append({ source_: imagesModel[index] })

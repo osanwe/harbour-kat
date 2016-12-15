@@ -351,8 +351,8 @@ Page {
     }
 
     onStatusChanged: {
-        if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
-        else if (status === PageStatus.Deactivating) vksdk.messages.markAsRead(historyId)
+        /*if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+        else */if (status === PageStatus.Deactivating) vksdk.messages.markAsRead(historyId)
     }
 
     Component.onCompleted: {
