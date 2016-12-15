@@ -47,7 +47,9 @@ OTHER_FILES += \
     README.md
 
 CONFIG += sailfishapp_i18n
-TRANSLATIONS += translations/harbour-kat-ru.ts
+TRANSLATIONS += \
+    translations/harbour-kat-ru.ts \
+    translations/harbour-kat-it.ts
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -83,5 +85,6 @@ DISTFILES += \
     qml/pages/GroupProfilePage.qml \
     qml/views/WallItem.qml \
     qml/pages/RepostPage.qml \
-    qml/pages/StatisticsPage.qml
+    qml/pages/StatisticsPage.qml \
+    translations/harbour-kat-it.ts
 

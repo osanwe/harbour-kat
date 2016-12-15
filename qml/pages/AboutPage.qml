@@ -88,6 +88,15 @@ Page {
                 text: qsTr("Source code")
                 onClicked: Qt.openUrlExternally("https://github.com/osanwe/Kat")
             }
+
+            Label {
+                width: parent.width
+                wrapMode: Text.WordWrap
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
+                text: qsTr("Localization") + ":<br>" +
+                      qsTr("Italian") + ": <a href=\"https://github.com/fravaccaro\">Fra</a>"
+            }
         }
 
         VerticalScrollDecorator {}
