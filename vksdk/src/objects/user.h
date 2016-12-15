@@ -32,143 +32,140 @@ class User : public QObject
 {
     Q_OBJECT
 
+    // System
     Q_PROPERTY(int id READ id CONSTANT)
-    Q_PROPERTY(QString firstName READ firstName CONSTANT)
-    Q_PROPERTY(QString lastName READ lastName CONSTANT)
-    Q_PROPERTY(QString status READ status CONSTANT)
-    Q_PROPERTY(QString bdate READ bdate CONSTANT)
-    Q_PROPERTY(QString city READ city CONSTANT)
-    Q_PROPERTY(bool online READ online CONSTANT)
-    Q_PROPERTY(QString photo50 READ photo50 CONSTANT)
-    Q_PROPERTY(QString photo200 READ photo200 CONSTANT)
-    Q_PROPERTY(QString photoMaxOrig READ photoMaxOrig CONSTANT)
-    Q_PROPERTY(int relation READ relation CONSTANT)
-    Q_PROPERTY(int relationPartnerId READ relationPartnerId CONSTANT)
-    Q_PROPERTY(QString relationPartnerName READ relationPartnerName CONSTANT)
-    Q_PROPERTY(int sex READ sex CONSTANT)
-    Q_PROPERTY(bool verified READ verified CONSTANT)
-    Q_PROPERTY(int videosCounter READ videosCounter CONSTANT)
-    Q_PROPERTY(int audiosCounter READ audiosCounter CONSTANT)
-    Q_PROPERTY(int photosCounter READ photosCounter CONSTANT)
-    Q_PROPERTY(int notesCounter READ notesCounter CONSTANT)
-    Q_PROPERTY(int groupsCounter READ groupsCounter CONSTANT)
-    Q_PROPERTY(int pagesCounter READ pagesCounter CONSTANT)
-    Q_PROPERTY(int friendsCounter READ friendsCounter CONSTANT)
-    Q_PROPERTY(int onlineFriendsCounter READ onlineFriendsCounter CONSTANT)
-    Q_PROPERTY(int mutualFriendsCounter READ mutualFriendsCounter CONSTANT)
-    Q_PROPERTY(int followersCounter READ followersCounter CONSTANT)
+    Q_PROPERTY(QString deactivated READ deactivated CONSTANT)
+    Q_PROPERTY(bool blacklisted READ blacklisted CONSTANT)
+    Q_PROPERTY(bool blacklistedByMe READ blacklistedByMe CONSTANT)
+    Q_PROPERTY(bool canPost READ canPost CONSTANT)
+    Q_PROPERTY(bool canSeeAllPosts READ canSeeAllPosts CONSTANT)
+    Q_PROPERTY(bool canSeeAudio READ canSeeAudio CONSTANT)
+    Q_PROPERTY(bool canSendFriendRequest READ canSendFriendRequest CONSTANT)
     Q_PROPERTY(bool canWritePrivateMessage READ canWritePrivateMessage CONSTANT)
+    Q_PROPERTY(QString domain READ domain CONSTANT)
+//    Q_PROPERTY(T<?> exports READ exports CONSTANT)
+    Q_PROPERTY(int friendStatus READ friendStatus CONSTANT)
+    Q_PROPERTY(bool isFavorite READ isFavorite CONSTANT)
+    Q_PROPERTY(bool isHiddenFromFeed READ isHiddenFromFeed CONSTANT)
+    Q_PROPERTY(QString photoMaxOrig READ photoMaxOrig CONSTANT)
+    Q_PROPERTY(bool verified READ getVerified CONSTANT)
+
+//    Q_PROPERTY(QString firstName READ firstName CONSTANT)
+//    Q_PROPERTY(QString lastName READ lastName CONSTANT)
+//    Q_PROPERTY(int hidden READ hidden CONSTANT)
+//    Q_PROPERTY(QString about READ about CONSTANT)
+//    Q_PROPERTY(QString activities READ activities CONSTANT)
+//    Q_PROPERTY(QString bdate READ bdate CONSTANT)
+//    Q_PROPERTY(QString books READ books CONSTANT)
+//    Q_PROPERTY(int career_groupId READ career_groupId CONSTANT)
+//    Q_PROPERTY(QString career_company READ career_company CONSTANT)
+//    Q_PROPERTY(int career_countryId READ career_countryId CONSTANT)
+//    Q_PROPERTY(int career_cityId READ career_cityId CONSTANT)
+//    Q_PROPERTY(QString career_cityName READ career_cityName CONSTANT)
+//    Q_PROPERTY(int career_from READ career_from CONSTANT)
+//    Q_PROPERTY(int career_until READ career_until CONSTANT)
+//    Q_PROPERTY(QString career_position READ career_position CONSTANT)
+//    Q_PROPERTY(int city_id READ city_id CONSTANT)
+//    Q_PROPERTY(QString city_title READ city_title CONSTANT)
+//    Q_PROPERTY(int commonCount READ commonCount CONSTANT)
+//    Q_PROPERTY(QString contacts_mobilePhone READ contacts_mobilePhone CONSTANT)
+//    Q_PROPERTY(QString contacts_homePhone READ contacts_homePhone CONSTANT)
+//    Q_PROPERTY(int albumsCounter READ albumsCounter CONSTANT)
+//    Q_PROPERTY(int videosCounter READ videosCounter CONSTANT)
+//    Q_PROPERTY(int audiosCounter READ audiosCounter CONSTANT)
+//    Q_PROPERTY(int photosCounter READ photosCounter CONSTANT)
+//    Q_PROPERTY(int notesCounter READ notesCounter CONSTANT)
+//    Q_PROPERTY(int friendsCounter READ friendsCounter CONSTANT)
+//    Q_PROPERTY(int groupsCounter READ groupsCounter CONSTANT)
+//    Q_PROPERTY(int onlineFriendsCounter READ onlineFriendsCounter CONSTANT)
+//    Q_PROPERTY(int mutualFriendsCounter READ mutualFriendsCounter CONSTANT)
+//    Q_PROPERTY(int followersCounter READ followersCounter CONSTANT)
+//    Q_PROPERTY(int followersCounter READ followersCounter CONSTANT)
+//    Q_PROPERTY(int pagesCounter READ pagesCounter CONSTANT)
+//    Q_PROPERTY(int country_id READ country_id CONSTANT)
+//    Q_PROPERTY(QString country_title READ country_title CONSTANT)
+//    Q_PROPERTY(int education_university READ education_university CONSTANT)
+//    Q_PROPERTY(QString education_universityName READ education_universityName CONSTANT)
+//    Q_PROPERTY(int education_faculty READ education_faculty CONSTANT)
+//    Q_PROPERTY(QString education_facultyName READ education_facultyName CONSTANT)
+//    Q_PROPERTY(int education_graduation READ education_graduation CONSTANT)
+
+//    Q_PROPERTY(QString status READ status CONSTANT)
+//    Q_PROPERTY(bool online READ online CONSTANT)
+//    Q_PROPERTY(QString photo50 READ photo50 CONSTANT)
+//    Q_PROPERTY(QString photo200 READ photo200 CONSTANT)
+//    Q_PROPERTY(int relation READ relation CONSTANT)
+//    Q_PROPERTY(int relationPartnerId READ relationPartnerId CONSTANT)
+//    Q_PROPERTY(QString relationPartnerName READ relationPartnerName CONSTANT)
+//    Q_PROPERTY(int sex READ sex CONSTANT)
 
 public:
     explicit User(QObject *parent = 0);
-
     static User* fromJsonObject(QJsonObject object);
 
     int id() const;
     void setId(int id);
 
-    QString firstName() const;
-    void setFirstName(const QString &firstName);
+    QString deactivated() const;
+    void setDeactivated(const QString &deactivated);
 
-    QString lastName() const;
-    void setLastName(const QString &lastName);
+    bool blacklisted() const;
+    void setBlacklisted(bool blacklisted);
 
-    QString status() const;
-    void setStatus(const QString &status);
+    bool blacklistedByMe() const;
+    void setBlacklistedByMe(bool blacklistedByMe);
 
-    QString bdate() const;
-    void setBdate(const QString &bdate);
+    bool canPost() const;
+    void setCanPost(bool canPost);
 
-    QString city() const;
-    void setCity(const QString &city);
+    bool canSeeAllPosts() const;
+    void setCanSeeAllPosts(bool canSeeAllPosts);
 
-    bool online() const;
-    void setOnline(int online);
+    bool canSeeAudio() const;
+    void setCanSeeAudio(bool canSeeAudio);
 
-    QString photo50() const;
-    void setPhoto50(const QString &photo50);
-
-    QString photo200() const;
-    void setPhoto200(const QString &photo200);
-
-    QString photoMaxOrig() const;
-    void setPhotoMaxOrig(const QString &photoMaxOrig);
-
-    int relation() const;
-    void setRelation(int relation);
-
-    int sex() const;
-    void setSex(int sex);
-
-    bool verified() const;
-    void setVerified(bool verified);
-
-    int videosCounter() const;
-    void setVideosCounter(int videosCounter);
-
-    int audiosCounter() const;
-    void setAudiosCounter(int audiosCounter);
-
-    int photosCounter() const;
-    void setPhotosCounter(int photosCounter);
-
-    int notesCounter() const;
-    void setNotesCounter(int notesCounter);
-
-    int groupsCounter() const;
-    void setGroupsCounter(int groupsCounter);
-
-    int pagesCounter() const;
-    void setPagesCounter(int pagesCounter);
-
-    int friendsCounter() const;
-    void setFriendsCounter(int friendsCounter);
-
-    int onlineFriendsCounter() const;
-    void setOnlineFriendsCounter(int onlineFriendsCounter);
-
-    int mutualFriendsCounter() const;
-    void setMutualFriendsCounter(int mutualFriendsCounter);
-
-    int followersCounter() const;
-    void setFollowersCounter(int followersCounter);
-
-    int relationPartnerId() const;
-    void setRelationPartnerId(int relationPartnerId);
-
-    QString relationPartnerName() const;
-    void setRelationPartnerName(const QString &relationPartnerName);
+    bool canSendFriendRequest() const;
+    void setCanSendFriendRequest(bool canSendFriendRequest);
 
     bool canWritePrivateMessage() const;
     void setCanWritePrivateMessage(bool canWritePrivateMessage);
 
+    QString domain() const;
+    void setDomain(const QString &domain);
+
+    int friendStatus() const;
+    void setFriendStatus(int friendStatus);
+
+    bool isFavorite() const;
+    void setIsFavorite(bool isFavorite);
+
+    bool isHiddenFromFeed() const;
+    void setIsHiddenFromFeed(bool isHiddenFromFeed);
+
+    QString photoMaxOrig() const;
+    void setPhotoMaxOrig(const QString &photoMaxOrig);
+
+    bool getVerified() const;
+    void setVerified(bool value);
+
 private:
-    int _id;
-    QString _firstName;
-    QString _lastName;
-    QString _bdate;
-    QString _city;
-    bool _online;
-    QString _photo50;
-    QString _photo200;
-    QString _photoMaxOrig;
-    int _relation;
-    int _relationPartnerId;
-    QString _relationPartnerName;
-    int _sex;
-    QString _status;
-    bool _verified;
-    int _videosCounter = 0;
-    int _audiosCounter = 0;
-    int _photosCounter = 0;
-    int _notesCounter = 0;
-    int _groupsCounter = 0;
-    int _pagesCounter = 0;
-    int _friendsCounter = 0;
-    int _onlineFriendsCounter = 0;
-    int _mutualFriendsCounter = 0;
-    int _followersCounter = 0;
-    bool _canWritePrivateMessage;
+    // System
+    int _id = 0;
+    QString _deactivated = "";
+    bool _blacklisted = false;
+    bool _blacklistedByMe = false;
+    bool _canPost = false;
+    bool _canSeeAllPosts = false;
+    bool _canSeeAudio = false;
+    bool _canSendFriendRequest = false;
+    bool _canWritePrivateMessage = false;
+    QString _domain = "";
+//    T<?> _exports = nullptr;
+    int _friendStatus = 0;
+    bool _isFavorite = false;
+    bool _isHiddenFromFeed = false;
+    QString _photoMaxOrig = "";
+    bool verified = false;
 };
 
 #endif // USER_H

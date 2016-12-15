@@ -37,17 +37,50 @@ Page {
         { index: 9, title: qsTr("Notes"), counter: profile.notesCounter }
     ]
 
-    function generateCountersModel() {
-//        countersGrid.model.clear()
-//        for (var index in counters) countersGrid.model.append(counters[index])
+    ViewPlaceholder {
+        id: systemMessage
+        enabled: false
     }
 
     SilicaFlickable {
+        id: userDataView
         anchors.fill: parent
         contentHeight: content.height + header.height
 
         PullDownMenu {
-            visible: (profile.id !== settings.userId()) && (profile.canWritePrivateMessage)
+
+            MenuItem {
+                visible: profile.domain.length > 0
+                text: qsTr("Open in browser")
+                onClicked: Qt.openUrlExternally("https://m.vk.com/" + profile.domain)
+            }
+
+            MenuItem {
+                text: profile.blacklisted ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
+                onClicked: console.log("...banning...")
+            }
+
+            MenuItem {
+                text: profile.isFavorite ? qsTr("Remove from favorites") : qsTr("Add to favorites")
+                onClicked: console.log("...favoriting...")
+            }
+
+            MenuItem {
+                text: {
+                    switch (profile.friendStatus) {
+                    case 0:
+                        if (!profile.canSendFriendRequest) visible = false
+                        return qsTr("Add to friends")
+                    case 2:
+                        return qsTr("Add to friends")
+                    case 1:
+                        return qsTr("Cancel friend request")
+                    case 3:
+                        return qsTr("Remove from friends")
+                    }
+                }
+                onClicked: console.log("...friending...")
+            }
 
             MenuItem {
                 visible: profile.canWritePrivateMessage
@@ -61,12 +94,23 @@ Page {
 
         PageHeader {
             id: header
-            title: profile.firstName + " " + profile.lastName
+            title: "Имя Отчество\nФамилия (Фамилия)"
 
-            Switch {
+            Column {
                 anchors.verticalCenter: parent.verticalCenter
-                automaticCheck: false
-                checked: profile.online
+
+                Switch {
+                    id: onlineStatusView
+                    automaticCheck: false
+//                    checked: profile.online
+                }
+
+                Image {
+                    width: onlineStatusView.width
+                    height: onlineStatusView.width
+                    source: "image://theme/icon-s-installed"
+                    visible: profile.verified
+                }
             }
         }
 
@@ -76,106 +120,106 @@ Page {
             anchors.right: parent.right
             anchors.top: header.bottom
 
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                spacing: Theme.paddingLarge
+//            Row {
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                width: parent.width - 2 * Theme.horizontalPageMargin
+//                spacing: Theme.paddingLarge
 
-                Image {
-                    width: Theme.iconSizeExtraLarge
-                    height: Theme.iconSizeExtraLarge
-                    source: profile.photo200
+//                Image {
+//                    width: Theme.iconSizeExtraLarge
+//                    height: Theme.iconSizeExtraLarge
+//                    source: profile.photo200
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
-                                                  { imagesModel: [profile.photoMaxOrig] })
-                    }
-                }
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: pageContainer.push(Qt.resolvedUrl("ImageViewPage.qml"),
+//                                                  { imagesModel: [profile.photoMaxOrig] })
+//                    }
+//                }
 
-                Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
-                    color: Theme.secondaryColor
-                    maximumLineCount: 4
-                    wrapMode: Text.WordWrap
-                    truncationMode: TruncationMode.Fade
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    text: profile.status
-                }
-            }
+//                Label {
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    width: parent.width - Theme.iconSizeExtraLarge - Theme.paddingLarge
+//                    color: Theme.secondaryColor
+//                    maximumLineCount: 4
+//                    wrapMode: Text.WordWrap
+//                    truncationMode: TruncationMode.Fade
+//                    font.pixelSize: Theme.fontSizeExtraSmall
+//                    text: profile.status
+//                }
+//            }
 
-            CollapsedView {
-                id: profileInfo
-                width: parent.width
-                bdate: profile.bdate
-                relation: profile.relation
-                relationPartnerName: profile.relationPartnerName
-                relationPartnerId: profile.relationPartnerId
-                city: profile.city
-                sex: profile.sex
-            }
+//            CollapsedView {
+//                id: profileInfo
+//                width: parent.width
+//                bdate: profile.bdate
+//                relation: profile.relation
+//                relationPartnerName: profile.relationPartnerName
+//                relationPartnerId: profile.relationPartnerId
+//                city: profile.city
+//                sex: profile.sex
+//            }
 
-            MoreButton {
-                id: friendsButton
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Friends") /*+ " (" + profile.friendsCounter + ")"*/
-                counter: profile.friendsCounter
+//            MoreButton {
+//                id: friendsButton
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Friends") /*+ " (" + profile.friendsCounter + ")"*/
+//                counter: profile.friendsCounter
 
-                onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
-                                              { userId: profile.id, type: 1 })
-            }
+//                onClicked: pageContainer.push(Qt.resolvedUrl("FriendsListPage.qml"),
+//                                              { userId: profile.id, type: 1 })
+//            }
 
-            MoreButton {
-                id: audiosButton
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Audios") /*+ " (" + profile.audiosCounter + ")"*/
-                counter: profile.audiosCounter
+//            MoreButton {
+//                id: audiosButton
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Audios") /*+ " (" + profile.audiosCounter + ")"*/
+//                counter: profile.audiosCounter
 
-                onClicked: {
-                    vksdk.audios.get(profileId)
-                    pageContainer.navigateForward()
-                }
-            }
+//                onClicked: {
+//                    vksdk.audios.get(profileId)
+//                    pageContainer.navigateForward()
+//                }
+//            }
 
-            MoreButton {
-                id: groupsButton
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Groups") /*+ " (" + profile.groupsCounter + ")"*/
-                counter: profile.groupsCounter
+//            MoreButton {
+//                id: groupsButton
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Groups") /*+ " (" + profile.groupsCounter + ")"*/
+//                counter: profile.groupsCounter
 
-                onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
-                                              { userId: profile.id })
-            }
+//                onClicked: pageContainer.push(Qt.resolvedUrl("GroupsListPage.qml"),
+//                                              { userId: profile.id })
+//            }
 
-            MoreButton {
-                id: wallButton
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Wall") /*+ " (" + vksdk.wallModel.count + ")"*/
-                counter: vksdk.wallModel.count
-                isopen: true
-            }
+//            MoreButton {
+//                id: wallButton
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Wall") /*+ " (" + vksdk.wallModel.count + ")"*/
+//                counter: vksdk.wallModel.count
+//                isopen: true
+//            }
 
-            ListView {
-                id: walllist
-                width: parent.width
-                height: contentHeight
-                model: vksdk.wallModel
-                delegate: Component {
+//            ListView {
+//                id: walllist
+//                width: parent.width
+//                height: contentHeight
+//                model: vksdk.wallModel
+//                delegate: Component {
 
-                    Loader {
-                        property var _avatarSource: avatarSource
-                        property var _title: title
-                        property var __wallpost: wallpost
-                        width: parent.width
-                        source: "../views/WallItem.qml"
-                    }
-                }
-            }
+//                    Loader {
+//                        property var _avatarSource: avatarSource
+//                        property var _title: title
+//                        property var __wallpost: wallpost
+//                        width: parent.width
+//                        source: "../views/WallItem.qml"
+//                    }
+//                }
+//            }
         }
 
         PushUpMenu {
@@ -195,14 +239,19 @@ Page {
         onGotProfile: {
             if (profileId === user.id) {
                 profile = user
-                generateCountersModel()
+                if (profile.deactivated.length > 0) {
+                    userDataView.visible = false
+                    systemMessage.enabled = true
+                    if (profile.deactivated === "deleted") systemMessage.text = qsTr("The user is deleted")
+                    else if (profile.deactivated === "banned") systemMessage.text = qsTr("The user was baned")
+                }
             }
         }
     }
 
     onStatusChanged: {
         if (status === PageStatus.Active) {
-            pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
+//            pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
             if (vksdk.wallModel.id !== profileId) {
                 vksdk.wallModel.clear()
                 vksdk.wallModel.id = profileId
@@ -215,4 +264,3 @@ Page {
         vksdk.users.getUserProfile(profileId)
     }
 }
-

@@ -288,21 +288,6 @@
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="123"/>
-        <source>Friends</source>
-        <translation>Друзья</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="134"/>
-        <source>Audios</source>
-        <translation>Аудиозаписи</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="147"/>
-        <source>Groups</source>
-        <translation>Сообщенства</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/ProfilePage.qml" line="36"/>
         <source>Followers</source>
         <translation>Подписчики</translation>
@@ -314,16 +299,62 @@
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="54"/>
+        <source>Open in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="59"/>
+        <source>Remove from blacklist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="59"/>
+        <source>Add to blacklist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="64"/>
+        <source>Remove from favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="64"/>
+        <source>Add to favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="73"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="75"/>
+        <source>Add to friends</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="77"/>
+        <source>Cancel friend request</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="79"/>
+        <source>Remove from friends</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="87"/>
         <source>Go to dialog</source>
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="158"/>
-        <source>Wall</source>
-        <translation>Стена</translation>
+        <location filename="../qml/pages/ProfilePage.qml" line="245"/>
+        <source>The user is deleted</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="185"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="246"/>
+        <source>The user was baned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="229"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>
