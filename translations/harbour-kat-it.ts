@@ -143,18 +143,18 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="84"/>
+        <location filename="../qml/pages/DialogPage.qml" line="85"/>
         <source>typing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="107"/>
         <location filename="../qml/pages/DialogPage.qml" line="108"/>
+        <location filename="../qml/pages/DialogPage.qml" line="109"/>
         <source>Your message</source>
         <translation>Messaggio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="186"/>
+        <location filename="../qml/pages/DialogPage.qml" line="187"/>
         <source>Photo</source>
         <translation>Foto</translation>
     </message>

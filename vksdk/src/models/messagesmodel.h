@@ -37,7 +37,7 @@ class MessagesModel : public QAbstractListModel
 public:
     enum Roles {
         AvatarRole = Qt::UserRole + 1,
-        IdRole,
+        FromIdRole,
         DateRole,
         IsOutRole,
         IsReadRole,
@@ -51,6 +51,7 @@ public:
         GeoTileRole,
         GeoMapRole,
         FwdMessagesRole,
+        IdRole,
     };
 
     explicit MessagesModel(QObject *parent = 0);
