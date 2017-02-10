@@ -92,7 +92,7 @@ Page {
                 if (!profile.online) {
                     var date = new Date(profile.lastSeenTime * 1000)
                     var day = "0" + date.getDate()
-                    var month = "0" + date.getMonth() + 1
+                    var month = "0" + (date.getMonth() + 1)
                     var year = date.getFullYear()
                     var hours = "0" + date.getHours()
                     var minutes = "0" + date.getMinutes()
