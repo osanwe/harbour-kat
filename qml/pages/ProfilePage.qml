@@ -122,7 +122,13 @@ Page {
                         platform = "Web"
                         break;
                     }
-                    return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    switch(Qt.locale().name.substring(0,2)) {
+                        case "ru":
+                            return ((profile.sex === 1)? qsTr("Last seen female: "):qsTr("Last seen: ")) + datetime + " (" + platform + ")"
+                        default:
+                            return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    }
+
                 } else return ""
             }
 
