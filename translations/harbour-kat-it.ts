@@ -343,68 +343,68 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="131"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
         <source>Last seen female: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="131"/>
-        <location filename="../qml/pages/ProfilePage.qml" line="133"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="134"/>
         <source>Last seen: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="226"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="227"/>
         <source>Photos</source>
         <translation>Foto</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="235"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="236"/>
         <source>Videos</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="244"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="245"/>
         <source>Audios</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="253"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="254"/>
         <source>Groups</source>
         <translation>Gruppi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="274"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="275"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="303"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="304"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="320"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="321"/>
         <source>The user is deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="321"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="322"/>
         <source>The user is baned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="214"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="215"/>
         <source>Friends</source>
         <translation>Amici</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="265"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="266"/>
         <source>Notes</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="84"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="85"/>
         <source>Go to dialog</source>
         <translation>Vai alla conversazione</translation>
     </message>

@@ -328,17 +328,17 @@
 <context>
     <name>ProfilePage</name>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="226"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="227"/>
         <source>Photos</source>
         <translation>Фотографии</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="235"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="236"/>
         <source>Videos</source>
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="265"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="266"/>
         <source>Notes</source>
         <translation>Заметки</translation>
     </message>
@@ -348,63 +348,63 @@
         <translation>Открыть в браузере</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="321"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="322"/>
         <source>The user is baned</source>
         <translation>Пользователь заблокирован</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="84"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="85"/>
         <source>Go to dialog</source>
         <translation>Перейти к диалогу</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="53"/>
         <source>Remove from blacklist</source>
-        <translation type="unfinished"></translation>
+        <translation>Убрать из чёрного списка</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="53"/>
         <source>Add to blacklist</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в чёрный список</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="131"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
         <source>Last seen female: </source>
         <translation>Была в сети: </translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="131"/>
-        <location filename="../qml/pages/ProfilePage.qml" line="133"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="134"/>
         <source>Last seen: </source>
         <translation>Был в сети: </translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="214"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="215"/>
         <source>Friends</source>
         <translation>Друзья</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="244"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="245"/>
         <source>Audios</source>
         <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="253"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="254"/>
         <source>Groups</source>
         <translation>Сообщества</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="274"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="275"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="320"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="321"/>
         <source>The user is deleted</source>
         <translation>Пользователь удалён</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="303"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="304"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>

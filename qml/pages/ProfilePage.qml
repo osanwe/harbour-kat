@@ -51,6 +51,7 @@ Page {
 
             MenuItem {
                 text: isBanned ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
+                visible: profileId !== settings.userId()
                 onClicked: {
                     if (isBanned) vksdk.account.unbanUser(profileId)
                     else vksdk.account.banUser(profileId)
