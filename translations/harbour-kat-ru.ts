@@ -345,13 +345,13 @@
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="127"/>
         <source>Last seen female: </source>
-        <translation>Была в сети:</translation>
+        <translation>Была в сети: </translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="127"/>
         <location filename="../qml/pages/ProfilePage.qml" line="129"/>
         <source>Last seen: </source>
-        <translation>Был в сети:</translation>
+        <translation>Был в сети: </translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="210"/>
