@@ -69,3 +69,11 @@ void SettingsWrapper::removeAccessToken() {
 void SettingsWrapper::removeUserId() {
     _settings->remove(USER_ID_KEY);
 }
+
+void SettingsWrapper::setOfflineStatus(bool offline) {
+    _settings->setValue(OFFLINE_STATUS_KEY, offline);
+}
+
+bool SettingsWrapper::offlineStatus() {
+    return _settings->value(OFFLINE_STATUS_KEY).toBool();
+}

@@ -293,6 +293,11 @@
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/pages/MainMenuPage.qml" line="104"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewsView</name>
@@ -394,6 +399,24 @@
     <message>
         <location filename="../qml/pages/RepostPage.qml" line="12"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="15"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="21"/>
+        <source>Be offline if possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="22"/>
+        <source>Your status will be online only if you publish something on the wall or in the group.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

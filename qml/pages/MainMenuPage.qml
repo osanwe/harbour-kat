@@ -100,9 +100,10 @@ Page {
                 onClicked: logout()
             }
 
-//            MenuItem {
-//                text: qsTr("Settings")
-//            }
+            MenuItem {
+                text: qsTr("Settings")
+                onClicked: pageContainer.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
         }
 
         header: PageHeader {}
@@ -155,6 +156,18 @@ Page {
         }
     }
 
+    Timer {
+        id: onlineTimer
+        interval: 900000
+        repeat: true
+        triggeredOnStart: false
+
+        onTriggered: {
+            if (!settings.offlineStatus()) vksdk.account.setOnline()
+            else stop()
+        }
+    }
+
     onStatusChanged: if (status === PageStatus.Active) {
 //                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                          vksdk.dialogsListModel.clear()
@@ -165,6 +178,12 @@ Page {
                          vksdk.wallModel.clear()
                      }
 
-    Component.onCompleted: init()
+    Component.onCompleted: {
+        if (!settings.offlineStatus()) {
+            vksdk.account.setOnline()
+            onlineTimer.start()
+        }
+        init()
+    }
 }
 

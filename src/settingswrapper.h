@@ -26,6 +26,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 
+#include <QDebug>
+
 class SettingsWrapper : public QObject
 {
     Q_OBJECT
@@ -47,6 +49,9 @@ public:
     Q_INVOKABLE void removeAccessToken();
     Q_INVOKABLE void removeUserId();
 
+    Q_INVOKABLE void setOfflineStatus(bool offline);
+    Q_INVOKABLE bool offlineStatus();
+
 private:
     QSettings *_settings;
 
@@ -54,6 +59,8 @@ private:
     const QString USER_ID_KEY = "userId";
     const QString DEFAULT_PAGE_KEY = "defaultPage";
     const QString ATTACHMENTS_HINT = "attachmentsHint";
+
+    const QString OFFLINE_STATUS_KEY = "offlineStatus";
 };
 
 #endif // SETTINGSWRAPPER_H

@@ -86,5 +86,6 @@ DISTFILES += \
     qml/views/WallItem.qml \
     qml/pages/RepostPage.qml \
     qml/pages/StatisticsPage.qml \
-    translations/harbour-kat-it.ts
+    translations/harbour-kat-it.ts \
+    qml/pages/SettingsPage.qml
 

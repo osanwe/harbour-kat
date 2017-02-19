@@ -38,6 +38,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     connect(_longPoll, SIGNAL(userTyping(qint64,qint64)), this, SLOT(_userTyping(qint64,qint64)));
 
     // requests:
+    _account = new Account(this);
     _audios = new Audios(this);
     _friends = new Friends(this);
     _groups = new Groups(this);
@@ -50,6 +51,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos = new Videos(this);
     _wall = new Wall(this);
 //    _longPoll->setApi(_api);
+    _account->setApi(_api);
     _audios->setApi(_api);
     _friends->setApi(_api);
     _groups->setApi(_api);
@@ -62,6 +64,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _videos->setApi(_api);
     _wall->setApi(_api);
     qRegisterMetaType<LongPoll*>("LongPoll*");
+    qRegisterMetaType<Account*>("Account*");
     qRegisterMetaType<Audios*>("Audios*");
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Groups*>("Groups*");
@@ -107,6 +110,7 @@ VkSDK::~VkSDK() {
     delete _auth;
     delete _longPoll;
 
+    delete _account;
     delete _audios;
     delete _friends;
     delete _groups;
@@ -145,6 +149,10 @@ Authorization *VkSDK::auth() const {
 
 LongPoll *VkSDK::longPoll() const {
     return _longPoll;
+}
+
+Account *VkSDK::account() const {
+    return _account;
 }
 
 Audios *VkSDK::audios() const {

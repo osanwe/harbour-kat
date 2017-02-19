@@ -74,6 +74,7 @@ public:
     ~ApiRequest();
 
     enum TaskType {
+        ACCOUNT_SET_ONLINE,
         AUDIO_ADD,
         AUDIO_GET,
         AUDIO_SEARCH,

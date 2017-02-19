@@ -37,6 +37,7 @@
 #include "models/groupslistmodel.h"
 #include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
+#include "requests/account.h"
 #include "requests/apirequest.h"
 #include "requests/audios.h"
 #include "requests/friends.h"
@@ -65,6 +66,7 @@ class VkSDK : public QObject
     Q_PROPERTY(Authorization* auth READ auth CONSTANT)
     Q_PROPERTY(LongPoll* longPoll READ longPoll CONSTANT)
 
+    Q_PROPERTY(Account* account READ account CONSTANT)
     Q_PROPERTY(Audios* audios READ audios CONSTANT)
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Groups* groups READ groups CONSTANT)
@@ -98,6 +100,7 @@ public:
     Authorization *auth() const;
     LongPoll* longPoll() const;
 
+    Account* account() const;
     Audios* audios() const;
     Friends* friends() const;
     Groups* groups() const;
@@ -166,6 +169,7 @@ private:
     Authorization *_auth;
     LongPoll *_longPoll;
 
+    Account *_account;
     Audios *_audios;
     Friends *_friends;
     Groups *_groups;
