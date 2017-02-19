@@ -92,7 +92,7 @@ Page {
                 if (!profile.online) {
                     var date = new Date(profile.lastSeenTime * 1000)
                     var day = "0" + date.getDate()
-                    var month = "0" + date.getMonth()
+                    var month = "0" + (date.getMonth() + 1)
                     var year = date.getFullYear()
                     var hours = "0" + date.getHours()
                     var minutes = "0" + date.getMinutes()
@@ -122,7 +122,13 @@ Page {
                         platform = "Web"
                         break;
                     }
-                    return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    switch(Qt.locale().name.substring(0,2)) {
+                        case "ru":
+                            return ((profile.sex === 1)? qsTr("Last seen female: "):qsTr("Last seen: ")) + datetime + " (" + platform + ")"
+                        default:
+                            return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    }
+
                 } else return ""
             }
 

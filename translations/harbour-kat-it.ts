@@ -143,18 +143,18 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="84"/>
+        <location filename="../qml/pages/DialogPage.qml" line="85"/>
         <source>typing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="107"/>
         <location filename="../qml/pages/DialogPage.qml" line="108"/>
+        <location filename="../qml/pages/DialogPage.qml" line="109"/>
         <source>Your message</source>
         <translation>Messaggio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="186"/>
+        <location filename="../qml/pages/DialogPage.qml" line="187"/>
         <source>Photo</source>
         <translation>Foto</translation>
     </message>
@@ -318,57 +318,63 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="125"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="127"/>
+        <source>Last seen female: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="127"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="129"/>
         <source>Last seen: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="216"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="222"/>
         <source>Photos</source>
         <translation>Foto</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="225"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="231"/>
         <source>Videos</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="234"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="240"/>
         <source>Audios</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="243"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="249"/>
         <source>Groups</source>
         <translation>Gruppi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="264"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="270"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="293"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="299"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="309"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="315"/>
         <source>The user is deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="310"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="316"/>
         <source>The user is baned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="204"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="210"/>
         <source>Friends</source>
         <translation>Amici</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="255"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="261"/>
         <source>Notes</source>
         <translation>Note</translation>
     </message>

@@ -39,6 +39,9 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
         if (_profiles.contains(message->fromId())) return QVariant(_profiles[message->fromId()]->photo50());
         return QVariant();
 
+    case FromIdRole:
+        return QVariant(message->fromId());
+
     case IdRole:
         return QVariant(message->id());
 
@@ -89,6 +92,7 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
 QHash<int, QByteArray> MessagesModel::roleNames() const {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles[AvatarRole] = "avatar";
+    roles[FromIdRole] = "fromId";
     roles[IdRole] = "id";
     roles[DateRole] = "datetime";
     roles[IsOutRole] = "out";
