@@ -25,13 +25,23 @@
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="97"/>
+        <source>Thanks for features</source>
+        <translation>Спасибо за участие:</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="106"/>
         <source>Localization</source>
         <translation>Локализация</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="98"/>
+        <location filename="../qml/pages/AboutPage.qml" line="107"/>
         <source>Italian</source>
         <translation>Итальянский</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="108"/>
+        <source>Dutch</source>
+        <translation>Голландский</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="81"/>
@@ -296,7 +306,7 @@
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="104"/>
         <source>Settings</source>
-        <translation type="unfinished">Настройки</translation>
+        <translation>Настройки</translation>
     </message>
 </context>
 <context>

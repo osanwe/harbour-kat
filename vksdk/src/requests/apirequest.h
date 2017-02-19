@@ -75,6 +75,7 @@ public:
 
     enum TaskType {
         ACCOUNT_BAN_USER,
+        ACCOUNT_GET_COUNTERS,
         ACCOUNT_SET_ONLINE,
         ACCOUNT_UNBAN_USER,
         AUDIO_ADD,

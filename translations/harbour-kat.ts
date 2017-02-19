@@ -25,12 +25,22 @@
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="97"/>
+        <source>Thanks for features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="106"/>
         <source>Localization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="98"/>
+        <location filename="../qml/pages/AboutPage.qml" line="107"/>
         <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="108"/>
+        <source>Dutch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

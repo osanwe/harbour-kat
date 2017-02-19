@@ -94,8 +94,18 @@ Page {
                 wrapMode: Text.WordWrap
                 linkColor: Theme.highlightColor
                 onLinkActivated: Qt.openUrlExternally(link)
+                text: qsTr("Thanks for features") + ":<br>" +
+                      "<a href=\"https://github.com/sash13\">Alexander Ryzhkov</a>"
+            }
+
+            Label {
+                width: parent.width
+                wrapMode: Text.WordWrap
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
                 text: qsTr("Localization") + ":<br>" +
-                      qsTr("Italian") + ": <a href=\"https://github.com/fravaccaro\">Fra</a>"
+                      qsTr("Italian") + ": <a href=\"https://github.com/fravaccaro\">Fra</a><br>" +
+                      qsTr("Dutch") + ": <a href=\"https://github.com/richdb\">Richard</a><br>"
             }
         }
 
