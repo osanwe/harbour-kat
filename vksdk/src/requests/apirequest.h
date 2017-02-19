@@ -74,7 +74,9 @@ public:
     ~ApiRequest();
 
     enum TaskType {
+        ACCOUNT_BAN_USER,
         ACCOUNT_SET_ONLINE,
+        ACCOUNT_UNBAN_USER,
         AUDIO_ADD,
         AUDIO_GET,
         AUDIO_SEARCH,

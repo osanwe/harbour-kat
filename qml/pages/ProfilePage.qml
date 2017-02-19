@@ -29,6 +29,7 @@ Page {
 
     property var profileId
     property var profile
+    property bool isBanned: false
 
     ViewPlaceholder {
         id: systemMessage
@@ -48,10 +49,13 @@ Page {
                 onClicked: Qt.openUrlExternally("https://m.vk.com/" + profile.domain)
             }
 
-//            MenuItem {
-//                text: profile.blacklisted ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
-//                onClicked: console.log("...banning...")
-//            }
+            MenuItem {
+                text: isBanned ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
+                onClicked: {
+                    if (isBanned) vksdk.account.unbanUser(profileId)
+                    else vksdk.account.banUser(profileId)
+                }
+            }
 
 //            MenuItem {
 //                text: profile.isFavorite ? qsTr("Remove from favorites") : qsTr("Add to favorites")
@@ -309,6 +313,7 @@ Page {
         onGotProfile: {
             if (profileId === user.id) {
                 profile = user
+                isBanned = user.blacklisted
                 if (profile.deactivated.length > 0) {
                     userDataView.visible = false
                     systemMessage.enabled = true
@@ -317,6 +322,7 @@ Page {
                 }
             }
         }
+        onBanSettingChanged: isBanned = banned
     }
 
     onStatusChanged: {

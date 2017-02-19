@@ -234,6 +234,12 @@ void VkSDK::attachPhotoToMessage(QString path) {
 
 void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     switch (type) {
+    case ApiRequest::ACCOUNT_BAN_USER:
+        emit banSettingChanged(true);
+        break;
+    case ApiRequest::ACCOUNT_UNBAN_USER:
+        emit banSettingChanged(false);
+        break;
     case ApiRequest::AUDIO_GET:
     case ApiRequest::AUDIO_SEARCH:
         parseAudiosList(value.toObject().value("items").toArray());

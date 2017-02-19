@@ -16,6 +16,8 @@ public:
     void setApi(ApiRequest *api);
 
     Q_INVOKABLE void setOnline();
+    Q_INVOKABLE void banUser(int id);
+    Q_INVOKABLE void unbanUser(int id);
 
 private:
     ApiRequest *_api;

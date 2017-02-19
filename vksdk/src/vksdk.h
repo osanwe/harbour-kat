@@ -126,6 +126,7 @@ public:
 //    User* selfProfile() const;
 
 signals:
+    void banSettingChanged(bool banned);
     void commentCreated();
     void gotGroup(Group *grp);
     void gotNewMessage(QString name, QString preview);
