@@ -58,23 +58,20 @@ Item {
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.rightMargin: Theme.horizontalPageMargin
 
-    Image {
-        id: avatar
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.topMargin: Theme.paddingMedium
-        width: Theme.iconSizeMedium
-        height: Theme.iconSizeMedium
-        LayoutMirroring.enabled: isOut
+        Image {
+            id: avatar
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.topMargin: Theme.paddingMedium
+            width: Theme.iconSizeMedium
+            height: Theme.iconSizeMedium
+            LayoutMirroring.enabled: isOut
 
-        MouseArea {
+            MouseArea {
                 anchors.fill: parent
-                onClicked: {
-                        onClicked: pageContainer.push(Qt.resolvedUrl("../pages/ProfilePage.qml"), { profileId: userId })
-                }
+                onClicked: pageContainer.push(Qt.resolvedUrl("../pages/ProfilePage.qml"), { profileId: userId })
+            }
         }
-    }
-
 
         Column {
             id: content
