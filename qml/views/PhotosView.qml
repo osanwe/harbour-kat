@@ -33,11 +33,10 @@ Item {
             model: photos.length
 
             Image {
-                width: photos.length === 1 ? maximumWidth : maximumWidth / 2
-                height: photos.length === 1 ? maximumWidth : maximumWidth / 2
-                fillMode: Image.PreserveAspectCrop
+                width: calculateWidth(index)
+                height: width * (sourceSize.height / sourceSize.width)
+                fillMode: index === 0 ? Image.PreserveAspectFit : Image.PreserveAspectCrop
                 source: photos[index].photoMaximum
-//                source: photos[index].photoMinimum
 
                 MouseArea {
                     anchors.fill: parent
@@ -51,6 +50,26 @@ Item {
 
                 Component.onCompleted: console.log(index, photos)
             }
+        }
+    }
+
+    function calculateWidth(index) {
+        if (index === 0) return maximumWidth
+        else {
+            var otherPhotos = photos.length - 1
+            if (otherPhotos % 4 == 0) {
+                return maximumWidth / 4
+            } else if (otherPhotos % 3 == 0) {
+                return maximumWidth / 3
+            } else if (otherPhotos % 2 == 0) {
+                return maximumWidth / 2
+            } else if (otherPhotos == 5) {
+                if (index === 1 || index === 2) return maximumWidth / 2
+                else return maximumWidth / 3
+            } else if (otherPhotos == 7) {
+                if (index === 1 || index === 2 || index === 3) return maximumWidth / 3
+                else return maximumWidth / 4
+            } else return maximumWidth
         }
     }
 }
