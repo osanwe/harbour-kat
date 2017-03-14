@@ -112,8 +112,8 @@ public:
         WALL_REPOST,
     };
 
-    void makeApiGetRequest(QString method, QUrlQuery *query, TaskType type);
-    void makePostRequest(QUrl url, QUrlQuery *query, QHttpMultiPart *multipart, TaskType type);
+    void makeApiGetRequest(const QString &method, const QUrlQuery &query, TaskType type);
+    void makePostRequest(const QUrl &url, const QUrlQuery &query, QHttpMultiPart *multipart, TaskType type);
 
     void setAccessToken(QString token);
 

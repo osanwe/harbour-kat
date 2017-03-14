@@ -32,11 +32,11 @@ void Newsfeed::setApi(ApiRequest *api) {
 }
 
 void Newsfeed::get(QString startFrom) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("filters", "post");
-    query->addQueryItem("return_banned", "0");
-    query->addQueryItem("fields", "photo_50");
-    if (!startFrom.isEmpty()) query->addQueryItem("start_from", startFrom);
+    QUrlQuery query;
+    query.addQueryItem("filters", "post");
+    query.addQueryItem("return_banned", "0");
+    query.addQueryItem("fields", "photo_50");
+    if (!startFrom.isEmpty()) query.addQueryItem("start_from", startFrom);
     _api->makeApiGetRequest("newsfeed.get", query, ApiRequest::NEWSFEED_GET);
 //    ApiRequest *request = new ApiRequest();
 //    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),

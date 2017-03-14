@@ -30,20 +30,23 @@ ApiRequest::~ApiRequest() {
     delete _manager;
 }
 
-void ApiRequest::makeApiGetRequest(QString method, QUrlQuery *query, TaskType type) {
-    query->addQueryItem("access_token", _accessToken);
-    query->addQueryItem("v", API_VERSION);
+void ApiRequest::makeApiGetRequest(const QString &method, const QUrlQuery &q, TaskType type) {
+    QUrlQuery query = q;
+    query.addQueryItem("access_token", _accessToken);
+    query.addQueryItem("v", API_VERSION);
     QUrl url(API_URL + method);
-    url.setQuery(query->query());
+    url.setQuery(query.query());
     _history[url.toString()] = type;
     qDebug() << url;
     _manager->get(QNetworkRequest(url));
 }
 
-void ApiRequest::makePostRequest(QUrl url, QUrlQuery *query, QHttpMultiPart *multipart, TaskType type) {
-    if (!query->isEmpty()) url.setQuery(query->query());
+void ApiRequest::makePostRequest(const QUrl &u, const QUrlQuery &query, QHttpMultiPart *multipart, TaskType type) {
+    QUrl url = u;
+    if (!query.isEmpty()) url.setQuery(query.query());
     _history[url.toString()] = type;
-    _manager->post(QNetworkRequest(url), multipart);
+    QNetworkReply *reply = _manager->post(QNetworkRequest(url), multipart);
+    multipart->setParent(reply);
 }
 
 void ApiRequest::setAccessToken(QString token) {

@@ -32,49 +32,49 @@ void Messages::setApi(ApiRequest *api) {
 }
 
 void Messages::getById(int id) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("message_ids", QString::number(id));
+    QUrlQuery query;
+    query.addQueryItem("message_ids", QString::number(id));
     _api->makeApiGetRequest("messages.getById", query, ApiRequest::MESSAGES_GET_BY_ID);
 }
 
 void Messages::getChat(QStringList ids) {
-    QUrlQuery *query = new QUrlQuery();
-    if (ids.size() == 1) query->addQueryItem("chat_id", ids.at(0));
-    else if (ids.size() > 1) query->addQueryItem("chat_ids", ids.join(","));
+    QUrlQuery query;
+    if (ids.size() == 1) query.addQueryItem("chat_id", ids.at(0));
+    else if (ids.size() > 1) query.addQueryItem("chat_ids", ids.join(","));
     _api->makeApiGetRequest("messages.getChat", query, ApiRequest::MESSAGES_GET_CHAT);
 }
 
 void Messages::getDialogs(int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("offset", QString("%1").arg(offset));
+    QUrlQuery query;
+    query.addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("messages.getDialogs", query, ApiRequest::MESSAGES_GET_DIALOGS);
 }
 
 void Messages::getHistory(int peerId, int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("peer_id", QString("%1").arg(peerId));
-    query->addQueryItem("offset", QString("%1").arg(offset));
+    QUrlQuery query;
+    query.addQueryItem("peer_id", QString::number(peerId));
+    query.addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("messages.getHistory", query, ApiRequest::MESSAGES_GET_HISTORY);
 }
 
 void Messages::markAsRead(int peerId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("peer_id", QString::number(peerId));
+    QUrlQuery query;
+    query.addQueryItem("peer_id", QString::number(peerId));
     _api->makeApiGetRequest("messages.markAsRead", query, ApiRequest::MESSAGES_MARK_AS_READ);
 }
 
 void Messages::send(int peerId, QString text, QString attachmentsList) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("peer_id", QString("%1").arg(peerId));
-    if (!text.isEmpty()) query->addQueryItem("message", QString("%1").arg(text));
-    if (!attachmentsList.isEmpty()) query->addQueryItem("attachment", attachmentsList);
+    QUrlQuery query;
+    query.addQueryItem("peer_id", QString::number(peerId));
+    if (!text.isEmpty()) query.addQueryItem("message", text);
+    if (!attachmentsList.isEmpty()) query.addQueryItem("attachment", attachmentsList);
     _api->makeApiGetRequest("messages.send", query, ApiRequest::MESSAGES_SEND);
 }
 
 void Messages::setActivity(int peerId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("peer_id", QString::number(peerId));
-    query->addQueryItem("type", "typing");
+    QUrlQuery query;
+    query.addQueryItem("peer_id", QString::number(peerId));
+    query.addQueryItem("type", "typing");
     _api->makeApiGetRequest("messages.setActivity", query, ApiRequest::MESSAGES_SET_ACTIVITY);
 }
 

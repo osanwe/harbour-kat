@@ -32,33 +32,33 @@ void Photos::setApi(ApiRequest *api) {
 }
 
 void Photos::getMessagesUploadServer() {
-    _api->makeApiGetRequest("photos.getMessagesUploadServer", new QUrlQuery(), ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER);
+    _api->makeApiGetRequest("photos.getMessagesUploadServer", QUrlQuery(), ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER);
 }
 
 void Photos::uploadPhotoToServer(QString server, QString album, QString user, QString path) {
-    path = path.replace("file://", "");
+    path = path.replace("file://", QString());
     QString fileType = path.split(".").last();
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
-    QFile *file = new QFile(tr(path.toUtf8()));
-    if (file->open(QIODevice::ReadOnly)) {
+    QFile file(tr(path.toUtf8()));
+    if (file.open(QIODevice::ReadOnly)) {
         QHttpMultiPart *multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
         QHttpPart imagePart;
         imagePart.setHeader(QNetworkRequest::ContentTypeHeader,
                             QVariant(QString("image/%1").arg(fileType == "jpg" ? "jpeg" : fileType)));
         imagePart.setHeader(QNetworkRequest::ContentDispositionHeader,
                             QVariant(QString("form-data; name=\"photo\"; filename=\"%1.%2\"").arg(qrand()).arg(fileType)));
-        imagePart.setBody(file->readAll());
+        imagePart.setBody(file.readAll());
         multipart->append(imagePart);
-        _api->makePostRequest(QUrl(server), new QUrlQuery(), multipart, ApiRequest::PHOTOS_UPLOAD_TO_SERVER);
-        file->close();
+        _api->makePostRequest(QUrl(server), QUrlQuery(), multipart, ApiRequest::PHOTOS_UPLOAD_TO_SERVER);
+        file.close();
     }
 }
 
 void Photos::saveMessagesPhoto(QString photo, QString server, QString hash) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("photo", photo);
-    query->addQueryItem("server", server);
-    query->addQueryItem("hash", hash);
+    QUrlQuery query;
+    query.addQueryItem("photo", photo);
+    query.addQueryItem("server", server);
+    query.addQueryItem("hash", hash);
     _api->makeApiGetRequest("photos.saveMessagesPhoto", query, ApiRequest::PHOTOS_SAVE_MESSAGES_PHOTO);
 }
 
