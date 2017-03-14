@@ -32,10 +32,10 @@ void Likes::setApi(ApiRequest *api) {
 }
 
 void Likes::addPost(int ownerId, int itemId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("type", "post");
-    query->addQueryItem("owner_id", QString("%1").arg(ownerId));
-    query->addQueryItem("item_id", QString("%1").arg(itemId));
+    QUrlQuery query;
+    query.addQueryItem("type", "post");
+    query.addQueryItem("owner_id", QString::number(ownerId));
+    query.addQueryItem("item_id", QString::number(itemId));
     _api->makeApiGetRequest("likes.add", query, ApiRequest::LIKES_ADD);
 }
 

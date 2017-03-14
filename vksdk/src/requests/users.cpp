@@ -36,9 +36,9 @@ void Users::getSelfProfile() {
 }
 
 void Users::getUserProfile(int id) {
-    QUrlQuery *query = new QUrlQuery();
-    if (id != 0) query->addQueryItem("user_ids", QString("%1").arg(id));
-    query->addQueryItem("fields", "blacklisted,blacklisted_by_me,can_post,can_see_all_posts,"
+    QUrlQuery query;
+    if (id != 0) query.addQueryItem("user_ids", QString::number(id));
+    query.addQueryItem("fields", "blacklisted,blacklisted_by_me,can_post,can_see_all_posts,"
                                   "can_see_audio,can_send_friend_request,can_write_private_message,"
                                   "domain,exports,friend_status,is_favorite,is_hidden_from_feed,"
                                   "photo_max_orig,verified,nickname,maiden_name,online,photo_50,"
@@ -48,9 +48,9 @@ void Users::getUserProfile(int id) {
 }
 
 void Users::getUsersByIds(QStringList ids) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("user_ids", ids.join(","));
-    query->addQueryItem("fields", "photo_50,online,status");
+    QUrlQuery query;
+    query.addQueryItem("user_ids", ids.join(","));
+    query.addQueryItem("fields", "photo_50,online,status");
     _api->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET_FRIENDS);
 }
 

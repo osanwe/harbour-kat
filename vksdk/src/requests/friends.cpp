@@ -32,22 +32,22 @@ void Friends::setApi(ApiRequest *api) {
 }
 
 void Friends::get(int userId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("user_id", QString("%1").arg(userId));
-    query->addQueryItem("order", "hints");
-    query->addQueryItem("fields", "photo_50,online,status");
+    QUrlQuery query;
+    query.addQueryItem("user_id", QString::number(userId));
+    query.addQueryItem("order", "hints");
+    query.addQueryItem("fields", "photo_50,online,status");
     _api->makeApiGetRequest("friends.get", query, ApiRequest::FRIENDS_GET);
 }
 
 void Friends::getOnline(int userId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("user_id", QString("%1").arg(userId));
+    QUrlQuery query;
+    query.addQueryItem("user_id", QString::number(userId));
     _api->makeApiGetRequest("friends.getOnline", query, ApiRequest::FRIENDS_GET_ONLINE);
 }
 
 void Friends::getMutual(int userId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("target_uid", QString("%1").arg(userId));
+    QUrlQuery query;
+    query.addQueryItem("target_uid", QString::number(userId));
     _api->makeApiGetRequest("friends.getMutual", query, ApiRequest::FRIENDS_GET_MUTUAL);
 }
 
