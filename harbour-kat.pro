@@ -26,13 +26,15 @@ include("vksdk/vksdk.pri")
 HEADERS += \
     src/settingswrapper.h \
     src/mediaplayerwrapper.h \
-    src/playlistmodel.h
+    src/playlistmodel.h \
+    src/filesaver.h
 
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
     src/mediaplayerwrapper.cpp \
-    src/playlistmodel.cpp
+    src/playlistmodel.cpp \
+    src/filesaver.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \

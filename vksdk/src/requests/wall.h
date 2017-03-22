@@ -40,7 +40,7 @@ public:
     Q_INVOKABLE void getById(int ownerId, int id);
     Q_INVOKABLE void getComments(int ownerId, int postId, int offset = 0);
     Q_INVOKABLE void createComment(int ownerId, int postId, QString message);
-    Q_INVOKABLE void repost(int ownerId, int postId, QString message);
+    Q_INVOKABLE void repost(QString type, int ownerId, int postId, QString message);
 
 private:
     ApiRequest *_api;

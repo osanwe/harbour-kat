@@ -39,14 +39,10 @@ void Likes::addPost(int ownerId, int itemId) {
     _api->makeApiGetRequest("likes.add", query, ApiRequest::LIKES_ADD);
 }
 
-//void Likes::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
-//    switch (type) {
-//    case ApiRequest::LIKES_ADD:
-//        emit addedLike(value.toObject().value("likes").toInt());
-//        break;
-
-//    default:
-//        break;
-//    }
-//}
-
+void Likes::addPhoto(int ownerId, int itemId) {
+    QUrlQuery *query = new QUrlQuery();
+    query->addQueryItem("type", "photo");
+    query->addQueryItem("owner_id", QString("%1").arg(ownerId));
+    query->addQueryItem("item_id", QString("%1").arg(itemId));
+    _api->makeApiGetRequest("likes.add", query, ApiRequest::LIKES_ADD);
+}

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 Petr Vytovtov
+  Copyright (C) 2016-2017 Petr Vytovtov
   Contact: Petr Vytovtov <osanwe@protonmail.ch>
   All rights reserved.
 
@@ -25,55 +25,102 @@ import Sailfish.Silica 1.0
 Page {
     id: imageViewPage
 
+    property var ownerIds
+    property var photoIds
     property var imagesModel
     property var current
 
-    SilicaListView {
-        id: flick
+    Drawer {
+        id: drawer
         anchors.fill: parent
-        anchors.bottomMargin: audioPlayer.open ? audioPlayer.height : 0
-        clip: true
-        snapMode: ListView.SnapOneItem
-        orientation: ListView.HorizontalFlick
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        cacheBuffer: width
 
-        model: ListModel {}
+        open: true
 
-        delegate: Item {
-            width: flick.width
-            height: flick.height
-            clip: true
+        background: SilicaListView {
+            anchors.fill: parent
 
-            Image {
-                anchors.fill: parent
-                sourceSize.height: window.height * 2
-                fillMode: Image.PreserveAspectFit
-                source: source_
+            model: ListModel {
 
-                PinchArea {
-                    anchors.fill: parent
-                    pinch.target: parent
-                    pinch.minimumScale: 1
-                    pinch.maximumScale: 4
-                }
+                ListElement { title: "Save" }
+                ListElement { title: "Like" }
+                ListElement { title: "Share" }
+                ListElement { title: "Copy link" }
             }
+
+            header: PageHeader {
+                title: (slideshowView.currentIndex + 1) + ' / ' + imagesModel.length
+            }
+
+            delegate: ListItem {
+
+                width: parent.width
+                height: Theme.itemSizeSmall
+
+                Label {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    text: model.title
+                }
+
+                onClicked: switch (index) {
+                           case 0:
+                               fileSaver.save(imagesModel[slideshowView.currentIndex])
+                               break;
+                           case 1:
+                               vksdk.likes.addPhoto(ownerIds[slideshowView.currentIndex],
+                                                    photoIds[slideshowView.currentIndex])
+                               break;
+                           case 2:
+                               pageStack.push(Qt.resolvedUrl("RepostPage.qml"), { sourceId: ownerIds[slideshowView.currentIndex],
+                                                                                  postId: photoIds[slideshowView.currentIndex],
+                                                                                  type: "photo" })
+                               break;
+                           case 3:
+                               Clipboard.text = imagesModel[slideshowView.currentIndex]
+                               break;
+                           }
+            }
+        }
+
+        SlideshowView {
+            id: slideshowView
+            width: imageViewPage.width
+            height: imageViewPage.height
+            model: imagesModel.length
+
+            delegate: Image {
+                    id: imageView
+                    width: imageViewPage.width
+                    height: width * (sourceSize.height / sourceSize.width)
+                    fillMode: Image.PreserveAspectFit
+                    source: imagesModel[index]
+
+                    PinchArea {
+                        anchors.fill: parent
+                        pinch.target: parent
+                        pinch.minimumScale: 1
+                        pinch.maximumScale: 4
+
+                        MouseArea {
+                            anchors.fill: parent
+                            drag.target: imageView
+                            drag.axis: Drag.XAndYAxis
+                            drag.minimumX: (slideshowView.width - imageView.width * imageView.scale) / 2
+                            drag.minimumY: (slideshowView.height - imageView.height * imageView.scale) / 2
+                            drag.maximumX: Math.abs(slideshowView.width - imageView.width * imageView.scale) / 2
+                            drag.maximumY: Math.abs(slideshowView.height - imageView.height * imageView.scale) / 2
+                            onClicked: drawer.open = !drawer.open
+                            onPositionChanged: { // TODO
+                                console.log(drag.minimumX + " <= " + imageView.x + " <= " + drag.maximumX)
+                                console.log(drag.minimumY + " <= " + imageView.y + " <= " + drag.maximumY)
+                            }
+                        }
+                    }
+                }
         }
     }
 
-    Label {
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.topMargin: Theme.paddingLarge
-        anchors.rightMargin: Theme.paddingLarge
-        text: (flick.currentIndex + 1) + ' / ' + imagesModel.length
-    }
-
-//    onStatusChanged: if (status === PageStatus.Active) pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
-
-    Component.onCompleted: {
-        for (var index in imagesModel) flick.model.append({ source_: imagesModel[index] })
-        flick.currentIndex = current
-    }
+    Component.onCompleted: slideshowView.currentIndex = current
 }
 

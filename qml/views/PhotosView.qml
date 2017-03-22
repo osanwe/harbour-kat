@@ -42,9 +42,17 @@ Item {
                     anchors.fill: parent
                     onClicked: {
                         var sources = []
-                        for (var idx in photos) sources[idx] = photos[idx].photoMaximum
+                        var owners = []
+                        var ids = []
+                        for (var idx in photos) {
+                            sources[idx] = photos[idx].photoMaximum
+                            owners[idx] = photos[idx].ownerId
+                            ids[idx] = photos[idx].id
+                        }
                         pageStack.push(Qt.resolvedUrl("../pages/ImageViewPage.qml"), { current:     index,
-                                                                                       imagesModel: sources })
+                                                                                       imagesModel: sources,
+                                                                                       ownerIds: owners,
+                                                                                       photoIds: ids })
                     }
                 }
 

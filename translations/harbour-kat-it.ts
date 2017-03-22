@@ -412,12 +412,12 @@
 <context>
     <name>RepostPage</name>
     <message>
-        <location filename="../qml/pages/RepostPage.qml" line="11"/>
+        <location filename="../qml/pages/RepostPage.qml" line="12"/>
         <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/RepostPage.qml" line="12"/>
+        <location filename="../qml/pages/RepostPage.qml" line="13"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
