@@ -128,9 +128,9 @@ private:
     const QString API_VERSION = "5.60";
 
     QString _accessToken;
-    QHash<QString, TaskType> _history;
-
     QNetworkAccessManager *_manager;
 };
+
+Q_DECLARE_METATYPE(ApiRequest::TaskType)
 
 #endif // APIREQUEST_H

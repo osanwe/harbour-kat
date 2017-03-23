@@ -21,6 +21,8 @@
 
 #include "apirequest.h"
 
+const char TASK_TYPE_KEY[] = "taskType";
+
 ApiRequest::ApiRequest(QObject *parent) : QObject(parent) {
     _manager = new QNetworkAccessManager(this);
     connect(_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished(QNetworkReply*)));
@@ -36,16 +38,15 @@ void ApiRequest::makeApiGetRequest(const QString &method, const QUrlQuery &q, Ta
     query.addQueryItem("v", API_VERSION);
     QUrl url(API_URL + method);
     url.setQuery(query.query());
-    _history[url.toString()] = type;
-    qDebug() << url;
-    _manager->get(QNetworkRequest(url));
+    QNetworkReply *reply = _manager->get(QNetworkRequest(url));
+    reply->setProperty(TASK_TYPE_KEY, type);
 }
 
 void ApiRequest::makePostRequest(const QUrl &u, const QUrlQuery &query, QHttpMultiPart *multipart, TaskType type) {
     QUrl url = u;
     if (!query.isEmpty()) url.setQuery(query.query());
-    _history[url.toString()] = type;
     QNetworkReply *reply = _manager->post(QNetworkRequest(url), multipart);
+    reply->setProperty(TASK_TYPE_KEY, type);
     multipart->setParent(reply);
 }
 
@@ -54,20 +55,19 @@ void ApiRequest::setAccessToken(QString token) {
 }
 
 void ApiRequest::finished(QNetworkReply *reply) {
-    QString requestedUrl = reply->url().toString();
-    if (_history.contains(requestedUrl)) {
+    const QVariant type = reply->property(TASK_TYPE_KEY);
+    if (type.isValid()) {
+        const TaskType taskType = type.value<TaskType>();
         QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
-        qDebug() << jDoc;
         QJsonObject jObj = jDoc.object();
-        if (_history[requestedUrl] == PHOTOS_UPLOAD_TO_SERVER) {
-            emit gotResponse(jObj, _history[requestedUrl]);
+        if (taskType == PHOTOS_UPLOAD_TO_SERVER) {
+            emit gotResponse(jObj, taskType);
         } else if (jObj.contains("response")) {
             QJsonValue jVal = jObj.value("response");
-            emit gotResponse(jVal, _history[requestedUrl]);
+            emit gotResponse(jVal, taskType);
         } else if (jObj.contains("error")) {
             qDebug() << "Error in API request!";
         }
-        _history.remove(requestedUrl);
     }
     reply->deleteLater();
 }
