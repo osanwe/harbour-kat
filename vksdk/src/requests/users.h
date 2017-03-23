@@ -22,32 +22,18 @@
 #ifndef USERS_H
 #define USERS_H
 
-//#include <QJsonArray>
-//#include <QJsonObject>
-//#include <QJsonValue>
-#include <QObject>
-//#include <QString>
-//#include <QUrlQuery>
 
-#include "apirequest.h"
-//#include "objects/friend.h"
-//#include "objects/user.h"
+#include "requestbase.h"
 
-//#include <QDebug>
-
-class Users : public QObject
+class Users : public RequestBase
 {
     Q_OBJECT
-
 public:
     explicit Users(QObject *parent = 0);
-    ~Users();
-
-    void setApi(ApiRequest *api);
 
     Q_INVOKABLE void getSelfProfile();
     Q_INVOKABLE void getUserProfile(int id);
-    Q_INVOKABLE void getUsersByIds(QStringList ids);
+    Q_INVOKABLE void getUsersByIds(const QStringList &ids);
 
 //signals:
 //    void gotUserProfile(User *user);
@@ -56,8 +42,6 @@ public:
 //public slots:
 //    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
 
-private:
-    ApiRequest *_api;
 };
 
 #endif // USERS_H

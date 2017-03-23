@@ -21,15 +21,8 @@
 
 #include "wall.h"
 
-Wall::Wall(QObject *parent) : QObject(parent)
+Wall::Wall(QObject *parent) : RequestBase(parent)
 {}
-
-Wall::~Wall()
-{}
-
-void Wall::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Wall::get(int ownerId, int offset) {
     QUrlQuery query;
@@ -58,7 +51,7 @@ void Wall::getComments(int ownerId, int postId, int offset) {
     _api->makeApiGetRequest("wall.getComments", query, ApiRequest::WALL_GET_COMMENTS);
 }
 
-void Wall::createComment(int ownerId, int postId, QString message) {
+void Wall::createComment(int ownerId, int postId, const QString &message) {
     QUrlQuery query;
     query.addQueryItem("owner_id", QString::number(ownerId));
     query.addQueryItem("post_id", QString::number(postId));
@@ -66,7 +59,7 @@ void Wall::createComment(int ownerId, int postId, QString message) {
     _api->makeApiGetRequest("wall.createComment", query, ApiRequest::WALL_CREATE_COMMENT);
 }
 
-void Wall::repost(int ownerId, int postId, QString message) {
+void Wall::repost(int ownerId, int postId, const QString &message) {
     QUrlQuery query;
     query.addQueryItem("object", QString("wall%1_%2").arg(ownerId).arg(postId));
     query.addQueryItem("message", message);

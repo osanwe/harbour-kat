@@ -21,15 +21,8 @@
 
 #include "audios.h"
 
-Audios::Audios(QObject *parent) : QObject(parent)
+Audios::Audios(QObject *parent) : RequestBase(parent)
 {}
-
-Audios::~Audios()
-{}
-
-void Audios::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Audios::add(qint64 ownerId, qint64 audioId) {
     QUrlQuery query;

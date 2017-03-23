@@ -1,14 +1,7 @@
 #include "account.h"
 
-Account::Account(QObject *parent) : QObject(parent)
+Account::Account(QObject *parent) : RequestBase(parent)
 {}
-
-Account::~Account()
-{}
-
-void Account::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Account::setOnline() {
     QUrlQuery query;

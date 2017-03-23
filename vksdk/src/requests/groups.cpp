@@ -1,14 +1,7 @@
 #include "groups.h"
 
-Groups::Groups(QObject *parent) : QObject(parent)
+Groups::Groups(QObject *parent) : RequestBase(parent)
 {}
-
-Groups::~Groups()
-{}
-
-void Groups::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Groups::get(int userId, int offset) {
     QUrlQuery query;

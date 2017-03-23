@@ -22,28 +22,19 @@
 #ifndef WALL_H
 #define WALL_H
 
-#include <QObject>
+#include "requestbase.h"
 
-#include "apirequest.h"
-
-class Wall : public QObject
+class Wall : public RequestBase
 {
     Q_OBJECT
-
 public:
     explicit Wall(QObject *parent = 0);
-    ~Wall();
-
-    void setApi(ApiRequest *api);
 
     Q_INVOKABLE void get(int ownerId, int offset = 0);
     Q_INVOKABLE void getById(int ownerId, int id);
     Q_INVOKABLE void getComments(int ownerId, int postId, int offset = 0);
-    Q_INVOKABLE void createComment(int ownerId, int postId, QString message);
-    Q_INVOKABLE void repost(int ownerId, int postId, QString message);
-
-private:
-    ApiRequest *_api;
+    Q_INVOKABLE void createComment(int ownerId, int postId, const QString &message);
+    Q_INVOKABLE void repost(int ownerId, int postId, const QString &message);
 };
 
 #endif // WALL_H

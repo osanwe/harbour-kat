@@ -21,17 +21,10 @@
 
 #include "newsfeed.h"
 
-Newsfeed::Newsfeed(QObject *parent) : QObject(parent)
+Newsfeed::Newsfeed(QObject *parent) : RequestBase(parent)
 {}
 
-Newsfeed::~Newsfeed()
-{}
-
-void Newsfeed::setApi(ApiRequest *api) {
-    _api = api;
-}
-
-void Newsfeed::get(QString startFrom) {
+void Newsfeed::get(const QString &startFrom) {
     QUrlQuery query;
     query.addQueryItem("filters", "post");
     query.addQueryItem("return_banned", "0");

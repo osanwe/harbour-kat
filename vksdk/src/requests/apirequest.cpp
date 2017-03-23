@@ -19,6 +19,11 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QHttpMultiPart>
+#include <QNetworkReply>
 #include "apirequest.h"
 
 const char TASK_TYPE_KEY[] = "taskType";
@@ -50,7 +55,7 @@ void ApiRequest::makePostRequest(const QUrl &u, const QUrlQuery &query, QHttpMul
     multipart->setParent(reply);
 }
 
-void ApiRequest::setAccessToken(QString token) {
+void ApiRequest::setAccessToken(const QString &token) {
     _accessToken = token;
 }
 

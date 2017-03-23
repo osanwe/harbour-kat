@@ -21,15 +21,8 @@
 
 #include "friends.h"
 
-Friends::Friends(QObject *parent) : QObject(parent)
+Friends::Friends(QObject *parent) : RequestBase(parent)
 {}
-
-Friends::~Friends()
-{}
-
-void Friends::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Friends::get(int userId) {
     QUrlQuery query;
@@ -50,28 +43,3 @@ void Friends::getMutual(int userId) {
     query.addQueryItem("target_uid", QString::number(userId));
     _api->makeApiGetRequest("friends.getMutual", query, ApiRequest::FRIENDS_GET_MUTUAL);
 }
-
-//void Friends::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
-//    switch (type) {
-//    case ApiRequest::FRIENDS_GET: {
-//        QList<QObject*> friendsList;
-//        QJsonArray friends = value.toObject().value("items").toArray();
-//        for (int index = 0; index < friends.size(); ++index) {
-//            QJsonObject friendItem = friends.at(index).toObject();
-//            friendsList.append(Friend::fromJsonObject(friendItem));
-//        }
-//        emit gotFriendsList(friendsList);
-//        break;
-//    }
-
-//    case ApiRequest::FRIENDS_GET_ONLINE:
-//    case ApiRequest::FRIENDS_GET_MUTUAL: {
-//        emit gotMutualFriendsIds(value.toArray().toVariantList());
-//        break;
-//    }
-
-//    default:
-//        break;
-//    }
-//}
-

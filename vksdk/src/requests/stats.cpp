@@ -1,16 +1,9 @@
 #include "stats.h"
 
-Stats::Stats(QObject *parent) : QObject(parent)
+Stats::Stats(QObject *parent) : RequestBase(parent)
 {}
 
-Stats::~Stats()
-{}
-
-void Stats::setApi(ApiRequest *api) {
-    _api = api;
-}
-
-void Stats::get(int id, QString from, QString to, bool isGroup) {
+void Stats::get(int id, const QString &from, const QString &to, bool isGroup) {
     QUrlQuery query;
     query.addQueryItem(isGroup ? "group_id" : "app_id", QString::number(abs(id)));
     query.addQueryItem("date_from", from);

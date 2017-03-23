@@ -19,24 +19,26 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QFile>
+#include <QTextCodec>
+#include <QHttpMultiPart>
+
+
 #include "photos.h"
 
-Photos::Photos(QObject *parent) : QObject(parent)
+Photos::Photos(QObject *parent) : RequestBase(parent)
 {}
-
-Photos::~Photos()
-{}
-
-void Photos::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Photos::getMessagesUploadServer() {
     _api->makeApiGetRequest("photos.getMessagesUploadServer", QUrlQuery(), ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER);
 }
 
-void Photos::uploadPhotoToServer(QString server, QString album, QString user, QString path) {
-    path = path.replace("file://", QString());
+void Photos::uploadPhotoToServer(const QString &server, const QString &album, const QString &user, const QString &p) {
+    Q_UNUSED(album)
+    Q_UNUSED(user)
+
+    QString path = p;
+    path = path.remove("file://");
     QString fileType = path.split(".").last();
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
     QFile file(tr(path.toUtf8()));
@@ -54,7 +56,7 @@ void Photos::uploadPhotoToServer(QString server, QString album, QString user, QS
     }
 }
 
-void Photos::saveMessagesPhoto(QString photo, QString server, QString hash) {
+void Photos::saveMessagesPhoto(const QString &photo, const QString &server, const QString &hash) {
     QUrlQuery query;
     query.addQueryItem("photo", photo);
     query.addQueryItem("server", server);

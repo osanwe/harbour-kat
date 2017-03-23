@@ -21,15 +21,8 @@
 
 #include "messages.h"
 
-Messages::Messages(QObject *parent) : QObject(parent)
+Messages::Messages(QObject *parent) : RequestBase(parent)
 {}
-
-Messages::~Messages()
-{}
-
-void Messages::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Messages::getById(int id) {
     QUrlQuery query;
@@ -37,7 +30,7 @@ void Messages::getById(int id) {
     _api->makeApiGetRequest("messages.getById", query, ApiRequest::MESSAGES_GET_BY_ID);
 }
 
-void Messages::getChat(QStringList ids) {
+void Messages::getChat(const QStringList &ids) {
     QUrlQuery query;
     if (ids.size() == 1) query.addQueryItem("chat_id", ids.at(0));
     else if (ids.size() > 1) query.addQueryItem("chat_ids", ids.join(","));
@@ -63,7 +56,7 @@ void Messages::markAsRead(int peerId) {
     _api->makeApiGetRequest("messages.markAsRead", query, ApiRequest::MESSAGES_MARK_AS_READ);
 }
 
-void Messages::send(int peerId, QString text, QString attachmentsList) {
+void Messages::send(int peerId, const QString &text, const QString &attachmentsList) {
     QUrlQuery query;
     query.addQueryItem("peer_id", QString::number(peerId));
     if (!text.isEmpty()) query.addQueryItem("message", text);

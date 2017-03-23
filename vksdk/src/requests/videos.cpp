@@ -21,15 +21,8 @@
 
 #include "videos.h"
 
-Videos::Videos(QObject *parent) : QObject(parent)
+Videos::Videos(QObject *parent) : RequestBase(parent)
 {}
-
-Videos::~Videos()
-{}
-
-void Videos::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Videos::get(int ownerId, int videoId) {
     QUrlQuery query;

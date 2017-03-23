@@ -21,15 +21,8 @@
 
 #include "users.h"
 
-Users::Users(QObject *parent) : QObject(parent)
+Users::Users(QObject *parent) : RequestBase(parent)
 {}
-
-Users::~Users()
-{}
-
-void Users::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Users::getSelfProfile() {
     getUserProfile(0);
@@ -47,7 +40,7 @@ void Users::getUserProfile(int id) {
     _api->makeApiGetRequest("users.get", query, ApiRequest::USERS_GET);
 }
 
-void Users::getUsersByIds(QStringList ids) {
+void Users::getUsersByIds(const QStringList &ids) {
     QUrlQuery query;
     query.addQueryItem("user_ids", ids.join(","));
     query.addQueryItem("fields", "photo_50,online,status");

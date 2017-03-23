@@ -21,15 +21,8 @@
 
 #include "likes.h"
 
-Likes::Likes(QObject *parent) : QObject(parent)
+Likes::Likes(QObject *parent) : RequestBase(parent)
 {}
-
-Likes::~Likes()
-{}
-
-void Likes::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Likes::addPost(int ownerId, int itemId) {
     QUrlQuery query;
