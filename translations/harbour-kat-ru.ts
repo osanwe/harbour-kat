@@ -220,32 +220,32 @@
         <translation>Фотографии</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="119"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="121"/>
         <source>Audios</source>
         <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="129"/>
         <source>Videos</source>
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="137"/>
         <source>Topics</source>
         <translation>Обсуждения</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="145"/>
         <source>Documents</source>
         <translation>Документы</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="154"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="181"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>
@@ -326,6 +326,24 @@
     </message>
 </context>
 <context>
+    <name>PhotoAlbumPage</name>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="87"/>
+        <source>Load more</source>
+        <translation>Загрузить больше</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="14"/>
+        <source>Album:</source>
+        <translation>Альбом:</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="19"/>
+        <source>All photos</source>
+        <translation>Все фотографии</translation>
+    </message>
+</context>
+<context>
     <name>ProfilePage</name>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="227"/>
@@ -333,12 +351,12 @@
         <translation>Фотографии</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="236"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="238"/>
         <source>Videos</source>
         <translation>Видеозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="266"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="268"/>
         <source>Notes</source>
         <translation>Заметки</translation>
     </message>
@@ -348,7 +366,7 @@
         <translation>Открыть в браузере</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="322"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="324"/>
         <source>The user is baned</source>
         <translation>Пользователь заблокирован</translation>
     </message>
@@ -384,27 +402,27 @@
         <translation>Друзья</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="245"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="247"/>
         <source>Audios</source>
         <translation>Аудиозаписи</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="254"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="256"/>
         <source>Groups</source>
         <translation>Сообщества</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="275"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="277"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="321"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="323"/>
         <source>The user is deleted</source>
         <translation>Пользователь удалён</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="304"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="306"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>

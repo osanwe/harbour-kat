@@ -37,6 +37,7 @@
 #include "models/groupslistmodel.h"
 #include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
+#include "models/photosmodel.h"
 #include "requests/account.h"
 #include "requests/apirequest.h"
 #include "requests/audios.h"
@@ -86,6 +87,7 @@ class VkSDK : public QObject
     Q_PROPERTY(MessagesModel* messagesModel READ messagesModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* wallModel READ wallModel CONSTANT)
+    Q_PROPERTY(PhotosModel* photosModel READ photosModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
@@ -120,6 +122,7 @@ public:
     MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
     NewsfeedModel* wallModel() const;
+    PhotosModel* photosModel() const;
 
     Q_INVOKABLE void attachPhotoToMessage(QString path);
 
@@ -130,6 +133,7 @@ signals:
     void commentCreated();
     void gotGroup(Group *grp);
     void gotNewMessage(QString name, QString preview);
+    void gotPhotoAlbums(QList<QString> data);
     void gotProfile(User *user);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
@@ -190,6 +194,7 @@ private:
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
     NewsfeedModel *_wallModel;
+    PhotosModel *_photosModel;
 
     QString _messagePreview;
     QString _pathToPhoto;
@@ -208,6 +213,8 @@ private:
     void parseMessages(QJsonArray array);
     void parseNewMessage(QJsonObject object);
     void parseNewsfeed(QJsonObject object, bool isWall);
+    void parsePhotoAlbums(QJsonArray array);
+    void parsePhotosList(QJsonObject object);
     void parseSavedPhotoData(QJsonArray array);
     void parseStatistics(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);

@@ -89,5 +89,6 @@ DISTFILES += \
     qml/views/WallItem.qml \
     qml/pages/RepostPage.qml \
     qml/pages/StatisticsPage.qml \
-    qml/pages/SettingsPage.qml
+    qml/pages/SettingsPage.qml \
+    qml/pages/PhotoAlbumPage.qml
 

@@ -33,7 +33,8 @@ HEADERS += \
     $$PWD/src/objects/comment.h \
     $$PWD/src/models/commentsmodel.h \
     $$PWD/src/requests/stats.h \
-    $$PWD/src/requests/account.h
+    $$PWD/src/requests/account.h \
+    $$PWD/src/models/photosmodel.h
 
 SOURCES += \
     $$PWD/src/authorization.cpp \
@@ -70,4 +71,5 @@ SOURCES += \
     $$PWD/src/objects/comment.cpp \
     $$PWD/src/models/commentsmodel.cpp \
     $$PWD/src/requests/stats.cpp \
-    $$PWD/src/requests/account.cpp
+    $$PWD/src/requests/account.cpp \
+    $$PWD/src/models/photosmodel.cpp

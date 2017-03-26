@@ -90,12 +90,14 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _messagesModel = new MessagesModel(this);
     _newsfeedModel = new NewsfeedModel(this);
     _wallModel = new NewsfeedModel(this);
+    _photosModel = new PhotosModel(this);
     qRegisterMetaType<CommentsModel*>("CommentsModel*");
     qRegisterMetaType<DialogsListModel*>("DialogsListModel*");
     qRegisterMetaType<FriendsListModel*>("FriendsListModel*");
     qRegisterMetaType<GroupsListModel*>("GroupsListModel*");
     qRegisterMetaType<MessagesModel*>("MessagesModel*");
     qRegisterMetaType<NewsfeedModel*>("NewsfeedModel*");
+    qRegisterMetaType<PhotosModel*>("PhotosModel*");
 
 
 //    qRegisterMetaType<Audio*>("Audio*");
@@ -130,6 +132,7 @@ VkSDK::~VkSDK() {
     delete _messagesModel;
     delete _newsfeedModel;
     delete _wallModel;
+    delete _photosModel;
 
 //    delete _selfProfile;
 }
@@ -227,6 +230,10 @@ NewsfeedModel *VkSDK::wallModel() const {
     return _wallModel;
 }
 
+PhotosModel *VkSDK::photosModel() const {
+    return _photosModel;
+}
+
 void VkSDK::attachPhotoToMessage(QString path) {
     _pathToPhoto = path;
     _photos->getMessagesUploadServer();
@@ -268,6 +275,13 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
         break;
     case ApiRequest::MESSAGES_GET_HISTORY:
         parseMessages(value.toObject().value("items").toArray());
+        break;
+    case ApiRequest::PHOTOS_GET_ALBUMS:
+        parsePhotoAlbums(value.toObject().value("items").toArray());
+        break;
+    case ApiRequest::PHOTOS_GET:
+    case ApiRequest::PHOTOS_GET_ALL:
+        parsePhotosList(value.toObject());
         break;
     case ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER:
         parseUploadServerData(value.toObject());
@@ -477,6 +491,25 @@ void VkSDK::parseNewsfeed(QJsonObject object, bool isWall) {
     }
     if (isWall) _wallModel->setCount(object.value("count").toInt());
     else _newsfeedModel->setNextFrom(nextFrom);
+}
+
+void VkSDK::parsePhotoAlbums(QJsonArray array) {
+    QList<QString> data;
+    foreach (QJsonValue val, array) {
+        data.append(QString::number(val.toObject().value("id").toInt()));
+        data.append(val.toObject().value("title").toString());
+    }
+    emit gotPhotoAlbums(data);
+}
+
+void VkSDK::parsePhotosList(QJsonObject object) {
+    int count = object.value("count").toInt();
+    QJsonArray items = object.value("items").toArray();
+    for (int index = 0; index < items.size(); ++index) {
+        Photo *photo = Photo::fromJsonObject(items.at(index).toObject());
+        _photosModel->addPhoto(photo);
+    }
+    _photosModel->setCount(count);
 }
 
 void VkSDK::parseSavedPhotoData(QJsonArray array) {

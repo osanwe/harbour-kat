@@ -29,6 +29,7 @@ Page {
     property var photoIds
     property var imagesModel
     property var current
+    property bool fromAlbum: false
 
     Drawer {
         id: drawer
@@ -48,7 +49,7 @@ Page {
             }
 
             header: PageHeader {
-                title: (slideshowView.currentIndex + 1) + ' / ' + imagesModel.length
+                title: (slideshowView.currentIndex + 1) + ' / ' + (fromAlbum ? vksdk.photosModel.count : imagesModel.length)
             }
 
             delegate: ListItem {
@@ -65,14 +66,24 @@ Page {
 
                 onClicked: switch (index) {
                            case 0:
-                               fileSaver.save(imagesModel[slideshowView.currentIndex])
+                               fileSaver.save(fromAlbum ? vksdk.photosModel.getUrl(slideshowView.currentIndex) : imagesModel[slideshowView.currentIndex])
                                break;
                            case 1:
-                               vksdk.likes.addPhoto(ownerIds[slideshowView.currentIndex],
-                                                    photoIds[slideshowView.currentIndex])
+                               if (fromAlbum)
+                                   vksdk.likes.addPhoto(vksdk.photosModel.getOwnerId(slideshowView.currentIndex),
+                                                        vksdk.photosModel.getPhotoId(slideshowView.currentIndex))
+                               else
+                                   vksdk.likes.addPhoto(ownerIds[slideshowView.currentIndex],
+                                                        photoIds[slideshowView.currentIndex])
                                break;
                            case 2:
-                               pageStack.push(Qt.resolvedUrl("RepostPage.qml"), { sourceId: ownerIds[slideshowView.currentIndex],
+                               if (fromAlbum)
+                                   pageStack.push(Qt.resolvedUrl("RepostPage.qml"),
+                                                  { sourceId: vksdk.photosModel.getOwnerId(slideshowView.currentIndex),
+                                                    postId: vksdk.photosModel.getPhotoId(slideshowView.currentIndex),
+                                                    type: "photo" })
+                               else
+                                   pageStack.push(Qt.resolvedUrl("RepostPage.qml"), { sourceId: ownerIds[slideshowView.currentIndex],
                                                                                   postId: photoIds[slideshowView.currentIndex],
                                                                                   type: "photo" })
                                break;
@@ -87,14 +98,14 @@ Page {
             id: slideshowView
             width: imageViewPage.width
             height: imageViewPage.height
-            model: imagesModel.length
+            model: fromAlbum ? vksdk.photosModel : imagesModel.length
 
             delegate: Image {
                     id: imageView
                     width: imageViewPage.width
                     height: width * (sourceSize.height / sourceSize.width)
                     fillMode: Image.PreserveAspectFit
-                    source: imagesModel[index]
+                    source: fromAlbum ? photoUrl : imagesModel[index]
 
                     PinchArea {
                         anchors.fill: parent

@@ -111,6 +111,8 @@ Page {
                 text: qsTr("Photos")
                 counter: group.photosCount
                 visible: group.photosCount !== 0
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("PhotoAlbumPage.qml"), { ownerId: groupId })
             }
 
             MoreButton {
