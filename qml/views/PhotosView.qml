@@ -33,24 +33,51 @@ Item {
             model: photos.length
 
             Image {
-                width: photos.length === 1 ? maximumWidth : maximumWidth / 2
-                height: photos.length === 1 ? maximumWidth : maximumWidth / 2
-                fillMode: Image.PreserveAspectCrop
+                width: calculateWidth(index, sourceSize.width, sourceSize.height)
+                height: width * (sourceSize.height / sourceSize.width)
+                fillMode: index === 0 ? Image.PreserveAspectFit : Image.PreserveAspectCrop
                 source: photos[index].photoMaximum
-//                source: photos[index].photoMinimum
 
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
                         var sources = []
-                        for (var idx in photos) sources[idx] = photos[idx].photoMaximum
+                        var owners = []
+                        var ids = []
+                        for (var idx in photos) {
+                            sources[idx] = photos[idx].photoMaximum
+                            owners[idx] = photos[idx].ownerId
+                            ids[idx] = photos[idx].id
+                        }
                         pageStack.push(Qt.resolvedUrl("../pages/ImageViewPage.qml"), { current:     index,
-                                                                                       imagesModel: sources })
+                                                                                       imagesModel: sources,
+                                                                                       ownerIds: owners,
+                                                                                       photoIds: ids })
                     }
                 }
 
                 Component.onCompleted: console.log(index, photos)
             }
+        }
+    }
+
+    function calculateWidth(index, w, h) {
+        if (photos.length === 1) return maximumWidth
+        else {
+            if (photos.length === 2 || photos.length === 4) return maximumWidth / 2
+            if (photos.length === 3 || photos.length === 6 || photos.length === 9) return maximumWidth / 3
+            if (photos.length === 5)
+                if (index === 0 || index === 1) return maximumWidth / 2
+                else return maximumWidth / 3
+            if (photos.length === 7)
+                if (index === 0 || index === 1 || index === 2 || index === 3) return maximumWidth / 2
+                else return maximumWidth / 3
+            if (photos.length === 8)
+                if (index === 0 || index === 1) return maximumWidth / 2
+                else return maximumWidth / 3
+            if (photos.length === 10)
+                if (index === 0 || index === 1 || index === 2 || index === 3) return maximumWidth / 2
+                else return maximumWidth / 3
         }
     }
 }

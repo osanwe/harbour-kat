@@ -49,6 +49,9 @@ public:
         AUDIO_ADD,
         AUDIO_GET,
         AUDIO_SEARCH,
+        BOARD_CREATE_COMMENT,
+        BOARD_GET_COMMENTS,
+        BOARD_GET_TOPICS,
         FRIENDS_GET,
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,
@@ -63,6 +66,9 @@ public:
         MESSAGES_SEND,
         MESSAGES_SET_ACTIVITY,
         NEWSFEED_GET,
+        PHOTOS_GET,
+        PHOTOS_GET_ALBUMS,
+        PHOTOS_GET_ALL,
         PHOTOS_GET_MESSAGES_UPLOAD_SERVER,
         PHOTOS_GET_WALL_UPLOAD_SERVER,
         PHOTOS_SAVE_MESSAGES_PHOTO,
@@ -93,7 +99,7 @@ public slots:
 
 private:
     const QString API_URL = "https://api.vk.com/method/";
-    const QString API_VERSION = "5.60";
+    const QString API_VERSION = "5.63";
 
     QString _accessToken;
     QNetworkAccessManager *_manager;

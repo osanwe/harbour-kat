@@ -34,6 +34,10 @@ public:
     void uploadPhotoToServer(const QString &server, const QString &album, const QString &user, const QString &path);
     void saveMessagesPhoto(const QString &photo, const QString &server, const QString &hash);
 
+    Q_INVOKABLE void get(QString ownerId, QString albumId, int offset = 0);
+    Q_INVOKABLE void getAlbums(QString ownerId);
+    Q_INVOKABLE void getAll(QString ownerId, int offset = 0);
+
 //    void setAccessToken(const QString &accessToken);
 
 //signals:

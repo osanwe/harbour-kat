@@ -59,9 +59,9 @@ void Wall::createComment(int ownerId, int postId, const QString &message) {
     _api->makeApiGetRequest("wall.createComment", query, ApiRequest::WALL_CREATE_COMMENT);
 }
 
-void Wall::repost(int ownerId, int postId, const QString &message) {
+void Wall::repost(QString &type, int ownerId, int postId, QString &message) {
     QUrlQuery query;
-    query.addQueryItem("object", QString("wall%1_%2").arg(ownerId).arg(postId));
+    query.addQueryItem("object", QString("%1%2_%3").arg(type).arg(ownerId).arg(postId));
     query.addQueryItem("message", message);
     _api->makeApiGetRequest("wall.repost", query, ApiRequest::WALL_REPOST);
 }

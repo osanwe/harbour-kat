@@ -227,6 +227,8 @@ Page {
                 text: qsTr("Photos")
                 counter: profile.counterPhotos
                 visible: profile.counterPhotos > 0
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("PhotoAlbumPage.qml"), { ownerId: profile.id })
             }
 
             MoreButton {

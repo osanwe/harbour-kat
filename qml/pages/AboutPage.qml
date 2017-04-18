@@ -53,13 +53,13 @@ Page {
             Label {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "v0.5.2"
+                text: "v0.5.3"
             }
 
             Label {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "© 2015-2016 Petr Vytovtov"
+                text: "© 2015-2017 Petr Vytovtov"
             }
 
             Label {

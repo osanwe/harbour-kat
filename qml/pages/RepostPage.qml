@@ -3,6 +3,7 @@ import Sailfish.Silica 1.0
 
 Dialog {
 
+    property string type: "wall"
     property int sourceId: 0
     property int postId: 0
 
@@ -25,6 +26,6 @@ Dialog {
     }
 
     onAccepted: {
-        vksdk.wall.repost(sourceId, postId, repostComment.text)
+        vksdk.wall.repost(type, sourceId, postId, repostComment.text)
     }
 }

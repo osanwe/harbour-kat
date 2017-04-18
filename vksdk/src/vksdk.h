@@ -37,9 +37,11 @@
 #include "models/groupslistmodel.h"
 #include "models/messagesmodel.h"
 #include "models/newsfeedmodel.h"
+#include "models/photosmodel.h"
 #include "requests/account.h"
 #include "requests/apirequest.h"
 #include "requests/audios.h"
+#include "requests/board.h"
 #include "requests/friends.h"
 #include "requests/groups.h"
 #include "requests/likes.h"
@@ -68,6 +70,7 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Account* account READ account CONSTANT)
     Q_PROPERTY(Audios* audios READ audios CONSTANT)
+    Q_PROPERTY(Board* board READ board CONSTANT)
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Groups* groups READ groups CONSTANT)
     Q_PROPERTY(Likes* likes READ likes CONSTANT)
@@ -86,6 +89,7 @@ class VkSDK : public QObject
     Q_PROPERTY(MessagesModel* messagesModel READ messagesModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* newsfeedModel READ newsfeedModel CONSTANT)
     Q_PROPERTY(NewsfeedModel* wallModel READ wallModel CONSTANT)
+    Q_PROPERTY(PhotosModel* photosModel READ photosModel CONSTANT)
 
 //    Q_PROPERTY(User* selfProfile READ selfProfile CONSTANT)
 
@@ -102,6 +106,7 @@ public:
 
     Account* account() const;
     Audios* audios() const;
+    Board* board() const;
     Friends* friends() const;
     Groups* groups() const;
     Likes *likes() const;
@@ -120,6 +125,7 @@ public:
     MessagesModel* messagesModel() const;
     NewsfeedModel* newsfeedModel() const;
     NewsfeedModel* wallModel() const;
+    PhotosModel* photosModel() const;
 
     Q_INVOKABLE void attachPhotoToMessage(QString path);
 
@@ -130,7 +136,9 @@ signals:
     void commentCreated();
     void gotGroup(Group *grp);
     void gotNewMessage(QString name, QString preview);
+    void gotPhotoAlbums(QList<QString> data);
     void gotProfile(User *user);
+    void gotTopics(QList<int> ids, QStringList topics, QList<bool> closed);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
     void gotUserAudios(QVariantList audios);
@@ -172,6 +180,7 @@ private:
 
     Account *_account;
     Audios *_audios;
+    Board *_board;
     Friends *_friends;
     Groups *_groups;
     Likes *_likes;
@@ -190,6 +199,7 @@ private:
     MessagesModel *_messagesModel;
     NewsfeedModel *_newsfeedModel;
     NewsfeedModel *_wallModel;
+    PhotosModel *_photosModel;
 
     QString _messagePreview;
     QString _pathToPhoto;
@@ -208,8 +218,11 @@ private:
     void parseMessages(QJsonArray array);
     void parseNewMessage(QJsonObject object);
     void parseNewsfeed(QJsonObject object, bool isWall);
+    void parsePhotoAlbums(QJsonArray array);
+    void parsePhotosList(QJsonObject object);
     void parseSavedPhotoData(QJsonArray array);
     void parseStatistics(QJsonArray array);
+    void parseTopicsList(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);
     void parseUploadServerData(QJsonObject object);
     User* parseUserProfile(QJsonArray array);
