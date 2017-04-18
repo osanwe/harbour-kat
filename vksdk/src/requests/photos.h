@@ -22,43 +22,17 @@
 #ifndef PHOTOS_H
 #define PHOTOS_H
 
-#include <QDebug>
+#include "requestbase.h"
 
-//#include <QJsonDocument>
-//#include <QJsonObject>
-//#include <QJsonValue>
-//#include <QNetworkReply>
-#include <QObject>
-//#include <QString>
-//#include <QUrlQuery>
-
-//#include <QByteArray>
-#include <QFile>
-#include <QTextCodec>
-//#include <QIODevice>
-//#include <QNetworkAccessManager>
-//#include <QNetworkRequest>
-//#include <QUrl>
-
-#include <QHttpMultiPart>
-#include <QHttpPart>
-
-//#include <QJsonArray>
-
-#include "apirequest.h"
-
-class Photos : public QObject
+class Photos : public RequestBase
 {
     Q_OBJECT
 public:
     explicit Photos(QObject *parent = 0);
-    ~Photos();
-
-    void setApi(ApiRequest *api);
 
     void getMessagesUploadServer();
-    void uploadPhotoToServer(QString server, QString album, QString user, QString path);
-    void saveMessagesPhoto(QString photo, QString server, QString hash);
+    void uploadPhotoToServer(const QString &server, const QString &album, const QString &user, const QString &path);
+    void saveMessagesPhoto(const QString &photo, const QString &server, const QString &hash);
 
     Q_INVOKABLE void get(QString ownerId, QString albumId, int offset = 0);
     Q_INVOKABLE void getAlbums(QString ownerId);
@@ -78,7 +52,6 @@ public:
 //    void uploadedImage(QNetworkReply *reply);
 
 private:
-    ApiRequest *_api;
     //    QString pathToImage;
 //    QString mMode;
 //    int mGroupId;

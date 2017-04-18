@@ -22,55 +22,22 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-//#include <QJsonArray>
-//#include <QJsonDocument>
-//#include <QJsonObject>
-//#include <QJsonValue>
-//#include <QList>
-//#include <QNetworkReply>
-#include <QObject>
-//#include <QScopedPointer>
-//#include <QString>
-//#include <QStringList>
-//#include <QVariant>
+#include "requestbase.h"
 
-#include "apirequest.h"
-//#include "../objects/chat.h"
-//#include "../objects/dialog.h"
-
-//#include <QDebug>
-
-class Messages : public QObject
+class Messages : public RequestBase
 {
     Q_OBJECT
 
 public:
     explicit Messages(QObject *parent = 0);
-    ~Messages();
-
-//    void setAccessToken(QString value);
-    void setApi(ApiRequest *api);
 
     Q_INVOKABLE void getById(int id);
-    Q_INVOKABLE void getChat(QStringList ids);
+    Q_INVOKABLE void getChat(const QStringList &ids);
     Q_INVOKABLE void getDialogs(int offset = 0);
     Q_INVOKABLE void getHistory(int peerId, int offset = 0);
     Q_INVOKABLE void markAsRead(int peerId);
-    Q_INVOKABLE void send(int peerId, QString text, QString attachmentsList);
+    Q_INVOKABLE void send(int peerId, const QString &text, const QString &attachmentsList);
     Q_INVOKABLE void setActivity(int peerId);
-
-//signals:
-//    void gotChatsList(QList<QObject*> chatsList);
-//    void gotDialogsList(QList<Dialog*> dialogsList);
-//    void gotMessagesList(QList<QObject*> messagesList);
-//    void gotUnreadDialogsCounter(int value);
-
-//public slots:
-//    void gotResponse(QJsonValue value, ApiRequest::TaskType type);
-
-private:
-    ApiRequest *_api;
-    //    QString _accessToken;
 };
 
 #endif // MESSAGES_H

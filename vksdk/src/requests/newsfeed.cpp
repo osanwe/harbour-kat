@@ -21,22 +21,15 @@
 
 #include "newsfeed.h"
 
-Newsfeed::Newsfeed(QObject *parent) : QObject(parent)
+Newsfeed::Newsfeed(QObject *parent) : RequestBase(parent)
 {}
 
-Newsfeed::~Newsfeed()
-{}
-
-void Newsfeed::setApi(ApiRequest *api) {
-    _api = api;
-}
-
-void Newsfeed::get(QString startFrom) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("filters", "post");
-    query->addQueryItem("return_banned", "0");
-    query->addQueryItem("fields", "photo_50");
-    if (!startFrom.isEmpty()) query->addQueryItem("start_from", startFrom);
+void Newsfeed::get(const QString &startFrom) {
+    QUrlQuery query;
+    query.addQueryItem("filters", "post");
+    query.addQueryItem("return_banned", "0");
+    query.addQueryItem("fields", "photo_50");
+    if (!startFrom.isEmpty()) query.addQueryItem("start_from", startFrom);
     _api->makeApiGetRequest("newsfeed.get", query, ApiRequest::NEWSFEED_GET);
 //    ApiRequest *request = new ApiRequest();
 //    connect(request, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),

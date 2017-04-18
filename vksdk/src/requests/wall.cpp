@@ -21,54 +21,47 @@
 
 #include "wall.h"
 
-Wall::Wall(QObject *parent) : QObject(parent)
+Wall::Wall(QObject *parent) : RequestBase(parent)
 {}
-
-Wall::~Wall()
-{}
-
-void Wall::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Wall::get(int ownerId, int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", QString::number(ownerId));
-    query->addQueryItem("count", "20");
-    query->addQueryItem("extended", "1");
-    query->addQueryItem("fields", "photo_50");
-    if (offset != 0) query->addQueryItem("offset", QString::number(offset));
+    QUrlQuery query;
+    query.addQueryItem("owner_id", QString::number(ownerId));
+    query.addQueryItem("count", "20");
+    query.addQueryItem("extended", "1");
+    query.addQueryItem("fields", "photo_50");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("wall.get", query, ApiRequest::WALL_GET);
 }
 
 void Wall::getById(int ownerId, int id) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("posts", QString("%1_%2").arg(ownerId).arg(id));
+    QUrlQuery query;
+    query.addQueryItem("posts", QString("%1_%2").arg(ownerId).arg(id));
     _api->makeApiGetRequest("wall.getById", query, ApiRequest::WALL_GET_BY_ID);
 }
 
 void Wall::getComments(int ownerId, int postId, int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", QString::number(ownerId));
-    query->addQueryItem("post_id", QString::number(postId));
-    query->addQueryItem("count", "100");
-    query->addQueryItem("sort", "asc");
-    query->addQueryItem("extended", "1");
-    if (offset != 0) query->addQueryItem("offset", QString::number(offset));
+    QUrlQuery query;
+    query.addQueryItem("owner_id", QString::number(ownerId));
+    query.addQueryItem("post_id", QString::number(postId));
+    query.addQueryItem("count", "100");
+    query.addQueryItem("sort", "asc");
+    query.addQueryItem("extended", "1");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("wall.getComments", query, ApiRequest::WALL_GET_COMMENTS);
 }
 
-void Wall::createComment(int ownerId, int postId, QString message) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", QString::number(ownerId));
-    query->addQueryItem("post_id", QString::number(postId));
-    query->addQueryItem("message", message);
+void Wall::createComment(int ownerId, int postId, const QString &message) {
+    QUrlQuery query;
+    query.addQueryItem("owner_id", QString::number(ownerId));
+    query.addQueryItem("post_id", QString::number(postId));
+    query.addQueryItem("message", message);
     _api->makeApiGetRequest("wall.createComment", query, ApiRequest::WALL_CREATE_COMMENT);
 }
 
-void Wall::repost(QString type, int ownerId, int postId, QString message) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("object", QString("%1%2_%3").arg(type).arg(ownerId).arg(postId));
-    query->addQueryItem("message", message);
+void Wall::repost(QString &type, int ownerId, int postId, QString &message) {
+    QUrlQuery query;
+    query.addQueryItem("object", QString("%1%2_%3").arg(type).arg(ownerId).arg(postId));
+    query.addQueryItem("message", message);
     _api->makeApiGetRequest("wall.repost", query, ApiRequest::WALL_REPOST);
 }

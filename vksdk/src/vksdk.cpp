@@ -26,8 +26,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _api = new ApiRequest(this);
     _auth = new Authorization(this);
     qRegisterMetaType<Authorization*>("Authorization*");
-    connect(_api, SIGNAL(gotResponse(QJsonValue,ApiRequest::TaskType)),
-            this, SLOT(gotResponse(QJsonValue,ApiRequest::TaskType)));
+    connect(_api, &ApiRequest::gotResponse, this, &VkSDK::gotResponse);
 //    connect(_api, &ApiRequest::gotResponse,
 //            [this] (QJsonValue value, ApiRequest::TaskType type) { QtConcurrent::run(this, &VkSDK::gotResponse, value, type); });
 //            [this] (QJsonValue value, ApiRequest::TaskType type) { gotResponse(value, type); });
@@ -247,7 +246,7 @@ void VkSDK::attachPhotoToMessage(QString path) {
     _photos->getMessagesUploadServer();
 }
 
-void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
+void VkSDK::gotResponse(const QJsonValue &value, ApiRequest::TaskType type) {
     switch (type) {
     case ApiRequest::ACCOUNT_BAN_USER:
         emit banSettingChanged(true);

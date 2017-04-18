@@ -34,6 +34,7 @@ HEADERS += \
     $$PWD/src/models/commentsmodel.h \
     $$PWD/src/requests/stats.h \
     $$PWD/src/requests/account.h \
+    $$PWD/src/requests/requestbase.h \
     $$PWD/src/models/photosmodel.h \
     $$PWD/src/requests/board.h
 
@@ -73,5 +74,6 @@ SOURCES += \
     $$PWD/src/models/commentsmodel.cpp \
     $$PWD/src/requests/stats.cpp \
     $$PWD/src/requests/account.cpp \
+    $$PWD/src/requests/requestbase.cpp \
     $$PWD/src/models/photosmodel.cpp \
     $$PWD/src/requests/board.cpp
