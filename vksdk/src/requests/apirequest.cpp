@@ -54,7 +54,7 @@ void ApiRequest::finished(QNetworkReply *reply) {
     QString requestedUrl = reply->url().toString();
     if (_history.contains(requestedUrl)) {
         QJsonDocument jDoc = QJsonDocument::fromJson(reply->readAll());
-//        qDebug() << jDoc;
+        qDebug() << jDoc;
         QJsonObject jObj = jDoc.object();
         if (_history[requestedUrl] == PHOTOS_UPLOAD_TO_SERVER) {
             emit gotResponse(jObj, _history[requestedUrl]);

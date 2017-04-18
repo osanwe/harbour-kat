@@ -33,7 +33,7 @@ Item {
             model: photos.length
 
             Image {
-                width: calculateWidth(index)
+                width: calculateWidth(index, sourceSize.width, sourceSize.height)
                 height: width * (sourceSize.height / sourceSize.width)
                 fillMode: index === 0 ? Image.PreserveAspectFit : Image.PreserveAspectCrop
                 source: photos[index].photoMaximum
@@ -61,23 +61,23 @@ Item {
         }
     }
 
-    function calculateWidth(index) {
-        if (index === 0) return maximumWidth
+    function calculateWidth(index, w, h) {
+        if (photos.length === 1) return maximumWidth
         else {
-            var otherPhotos = photos.length - 1
-            if (otherPhotos % 4 == 0) {
-                return maximumWidth / 4
-            } else if (otherPhotos % 3 == 0) {
-                return maximumWidth / 3
-            } else if (otherPhotos % 2 == 0) {
-                return maximumWidth / 2
-            } else if (otherPhotos == 5) {
-                if (index === 1 || index === 2) return maximumWidth / 2
+            if (photos.length === 2 || photos.length === 4) return maximumWidth / 2
+            if (photos.length === 3 || photos.length === 6 || photos.length === 9) return maximumWidth / 3
+            if (photos.length === 5)
+                if (index === 0 || index === 1) return maximumWidth / 2
                 else return maximumWidth / 3
-            } else if (otherPhotos == 7) {
-                if (index === 1 || index === 2 || index === 3) return maximumWidth / 3
-                else return maximumWidth / 4
-            } else return maximumWidth
+            if (photos.length === 7)
+                if (index === 0 || index === 1 || index === 2 || index === 3) return maximumWidth / 2
+                else return maximumWidth / 3
+            if (photos.length === 8)
+                if (index === 0 || index === 1) return maximumWidth / 2
+                else return maximumWidth / 3
+            if (photos.length === 10)
+                if (index === 0 || index === 1 || index === 2 || index === 3) return maximumWidth / 2
+                else return maximumWidth / 3
         }
     }
 }
