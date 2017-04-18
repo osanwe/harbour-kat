@@ -81,6 +81,9 @@ public:
         AUDIO_ADD,
         AUDIO_GET,
         AUDIO_SEARCH,
+        BOARD_CREATE_COMMENT,
+        BOARD_GET_COMMENTS,
+        BOARD_GET_TOPICS,
         FRIENDS_GET,
         FRIENDS_GET_MUTUAL,
         FRIENDS_GET_ONLINE,
@@ -128,7 +131,7 @@ public slots:
 
 private:
     const QString API_URL = "https://api.vk.com/method/";
-    const QString API_VERSION = "5.60";
+    const QString API_VERSION = "5.63";
 
     QString _accessToken;
     QHash<QString, TaskType> _history;

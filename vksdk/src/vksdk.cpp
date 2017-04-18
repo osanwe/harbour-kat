@@ -40,6 +40,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     // requests:
     _account = new Account(this);
     _audios = new Audios(this);
+    _board = new Board(this);
     _friends = new Friends(this);
     _groups = new Groups(this);
     _likes = new Likes(this);
@@ -53,6 +54,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
 //    _longPoll->setApi(_api);
     _account->setApi(_api);
     _audios->setApi(_api);
+    _board->setApi(_api);
     _friends->setApi(_api);
     _groups->setApi(_api);
     _likes->setApi(_api);
@@ -66,6 +68,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     qRegisterMetaType<LongPoll*>("LongPoll*");
     qRegisterMetaType<Account*>("Account*");
     qRegisterMetaType<Audios*>("Audios*");
+    qRegisterMetaType<Board*>("Board*");
     qRegisterMetaType<Friends*>("Friends*");
     qRegisterMetaType<Groups*>("Groups*");
     qRegisterMetaType<Likes*>("Likes*");
@@ -114,6 +117,7 @@ VkSDK::~VkSDK() {
 
     delete _account;
     delete _audios;
+    delete _board;
     delete _friends;
     delete _groups;
     delete _likes;
@@ -160,6 +164,10 @@ Account *VkSDK::account() const {
 
 Audios *VkSDK::audios() const {
     return _audios;
+}
+
+Board *VkSDK::board() const {
+    return _board;
 }
 
 Friends *VkSDK::friends() const {
@@ -251,6 +259,9 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::AUDIO_SEARCH:
         parseAudiosList(value.toObject().value("items").toArray());
         break;
+    case ApiRequest::BOARD_GET_TOPICS:
+        parseTopicsList(value.toObject().value("items").toArray());
+        break;
     case ApiRequest::FRIENDS_GET:
         parseEntireFriendsList(value.toObject().value("items").toArray());
         break;
@@ -313,6 +324,7 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::VIDEO_GET:
         emit gotVideo(parseVideoInfo(value.toObject().value("items").toArray()));
         break;
+    case ApiRequest::BOARD_CREATE_COMMENT:
     case ApiRequest::WALL_CREATE_COMMENT:
         emit commentCreated();
         break;
@@ -322,6 +334,7 @@ void VkSDK::gotResponse(QJsonValue value, ApiRequest::TaskType type) {
     case ApiRequest::WALL_GET_BY_ID:
         emit gotWallpost(parseWallpost(value.toObject().value("items").toArray()));
         break;
+    case ApiRequest::BOARD_GET_COMMENTS:
     case ApiRequest::WALL_GET_COMMENTS:
         parseComments(value.toObject());
         break;
@@ -526,6 +539,18 @@ void VkSDK::parseStatistics(QJsonArray array) {
         data.append(jObj.value("visitors").toInt());
     }
     emit gotStats(data);
+}
+
+void VkSDK::parseTopicsList(QJsonArray array) {
+    QList<int> ids;
+    QStringList titles;
+    QList<bool> closed;
+    foreach (QJsonValue val, array) {
+        ids << val.toObject().value("id").toInt();
+        titles << val.toObject().value("title").toString();
+        closed << (val.toObject().value("is_closed").toInt() == 1);
+    }
+    emit gotTopics(ids, titles, closed);
 }
 
 void VkSDK::parseUploadedPhotoData(QJsonObject object) {

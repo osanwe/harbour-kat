@@ -41,6 +41,7 @@
 #include "requests/account.h"
 #include "requests/apirequest.h"
 #include "requests/audios.h"
+#include "requests/board.h"
 #include "requests/friends.h"
 #include "requests/groups.h"
 #include "requests/likes.h"
@@ -69,6 +70,7 @@ class VkSDK : public QObject
 
     Q_PROPERTY(Account* account READ account CONSTANT)
     Q_PROPERTY(Audios* audios READ audios CONSTANT)
+    Q_PROPERTY(Board* board READ board CONSTANT)
     Q_PROPERTY(Friends* friends READ friends CONSTANT)
     Q_PROPERTY(Groups* groups READ groups CONSTANT)
     Q_PROPERTY(Likes* likes READ likes CONSTANT)
@@ -104,6 +106,7 @@ public:
 
     Account* account() const;
     Audios* audios() const;
+    Board* board() const;
     Friends* friends() const;
     Groups* groups() const;
     Likes *likes() const;
@@ -135,6 +138,7 @@ signals:
     void gotNewMessage(QString name, QString preview);
     void gotPhotoAlbums(QList<QString> data);
     void gotProfile(User *user);
+    void gotTopics(QList<int> ids, QStringList topics, QList<bool> closed);
     void gotUnreadCounter(int value);
     void gotVideo(Video *video);
     void gotUserAudios(QVariantList audios);
@@ -176,6 +180,7 @@ private:
 
     Account *_account;
     Audios *_audios;
+    Board *_board;
     Friends *_friends;
     Groups *_groups;
     Likes *_likes;
@@ -217,6 +222,7 @@ private:
     void parsePhotosList(QJsonObject object);
     void parseSavedPhotoData(QJsonArray array);
     void parseStatistics(QJsonArray array);
+    void parseTopicsList(QJsonArray array);
     void parseUploadedPhotoData(QJsonObject object);
     void parseUploadServerData(QJsonObject object);
     User* parseUserProfile(QJsonArray array);

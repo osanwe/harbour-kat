@@ -80,6 +80,10 @@ void CommentsModel::addUser(User *user) {
     emit dataChanged(startIndex, endIndex);
 }
 
+int CommentsModel::size() const {
+    return _comments.size();
+}
+
 QString CommentsModel::_getAvatarSource(const int id) const {
     if (id > 0) {
         if (_profiles.contains(id)) return _profiles[id]->getPhoto50();

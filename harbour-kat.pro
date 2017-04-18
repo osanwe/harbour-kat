@@ -90,5 +90,7 @@ DISTFILES += \
     qml/pages/RepostPage.qml \
     qml/pages/StatisticsPage.qml \
     qml/pages/SettingsPage.qml \
-    qml/pages/PhotoAlbumPage.qml
+    qml/pages/PhotoAlbumPage.qml \
+    qml/pages/TopicsPage.qml \
+    qml/pages/TopicPage.qml
 

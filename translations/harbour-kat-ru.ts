@@ -220,32 +220,17 @@
         <translation>Фотографии</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="121"/>
-        <source>Audios</source>
-        <translation>Аудиозаписи</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="129"/>
-        <source>Videos</source>
-        <translation>Видеозаписи</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="137"/>
         <source>Topics</source>
         <translation>Обсуждения</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="145"/>
-        <source>Documents</source>
-        <translation>Документы</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="154"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="156"/>
         <source>Wall</source>
         <translation>Стена</translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="181"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="183"/>
         <source>Load more</source>
         <translation>Загрузить больше</translation>
     </message>
@@ -484,6 +469,23 @@
         <location filename="../qml/pages/StatisticsPage.qml" line="154"/>
         <source>Uniqual visitors</source>
         <translation>Уникальных посетителей</translation>
+    </message>
+</context>
+<context>
+    <name>TopicPage</name>
+    <message>
+        <location filename="../qml/pages/TopicPage.qml" line="59"/>
+        <location filename="../qml/pages/TopicPage.qml" line="60"/>
+        <source>Your comment</source>
+        <translation>Ваш комментарий</translation>
+    </message>
+</context>
+<context>
+    <name>TopicsPage</name>
+    <message>
+        <location filename="../qml/pages/TopicsPage.qml" line="12"/>
+        <source>Topics</source>
+        <translation>Обсуждения</translation>
     </message>
 </context>
 <context>
