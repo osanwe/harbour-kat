@@ -65,26 +65,26 @@ void Photos::saveMessagesPhoto(const QString &photo, const QString &server, cons
 }
 
 void Photos::get(QString ownerId, QString albumId, int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", ownerId);
-    query->addQueryItem("album_id", albumId);
-    query->addQueryItem("count", "21");
-    if (offset != 0) query->addQueryItem("offset", QString::number(offset));
-    _api->makeApiGetRequest("photos.get", query, ApiRequest::PHOTOS_GET);
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("album_id", albumId);
+    query.addQueryItem("count", "21");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
+    _api->makeApiGetRequest("photos.get", query, ApiRequest::PHOTOS_GET );
 }
 
 void Photos::getAlbums(QString ownerId) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", ownerId);
-    query->addQueryItem("need_system", "1");
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("need_system", "1");
     _api->makeApiGetRequest("photos.getAlbums", query, ApiRequest::PHOTOS_GET_ALBUMS);
 }
 
 void Photos::getAll(QString ownerId, int offset) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("owner_id", ownerId);
-    query->addQueryItem("count", "21");
-    if (offset != 0) query->addQueryItem("offset", QString::number(offset));
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("count", "21");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
     _api->makeApiGetRequest("photos.getAll", query, ApiRequest::PHOTOS_GET_ALL);
 }
 
