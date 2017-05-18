@@ -56,7 +56,7 @@ VkSDK::VkSDK(QObject *parent) : QObject(parent) {
     _board->setApi(_api);
     _friends->setApi(_api);
     _groups->setApi(_api);
-//    _likes->setApi(_api);
+    _likes->setApi(_api);
     _messages->setApi(_api);
     _newsfeed->setApi(_api);
     _photos->setApi(_api);
