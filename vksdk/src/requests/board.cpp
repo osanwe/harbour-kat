@@ -1,14 +1,7 @@
 #include "board.h"
 
-Board::Board(QObject *parent) : QObject(parent)
+Board::Board(QObject *parent) : RequestBase(parent)
 {}
-
-Board::~Board()
-{}
-
-void Board::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Board::getTopics(int groupId, int offset) {
     QUrlQuery query;

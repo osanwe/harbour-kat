@@ -33,10 +33,6 @@ public:
     Q_INVOKABLE void addPost(int ownerId, int itemId);
     Q_INVOKABLE void addPhoto(int ownerId, int itemId);
 
-    void setApi(ApiRequest *api);
-
-private:
-    ApiRequest *_api;
 };
 
 #endif // LIKES_H

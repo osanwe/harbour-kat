@@ -35,9 +35,6 @@ public:
     Q_INVOKABLE void getComments(int ownerId, int postId, int offset = 0);
     Q_INVOKABLE void createComment(int ownerId, int postId, const QString &message);
     Q_INVOKABLE void repost(const QString &type, int ownerId, int postId, const QString &message);
-
-private:
-    ApiRequest *_api;
 };
 
 #endif // WALL_H
