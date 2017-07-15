@@ -25,12 +25,22 @@
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="97"/>
+        <source>Thanks for features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="106"/>
         <source>Localization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="98"/>
+        <location filename="../qml/pages/AboutPage.qml" line="107"/>
         <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="108"/>
+        <source>Dutch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -143,18 +153,18 @@
 <context>
     <name>DialogPage</name>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="84"/>
+        <location filename="../qml/pages/DialogPage.qml" line="85"/>
         <source>typing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="107"/>
         <location filename="../qml/pages/DialogPage.qml" line="108"/>
+        <location filename="../qml/pages/DialogPage.qml" line="109"/>
         <source>Your message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DialogPage.qml" line="186"/>
+        <location filename="../qml/pages/DialogPage.qml" line="187"/>
         <source>Photo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -210,32 +220,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="119"/>
-        <source>Audios</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="127"/>
-        <source>Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="135"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="137"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="143"/>
-        <source>Documents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="152"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="156"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/GroupProfilePage.qml" line="179"/>
+        <location filename="../qml/pages/GroupProfilePage.qml" line="183"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
@@ -293,6 +288,11 @@
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/pages/MainMenuPage.qml" line="104"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>NewsView</name>
@@ -311,69 +311,103 @@
     </message>
 </context>
 <context>
+    <name>PhotoAlbumPage</name>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="87"/>
+        <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="14"/>
+        <source>Album:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PhotoAlbumPage.qml" line="19"/>
+        <source>All photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ProfilePage</name>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="216"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="227"/>
         <source>Photos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="225"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="238"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="255"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="268"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="47"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="48"/>
         <source>Open in browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="310"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="324"/>
         <source>The user is baned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="80"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="85"/>
         <source>Go to dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="125"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="53"/>
+        <source>Remove from blacklist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="53"/>
+        <source>Add to blacklist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
+        <source>Last seen female: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="134"/>
         <source>Last seen: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="204"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="215"/>
         <source>Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="234"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="247"/>
         <source>Audios</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="243"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="256"/>
         <source>Groups</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="264"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="277"/>
         <source>Wall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="309"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="323"/>
         <source>The user is deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="293"/>
+        <location filename="../qml/pages/ProfilePage.qml" line="306"/>
         <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
@@ -381,13 +415,31 @@
 <context>
     <name>RepostPage</name>
     <message>
-        <location filename="../qml/pages/RepostPage.qml" line="11"/>
+        <location filename="../qml/pages/RepostPage.qml" line="12"/>
         <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/RepostPage.qml" line="12"/>
+        <location filename="../qml/pages/RepostPage.qml" line="13"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="15"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="21"/>
+        <source>Be offline if possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="22"/>
+        <source>Your status will be online only if you publish something on the wall or in the group.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -416,6 +468,23 @@
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="154"/>
         <source>Uniqual visitors</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TopicPage</name>
+    <message>
+        <location filename="../qml/pages/TopicPage.qml" line="59"/>
+        <location filename="../qml/pages/TopicPage.qml" line="60"/>
+        <source>Your comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TopicsPage</name>
+    <message>
+        <location filename="../qml/pages/TopicsPage.qml" line="12"/>
+        <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -13,6 +13,8 @@ class CommentsModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    Q_PROPERTY(int size READ size CONSTANT)
+
 public:
     enum Roles {
         AvatarRole = Qt::UserRole + 1,
@@ -32,6 +34,8 @@ public:
     Q_INVOKABLE void addComment(Comment *comment);
     Q_INVOKABLE void addGroup(Group *group);
     Q_INVOKABLE void addUser(User *user);
+
+    int size() const;
 
 private:
     QList<Comment *> _comments;

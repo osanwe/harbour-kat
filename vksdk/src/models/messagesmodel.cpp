@@ -42,6 +42,9 @@ QVariant MessagesModel::data(const QModelIndex &index, int role) const {
     case IdRole:
         return QVariant(message->id());
 
+    case FromIdRole:
+        return QVariant(message->fromId());
+
     case DateRole:
         return QVariant(message->date());
 
@@ -90,6 +93,7 @@ QHash<int, QByteArray> MessagesModel::roleNames() const {
     QHash<int, QByteArray> roles = QAbstractListModel::roleNames();
     roles[AvatarRole] = "avatar";
     roles[IdRole] = "id";
+    roles[FromIdRole] = "fromId";
     roles[DateRole] = "datetime";
     roles[IsOutRole] = "out";
     roles[IsReadRole] = "read";

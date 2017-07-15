@@ -6,47 +6,47 @@
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="36"/>
         <source>About</source>
-        <translation>О</translation>
+        <translation>Over</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="68"/>
         <source>The unofficial client for vk.com, distributed under the terms of the GNU GPLv3.</source>
-        <translation>Неофициальный клиент для vk.com, распространяемый по лицензии GNU GPL v3.</translation>
+        <translation>De onofficiële client voor vk.com, gedistribueerd onder de GNU GPLv3 voorwaarden.</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="74"/>
         <source>Homepage</source>
-        <translation>Домашняя страница</translation>
+        <translation>Startpagina</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="88"/>
         <source>Source code</source>
-        <translation>Исходный код</translation>
+        <translation>Broncode</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="97"/>
         <source>Thanks for features</source>
-        <translation>Спасибо за участие:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="106"/>
         <source>Localization</source>
-        <translation>Локализация</translation>
+        <translation>Lokalisatie</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="107"/>
         <source>Italian</source>
-        <translation>Итальянский</translation>
+        <translation>Italiaans</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="108"/>
         <source>Dutch</source>
-        <translation>Голландский</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="81"/>
         <source>Donate</source>
-        <translation>Пожертвование</translation>
+        <translation>Doneren</translation>
     </message>
 </context>
 <context>
@@ -54,12 +54,12 @@
     <message>
         <location filename="../qml/pages/AudioPlayerPage.qml" line="37"/>
         <source>Search audio...</source>
-        <translation>Поиск аудиозаписей...</translation>
+        <translation>Audio zoeken ...</translation>
     </message>
     <message>
         <location filename="../qml/pages/AudioPlayerPage.qml" line="58"/>
         <source>My audios</source>
-        <translation>Мои аудиозаписи</translation>
+        <translation>Mijn audio</translation>
     </message>
 </context>
 <context>
@@ -67,87 +67,87 @@
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="115"/>
         <source>Birthday:</source>
-        <translation>День рождения:</translation>
+        <translation>Verjaardag:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="133"/>
         <source>Single</source>
-        <translation type="unfinished"></translation>
+        <translation>Alleenstaand</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="136"/>
         <source>In a relationship</source>
-        <translation type="unfinished"></translation>
+        <translation>In een relatie</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="139"/>
         <source>Engaged</source>
-        <translation type="unfinished"></translation>
+        <translation>Verloofd</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="142"/>
         <source>Married</source>
-        <translation type="unfinished"></translation>
+        <translation>Getrouwd</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="145"/>
         <source>It&apos;s complicated</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is gecompliceerd</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="148"/>
         <source>Actively searching</source>
-        <translation type="unfinished"></translation>
+        <translation>Actief zoekend</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="151"/>
         <source>In love</source>
-        <translation type="unfinished"></translation>
+        <translation>Verliefd</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="206"/>
         <source>City:</source>
-        <translation>Город:</translation>
+        <translation>Stad:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="221"/>
         <source>Country:</source>
-        <translation>Страна:</translation>
+        <translation>Land:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="236"/>
         <source>Home town:</source>
-        <translation>Родной город:</translation>
+        <translation>Geboortestad:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="251"/>
         <source>Mobile phone:</source>
-        <translation>Телефон:</translation>
+        <translation>Mobiele telefoon:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="266"/>
         <source>Home phone:</source>
-        <translation>Домашний:</translation>
+        <translation>Huis Telefoon</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="281"/>
         <source>Site:</source>
-        <translation>Сайт:</translation>
+        <translation>Gebied:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="191"/>
         <source>Gender:</source>
-        <translation>Пол:</translation>
+        <translation>Geslacht:</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="195"/>
         <source>Female</source>
-        <translation>Женский</translation>
+        <translation>Vrouw</translation>
     </message>
     <message>
         <location filename="../qml/views/CollapsedView.qml" line="195"/>
         <source>Male</source>
-        <translation>Мужской</translation>
+        <translation>Man</translation>
     </message>
 </context>
 <context>
@@ -155,18 +155,18 @@
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="85"/>
         <source>typing...</source>
-        <translation>набирает...</translation>
+        <translation>aan het typen...</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="108"/>
         <location filename="../qml/pages/DialogPage.qml" line="109"/>
         <source>Your message</source>
-        <translation>Ваше сообщение</translation>
+        <translation>Je bericht</translation>
     </message>
     <message>
         <location filename="../qml/pages/DialogPage.qml" line="187"/>
         <source>Photo</source>
-        <translation>Фотография</translation>
+        <translation>Foto</translation>
     </message>
 </context>
 <context>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../qml/pages/DialogsListPage.qml" line="45"/>
         <source>Dialogs</source>
-        <translation>Сообщения</translation>
+        <translation>Gesprekken</translation>
     </message>
 </context>
 <context>
@@ -182,24 +182,24 @@
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="73"/>
         <source>Friends</source>
-        <translation>Друзья</translation>
+        <translation>Vrienden</translation>
     </message>
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="50"/>
         <location filename="../qml/pages/FriendsListPage.qml" line="73"/>
         <source>Online friends</source>
-        <translation>Друзья онлайн</translation>
+        <translation>Vrienden online</translation>
     </message>
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="40"/>
         <location filename="../qml/pages/FriendsListPage.qml" line="74"/>
         <source>Mutual friends</source>
-        <translation>Общие друзья</translation>
+        <translation>Gemeenschappelijke vrienden</translation>
     </message>
     <message>
         <location filename="../qml/pages/FriendsListPage.qml" line="60"/>
         <source>All friends</source>
-        <translation>Все друзья</translation>
+        <translation>Alle vrienden</translation>
     </message>
 </context>
 <context>
@@ -207,32 +207,32 @@
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="50"/>
         <source>View stats</source>
-        <translation>Статистика</translation>
+        <translation type="unfinished">Statistieken bekijken</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="104"/>
         <source>Members</source>
-        <translation>Участники</translation>
+        <translation>Leden</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="111"/>
         <source>Photos</source>
-        <translation>Фотографии</translation>
+        <translation>Foto&apos;s</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="137"/>
         <source>Topics</source>
-        <translation>Обсуждения</translation>
+        <translation>Onderwerpen</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="156"/>
         <source>Wall</source>
-        <translation>Стена</translation>
+        <translation>Prikbord</translation>
     </message>
     <message>
         <location filename="../qml/pages/GroupProfilePage.qml" line="183"/>
         <source>Load more</source>
-        <translation>Загрузить больше</translation>
+        <translation>Laad meer</translation>
     </message>
 </context>
 <context>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../qml/pages/GroupsListPage.qml" line="39"/>
         <source>Groups</source>
-        <translation>Сообщества</translation>
+        <translation>Groepen</translation>
     </message>
 </context>
 <context>
@@ -248,7 +248,7 @@
     <message>
         <location filename="../qml/pages/LoginPage.qml" line="51"/>
         <source>Logged to vk.com with Kat</source>
-        <translation>Вход в vk.com через Kat</translation>
+        <translation>Ingelogd op vk.com met Kat</translation>
     </message>
 </context>
 <context>
@@ -256,42 +256,42 @@
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="29"/>
         <source>My profile</source>
-        <translation>Мой профиль</translation>
+        <translation>Mijn profiel</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="30"/>
         <source>News</source>
-        <translation>Новости</translation>
+        <translation>Nieuws</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="31"/>
         <source>Messages</source>
-        <translation>Сообщения</translation>
+        <translation>Berichten</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="32"/>
         <source>Friends</source>
-        <translation>Друзья</translation>
+        <translation>Vrienden</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="33"/>
         <source>Groups</source>
-        <translation>Сообщества</translation>
+        <translation>Groepen</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="94"/>
         <source>About</source>
-        <translation>О программе</translation>
+        <translation>Over</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="99"/>
         <source>Logout</source>
-        <translation>Выйти</translation>
+        <translation>Uitloggen</translation>
     </message>
     <message>
         <location filename="../qml/pages/MainMenuPage.qml" line="104"/>
         <source>Settings</source>
-        <translation>Настройки</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -299,7 +299,7 @@
     <message>
         <location filename="../qml/views/NewsView.qml" line="68"/>
         <source>[Wall post] </source>
-        <translation>[Запись на стене]</translation>
+        <translation>[Prikbordbericht]</translation>
     </message>
 </context>
 <context>
@@ -307,7 +307,7 @@
     <message>
         <location filename="../qml/pages/NewsfeedPage.qml" line="43"/>
         <source>Newsfeed</source>
-        <translation>Новости</translation>
+        <translation>Nieuwsfeed</translation>
     </message>
 </context>
 <context>
@@ -315,17 +315,17 @@
     <message>
         <location filename="../qml/pages/PhotoAlbumPage.qml" line="87"/>
         <source>Load more</source>
-        <translation>Загрузить больше</translation>
+        <translation type="unfinished">Laad meer</translation>
     </message>
     <message>
         <location filename="../qml/pages/PhotoAlbumPage.qml" line="14"/>
         <source>Album:</source>
-        <translation>Альбом:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/PhotoAlbumPage.qml" line="19"/>
         <source>All photos</source>
-        <translation>Все фотографии</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -333,83 +333,83 @@
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="227"/>
         <source>Photos</source>
-        <translation>Фотографии</translation>
+        <translation>Foto&apos;s</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="238"/>
         <source>Videos</source>
-        <translation>Видеозаписи</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="268"/>
         <source>Notes</source>
-        <translation>Заметки</translation>
+        <translation>Aantekeningen</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="48"/>
         <source>Open in browser</source>
-        <translation>Открыть в браузере</translation>
+        <translation>Openen in browser</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="324"/>
         <source>The user is baned</source>
-        <translation>Пользователь заблокирован</translation>
+        <translation>De gebruiker is verbannen</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="85"/>
         <source>Go to dialog</source>
-        <translation>Перейти к диалогу</translation>
+        <translation>Ga naar gesprekken</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="53"/>
         <source>Remove from blacklist</source>
-        <translation>Убрать из чёрного списка</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="53"/>
         <source>Add to blacklist</source>
-        <translation>Добавить в чёрный список</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
-        <source>Last seen female: </source>
-        <translation>Была в сети: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="132"/>
         <location filename="../qml/pages/ProfilePage.qml" line="134"/>
         <source>Last seen: </source>
-        <translation>Был в сети: </translation>
+        <translation>Laatst gezien:</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ProfilePage.qml" line="132"/>
+        <source>Last seen female: </source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="215"/>
         <source>Friends</source>
-        <translation>Друзья</translation>
+        <translation>Vrienden</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="247"/>
         <source>Audios</source>
-        <translation>Аудиозаписи</translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="256"/>
         <source>Groups</source>
-        <translation>Сообщества</translation>
+        <translation>Groepen</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="277"/>
         <source>Wall</source>
-        <translation>Стена</translation>
+        <translation>Prikbord</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="323"/>
         <source>The user is deleted</source>
-        <translation>Пользователь удалён</translation>
+        <translation>De gebruiker is verwijderd</translation>
     </message>
     <message>
         <location filename="../qml/pages/ProfilePage.qml" line="306"/>
         <source>Load more</source>
-        <translation>Загрузить больше</translation>
+        <translation>Laad meer</translation>
     </message>
 </context>
 <context>
@@ -417,12 +417,12 @@
     <message>
         <location filename="../qml/pages/RepostPage.qml" line="12"/>
         <source>Share</source>
-        <translation>Поделиться</translation>
+        <translation>Delen</translation>
     </message>
     <message>
         <location filename="../qml/pages/RepostPage.qml" line="13"/>
         <source>Cancel</source>
-        <translation>Отменить</translation>
+        <translation>Annuleren</translation>
     </message>
 </context>
 <context>
@@ -430,17 +430,17 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="15"/>
         <source>Settings</source>
-        <translation>Настройки</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="21"/>
         <source>Be offline if possible</source>
-        <translation>По возможности быть offline</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="22"/>
         <source>Your status will be online only if you publish something on the wall or in the group.</source>
-        <translation>Вы будете offline пока не опубликуете что-нибудь на стене или в группе.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -448,27 +448,27 @@
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="63"/>
         <source>Statistics</source>
-        <translation>Статистика</translation>
+        <translation>Statistieken</translation>
     </message>
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="69"/>
         <source>Date from:</source>
-        <translation>С:</translation>
+        <translation>Datum vanaf:</translation>
     </message>
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="88"/>
         <source>Date to:</source>
-        <translation>По:</translation>
+        <translation>Datum tot:</translation>
     </message>
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="137"/>
         <source>Total views</source>
-        <translation>Просмотров всего</translation>
+        <translation>Totaal aantal keer bekeken</translation>
     </message>
     <message>
         <location filename="../qml/pages/StatisticsPage.qml" line="154"/>
         <source>Uniqual visitors</source>
-        <translation>Уникальных посетителей</translation>
+        <translation>Unieke bezoekers</translation>
     </message>
 </context>
 <context>
@@ -477,7 +477,7 @@
         <location filename="../qml/pages/TopicPage.qml" line="59"/>
         <location filename="../qml/pages/TopicPage.qml" line="60"/>
         <source>Your comment</source>
-        <translation>Ваш комментарий</translation>
+        <translation type="unfinished">Jouw commentaar</translation>
     </message>
 </context>
 <context>
@@ -485,7 +485,7 @@
     <message>
         <location filename="../qml/pages/TopicsPage.qml" line="12"/>
         <source>Topics</source>
-        <translation>Обсуждения</translation>
+        <translation type="unfinished">Onderwerpen</translation>
     </message>
 </context>
 <context>
@@ -493,12 +493,12 @@
     <message>
         <location filename="../qml/pages/VideoPlayerPage.qml" line="54"/>
         <source>The video is loading...</source>
-        <translation>Видео загружается...</translation>
+        <translation>De video wordt geladen...</translation>
     </message>
     <message>
         <location filename="../qml/pages/VideoPlayerPage.qml" line="91"/>
         <source>The video is opened in a browser</source>
-        <translation>Видеозапись была открыта в браузере...</translation>
+        <translation>De video wordt geopenend in een browser</translation>
     </message>
 </context>
 <context>
@@ -506,12 +506,12 @@
     <message>
         <location filename="../qml/views/WallItem.qml" line="75"/>
         <source>Like</source>
-        <translation>Мне нравится</translation>
+        <translation>Like</translation>
     </message>
     <message>
         <location filename="../qml/views/WallItem.qml" line="84"/>
         <source>Share</source>
-        <translation>Поделиться</translation>
+        <translation>Delen</translation>
     </message>
 </context>
 <context>
@@ -519,18 +519,18 @@
     <message>
         <location filename="../qml/pages/WallPostPage.qml" line="40"/>
         <source>Share</source>
-        <translation>Поделиться</translation>
+        <translation>Delen</translation>
     </message>
     <message>
         <location filename="../qml/pages/WallPostPage.qml" line="49"/>
         <source>Like</source>
-        <translation>Мне нравится</translation>
+        <translation>Like</translation>
     </message>
     <message>
         <location filename="../qml/pages/WallPostPage.qml" line="116"/>
         <location filename="../qml/pages/WallPostPage.qml" line="117"/>
         <source>Your comment</source>
-        <translation>Ваш комментарий</translation>
+        <translation>Jouw commentaar</translation>
     </message>
 </context>
 </TS>

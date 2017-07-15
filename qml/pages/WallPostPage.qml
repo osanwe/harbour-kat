@@ -48,8 +48,8 @@ Page {
             MenuItem {
                 text: qsTr("Like")
                 onClicked: {
-                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
-                    vksdk.likes.addPost(sourceId, wallpost.id)
+//                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                    vksdk.likes.addPost(wallpost.toId, wallpost.id)
                 }
             }
         }
@@ -120,8 +120,8 @@ Page {
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 EnterKey.onClicked: {
-                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
-                    vksdk.wall.createComment(sourceId, wallpost.id, text)
+//                    var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                    vksdk.wall.createComment(wallpost.toId, wallpost.id, text)
                     text = ""
                 }
             }
@@ -134,15 +134,15 @@ Page {
         target: vksdk
         onCommentCreated: {
             vksdk.commentsModel.clear()
-            var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
-            vksdk.wall.getComments(sourceId, wallpost.id)
+//            var sourceId = wallpost.toId === 0 ? wallpost.fromId : wallpost.toId
+            vksdk.wall.getComments(wallpost.toId, wallpost.id)
         }
     }
 
     onStatusChanged: if (status === PageStatus.Active) {
                          vksdk.commentsModel.clear()
-                         var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
-                         vksdk.wall.getComments(sourceId, wallpost.id)
+//                         var sourceId = wallpost.sourceId === 0 ? wallpost.fromId : wallpost.sourceId
+                         vksdk.wall.getComments(wallpost.toId, wallpost.id)
 //                         pageStack.pushAttached(Qt.resolvedUrl("AudioPlayerPage.qml"))
                      }
 }

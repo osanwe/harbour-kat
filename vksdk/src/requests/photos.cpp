@@ -19,47 +19,73 @@
   along with Kat.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QFile>
+#include <QTextCodec>
+#include <QHttpMultiPart>
+
+
 #include "photos.h"
 
-Photos::Photos(QObject *parent) : QObject(parent)
+Photos::Photos(QObject *parent) : RequestBase(parent)
 {}
-
-Photos::~Photos()
-{}
-
-void Photos::setApi(ApiRequest *api) {
-    _api = api;
-}
 
 void Photos::getMessagesUploadServer() {
-    _api->makeApiGetRequest("photos.getMessagesUploadServer", new QUrlQuery(), ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER);
+    _api->makeApiGetRequest("photos.getMessagesUploadServer", QUrlQuery(), ApiRequest::PHOTOS_GET_MESSAGES_UPLOAD_SERVER);
 }
 
-void Photos::uploadPhotoToServer(QString server, QString album, QString user, QString path) {
-    path = path.replace("file://", "");
+void Photos::uploadPhotoToServer(const QString &server, const QString &album, const QString &user, const QString &p) {
+    Q_UNUSED(album)
+    Q_UNUSED(user)
+
+    QString path = p;
+    path = path.remove("file://");
     QString fileType = path.split(".").last();
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
-    QFile *file = new QFile(tr(path.toUtf8()));
-    if (file->open(QIODevice::ReadOnly)) {
+    QFile file(tr(path.toUtf8()));
+    if (file.open(QIODevice::ReadOnly)) {
         QHttpMultiPart *multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
         QHttpPart imagePart;
         imagePart.setHeader(QNetworkRequest::ContentTypeHeader,
                             QVariant(QString("image/%1").arg(fileType == "jpg" ? "jpeg" : fileType)));
         imagePart.setHeader(QNetworkRequest::ContentDispositionHeader,
                             QVariant(QString("form-data; name=\"photo\"; filename=\"%1.%2\"").arg(qrand()).arg(fileType)));
-        imagePart.setBody(file->readAll());
+        imagePart.setBody(file.readAll());
         multipart->append(imagePart);
-        _api->makePostRequest(QUrl(server), new QUrlQuery(), multipart, ApiRequest::PHOTOS_UPLOAD_TO_SERVER);
-        file->close();
+        _api->makePostRequest(QUrl(server), QUrlQuery(), multipart, ApiRequest::PHOTOS_UPLOAD_TO_SERVER);
+        file.close();
     }
 }
 
-void Photos::saveMessagesPhoto(QString photo, QString server, QString hash) {
-    QUrlQuery *query = new QUrlQuery();
-    query->addQueryItem("photo", photo);
-    query->addQueryItem("server", server);
-    query->addQueryItem("hash", hash);
+void Photos::saveMessagesPhoto(const QString &photo, const QString &server, const QString &hash) {
+    QUrlQuery query;
+    query.addQueryItem("photo", photo);
+    query.addQueryItem("server", server);
+    query.addQueryItem("hash", hash);
     _api->makeApiGetRequest("photos.saveMessagesPhoto", query, ApiRequest::PHOTOS_SAVE_MESSAGES_PHOTO);
+}
+
+void Photos::get(QString ownerId, QString albumId, int offset) {
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("album_id", albumId);
+    query.addQueryItem("count", "21");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
+    _api->makeApiGetRequest("photos.get", query, ApiRequest::PHOTOS_GET );
+}
+
+void Photos::getAlbums(QString ownerId) {
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("need_system", "1");
+    _api->makeApiGetRequest("photos.getAlbums", query, ApiRequest::PHOTOS_GET_ALBUMS);
+}
+
+void Photos::getAll(QString ownerId, int offset) {
+    QUrlQuery query;
+    query.addQueryItem("owner_id", ownerId);
+    query.addQueryItem("count", "21");
+    if (offset != 0) query.addQueryItem("offset", QString::number(offset));
+    _api->makeApiGetRequest("photos.getAll", query, ApiRequest::PHOTOS_GET_ALL);
 }
 
 //void Photos::attachImage(QString image, QString mode, int groupId) {

@@ -29,6 +29,7 @@ Page {
 
     property var profileId
     property var profile
+    property bool isBanned: false
 
     ViewPlaceholder {
         id: systemMessage
@@ -48,10 +49,14 @@ Page {
                 onClicked: Qt.openUrlExternally("https://m.vk.com/" + profile.domain)
             }
 
-//            MenuItem {
-//                text: profile.blacklisted ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
-//                onClicked: console.log("...banning...")
-//            }
+            MenuItem {
+                text: isBanned ? qsTr("Remove from blacklist") : qsTr("Add to blacklist")
+                visible: profileId !== settings.userId()
+                onClicked: {
+                    if (isBanned) vksdk.account.unbanUser(profileId)
+                    else vksdk.account.banUser(profileId)
+                }
+            }
 
 //            MenuItem {
 //                text: profile.isFavorite ? qsTr("Remove from favorites") : qsTr("Add to favorites")
@@ -92,7 +97,7 @@ Page {
                 if (!profile.online) {
                     var date = new Date(profile.lastSeenTime * 1000)
                     var day = "0" + date.getDate()
-                    var month = "0" + date.getMonth()
+                    var month = "0" + (date.getMonth() + 1)
                     var year = date.getFullYear()
                     var hours = "0" + date.getHours()
                     var minutes = "0" + date.getMinutes()
@@ -122,7 +127,13 @@ Page {
                         platform = "Web"
                         break;
                     }
-                    return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    switch(Qt.locale().name.substring(0,2)) {
+                        case "ru":
+                            return ((profile.sex === 1)? qsTr("Last seen female: "):qsTr("Last seen: ")) + datetime + " (" + platform + ")"
+                        default:
+                            return qsTr("Last seen: ") + datetime + " (" + platform + ")"
+                    }
+
                 } else return ""
             }
 
@@ -216,6 +227,8 @@ Page {
                 text: qsTr("Photos")
                 counter: profile.counterPhotos
                 visible: profile.counterPhotos > 0
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("PhotoAlbumPage.qml"), { ownerId: profile.id })
             }
 
             MoreButton {
@@ -303,6 +316,7 @@ Page {
         onGotProfile: {
             if (profileId === user.id) {
                 profile = user
+                isBanned = user.blacklisted
                 if (profile.deactivated.length > 0) {
                     userDataView.visible = false
                     systemMessage.enabled = true
@@ -311,6 +325,7 @@ Page {
                 }
             }
         }
+        onBanSettingChanged: isBanned = banned
     }
 
     onStatusChanged: {

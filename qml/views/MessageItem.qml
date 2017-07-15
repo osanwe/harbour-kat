@@ -25,6 +25,7 @@ import Sailfish.Silica 1.0
 Item {
     id: messageItem
 
+    property var userId
     property var date
     property var isOut
     property var isRead
@@ -65,6 +66,11 @@ Item {
             width: Theme.iconSizeMedium
             height: Theme.iconSizeMedium
             LayoutMirroring.enabled: isOut
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: pageContainer.push(Qt.resolvedUrl("../pages/ProfilePage.qml"), { profileId: userId })
+            }
         }
 
         Column {

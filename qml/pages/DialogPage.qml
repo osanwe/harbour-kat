@@ -51,6 +51,7 @@ Page {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
+                userId: fromId
                 date: datetime
                 isOut: out
                 isRead: read

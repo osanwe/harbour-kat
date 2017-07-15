@@ -30,6 +30,8 @@ class Photo : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(int id READ id CONSTANT)
+    Q_PROPERTY(int ownerId READ ownerId CONSTANT)
     Q_PROPERTY(QString photoMinimum READ photoMinimum CONSTANT)
     Q_PROPERTY(QString photoMaximum READ photoMaximum CONSTANT)
 

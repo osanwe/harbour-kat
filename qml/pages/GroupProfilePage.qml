@@ -111,23 +111,25 @@ Page {
                 text: qsTr("Photos")
                 counter: group.photosCount
                 visible: group.photosCount !== 0
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("PhotoAlbumPage.qml"), { ownerId: groupId })
             }
 
-            MoreButton {
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Audios")
-                counter: group.audiosCount
-                visible: group.audiosCount !== 0
-            }
+//            MoreButton {
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Audios")
+//                counter: group.audiosCount
+//                visible: group.audiosCount !== 0
+//            }
 
-            MoreButton {
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Videos")
-                counter: group.videosCount
-                visible: group.videosCount !== 0
-            }
+//            MoreButton {
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Videos")
+//                counter: group.videosCount
+//                visible: group.videosCount !== 0
+//            }
 
             MoreButton {
                 width: parent.width
@@ -135,15 +137,17 @@ Page {
                 text: qsTr("Topics")
                 counter: group.topicsCount
                 visible: group.topicsCount !== 0
+
+                onClicked: pageContainer.push(Qt.resolvedUrl("TopicsPage.qml"), { ownerId: groupId })
             }
 
-            MoreButton {
-                width: parent.width
-                height: Theme.itemSizeMedium
-                text: qsTr("Documents")
-                counter: group.docsCount
-                visible: group.docsCount !== 0
-            }
+//            MoreButton {
+//                width: parent.width
+//                height: Theme.itemSizeMedium
+//                text: qsTr("Documents")
+//                counter: group.docsCount
+//                visible: group.docsCount !== 0
+//            }
 
             MoreButton {
                 id: wallButton

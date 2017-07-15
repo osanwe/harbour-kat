@@ -25,6 +25,20 @@ import Sailfish.Silica 1.0
 CoverBackground {
     id: cover
 
+    BackgroundItem {
+        id: background
+        anchors.fill: parent
+        Image {
+            id: bg_image
+            anchors.fill: parent
+            width: parent.width
+            height: parent.height
+            fillMode: Image.PreserveAspectCrop
+            source: "/usr/share/icons/hicolor/86x86/apps/harbour-kat.png"
+            opacity: 0.2
+        }
+    }
+
     Column {
         anchors.centerIn: parent
         spacing: Theme.paddingMedium

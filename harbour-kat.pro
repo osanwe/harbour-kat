@@ -26,13 +26,15 @@ include("vksdk/vksdk.pri")
 HEADERS += \
     src/settingswrapper.h \
     src/mediaplayerwrapper.h \
-    src/playlistmodel.h
+    src/playlistmodel.h \
+    src/filesaver.h
 
 SOURCES += \
     src/harbour-kat.cpp \
     src/settingswrapper.cpp \
     src/mediaplayerwrapper.cpp \
-    src/playlistmodel.cpp
+    src/playlistmodel.cpp \
+    src/filesaver.cpp
 
 OTHER_FILES += \
     qml/harbour-kat.qml \
@@ -42,6 +44,8 @@ OTHER_FILES += \
     translations/*.ts \
     rpm/harbour-kat.yaml \
     rpm/harbour-kat.spec \
+    harbour-kat.png\
+    harbour-kat.desktop\
     rpm/harbour-kat.changes.in \
     LICENSE \
     README.md
@@ -49,7 +53,8 @@ OTHER_FILES += \
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += \
     translations/harbour-kat-ru.ts \
-    translations/harbour-kat-it.ts
+    translations/harbour-kat-it.ts \
+    translations/harbour-kat-nl.ts
 
 DISTFILES += \
     qml/pages/MainMenuPage.qml \
@@ -86,5 +91,8 @@ DISTFILES += \
     qml/views/WallItem.qml \
     qml/pages/RepostPage.qml \
     qml/pages/StatisticsPage.qml \
-    translations/harbour-kat-it.ts
+    qml/pages/SettingsPage.qml \
+    qml/pages/PhotoAlbumPage.qml \
+    qml/pages/TopicsPage.qml \
+    qml/pages/TopicPage.qml
 

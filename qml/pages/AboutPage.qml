@@ -47,19 +47,19 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: Theme.iconSizeExtraLarge
                 height: Theme.iconSizeExtraLarge
-                source: "../harbour-kat.png"
+                source: "/usr/share/icons/hicolor/86x86/apps/harbour-kat.png"
             }
 
             Label {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "v0.5.1"
+                text: "v0.5.3"
             }
 
             Label {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "© 2015-2016 Petr Vytovtov"
+                text: "© 2015-2017 Petr Vytovtov"
             }
 
             Label {
@@ -94,8 +94,18 @@ Page {
                 wrapMode: Text.WordWrap
                 linkColor: Theme.highlightColor
                 onLinkActivated: Qt.openUrlExternally(link)
+                text: qsTr("Thanks for features") + ":<br>" +
+                      "<a href=\"https://github.com/sash13\">Alexander Ryzhkov</a>"
+            }
+
+            Label {
+                width: parent.width
+                wrapMode: Text.WordWrap
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
                 text: qsTr("Localization") + ":<br>" +
-                      qsTr("Italian") + ": <a href=\"https://github.com/fravaccaro\">Fra</a>"
+                      qsTr("Italian") + ": <a href=\"https://github.com/fravaccaro\">Fra</a><br>" +
+                      qsTr("Dutch") + ": <a href=\"https://github.com/richdb\">Richard</a><br>"
             }
         }
 

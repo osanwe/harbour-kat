@@ -30,6 +30,7 @@
 
 #include <sailfishapp.h>
 
+#include "filesaver.h"
 #include "mediaplayerwrapper.h"
 #include "settingswrapper.h"
 #include "vksdk/src/vksdk.h"
@@ -37,6 +38,9 @@
 int main(int argc, char *argv[]) {
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+
+    QScopedPointer<FileSaver> fileSaver(new FileSaver(view.data()));
+    view->rootContext()->setContextProperty("fileSaver", fileSaver.data());
 
     QScopedPointer<MediaPlayerWrapper> player(new MediaPlayerWrapper(view.data()));
     view->rootContext()->setContextProperty("player", player.data());

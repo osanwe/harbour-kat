@@ -1,25 +1,16 @@
 #ifndef GROUPS_H
 #define GROUPS_H
 
-#include <QObject>
+#include "requestbase.h"
 
-#include "apirequest.h"
-
-class Groups : public QObject
+class Groups : public RequestBase
 {
     Q_OBJECT
-
 public:
     explicit Groups(QObject *parent = 0);
-    ~Groups();
-
-    void setApi(ApiRequest *api);
 
     Q_INVOKABLE void get(int userId = 0, int offset = 0);
     Q_INVOKABLE void getById(int groupId);
-
-private:
-    ApiRequest *_api;
 };
 
 #endif // GROUPS_H
