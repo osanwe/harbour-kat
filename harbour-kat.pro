@@ -44,6 +44,8 @@ OTHER_FILES += \
     translations/*.ts \
     rpm/harbour-kat.yaml \
     rpm/harbour-kat.spec \
+    harbour-kat.png\
+    harbour-kat.desktop\
     rpm/harbour-kat.changes.in \
     LICENSE \
     README.md

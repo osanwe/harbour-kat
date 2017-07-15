@@ -52,6 +52,7 @@ The unofficial client for the most popular social network developed by Linux Use
 rm -rf %{buildroot}
 # >> install pre
 # << install pre
+
 %qmake5_install
 
 # >> install post
