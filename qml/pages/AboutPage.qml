@@ -47,7 +47,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: Theme.iconSizeExtraLarge
                 height: Theme.iconSizeExtraLarge
-                source: "../harbour-kat.png"
+                source: "/usr/share/icons/hicolor/86x86/apps/harbour-kat.png"
             }
 
             Label {

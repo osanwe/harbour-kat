@@ -34,7 +34,7 @@ CoverBackground {
             width: parent.width
             height: parent.height
             fillMode: Image.PreserveAspectCrop
-            source: "../harbour-kat.png"
+            source: "/usr/share/icons/hicolor/86x86/apps/harbour-kat.png"
             opacity: 0.2
         }
     }
